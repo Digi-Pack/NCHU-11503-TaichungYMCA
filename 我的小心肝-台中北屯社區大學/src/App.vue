@@ -8,7 +8,7 @@ import Footer from "./components/Footer.vue";
     <NavBar />
 
     <main class="main-content">
-      暫時亂放一個東西測546545465試dfghjkjfdfghjkhg
+      暫時亂放一個東西測546545465試dfghjkjf
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRREZt-Cb1v5C4C-ssnj0XkdcZIEBWD1ZbSlD9BgwFWNA&s=10" alt="">
       <RouterView />
     </main>
