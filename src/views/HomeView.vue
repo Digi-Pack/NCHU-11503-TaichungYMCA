@@ -1,5 +1,8 @@
 <script setup>
 import testImg from "@/assets/img/首頁測試圖片.png"
+import { newsList } from "@/data/news";
+import Text from "@/components/Text.vue";
+import HomeNewsCard from "@/components/HomeNewsCard.vue";
 </script>
 <template>
   <div>
@@ -27,14 +30,31 @@ import testImg from "@/assets/img/首頁測試圖片.png"
       <div class="hero-right">
         <div class="text-content">
           <div class="title">
-            <div class="title-text">臺中市</div>
-            <div class="title-text">北屯社區大學</div>
+            <Text>臺中市</Text>
+            <Text>北屯社區大學</Text>
           </div>
-          <div class="content">落實終身學習、發揚北屯特色、致力在地公共事務、推動社會關懷</div>
+          <Text size="text-32" color="gray">落實終身學習、發揚北屯特色、致力在地公共事務、推動社會關懷</Text>
         </div>
       </div>
     </div>
 
+    <div class="banner container-full">
+      <div class="banner-text-container">
+        <Text>深耕北屯、永續學習</Text>
+        <Text size="text-32"
+          color="gray">現今的世代快速變化，從社會各個層級到個人，都面臨著快速且急劇的轉變；環境的變動、社會基本價值快速演變，和人們對於新知和技能的需求，都讓我們進入一個終身學習的世代。</Text>
+      </div>
+    </div>
+
+    <div class="news container-normal">
+      <Text>最新消息</Text>
+      <div class="card-container">
+        <HomeNewsCard v-for="news in newsList" :key="news.id"
+        :title="news.title"
+        :desc="news.desc"
+        ></HomeNewsCard>
+      </div>
+    </div>
 
     <h1>北屯社大首頁</h1>
   </div>
@@ -43,6 +63,11 @@ import testImg from "@/assets/img/首頁測試圖片.png"
 <style scoped>
 .container-full {
   width: 100%;
+  margin: auto;
+}
+
+.container-normal {
+  width: 90%;
   margin: auto;
 }
 
@@ -76,6 +101,7 @@ image {
 
 .text-content {
   width: 100%;
+  max-width: 750px;
   /* height: 300px; */
   /* background-color: brown; */
   display: flex;
@@ -89,13 +115,38 @@ image {
   gap: 12px 0;
 }
 
-.title-text {
-  font-size: 4rem;
+.banner {
+  height: 400px;
+  background-color: lightcoral;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.content {
-  font-size: 2rem;
-  color: #757575;
-  max-width: 750px;
+.banner-text-container {
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px 0;
 }
+
+.news {
+  /* height: 670px; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 74px 0;
+  background-color: lightgray;
+}
+
+.card-container {
+  width: 100%;
+  /* flex: 1; */
+  display: flex;
+  gap: 0 64px;
+  background-color: aquamarine;
+}
+
+
 </style>
