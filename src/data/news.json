@@ -48,6 +48,7 @@
   {
     "id": "news004",
     "title": "114年北屯社區大學 期中成果展",
+    "desc":"我是介紹4",
     "date": "2025.06.01",
     "type": "article",
     "url": "https://cc.tcymca.org.tw/news/114%E5%B9%B4%E5%8C%97%E5%B1%AF%E7%A4%BE%E5%8D%80%E5%A4%A7%E5%AD%B8%E6%9C%9F%E4%B8%AD%E6%88%90%E6%9E%9C%E5%B1%95.html",
@@ -65,6 +66,7 @@
   {
     "id": "news005",
     "title": "北屯在地：導覽與走讀培訓 成果-有聲的情批 周全篇",
+    "desc":"我是介紹5",
     "date": "2025.04.15",
     "type": "spotify",
     "url": "https://open.spotify.com/episode/1mkx12HuWg2X14iBD6Tp1w",
@@ -78,6 +80,7 @@
   {
     "id": "news006",
     "title": "大坑在地農產推廣-認識竹筍與筍包製作DIY",
+    "desc":"我是介紹6",
     "date": "2023.10.17",
     "type": "youtube",
     "url": "https://www.youtube.com/watch?v=b2pe3A1jDMc",
@@ -91,6 +94,7 @@
   {
     "id": "news007",
     "title": "東山高中校區 -線上數位體驗課程：二胡拉奏 (張伊瑩老師)",
+    "desc":"我是介紹7",
     "date": "2023.09.07",
     "type": "youtube",
     "url": "https://www.youtube.com/watch?v=KJTTIjUgkdw",
@@ -104,6 +108,7 @@
   {
     "id": "news008",
     "title": "大德國中校區 -線上數位體驗課程：薩克斯風吹奏  (歡迎點選)",
+    "desc":"我是介紹8",
     "date": "2023.08.21",
     "type": "youtube",
     "url": "https://www.youtube.com/watch?v=S6vTbaf1XJ8&t=26s",
@@ -117,6 +122,7 @@
   {
     "id": "news009",
     "title": "東山高中校區 -線上數位體驗課程：吹長笛!起步走 (歡迎點選)",
+    "desc":"我是介紹9",
     "date": "2023.08.06",
     "type": "youtube",
     "url": "https://www.youtube.com/watch?v=5gx2aBxU57k",
