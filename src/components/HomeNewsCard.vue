@@ -63,6 +63,11 @@ const props = defineProps({
     background-color: brown;
 }
 
+img{
+    width: 100%;
+    height: 100%;
+}
+
 .card-bot {
     padding: 24px 23px 34px;
     display: flex;
