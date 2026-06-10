@@ -1,8 +1,14 @@
 <script setup>
+import { computed } from "vue";
 import testImg from "@/assets/img/首頁測試圖片.png"
-import { newsList } from "@/data/news";
+import newsList from "@/data/news.json";
 import Text from "@/components/Text.vue";
 import HomeNewsCard from "@/components/HomeNewsCard.vue";
+
+const latestNews = computed(() =>
+  [...newsList].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3)
+  // 只取前三筆最新的資料
+);
 </script>
 <template>
   <div>
@@ -49,7 +55,8 @@ import HomeNewsCard from "@/components/HomeNewsCard.vue";
     <div class="news container-normal">
       <Text>最新消息</Text>
       <div class="card-container">
-        <HomeNewsCard v-for="news in newsList" :key="news.id"
+        <HomeNewsCard v-for="news in latestNews" :key="news.id"
+        :picture="news.picture"
         :title="news.title"
         :desc="news.desc"
         ></HomeNewsCard>

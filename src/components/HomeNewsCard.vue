@@ -2,7 +2,7 @@
 import Text from '@/components/Text.vue';
 
 const props = defineProps({
-    url: {
+    picture: {
         type: String,
         default: "",
     },
@@ -24,11 +24,13 @@ const props = defineProps({
 <template>
     <div class="card">
         <div class="card-top">
-            <img :src="props.url" alt="">
+            <img :src="props.picture" alt="這是一張圖片">
         </div>
         <div class="card-bot">
-            <Text size="text-32">{{ props.title }}</Text>
-            <Text size="text-20" color="gray" class="card-desc">{{ props.desc }}</Text>
+            <div class="title-text text-limit">
+                <Text size="text-32">{{ props.title }}</Text>
+            </div>
+            <Text size="text-20" color="gray" class="text-limit">{{ props.desc }}</Text>
         </div>
     </div>
 </template>
@@ -36,7 +38,7 @@ const props = defineProps({
 <style scoped>
 .card {
     width: calc(100% / 3);
-    /* height: 100%; */
+    height: 555px;
     background-color: bisque;
     position: relative
 }
@@ -45,7 +47,14 @@ const props = defineProps({
     content: "";
     position: absolute;
     inset: 0;
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.card:hover::after{
+    opacity: 1;
 }
 
 .card-top {
@@ -61,8 +70,12 @@ const props = defineProps({
     gap: 16px 0;
 }
 
+.title-text{
+    height: 75px;
+}
+
 /* 修改line-clamp可以限制幾行後截斷 */
-.card-desc {
+.text-limit {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     line-clamp: 2;
