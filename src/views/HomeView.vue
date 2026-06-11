@@ -56,7 +56,7 @@ const latestNews = computed(() =>
     <div class="news container-normal">
       <Text>最新消息</Text>
       <div class="card-container">
-        <HomeNewsCard v-for="news in latestNews" :key="news.id" :picture="news.picture" :title="news.title"
+        <HomeNewsCard v-for="news in latestNews" :key="news.id" :outPicture="news.outPicture" :title="news.title"
           :desc="news.desc" :date="news.date"></HomeNewsCard>
       </div>
     </div>
