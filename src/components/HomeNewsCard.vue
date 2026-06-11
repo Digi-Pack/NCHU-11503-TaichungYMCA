@@ -2,7 +2,7 @@
 import Text from '@/components/Text.vue';
 
 const props = defineProps({
-    picture: {
+    outPicture: {
         type: String,
         default: "",
     },
@@ -28,10 +28,10 @@ const props = defineProps({
 <template>
     <div class="card">
         <div class="card-top">
-            <img :src="props.picture" alt="這是一張圖片">
+            <img :src="props.outPicture" alt="這是一張圖片">
         </div>
         <div class="card-bot">
-            <Text size="text-24">{{ props.title }}</Text>
+            <Text size="text-24" class="title-height">{{ props.title }}</Text>
             <Text size="text-20" color="gray" class="text-limit fixed-height">{{ props.desc }}</Text>
             <Text size="text-20" color="gray">{{ props.date }}</Text>
         </div>
@@ -75,6 +75,10 @@ img {
     display: flex;
     flex-direction: column;
     gap: 16px 0;
+}
+
+.title-height{
+    height: 56px;
 }
 
 /* 修改line-clamp可以限制幾行後截斷 */
