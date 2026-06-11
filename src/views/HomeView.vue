@@ -4,6 +4,7 @@ import testImg from "@/assets/img/首頁測試圖片.png"
 import newsList from "@/data/news.json";
 import Text from "@/components/Text.vue";
 import HomeNewsCard from "@/components/HomeNewsCard.vue";
+import { RightCircleOutlined } from "@ant-design/icons-vue";
 
 const latestNews = computed(() =>
   [...newsList].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3)
@@ -11,7 +12,7 @@ const latestNews = computed(() =>
 );
 </script>
 <template>
-  <div>
+  <section class="home">
     <div class="hero-area container-full">
       <div class="hero-left">
         <!-- SVG 畫布：寬 1017、高 659整體概念：先把圖片鋪滿整個畫布，再用 clipPath 把超出形狀的部分裁掉 -->
@@ -55,16 +56,28 @@ const latestNews = computed(() =>
     <div class="news container-normal">
       <Text>最新消息</Text>
       <div class="card-container">
-        <HomeNewsCard v-for="news in latestNews" :key="news.id"
-        :picture="news.picture"
-        :title="news.title"
-        :desc="news.desc"
-        ></HomeNewsCard>
+        <HomeNewsCard v-for="news in latestNews" :key="news.id" :picture="news.picture" :title="news.title"
+          :desc="news.desc" :date="news.date"></HomeNewsCard>
       </div>
     </div>
 
-    <h1>北屯社大首頁</h1>
-  </div>
+    <div class="location container-normal">
+      <div class="location-left">
+        <div class="location-text-container">
+          <div class="location-title">
+            <Text>服務據點</Text>
+            <RightCircleOutlined class="location-icon" />
+          </div>
+          <Text size="text-32" color="gray"
+            class="location-desc">臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多人次。臺中市政府自開辦社大以來，由四家開放至六家承辦單位，台中YMCA憑藉良好辦學經驗及成果，至今通過市府多次招標審核、獲選承辦大墩社大。於市政府每年定期之社大評鑑中，皆獲評審委員一致肯定，並連續多年獲得教育部肯定為辦學績優單位。</Text>
+        </div>
+      </div>
+      <div class="location-right">
+        <div class="img-wrapper"></div>
+      </div>
+      <div location-right></div>
+    </div>
+  </section>
 </template>
 
 <style scoped>
@@ -76,6 +89,12 @@ const latestNews = computed(() =>
 .container-normal {
   width: 90%;
   margin: auto;
+}
+
+.home{
+  display: flex;
+  flex-direction: column;
+  gap: 80px 0;
 }
 
 .hero-area {
@@ -155,5 +174,51 @@ image {
   background-color: aquamarine;
 }
 
+.location {
+  /* height: 525px; */
+  display: flex;
+  align-items: center;
+  background-color: lightblue;
+  padding: 0 0 0 178px;
+  position: relative;
+}
 
+.location-left {
+  max-width: 760px;
+  z-index: 1;
+}
+
+.location-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px 0;
+}
+
+.location-title {
+  display: flex;
+  align-items: center;
+  gap: 0 10px;
+}
+
+.location-icon {
+  font-size: 60px;
+  color: #7D7D7D;
+}
+
+.location-desc {
+  text-align: justify;
+}
+
+.location-right {
+  flex: 1;
+}
+
+.img-wrapper {
+  height: 525px;
+  min-width: 650px;
+  max-width: 650px;
+  background-color: blueviolet;
+  position: relative;
+  left: -100px;
+}
 </style>

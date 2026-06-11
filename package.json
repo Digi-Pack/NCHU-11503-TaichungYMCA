@@ -10,6 +10,7 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
+    "@ant-design/icons-vue": "^7.0.1",
     "@tailwindcss/vite": "^4.3.0",
     "ant-design-vue": "^4.2.6",
     "pinia": "^3.0.4",
