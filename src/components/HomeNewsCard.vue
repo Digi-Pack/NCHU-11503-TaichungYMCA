@@ -28,7 +28,7 @@ const props = defineProps({
         </div>
         <div class="card-bot">
             <div class="title-text text-limit">
-                <Text size="text-32">{{ props.title }}</Text>
+                <Text size="text-24">{{ props.title }}</Text>
             </div>
             <Text size="text-20" color="gray" class="text-limit">{{ props.desc }}</Text>
         </div>
@@ -76,7 +76,7 @@ img{
 }
 
 .title-text{
-    height: 75px;
+    height: 56px;
 }
 
 /* 修改line-clamp可以限制幾行後截斷 */
