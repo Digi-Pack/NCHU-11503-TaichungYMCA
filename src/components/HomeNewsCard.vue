@@ -14,6 +14,10 @@ const props = defineProps({
         type: String,
         default: "",
     },
+    date: {
+        type: String,
+        default: "",
+    },
     link: {
         type: String,
         default: "",
@@ -27,10 +31,9 @@ const props = defineProps({
             <img :src="props.picture" alt="這是一張圖片">
         </div>
         <div class="card-bot">
-            <div class="title-text text-limit">
-                <Text size="text-24">{{ props.title }}</Text>
-            </div>
-            <Text size="text-20" color="gray" class="text-limit">{{ props.desc }}</Text>
+            <Text size="text-24">{{ props.title }}</Text>
+            <Text size="text-20" color="gray" class="text-limit fixed-height">{{ props.desc }}</Text>
+            <Text size="text-20" color="gray">{{ props.date }}</Text>
         </div>
     </div>
 </template>
@@ -38,12 +41,11 @@ const props = defineProps({
 <style scoped>
 .card {
     width: calc(100% / 3);
-    height: 555px;
     background-color: bisque;
     position: relative
 }
 
-.card::after{
+.card::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -53,7 +55,7 @@ const props = defineProps({
     pointer-events: none;
 }
 
-.card:hover::after{
+.card:hover::after {
     opacity: 1;
 }
 
@@ -63,7 +65,7 @@ const props = defineProps({
     background-color: brown;
 }
 
-img{
+img {
     width: 100%;
     height: 100%;
 }
@@ -75,10 +77,6 @@ img{
     gap: 16px 0;
 }
 
-.title-text{
-    height: 56px;
-}
-
 /* 修改line-clamp可以限制幾行後截斷 */
 .text-limit {
     display: -webkit-box;
@@ -86,5 +84,9 @@ img{
     line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
+
+.fixed-height{
+    height: 46px;
 }
 </style>
