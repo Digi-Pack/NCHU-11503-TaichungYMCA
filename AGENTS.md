@@ -38,11 +38,11 @@
 
 ### 3. 資料夾結構
 `src/` 底下固定如下：
+- `img/` : 共用圖片
 - `components/`：共用元件
 - `views/`：頁面
 - `router/`：路由設定
 - `data/`：本地資料檔（課程等）
-- `composables/`：共用邏輯
 - `assets/`：圖片等靜態資源
 
 ### 4. 元件 API 風格
