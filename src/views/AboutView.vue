@@ -1,20 +1,69 @@
+<script setup>
+import { ref } from 'vue'
+import PageHero from '@/components/PageHero.vue'
+const currentPage = ref(1)
+
+const newsItems = ref([
+  {
+    id: 1,
+    title: '最新消息標題一',
+    excerpt: '這裡是消息的簡短摘要，提供讀者了解本則消息的大致內容與重點方向。',
+    date: '2026-05-01',
+    dateIso: '2026-05-01',
+    link: '#'
+  },
+  {
+    id: 2,
+    title: '最新消息標題二',
+    excerpt: '這裡是消息的簡短摘要，提供讀者了解本則消息的大致內容與重點方向。',
+    date: '2026-04-28',
+    dateIso: '2026-04-28',
+    link: '#'
+  },
+  {
+    id: 3,
+    title: '最新消息標題三',
+    excerpt: '這裡是消息的簡短摘要，提供讀者了解本則消息的大致內容與重點方向。',
+    date: '2026-04-20',
+    dateIso: '2026-04-20',
+    link: '#'
+  },
+  {
+    id: 4,
+    title: '最新消息標題四',
+    excerpt: '這裡是消息的簡短摘要，提供讀者了解本則消息的大致內容與重點方向。',
+    date: '2026-04-15',
+    dateIso: '2026-04-15',
+    link: '#'
+  },
+  {
+    id: 5,
+    title: '最新消息標題五',
+    excerpt: '這裡是消息的簡短摘要，提供讀者了解本則消息的大致內容與重點方向。',
+    date: '2026-04-10',
+    dateIso: '2026-04-10',
+    link: '#'
+  },
+  {
+    id: 6,
+    title: '最新消息標題六',
+    excerpt: '這裡是消息的簡短摘要，提供讀者了解本則消息的大致內容與重點方向。',
+    date: '2026-04-05',
+    dateIso: '2026-04-05',
+    link: '#'
+  }
+])
+</script>
+
+
 <template>
   <main id="main-content" class="about-page">
 
     <!-- Hero Section -->
-    <section class="hero-section" aria-labelledby="about-heading">
-      <h1 id="about-heading" class="about-title">關於我們</h1>
-      <div class="hero-image-wrapper" role="img" aria-label="關於我們封面圖片">
-        <img
-          src="https://picsum.photos/1920/400"
-          alt="關於我們封面圖片"
-          class="hero-image"
-          width="1920"
-          height="400"
-        />
-        <div class="hero-overlay" aria-hidden="true"></div>
-      </div>
-    </section>
+  <section class="hero-section" aria-labelledby="about-heading">
+  <h1 id="about-heading" class="about-title">關於我們</h1>
+  <PageHero image="https://picsum.photos/1920/400" />
+</section>
 
     <!-- About Content Section -->
     <section class="about-content-section" aria-labelledby="about-intro-heading">
@@ -85,67 +134,12 @@
   </main>
 </template>
 
-<script setup>
-import { ref } from 'vue'
 
-const currentPage = ref(1)
-
-const newsItems = ref([
-  {
-    id: 1,
-    title: '最新消息標題一',
-    excerpt: '這裡是消息的簡短摘要，提供讀者了解本則消息的大致內容與重點方向。',
-    date: '2026-05-01',
-    dateIso: '2026-05-01',
-    link: '#'
-  },
-  {
-    id: 2,
-    title: '最新消息標題二',
-    excerpt: '這裡是消息的簡短摘要，提供讀者了解本則消息的大致內容與重點方向。',
-    date: '2026-04-28',
-    dateIso: '2026-04-28',
-    link: '#'
-  },
-  {
-    id: 3,
-    title: '最新消息標題三',
-    excerpt: '這裡是消息的簡短摘要，提供讀者了解本則消息的大致內容與重點方向。',
-    date: '2026-04-20',
-    dateIso: '2026-04-20',
-    link: '#'
-  },
-  {
-    id: 4,
-    title: '最新消息標題四',
-    excerpt: '這裡是消息的簡短摘要，提供讀者了解本則消息的大致內容與重點方向。',
-    date: '2026-04-15',
-    dateIso: '2026-04-15',
-    link: '#'
-  },
-  {
-    id: 5,
-    title: '最新消息標題五',
-    excerpt: '這裡是消息的簡短摘要，提供讀者了解本則消息的大致內容與重點方向。',
-    date: '2026-04-10',
-    dateIso: '2026-04-10',
-    link: '#'
-  },
-  {
-    id: 6,
-    title: '最新消息標題六',
-    excerpt: '這裡是消息的簡短摘要，提供讀者了解本則消息的大致內容與重點方向。',
-    date: '2026-04-05',
-    dateIso: '2026-04-05',
-    link: '#'
-  }
-])
-</script>
 
 <style scoped>
 /* ===== CSS Variables ===== */
 .about-page {
-  --color-cream: #F9F6F0;
+  /* --color-cream: #F9F6F0; */
   --color-green: #1E4620;
   --color-orange: #D96B27;
   --color-white: #ffffff;
@@ -181,7 +175,6 @@ const newsItems = ref([
 /* ===== Hero Section ===== */
 .hero-section {
   position: relative;
-  background-color: var(--color-green);
 }
 
 .about-title {
@@ -194,31 +187,6 @@ const newsItems = ref([
   letter-spacing: 0.05em;
 }
 
-.hero-image-wrapper {
-  position: relative;
-  width: 100%;
-  max-height: 400px;
-  overflow: hidden;
-}
-
-.hero-image {
-  display: block;
-  width: 100%;
-  height: 400px;
-  object-fit: cover;
-  object-position: center;
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(30, 70, 32, 0.15) 0%,
-    rgba(30, 70, 32, 0.05) 100%
-  );
-  pointer-events: none;
-}
 
 /* ===== About Content Section ===== */
 .about-content-section {
@@ -422,9 +390,7 @@ const newsItems = ref([
   .footer-info-inner {
     flex-direction: column;
   }
-  .hero-image {
-    height: 220px;
-  }
+  
 }
 
 /* ===== Reduced Motion ===== */
