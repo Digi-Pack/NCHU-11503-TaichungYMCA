@@ -31,7 +31,7 @@ const props = defineProps({
             <img :src="props.outPicture" alt="這是一張圖片">
         </div>
         <div class="card-bot">
-            <Text size="text-24" class="title-height">{{ props.title }}</Text>
+            <Text size="text-36" class="text-limit title-height">{{ props.title }}</Text>
             <Text size="text-20" color="gray" class="text-limit fixed-height">{{ props.desc }}</Text>
             <Text size="text-20" color="gray">{{ props.date }}</Text>
         </div>
@@ -61,7 +61,7 @@ const props = defineProps({
 
 .card-top {
     width: 100%;
-    height: 360px;
+    height: 302px;
     background-color: brown;
 }
 
@@ -78,7 +78,7 @@ img {
 }
 
 .title-height{
-    height: 56px;
+    height: 83px;
 }
 
 /* 修改line-clamp可以限制幾行後截斷 */

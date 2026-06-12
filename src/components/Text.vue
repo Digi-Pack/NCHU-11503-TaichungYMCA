@@ -22,6 +22,10 @@ const props = defineProps({
     font-size: 4rem;
 }
 
+.text-36{
+    font-size: 2.25rem;
+}
+
 .text-32 {
     font-size: 2rem;
 
@@ -41,5 +45,9 @@ const props = defineProps({
 
 .gray {
     color: #757575;
+}
+
+.deep-gray{
+    color: #3C3C3C;
 }
 </style>
