@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
 import testImg from "@/assets/img/首頁測試圖片.png"
-import newsList from "@/data/news.json";
+import newsList from "@/data/news.js";
 import Text from "@/components/Text.vue";
 import HomeNewsCard from "@/components/HomeNewsCard.vue";
 import { RightCircleOutlined } from "@ant-design/icons-vue";
