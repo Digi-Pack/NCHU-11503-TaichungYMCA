@@ -1,19 +1,21 @@
+<script setup>
+import PageHero from '@/components/PageHero.vue' 
+
+const visionImages = [
+  { id: 1, alt: '願景圖片一', caption: '' },
+  { id: 2, alt: '願景圖片二', caption: '' },
+  { id: 3, alt: '願景圖片三', caption: '' },
+  { id: 4, alt: '願景圖片四', caption: '' },
+]
+</script>
 <template>
   <main id="main-content" class="location-page">
 
     <!-- Hero Section -->
-    <section class="hero-section" aria-labelledby="location-heading">
-      <h1 id="location-heading" class="page-title">服務據點</h1>
-      <div class="hero-image-wrapper" role="img" aria-label="服務據點封面圖片">
-        <img
-          src="https://picsum.photos/1920/400"
-          alt="服務據點封面圖片"
-          class="hero-image"
-          width="1920"
-          height="400"
-        />
-      </div>
-    </section>
+   <section class="hero-section" aria-labelledby="location-heading">
+  <h1 id="location-heading" class="page-title">服務據點</h1>
+  <PageHero image="https://picsum.photos/1920/400" />
+</section>
 
     <!-- 創校歷史 Section 1：文字左、圖片右 -->
     <section class="history-section" aria-labelledby="history-heading-1">
@@ -91,19 +93,12 @@
   </main>
 </template>
 
-<script setup>
-const visionImages = [
-  { id: 1, alt: '願景圖片一', caption: '' },
-  { id: 2, alt: '願景圖片二', caption: '' },
-  { id: 3, alt: '願景圖片三', caption: '' },
-  { id: 4, alt: '願景圖片四', caption: '' },
-]
-</script>
+
 
 <style scoped>
 /* ===== CSS Variables ===== */
 .location-page {
-  --color-cream: #F9F6F0;
+  /* --color-cream: #F9F6F0; */
   --color-green: #1E4620;
   --color-orange: #D96B27;
   --color-white: #ffffff;
@@ -132,9 +127,7 @@ const visionImages = [
 }
 
 /* ===== Hero Section ===== */
-.hero-section {
-  background-color: var(--color-green);
-}
+
 
 .page-title {
   color: var(--color-orange);
@@ -143,19 +136,6 @@ const visionImages = [
   padding: var(--spacing-sm) var(--spacing-md);
   margin: 0;
   letter-spacing: 0.05em;
-}
-
-.hero-image-wrapper {
-  width: 100%;
-  overflow: hidden;
-}
-
-.hero-image {
-  display: block;
-  width: 100%;
-  height: 400px;
-  object-fit: cover;
-  object-position: center;
 }
 
 /* ===== Section Titles ===== */
@@ -298,9 +278,7 @@ const visionImages = [
     grid-template-columns: 1fr;
   }
 
-  .hero-image {
-    height: 220px;
-  }
+
 }
 
 /* ===== Reduced Motion ===== */
