@@ -12,7 +12,7 @@ const latestNews = computed(() =>
 );
 </script>
 <template>
-  <section class="home">
+  <main class="home">
     <div class="hero-area container-full">
       <div class="hero-left">
         <!-- SVG 畫布：寬 1017、高 659整體概念：先把圖片鋪滿整個畫布，再用 clipPath 把超出形狀的部分裁掉 -->
@@ -40,21 +40,23 @@ const latestNews = computed(() =>
             <Text>臺中市</Text>
             <Text>北屯社區大學</Text>
           </div>
-          <Text size="text-32" color="gray">落實終身學習、發揚北屯特色、致力在地公共事務、推動社會關懷</Text>
+          <Text size="text-48" color="gray">落實終身學習、發揚北屯特色、致力在地公共事務、推動社會關懷</Text>
         </div>
       </div>
     </div>
 
     <div class="banner container-full">
+      <img class="banner-img" src="https://picsum.photos/1905/400" alt="">
+      <div class="banner-overlay"></div>
       <div class="banner-text-container">
-        <Text>深耕北屯、永續學習</Text>
-        <Text size="text-32"
+        <Text size="text-48">深耕北屯、永續學習</Text>
+        <Text size="text-36"
           color="gray">現今的世代快速變化，從社會各個層級到個人，都面臨著快速且急劇的轉變；環境的變動、社會基本價值快速演變，和人們對於新知和技能的需求，都讓我們進入一個終身學習的世代。</Text>
       </div>
     </div>
 
     <div class="news container-normal">
-      <Text>最新消息</Text>
+      <Text size="text-48">最新消息</Text>
       <div class="card-container">
         <HomeNewsCard v-for="news in latestNews" :key="news.id" :outPicture="news.outPicture" :title="news.title"
           :desc="news.desc" :date="news.date"></HomeNewsCard>
@@ -65,19 +67,21 @@ const latestNews = computed(() =>
       <div class="location-left">
         <div class="location-text-container">
           <div class="location-title">
-            <Text>服務據點</Text>
+            <Text size="text-48">服務據點</Text>
             <RightCircleOutlined class="location-icon" />
           </div>
-          <Text size="text-32" color="gray"
+          <Text size="text-36" color="gray"
             class="location-desc">臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多人次。臺中市政府自開辦社大以來，由四家開放至六家承辦單位，台中YMCA憑藉良好辦學經驗及成果，至今通過市府多次招標審核、獲選承辦大墩社大。於市政府每年定期之社大評鑑中，皆獲評審委員一致肯定，並連續多年獲得教育部肯定為辦學績優單位。</Text>
         </div>
       </div>
       <div class="location-right">
-        <div class="img-wrapper"></div>
+        <div class="img-wrapper">
+          <img class="location-img" src="https://picsum.photos/650/525" alt="">
+          <div class="location-overlay"></div>
+        </div>
       </div>
-      <div location-right></div>
     </div>
-  </section>
+  </main>
 </template>
 
 <style scoped>
@@ -87,11 +91,11 @@ const latestNews = computed(() =>
 }
 
 .container-normal {
-  width: 90%;
+  width: 85%;
   margin: auto;
 }
 
-.home{
+.home {
   display: flex;
   flex-direction: column;
   gap: 80px 0;
@@ -143,13 +147,29 @@ image {
 
 .banner {
   height: 400px;
-  background-color: lightcoral;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+}
+
+.banner-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.banner-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .banner-text-container {
+  position: relative;
+  z-index: 1;
   max-width: 760px;
   display: flex;
   flex-direction: column;
@@ -163,7 +183,7 @@ image {
   flex-direction: column;
   align-items: center;
   gap: 74px 0;
-  background-color: lightgray;
+  /* background-color: lightgray; */
 }
 
 .card-container {
@@ -171,14 +191,14 @@ image {
   /* flex: 1; */
   display: flex;
   gap: 0 64px;
-  background-color: aquamarine;
+  /* background-color: aquamarine; */
 }
 
 .location {
   /* height: 525px; */
   display: flex;
   align-items: center;
-  background-color: lightblue;
+  /* background-color: lightblue; */
   padding: 0 0 0 178px;
   position: relative;
 }
@@ -201,7 +221,7 @@ image {
 }
 
 .location-icon {
-  font-size: 60px;
+  font-size: 3rem;
   color: #7D7D7D;
 }
 
@@ -217,8 +237,18 @@ image {
   height: 525px;
   min-width: 650px;
   max-width: 650px;
-  background-color: blueviolet;
   position: relative;
   left: -100px;
+}
+
+.location-img {
+  width: 100%;
+  height: 100%;
+}
+
+.location-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 </style>

@@ -1,20 +1,26 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import PageHero from "@/components/PageHero.vue";
 import newsHeroImg from "@/assets/img/最新消息/最新消息測試圖.png";
 import Text from "@/components/Text.vue";
 import HomeNewsCard from "@/components/HomeNewsCard.vue";
+import List from "@/components/List.vue";
 import newsList from "@/data/news.js";
 import { BarChartOutlined, TableOutlined } from "@ant-design/icons-vue";
 
 const category = ["社大新鮮事", "高齡預防照護", "數位課程", "食農教育", "都市農業", "社區成果分享"];
 const current = ref(1);
 const pageSize = 6;
-const selectedCategories = ref([]);
+const selectedCategory = ref(null);
+const viewMode = ref("card");
+
+function setViewMode(mode) {
+  viewMode.value = mode;
+}
 
 const filteredNews = computed(() => {
-  if (selectedCategories.value.length === 0) return newsList;
-  return newsList.filter((news) => selectedCategories.value.includes(news.category));
+  if (!selectedCategory.value) return newsList;
+  return newsList.filter((news) => news.category === selectedCategory.value);
 });
 
 const cardNews = computed(() => {
@@ -24,47 +30,60 @@ const cardNews = computed(() => {
 const totalPages = computed(() => Math.ceil(filteredNews.value.length / pageSize));
 
 function selectCategory(cat) {
-  const index = selectedCategories.value.indexOf(cat);
-  if (index === -1) {
-    selectedCategories.value.push(cat);
-  } else {
-    selectedCategories.value.splice(index, 1);
-  }
+  selectedCategory.value = selectedCategory.value === cat ? null : cat;
   current.value = 1;
 }
+
+const newsTitleRef = ref(null);
+
+watch(current, () => {
+  newsTitleRef.value?.scrollIntoView({ behavior: "smooth" });
+});
 </script>
 
 <template>
-  <section>
+  <main>
     <div class="breadcrumb">
       <a-breadcrumb separator=">">
         <a-breadcrumb-item>首頁</a-breadcrumb-item>
         <a-breadcrumb-item>最新消息</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
-    <PageHero :image="newsHeroImg"></PageHero>
+    
+    <PageHero class="hero" :image="newsHeroImg"></PageHero>
+
     <div class="container-normal main-section">
-      <Text>最新消息</Text>
+
+      <div ref="newsTitleRef">
+        <Text>最新消息</Text>
+      </div>
+
       <div class="checkable-area">
         <div class="button-area">
           <a-button v-for="cat in category" :key="cat" class="category-btn"
-            :class="{ active: selectedCategories.includes(cat) }" @click="selectCategory(cat)">{{ cat }}</a-button>
+            :class="{ active: selectedCategory === cat }" @click="selectCategory(cat)">{{ cat }}</a-button>
         </div>
         <div class="display-toggle">
-          <TableOutlined class="icon table" />
-          <BarChartOutlined class="icon chart" />
+          <TableOutlined class="icon table" :class="{ active: viewMode === 'card' }" @click="setViewMode('card')" />
+          <BarChartOutlined class="icon chart" :class="{ active: viewMode === 'list' }" @click="setViewMode('list')" />
         </div>
       </div>
-      <div class="cards-area">
+
+      <div class="cards-area" v-show="viewMode === 'card'">
         <HomeNewsCard v-for="news in cardNews" :key="news.id" :outPicture="news.outPicture" :title="news.title"
           :desc="news.desc" :date="news.date"></HomeNewsCard>
       </div>
+
+      <div class="lists-area" v-show="viewMode === 'list'">
+        <List v-for="news in cardNews" :key="news.id" :title="news.title" :date="news.date" :desc="news.desc"></List>
+      </div>
+
       <div class="page-area">
         <a-pagination v-model:current="current" :total="filteredNews.length" :page-size="pageSize" />
         <Text size="text-24" color="deep-gray">Page {{ current }} of {{ totalPages }}</Text>
       </div>
     </div>
-  </section>
+  </main>
 </template>
 
 <style scoped>
@@ -73,16 +92,20 @@ function selectCategory(cat) {
 }
 
 .container-normal {
-  width: 90%;
+  width: 85%;
   margin: auto;
 }
 
 .main-section {
   /* height: 1410px; */
-  background-color: lightcoral;
+  /* background-color: lightcoral; */
   display: flex;
   flex-direction: column;
   gap: 40px 0;
+}
+
+.hero{
+  margin-bottom: 80px;
 }
 
 .checkable-area {
@@ -91,35 +114,49 @@ function selectCategory(cat) {
 }
 
 .button-area {
+  max-width: 800px;
   display: flex;
+  flex-wrap: wrap;
   gap: 0 16px;
 }
 
-.icon{
-font-size: 28px;
-background-color: #FFFFFF;
-color: #3C3C3C;
-border: 2px solid #3C3C3C;
-padding: 10px;
+.icon {
+  font-size: 28px;
+  background-color: #FFFFFF;
+  color: #3C3C3C;
+  border: 2px solid #3C3C3C;
+  padding: 10px;
+  cursor: pointer;
 }
 
-.table{
+.icon.active {
+  background-color: #3C3C3C;
+  color: #F0E9E3;
+}
+
+.table {
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
+  border-right: none;
 }
 
-.chart{
+.chart {
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
+  border-left: none;
 }
 
 .category-btn {
-  width: 120px;
+  width: calc(800px / 6 - 16px);
   height: 51px;
   border-radius: 20px;
   background-color: #FFFFFF;
   border-color: #3C3C3C;
   color: #3C3C3C;
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .category-btn:hover,
@@ -132,14 +169,21 @@ padding: 10px;
 .cards-area {
   width: 100%;
   flex: 1;
+  padding-right: 10px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 74px 64px;
-  background-color: lightskyblue;
+  /* background-color: lightskyblue; */
 }
 
 .cards-area :deep(.card) {
   width: 100%;
+}
+
+.lists-area {
+  width: 100%;
+  padding-right: 10px;
+  /* background-color: lightblue; */
 }
 
 .page-area {

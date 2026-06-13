@@ -22,13 +22,16 @@ const props = defineProps({
     font-size: 4rem;
 }
 
+.text-48{
+    font-size: 3rem;
+}
+
 .text-36{
     font-size: 2.25rem;
 }
 
 .text-32 {
     font-size: 2rem;
-
 }
 
 .text-24{
