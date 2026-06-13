@@ -32,8 +32,8 @@ const props = defineProps({
         </div>
         <div class="card-bot">
             <Text size="text-36" class="text-limit title-height">{{ props.title }}</Text>
-            <Text size="text-20" color="gray" class="text-limit fixed-height">{{ props.desc }}</Text>
-            <Text size="text-20" color="gray">{{ props.date }}</Text>
+            <Text size="text-24" color="gray" class="text-limit fixed-height">{{ props.desc }}</Text>
+            <Text size="text-24" color="gray">{{ props.date }}</Text>
         </div>
     </div>
 </template>
@@ -41,7 +41,7 @@ const props = defineProps({
 <style scoped>
 .card {
     width: calc(100% / 3);
-    background-color: bisque;
+    /* background-color: bisque; */
     position: relative
 }
 
@@ -62,7 +62,7 @@ const props = defineProps({
 .card-top {
     width: 100%;
     height: 302px;
-    background-color: brown;
+    /* background-color: brown; */
 }
 
 img {
@@ -91,6 +91,6 @@ img {
 }
 
 .fixed-height{
-    height: 46px;
+    height: 56px;
 }
 </style>
