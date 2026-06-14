@@ -1,31 +1,29 @@
 <script setup>
-import { computed } from "vue";
-import { useRoute } from "vue-router";
-import PageHero from "@/components/PageHero.vue";
-import Text from "@/components/Text.vue";
-import courses from "@/data/course.json";
-const courseHeroImg =
-  "https://picsum.photos/1920/500";
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import PageHero from '@/components/PageHero.vue'
+import Text from '@/components/Text.vue'
+import courses from '@/data/course.json'
+const courseHeroImg = 'https://picsum.photos/1920/500'
 
-const route = useRoute();
+const route = useRoute()
 
 const course = computed(() => {
-  return courses.find((item) => item.code === route.params.id);
-});
+  return courses.find((item) => item.code === route.params.id)
+})
 
+import Breadcrumb from '@/components/Breadcrumb.vue'
 
+const breadcrumbItems = computed(() => [
+  { text: '首頁', to: '/' },
+  { text: '課程查詢', to: '/courses' },
+  { text: course.value?.title || '課程詳細' },
+])
 </script>
 
 <template>
   <main>
-    
-    <div class="breadcrumb">
-      <a-breadcrumb separator=">">
-        <a-breadcrumb-item>首頁</a-breadcrumb-item>
-        <a-breadcrumb-item>課程查詢</a-breadcrumb-item>
-        <a-breadcrumb-item>{{ course?.title }}</a-breadcrumb-item>
-      </a-breadcrumb>
-    </div>
+    <Breadcrumb :items="breadcrumbItems" />
 
     <PageHero class="hero" :image="courseHeroImg" />
 
@@ -51,13 +49,7 @@ const course = computed(() => {
             <p>{{ course.note }}</p>
           </div>
 
-          <a
-            class="signup-btn"
-            :href="course.signupUrl"
-            target="_blank"
-          >
-            前往報名
-          </a>
+          <a class="signup-btn" :href="course.signupUrl" target="_blank"> 前往報名 </a>
         </div>
       </template>
 
@@ -69,10 +61,6 @@ const course = computed(() => {
 </template>
 
 <style scoped>
-.breadcrumb {
-  padding: 10px 0;
-}
-
 .container-normal {
   width: 85%;
   margin: auto;
