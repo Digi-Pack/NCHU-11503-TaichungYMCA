@@ -40,7 +40,7 @@ export default [
     id: 'news001',
     outPicture: news001,
     category: '社大新鮮事',
-    date: '2025.12.31',
+    date: '2025-12-31',
     title: '北屯社大 迎接2026年 新年快樂',
     desc: '以新年祝福迎接2026年，傳達北屯社大對學員、教師與社區夥伴的感謝與期盼。',
     content: [
@@ -60,7 +60,7 @@ export default [
     id: 'news002',
     outPicture: news002,
     category: '社區成果分享',
-    date: '2025.09.01',
+    date: '2025-09-01',
     title: '114年度 大坑特色課程 成果分享',
     desc: '展示大坑特色課程的學習成果，透過影音分享課程內容、在地特色與學員參與成果。',
     content: [
@@ -80,7 +80,7 @@ export default [
     id: 'news003',
     outPicture: news003,
     category: '社大新鮮事',
-    date: '2025.07.14',
+    date: '2025-07-14',
     title: '落實城食森林精神–荔枝森林公園辦理採果活動',
     desc: '北屯社大與社區夥伴辦理荔枝森林公園採果活動，推廣城食森林、環境教育與在地參與。',
     content: [
@@ -102,7 +102,7 @@ export default [
     id: 'news004',
     outPicture: news004,
     category: '社區成果分享',
-    date: '2025.06.01',
+    date: '2025-06-01',
     title: '114年北屯社區大學 期中成果展',
     desc: '北屯社大期中成果展呈現學員學習成果，透過展演、手作與交流活動展現社區學習活力。',
     content: [
@@ -126,7 +126,7 @@ export default [
     id: 'news005',
     outPicture: news005,
     category: '數位課程',
-    date: '2025.04.15',
+    date: '2025-04-15',
     title: '導覽與走讀培訓 成果-有聲的情批',
     desc: '分享北屯在地導覽與走讀培訓成果，以聲音記錄地方故事，呈現在地文化與情感記憶。',
     content: [
@@ -147,7 +147,7 @@ export default [
     id: 'news006',
     outPicture: news006,
     category: '社大新鮮事',
-    date: '2023.10.17',
+    date: '2023-10-17',
     title: '大坑在地農產推廣-認識竹筍與筍包製作DIY',
     desc: '介紹大坑在地農產竹筍，透過影音帶領民眾認識食材特色並體驗筍包製作。',
     content: [
@@ -167,7 +167,7 @@ export default [
     id: 'news007',
     outPicture: news007,
     category: '數位課程',
-    date: '2023.09.07',
+    date: '2023-09-07',
     title: '線上數位體驗課程：二胡拉奏',
     desc: '東山高中校區推出二胡線上數位體驗課程，帶領有興趣的學員認識二胡拉奏基礎。',
     content: [
@@ -187,7 +187,7 @@ export default [
     id: 'news008',
     outPicture: news008,
     category: '數位課程',
-    date: '2023.08.21',
+    date: '2023-08-21',
     title: '線上數位體驗課程：薩克斯風吹奏',
     desc: '大德國中校區推出薩克斯風線上數位體驗課程，提供初學者認識吹奏技巧與課程特色。',
     content: [
@@ -207,7 +207,7 @@ export default [
     id: 'news009',
     outPicture: news009,
     category: '數位課程',
-    date: '2023.08.06',
+    date: '2023-08-06',
     title: '線上數位體驗課程：吹長笛!起步走',
     desc: '東山高中校區推出長笛線上數位體驗課程，帶領學員認識長笛吹奏入門與學習方式。',
     content: [
@@ -227,7 +227,7 @@ export default [
     id: 'news010',
     outPicture: news010,
     category: '數位課程',
-    date: '2023.07.01',
+    date: '2023-07-01',
     title: '線上體驗課程：一枝鋼筆帶你彩繪世界',
     desc: '北屯分部推出鋼筆彩繪線上體驗課程，帶領學員以鋼筆創作感受手繪世界。',
     content: [
@@ -247,7 +247,7 @@ export default [
     id: 'news011',
     outPicture: news011,
     category: '數位課程',
-    date: '2023.06.09',
+    date: '2023-06-09',
     title: '線上數位體驗課程：吹長笛!起步走',
     desc: '東山高中校區長笛線上數位體驗課程，提供外部連結讓學員觀看課程介紹與學習內容。',
     content: [
@@ -267,7 +267,7 @@ export default [
     id: 'news012',
     outPicture: news012,
     category: '社大新鮮事',
-    date: '2023.06.07',
+    date: '2023-06-07',
     title: '傳統產業與在地傳承-大安糕餅與歷史文化之旅',
     desc: '透過大安糕餅與歷史文化之旅，認識傳統產業、地方飲食文化與在地傳承故事。',
     content: [
@@ -289,7 +289,7 @@ export default [
     id: 'news013',
     outPicture: news013,
     category: '數位課程',
-    date: '2023.06.01',
+    date: '2023-06-01',
     title: '線上體驗課程 -戀戀時尚金屬線編課程',
     desc: '北屯分部推出金屬線編線上體驗課程，帶領學員認識時尚手作與金屬線編技巧。',
     content: [
@@ -311,7 +311,7 @@ export default [
     id: 'news014',
     outPicture: news014,
     category: '社區成果分享',
-    date: '2023.05.08',
+    date: '2023-05-08',
     title: '北屯社大 -在地文史走讀火車輕旅行',
     desc: '北屯社大辦理在地文史走讀火車輕旅行，透過外部連結分享地方文化探索成果。',
     content: [
@@ -335,7 +335,7 @@ export default [
     id: 'news015',
     outPicture: news015,
     category: '社大新鮮事',
-    date: '2023.04.27',
+    date: '2023-04-27',
     title: '北屯社大教師在地認知 探索工作坊',
     desc: '北屯社大邀集教師參與在地認知探索工作坊，共同發想課程與社區議題連結方向。',
     content: [
@@ -359,7 +359,7 @@ export default [
     id: 'news016',
     outPicture: news016,
     category: '社大新鮮事',
-    date: '2023.03.13',
+    date: '2023-03-13',
     title: '北屯社大112年秋季班 課程講師招募中！',
     desc: '北屯社大招募秋季班課程講師，邀請認同社大理念並關心公共事務的教師加入。',
     content: [
@@ -385,7 +385,7 @@ export default [
     id: 'news017',
     outPicture: news017,
     category: '社大新鮮事',
-    date: '2023.01.16',
+    date: '2023-01-16',
     title: '北屯社大YMCA -親子共學-多元社團課程',
     desc: '北屯社大與YMCA推出親子共學多元社團課程，提供家庭共同參與才藝學習的選擇。',
     content: [
@@ -405,7 +405,7 @@ export default [
     id: 'news018',
     outPicture: news018,
     category: '社大新鮮事',
-    date: '2022.12.23',
+    date: '2022-12-23',
     title: '北屯社區大學 112年春季班 招生報名中',
     desc: '北屯社區大學春季班招生報名資訊，提供外部課程頁面讓民眾查詢與報名。',
     content: [
@@ -429,7 +429,7 @@ export default [
     id: 'news019',
     outPicture: news019,
     category: '社區成果分享',
-    date: '2022.10.25',
+    date: '2022-10-25',
     title: '百年荔枝森林-護樹行動大作戰!',
     desc: '透過護樹行動與環境教育內容，推廣百年荔枝森林保育、在地生態與社區參與。',
     content: [
@@ -453,7 +453,7 @@ export default [
     id: 'news020',
     outPicture: news020,
     category: '高齡預防照護',
-    date: '2021.06.20',
+    date: '2021-06-20',
     title: '高齡社區園藝據點 課程影片',
     desc: '高齡社區園藝據點課程影片，分享園藝學習內容，推廣高齡友善與社區陪伴。',
     content: [
@@ -477,7 +477,7 @@ export default [
     id: 'news021',
     outPicture: news021,
     category: '社大新鮮事',
-    date: '2020.02.29',
+    date: '2020-02-29',
     title: '【緊急延課通知】 109春季因應疫情延後開課',
     desc: '北屯社大因應疫情發布春季延後開課通知，提醒學員留意課程異動與後續公告。',
     content: [
@@ -503,7 +503,7 @@ export default [
     id: 'news022',
     outPicture: news022,
     category: '高齡預防照護',
-    date: '2019.08.01',
+    date: '2019-08-01',
     title: '美妝志工隊服務：我的美妝心體驗',
     desc: '美妝志工隊走入高齡社區據點，透過妝容服務與陪伴交流，展現社區關懷與長者自信。',
     content: [
@@ -527,7 +527,7 @@ export default [
     id: 'news023',
     outPicture: news023,
     category: '食農教育',
-    date: '2018.10.15',
+    date: '2018-10-15',
     title: '【保護百年荔枝森林】',
     desc: '北屯社大攜手居民推動護樹行動，共同守護百年荔枝森林。',
     content: [
@@ -551,7 +551,7 @@ export default [
     id: 'news024',
     outPicture: news024,
     category: '都市農業',
-    date: '2018.10.21',
+    date: '2018-10-21',
     title: '社區型都市農業推展師資培育工作坊2.0',
     desc: '培育都市農業種子師資，推動社區永續綠生活。',
     content: [
