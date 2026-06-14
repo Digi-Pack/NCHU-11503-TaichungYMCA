@@ -9,7 +9,7 @@ import Footer from "./components/Footer.vue";
 
     <main class="main-content">
       <RouterView />
-      暫時亂放一個東西測546545465試dfghjkjf
+     暫放 大家加油
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRREZt-Cb1v5C4C-ssnj0XkdcZIEBWD1ZbSlD9BgwFWNA&s=10" alt="">
     </main>
 
