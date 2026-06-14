@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from "vue";
+import { useRouter } from "vue-router";
 import testImg from "@/assets/img/首頁/首頁測試圖片.png"
 import newsList from "@/data/news.js";
 import Text from "@/components/Text.vue";
@@ -10,6 +11,12 @@ const latestNews = computed(() =>
   [...newsList].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3)
   // 只取前三筆最新的資料
 );
+
+const router = useRouter();
+
+function goToDetail(id) {
+  router.push({ name: "news-detail", params: { id }, query: { from: "home" } });
+}
 </script>
 <template>
   <main class="home">
@@ -55,11 +62,11 @@ const latestNews = computed(() =>
       </div>
     </div>
 
-    <div class="news container-normal">
+    <div class="news container-normal" id="latest-news">
       <Text size="text-48">最新消息</Text>
       <div class="card-container">
         <HomeNewsCard v-for="news in latestNews" :key="news.id" :outPicture="news.outPicture" :title="news.title"
-          :desc="news.desc" :date="news.date"></HomeNewsCard>
+          :desc="news.desc" :date="news.date" @click="goToDetail(news.id)"></HomeNewsCard>
       </div>
     </div>
 
@@ -184,6 +191,10 @@ image {
   align-items: center;
   gap: 74px 0;
   /* background-color: lightgray; */
+}
+
+.card-container :deep(.card) {
+  cursor: pointer;
 }
 
 .card-container {

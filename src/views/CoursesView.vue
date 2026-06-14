@@ -123,7 +123,10 @@ watch(current, () => {
               </a-select-option>
             </a-select>
           </div>
+
+          <RouterLink class="more-btn" :to="`/courses/${course.code}`"> 查看更多 ＞ </RouterLink>
         </div>
+      </div>
 
         <Text size="text-24" color="deep-gray"> Page {{ current }} of {{ totalPages }} </Text>
       </div>

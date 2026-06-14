@@ -1,12 +1,21 @@
 <script setup>
 import { computed } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import newsList from "@/data/news.js";
 import Text from "@/components/Text.vue";
 
 const route = useRoute();
+const router = useRouter();
 
 const currentNews = computed(() => newsList.find((news) => news.id === route.params.id));
+
+function goBack() {
+  if (route.query.from === "home") {
+    router.push({ name: "home", hash: "#latest-news" });
+  } else {
+    router.push({ name: "news", query: { page: route.query.page }, hash: "#news-title" });
+  }
+}
 </script>
 
 <template>
@@ -34,7 +43,7 @@ const currentNews = computed(() => newsList.find((news) => news.id === route.par
                 </div>
                 <div class="tag-backbtn">
                     <div class="tag">{{ currentNews?.category }}</div>
-                    <a-button class="back-btn">返回上一頁</a-button>
+                    <a-button class="back-btn" @click="goBack">返回上一頁</a-button>
                 </div>
             </div>
 
