@@ -13,7 +13,7 @@ function goBack() {
   if (route.query.from === "home") {
     router.push({ name: "home", hash: "#latest-news" });
   } else {
-    router.push({ name: "news", query: { page: route.query.page }, hash: "#news-title" });
+    router.push({ name: "news", query: { page: route.query.page, view: route.query.view }, hash: "#news-title" });
   }
 }
 </script>
