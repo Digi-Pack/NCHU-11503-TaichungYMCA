@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import PageHero from "@/components/PageHero.vue";
 import newsHeroImg from "@/assets/img/最新消息/最新消息測試圖.png";
 import Text from "@/components/Text.vue";
@@ -8,8 +9,9 @@ import List from "@/components/List.vue";
 import newsList from "@/data/news.js";
 import { BarChartOutlined, TableOutlined } from "@ant-design/icons-vue";
 
+const route = useRoute();
 const category = ["社大新鮮事", "高齡預防照護", "數位課程", "食農教育", "都市農業", "社區成果分享"];
-const current = ref(1);
+const current = ref(Number(route.query.page) || 1);
 const pageSize = 6;
 const selectedCategory = ref(null);
 const viewMode = ref("card");
@@ -38,9 +40,16 @@ function previewContent(content) {
   return content.join("").slice(0, 200);
 }
 
+const router = useRouter();
+
+function goToDetail(id) {
+  router.push({ name: "news-detail", params: { id }, query: { page: current.value } });
+}
+
 const newsTitleRef = ref(null);
 
-watch(current, () => {
+watch(current, (page) => {
+  router.replace({ query: { ...route.query, page } });
   newsTitleRef.value?.scrollIntoView({ behavior: "smooth" });
 });
 </script>
@@ -75,11 +84,11 @@ watch(current, () => {
 
       <div class="cards-area" v-show="viewMode === 'card'">
         <HomeNewsCard v-for="news in cardNews" :key="news.id" :outPicture="news.outPicture" :title="news.title"
-          :desc="news.desc" :date="news.date"></HomeNewsCard>
+          :desc="news.desc" :date="news.date" @click="goToDetail(news.id)"></HomeNewsCard>
       </div>
 
       <div class="lists-area" v-show="viewMode === 'list'">
-        <List v-for="news in cardNews" :key="news.id" :title="news.title" :date="news.date" :content="previewContent(news.content)"></List>
+        <List v-for="news in cardNews" :key="news.id" :title="news.title" :date="news.date" :content="previewContent(news.content)" @click="goToDetail(news.id)"></List>
       </div>
 
       <div class="page-area">
@@ -182,12 +191,22 @@ watch(current, () => {
 
 .cards-area :deep(.card) {
   width: 100%;
+  cursor: pointer;
 }
 
 .lists-area {
   width: 100%;
   padding-right: 10px;
   /* background-color: lightblue; */
+}
+
+.lists-area :deep(.list) {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.lists-area :deep(.list:hover) {
+  background-color: #FFF8DC;
 }
 
 .page-area {
