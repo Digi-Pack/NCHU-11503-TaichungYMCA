@@ -11,7 +11,7 @@ const props = defineProps({
         type: String,
         default: "",
     },
-    desc: {
+    content: {
         type: String,
         default: "",
     },
@@ -25,7 +25,7 @@ const props = defineProps({
             <Text size="text-24" color="gray">{{ props.date }}</Text>
         </div>
         <div class="content-check">
-            <Text class="content text-limit" size="text-24" color="gray">{{ props.desc }}</Text>
+            <Text class="content text-limit" size="text-24" color="gray">{{ props.content }}</Text>
             <div class="btn-wrapper">
                 <a-button class="more-btn">查看更多
                     <RightOutlined />

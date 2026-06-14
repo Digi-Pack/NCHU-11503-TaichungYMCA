@@ -42,6 +42,10 @@ const props = defineProps({
     font-size: 1.25rem;
 }
 
+.text-16{
+    font-size: 1rem;
+}
+
 .black {
     color: black;
 }
