@@ -34,6 +34,10 @@ function selectCategory(cat) {
   current.value = 1;
 }
 
+function previewContent(content) {
+  return content.join("").slice(0, 200);
+}
+
 const newsTitleRef = ref(null);
 
 watch(current, () => {
@@ -75,7 +79,7 @@ watch(current, () => {
       </div>
 
       <div class="lists-area" v-show="viewMode === 'list'">
-        <List v-for="news in cardNews" :key="news.id" :title="news.title" :date="news.date" :desc="news.desc"></List>
+        <List v-for="news in cardNews" :key="news.id" :title="news.title" :date="news.date" :content="previewContent(news.content)"></List>
       </div>
 
       <div class="page-area">
@@ -88,7 +92,7 @@ watch(current, () => {
 
 <style scoped>
 .breadcrumb {
-  padding: 10px 0;
+  padding: 12px;
 }
 
 .container-normal {
