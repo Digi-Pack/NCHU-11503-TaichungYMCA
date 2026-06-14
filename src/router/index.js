@@ -31,7 +31,7 @@ const router = createRouter({
       path: '/about',
       name: 'about',
       component: AboutView,
-    },
+    },  
     {
       path: '/locations',
       name: 'locations',
@@ -50,4 +50,5 @@ const router = createRouter({
   ],
 })
 
-export default router
+
+export default router;
