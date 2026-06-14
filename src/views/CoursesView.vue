@@ -3,7 +3,7 @@ import { ref, computed, watch } from 'vue'
 import PageHero from '@/components/PageHero.vue'
 import Text from '@/components/Text.vue'
 import courses from '@/data/course.json'
-import courseHeroImg from '@/assets/img/最新消息/最新消息測試圖.png'
+const courseHeroImg =   "https://picsum.photos/1920/500";
 
 const category = [
   '公民與在地',
