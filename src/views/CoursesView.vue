@@ -5,6 +5,10 @@ import Text from '@/components/Text.vue'
 import courses from '@/data/course.json'
 const courseHeroImg = 'https://picsum.photos/1920/500'
 
+import Breadcrumb from '@/components/Breadcrumb.vue'
+
+const breadcrumbItems = [{ text: '首頁', to: '/' }, { text: '課程查詢' }]
+
 const category = [
   '公民與在地',
   '生活應用',
@@ -19,7 +23,6 @@ const current = ref(1)
 const pageSize = ref(6)
 
 const pageSizeOptions = [6, 10, 20, 50]
-
 
 function changePageSize(value) {
   pageSize.value = value
@@ -53,12 +56,7 @@ watch(current, () => {
 
 <template>
   <main>
-    <div class="breadcrumb">
-      <a-breadcrumb separator=">">
-        <a-breadcrumb-item>首頁</a-breadcrumb-item>
-        <a-breadcrumb-item>課程查詢</a-breadcrumb-item>
-      </a-breadcrumb>
-    </div>
+    <Breadcrumb :items="breadcrumbItems" />
 
     <PageHero class="hero" :image="courseHeroImg"></PageHero>
 
@@ -108,12 +106,12 @@ watch(current, () => {
 
       <div class="page-area">
         <div class="page-left">
-   <a-pagination
-  v-model:current="current"
-  :total="filteredCourses.length"
-  :page-size="pageSize"
-  :show-size-changer="false"
-/>
+          <a-pagination
+            v-model:current="current"
+            :total="filteredCourses.length"
+            :page-size="pageSize"
+            :show-size-changer="false"
+          />
 
           <div class="page-size">
             <span>每頁顯示</span>
@@ -132,12 +130,9 @@ watch(current, () => {
 </template>
 
 <style scoped>
-.breadcrumb {
-  padding: 10px 0;
-}
 
-.container-normal {
-  width: 85%;
+
+.container-normal {  width: 85%;
   margin: auto;
 }
 
