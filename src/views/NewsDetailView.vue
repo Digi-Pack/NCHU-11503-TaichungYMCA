@@ -10,7 +10,11 @@ const router = useRouter();
 const currentNews = computed(() => newsList.find((news) => news.id === route.params.id));
 
 function goBack() {
-  router.push({ name: "news", query: { page: route.query.page } });
+  if (route.query.from === "home") {
+    router.push({ name: "home", hash: "#latest-news" });
+  } else {
+    router.push({ name: "news", query: { page: route.query.page }, hash: "#news-title" });
+  }
 }
 </script>
 

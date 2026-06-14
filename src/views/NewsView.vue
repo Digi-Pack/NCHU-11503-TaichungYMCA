@@ -43,7 +43,7 @@ function previewContent(content) {
 const router = useRouter();
 
 function goToDetail(id) {
-  router.push({ name: "news-detail", params: { id }, query: { page: current.value } });
+  router.push({ name: "news-detail", params: { id }, query: { from: "news", page: current.value } });
 }
 
 const newsTitleRef = ref(null);
@@ -67,7 +67,7 @@ watch(current, (page) => {
 
     <div class="container-normal main-section">
 
-      <div ref="newsTitleRef">
+      <div ref="newsTitleRef" id="news-title">
         <Text>最新消息</Text>
       </div>
 
