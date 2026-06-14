@@ -1,425 +1,689 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { RouterLink } from 'vue-router'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { BarChartOutlined, TableOutlined } from "@ant-design/icons-vue";
 import PageHero from '@/components/PageHero.vue'
+import Breadcrumb from '@/components/Breadcrumb.vue'
 
-// SEO (若有使用 @vueuse/head 或 nuxt)
-// useHead({
-//   title: '服務據點 - 臺中市北屯社區大學',
-//   meta: [
-//     { name: 'description', content: '臺中市北屯社區大學最新消息與活動資訊，每年修習學員人次超過一萬多人。' },
-//     { property: 'og:title', content: '服務據點 - 臺中市北屯社區大學' },
-//   ],
-// })
+// Banner 圖片路徑，替換成實際圖片
+const heroImage = '/images/locations-banner.jpg'
 
-const heroBanner = ref('https://picsum.photos/1918/336')
+// 麵包屑
+const breadcrumbItems = [
+  { text: '首頁', to: '/' },
+  { text: '服務據點' },
+]
 
-const newsList = ref([
-  { id: 1, title: '最新消息', summary: '臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多...', date: '2026-01-01', image: 'https://picsum.photos/seed/n1/600/400' },
-  { id: 2, title: '最新消息', summary: '臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多...', date: '2026-01-02', image: 'https://picsum.photos/seed/n2/600/400' },
-  { id: 3, title: '最新消息', summary: '臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多...', date: '2026-01-03', image: 'https://picsum.photos/seed/n3/600/400' },
-  { id: 4, title: '最新消息', summary: '臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多...', date: '2026-01-04', image: 'https://picsum.photos/seed/n4/600/400' },
-  { id: 5, title: '最新消息', summary: '臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多...', date: '2026-01-05', image: 'https://picsum.photos/seed/n5/600/400' },
-  { id: 6, title: '最新消息', summary: '臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多...', date: '2026-01-06', image: 'https://picsum.photos/seed/n6/600/400' },
-])
+// SEO — 原生 DOM，不需安裝任何套件
+const setMeta = (name, content, isProperty = false) => {
+  const attr = isProperty ? 'property' : 'name'
+  let el = document.querySelector(`meta[${attr}="${name}"]`)
+  if (!el) {
+    el = document.createElement('meta')
+    el.setAttribute(attr, name)
+    document.head.appendChild(el)
+  }
+  el.setAttribute('content', content)
+}
 
-const PAGE_SIZE = 6
-const currentPage = ref(1)
-const totalPages = computed(() => Math.ceil(newsList.value.length / PAGE_SIZE))
-const pagedNews = computed(() => {
-  const start = (currentPage.value - 1) * PAGE_SIZE
-  return newsList.value.slice(start, start + PAGE_SIZE)
+const prevTitle = document.title
+
+onMounted(() => {
+  document.title = '服務據點 | 臺中市北屯社區大學'
+  setMeta('description', '查詢臺中市北屯社區大學各服務據點資訊，包含地址、電話及交通方式。')
+  setMeta('og:title', '服務據點 | 臺中市北屯社區大學', true)
+  setMeta('og:description', '查詢臺中市北屯社區大學各服務據點資訊。', true)
+  setMeta('og:type', 'website', true)
 })
 
-function goPage(p) {
-  if (p < 1 || p > totalPages.value) return
-  currentPage.value = p
+// 離開頁面時還原標題（可選）
+onUnmounted(() => {
+  document.title = prevTitle
+})
+
+// Banner 圖片（替換成實際圖片路徑）
+
+// 篩選標籤
+const tags = [
+  { label: '全部地區', value: 'all' },
+  { label: '北屯區', value: '北屯區' },
+  { label: '西屯區', value: '西屯區' },
+  { label: '南屯區', value: '南屯區' },
+  { label: '大墩地區', value: '大墩地區' },
+  { label: '中區', value: '中區' },
+  { label: '東區', value: '東區' },
+  { label: '西區', value: '西區' },
+]
+
+const activeTag = ref('all')
+const viewMode = ref('grid')
+const currentPage = ref(1)
+const itemsPerPage = 6
+
+// 模擬資料
+const allLocations = ref([
+  {
+    id: 1,
+    name: '最新消息',
+    description: '臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多...',
+    date: '2026-01-01',
+    image: '',
+    region: '北屯區',
+  },
+  {
+    id: 2,
+    name: '最新消息',
+    description: '臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多...',
+    date: '2026-01-01',
+    image: '',
+    region: '西屯區',
+  },
+  {
+    id: 3,
+    name: '最新消息',
+    description: '臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多...',
+    date: '2026-01-01',
+    image: '',
+    region: '南屯區',
+  },
+  {
+    id: 4,
+    name: '最新消息',
+    description: '臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多...',
+    date: '2026-01-01',
+    image: '',
+    region: '北屯區',
+  },
+  {
+    id: 5,
+    name: '最新消息',
+    description: '臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多...',
+    date: '2026-01-01',
+    image: '',
+    region: '中區',
+  },
+  {
+    id: 6,
+    name: '最新消息',
+    description: '臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多...',
+    date: '2026-01-01',
+    image: '',
+    region: '東區',
+  },
+  {
+    id: 7,
+    name: '最新消息',
+    description: '臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多...',
+    date: '2026-01-01',
+    image: '',
+    region: '西區',
+  },
+])
+
+const setTag = (tag) => {
+  activeTag.value = tag
+  currentPage.value = 1
+}
+
+const filteredLocations = computed(() => {
+  if (activeTag.value === 'all') return allLocations.value
+  return allLocations.value.filter((l) => l.region === activeTag.value)
+})
+
+const totalPages = computed(() => Math.ceil(filteredLocations.value.length / itemsPerPage))
+
+const paginatedLocations = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage
+  return filteredLocations.value.slice(start, start + itemsPerPage)
+})
+
+const changePage = (page) => {
+  if (page < 1 || page > totalPages.value) return
+  currentPage.value = page
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 </script>
 
 <template>
-  <div class="about-page">
+  <main id="main-content">
+    <!-- 麵包屑 Breadcrumb -->
+    <Breadcrumb :items="breadcrumbItems" />
 
-    <!-- ── BANNER ── -->
-    <section aria-label="頁面橫幅">
+    <!-- Banner 區塊 -->
+    <PageHero :image="heroImage" />
 
-      <!-- Breadcrumb -->
-      <nav class="breadcrumbs" aria-label="您目前的位置">
-        <ol>
-          <li><RouterLink to="/">首頁</RouterLink></li>
-          <li aria-hidden="true" class="sep">›</li>
-          <li><span aria-current="page">服務據點</span></li>
-        </ol>
-      </nav>
-
-      <!-- PageHero 左右撐滿 -->
-      <div class="hero-container">
-        <PageHero :image="heroBanner" />
-        <h1 class="hero-title">放圖片美化</h1>
-      </div>
-
-    </section>
-
-    <!-- ── MAIN ── -->
-    <main id="main-content" tabindex="-1">
-      <section class="news-section" aria-labelledby="section-heading">
-
-        <!-- Section Title Row -->
+    <!-- 主內容 -->
+    <section class="locations-section" aria-labelledby="locations-heading">
+      <div class="section-container">
+        <!-- 標題列 -->
         <div class="section-header">
-          <h2 id="section-heading">服務據點</h2>
-          <!-- View toggle -->
-          <div class="view-toggle" role="group" aria-label="顯示方式">
-            <button
-              class="toggle-btn toggle-list"
-              aria-label="列表顯示"
-              aria-pressed="true"
+          <h1 id="locations-heading" class="section-title">服務據點</h1>
+        </div>
+
+        <!-- 篩選標籤 + 檢視切換 -->
+        <div class="toolbar" role="toolbar" aria-label="篩選與檢視工具列">
+          <!-- Tag 篩選列 -->
+          <div class="tag-group" role="group" aria-label="地區篩選">
+            <a-button
+              v-for="tag in tags"
+              :key="tag.value"
+              shape="round"
+              :aria-pressed="activeTag === tag.value"
+              :style="activeTag === tag.value
+                ? { background: '#3C3C3C', borderColor: '#938D6B', color: '#ffffff', fontSize: '1rem', height: '51px', minWidth: '120px' }
+                : { background: '#ffffff', borderColor: '#3C3C3C', color: '#3C3C3C', fontSize: '1rem', height: '51px', minWidth: '120px' }"
+              @click="setTag(tag.value)"
             >
-              <!-- list icon -->
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                <rect x="2" y="4" width="16" height="2.5" rx="1" fill="currentColor"/>
-                <rect x="2" y="9" width="16" height="2.5" rx="1" fill="currentColor"/>
-                <rect x="2" y="14" width="16" height="2.5" rx="1" fill="currentColor"/>
+              {{ tag.label }}
+            </a-button>
+          </div>
+
+          <!-- 切換卡片/列表 -->
+          <a-button-group role="group" aria-label="切換顯示模式">
+            <!-- 左：Grid 卡片（AppstoreOutlined） -->
+            <a-button
+              :aria-pressed="viewMode === 'grid'"
+              aria-label="卡片檢視"
+              :style="{
+                background: viewMode === 'grid' ? '#3C3C3C' : '#ffffff',
+                borderColor: viewMode === 'grid' ? '#3C3C3C' : '#d9d9d9',
+                width: '56px',
+                height: '56px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: '8px 0 0 8px',
+              }"
+              @click="viewMode = 'grid'"
+            >
+              <TableOutlined :style="{ fontSize: '20px', color: viewMode === 'grid' ? '#ffffff' : '#3C3C3C' }" />
+            </a-button>
+            <!-- 右：List 列表（BarChartOutlined） -->
+            <a-button
+              :aria-pressed="viewMode === 'list'"
+              aria-label="列表檢視"
+              :style="{
+                background: viewMode === 'list' ? '#1E4620' : '#ffffff',
+                borderColor: viewMode === 'list' ? '#1E4620' : '#d9d9d9',
+                width: '56px',
+                height: '56px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: '0 8px 8px 0',
+              }"
+              @click="viewMode = 'list'"
+            >
+              <BarChartOutlined :style="{ fontSize: '20px', color: viewMode === 'list' ? '#ffffff' : '#3C3C3C' }" />
+            </a-button>
+          </a-button-group>
+        </div>
+
+        <!-- 卡片模式 -->
+        <div
+          v-if="viewMode === 'grid'"
+          class="card-group"
+          role="list"
+          aria-label="服務據點卡片列表"
+        >
+          <article
+            v-for="location in paginatedLocations"
+            :key="location.id"
+            class="location-card"
+            role="listitem"
+          >
+            <div class="card-img" aria-hidden="true">
+              <img
+                v-if="location.image"
+                :src="location.image"
+                :alt="location.name + '照片'"
+                loading="lazy"
+                width="491"
+                height="350"
+              />
+              <div v-else class="card-img-placeholder" aria-hidden="true"></div>
+            </div>
+            <div class="card-text">
+              <div class="card-title-group">
+                <h3 class="card-title">{{ location.name }}</h3>
+              </div>
+              <p class="card-desc">{{ location.description }}</p>
+              <time class="card-date" :datetime="location.date">{{ location.date }}</time>
+            </div>
+          </article>
+        </div>
+
+        <!-- 列表模式 -->
+        <div
+          v-else
+          class="list-group"
+          role="list"
+          aria-label="服務據點列表"
+        >
+          <article
+            v-for="location in paginatedLocations"
+            :key="location.id"
+            class="location-list-item"
+            role="listitem"
+          >
+            <div class="list-img" aria-hidden="true">
+              <img
+                v-if="location.image"
+                :src="location.image"
+                :alt="location.name + '照片'"
+                loading="lazy"
+                width="200"
+                height="140"
+              />
+              <div v-else class="list-img-placeholder" aria-hidden="true"></div>
+            </div>
+            <div class="list-content">
+              <h3 class="list-title">{{ location.name }}</h3>
+              <p class="list-desc">{{ location.description }}</p>
+              <time class="list-date" :datetime="location.date">{{ location.date }}</time>
+            </div>
+          </article>
+        </div>
+
+        <!-- 分頁 Pagination -->
+        <nav class="pagination" aria-label="頁碼導覽">
+          <!-- 左：頁碼群組（箭頭 + 數字 + 箭頭） -->
+          <div class="pagination-pages">
+            <button
+              class="page-btn"
+              :disabled="currentPage === 1"
+              :aria-disabled="currentPage === 1"
+              aria-label="上一頁"
+              @click="changePage(currentPage - 1)"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M10 3L6 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </button>
+
             <button
-              class="toggle-btn toggle-grid"
-              aria-label="格狀顯示"
-              aria-pressed="false"
+              v-for="page in totalPages"
+              :key="page"
+              class="page-number"
+              :class="{ active: currentPage === page }"
+              :aria-label="`第 ${page} 頁`"
+              :aria-current="currentPage === page ? 'page' : undefined"
+              @click="changePage(page)"
             >
-              <!-- grid icon -->
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                <rect x="2" y="2" width="7" height="7" rx="1" fill="currentColor"/>
-                <rect x="11" y="2" width="7" height="7" rx="1" fill="currentColor"/>
-                <rect x="2" y="11" width="7" height="7" rx="1" fill="currentColor"/>
-                <rect x="11" y="11" width="7" height="7" rx="1" fill="currentColor"/>
+              {{ page }}
+            </button>
+
+            <button
+              class="page-btn"
+              :disabled="currentPage === totalPages"
+              :aria-disabled="currentPage === totalPages"
+              aria-label="下一頁"
+              @click="changePage(currentPage + 1)"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M6 3L10 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </button>
           </div>
-        </div>
 
-        <!-- Card Grid -->
-        <ul class="card-grid" role="list" aria-label="服務據點文章列表">
-          <li v-for="item in pagedNews" :key="item.id" class="card">
-            <article>
-              <figure class="card-img">
-                <img
-                  :src="item.image"
-                  :alt="`${item.title} 圖片`"
-                  width="600"
-                  height="400"
-                  loading="lazy"
-                />
-              </figure>
-              <div class="card-body">
-                <h3>{{ item.title }}</h3>
-                <p>{{ item.summary }}</p>
-                <time :datetime="item.date">{{ item.date }}</time>
-              </div>
-            </article>
-          </li>
-        </ul>
-
-        <!-- Pagination -->
-        <nav class="pagination" aria-label="分頁導覽">
-          <button
-            class="page-btn arrow-btn"
-            :disabled="currentPage === 1"
-            aria-label="上一頁"
-            @click="goPage(currentPage - 1)"
-          >‹</button>
-
-          <button
-            v-for="p in totalPages"
-            :key="p"
-            class="page-btn"
-            :class="{ active: p === currentPage }"
-            :aria-label="`第 ${p} 頁`"
-            :aria-current="p === currentPage ? 'page' : undefined"
-            @click="goPage(p)"
-          >{{ p }}</button>
-
-          <button
-            class="page-btn arrow-btn"
-            :disabled="currentPage === totalPages"
-            aria-label="下一頁"
-            @click="goPage(currentPage + 1)"
-          >›</button>
-
-          <span class="page-info" aria-live="polite" aria-atomic="true">
-            Page {{ currentPage }} of {{ totalPages }}
-          </span>
+          <!-- 右：Page X of Y -->
+          <p class="pagination-info" aria-live="polite">Page {{ currentPage }} of {{ totalPages }}</p>
         </nav>
-
-      </section>
-    </main>
-
-  </div>
+      </div>
+    </section>
+  </main>
 </template>
 
+
+
 <style scoped>
-/* ── Token ── */
-.about-page {
-  --c-bg:      #F9F6F0;
-  --c-primary: #1E4620;
-  --c-accent:  #D96B27;
-  --c-text:    #2D2D2D;
-  --c-muted:   #757575;
-  --c-white:   #ffffff;
-  --radius-card: 20px;
-  --gap-card:  40px;
+/* ===== 色票 ===== */
+/* Primary/3: #1E4620  Primary/0: #F0E9E3  Gary/5: #3C3C3C
+   Gary/4: #706F6F  Gary/3: #7D7D7D  Gary/0: #F9F6F0
+   White: #FFFFFF  Primary/5: #474135 */
 
-  background: var(--c-bg);
-  color: var(--c-text);
-  font-family: 'Noto Sans TC', sans-serif;
-  min-height: 100vh;
-}
+/* 麵包屑樣式由 Breadcrumb.vue 元件管理 */
 
-/* ── Breadcrumb ── */
-.breadcrumbs {
-  padding: 10px 24px;
+/* Banner 由 PageHero 元件負責，樣式定義在 PageHero.vue */
+
+/* ===== 主內容區 ===== */
+.locations-section {
+  padding: 60px 0 80px;
+  background: #fff;
 }
-.breadcrumbs ol {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.breadcrumbs a {
-  font-size: 15px;
-  color: #7D7D7D;
-  text-decoration: none;
-  transition: color 0.15s;
-}
-.breadcrumbs a:hover,
-.breadcrumbs a:focus-visible {
-  color: var(--c-primary);
-  text-decoration: underline;
-}
-.breadcrumbs .sep { color: #B1B0B0; font-size: 13px; }
-.breadcrumbs [aria-current] {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--c-primary);
+.section-container {
+  max-width: 1616px;
+  margin: 0 auto;
+  padding: 0 152px;
 }
 
-/* ── Hero ── */
-.hero-container {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
-.hero-title {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  font-size: clamp(28px, 4.5vw, 64px);
-  font-weight: 500;
-  color: var(--c-white);
-  text-shadow: 0 2px 16px rgba(0,0,0,.45);
-  pointer-events: none;
-}
-
-/* ── News Section ── */
-.news-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 56px 152px 80px;
-  gap: 40px;
-}
-
-/* Section header */
+/* ===== 標題 ===== */
 .section-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  position: relative;
+  margin-bottom: 32px;
 }
-.section-header h2 {
-  font-size: clamp(28px, 3.5vw, 64px);
+.section-title {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(32px, 4vw, 64px);
   font-weight: 400;
-  color: var(--c-text);
+  line-height: 1.2;
+  color: #000;
   margin: 0;
-  text-align: center;
 }
 
-/* View toggle */
-.view-toggle {
-  position: absolute;
-  right: 0;
-  display: flex;
-}
-.toggle-btn {
-  width: 56px;
-  height: 56px;
+/* ===== Toolbar ===== */
+.toolbar {
   display: flex;
   align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-  color: #F9F6F0;
-}
-.toggle-btn:focus-visible {
-  outline: 2px solid var(--c-accent);
-  outline-offset: -2px;
-}
-.toggle-list {
-  background: #3C3C3C;
-  border-radius: 8px 0 0 8px;
-}
-.toggle-grid {
-  background: transparent;
-  border: 1px solid #3C3C3C;
-  border-radius: 0 8px 8px 0;
-  color: #3C3C3C;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
 }
 
-/* ── Card Grid ── */
-.card-grid {
+/* Tag 篩選 */
+.tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+/* tag-btn 樣式由 a-button :style 控制 */
+
+/* view-toggle 樣式由 a-button-group + a-button :style 控制 */
+
+/* ===== 卡片 Grid ===== */
+.card-group {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--gap-card);
-  width: 100%;
-  max-width: 1600px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  gap: 64px 64px;
+  margin-bottom: 74px;
 }
-.card {
-  border-radius: var(--radius-card);
-  overflow: hidden;
-  background: var(--c-white);
-  box-shadow: 0 2px 10px rgba(0,0,0,.07);
-  transition: transform .2s ease, box-shadow .2s ease;
-}
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 28px rgba(0,0,0,.13);
-}
-.card article {
+.location-card {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.location-card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.13);
+  transform: translateY(-2px);
 }
 .card-img {
-  margin: 0;
-  flex-shrink: 0;
+  width: 100%;
+  aspect-ratio: 491 / 350;
+  overflow: hidden;
+  background: #e8e8e8;
+  position: relative;
 }
 .card-img img {
-  display: block;
   width: 100%;
-  height: 280px;
+  height: 100%;
   object-fit: cover;
+  display: block;
 }
-.card-body {
-  padding: 16px 24px 20px;
+.card-img-placeholder {
+  width: 100%;
+  height: 100%;
+  background: repeating-conic-gradient(#d8d8d8 0% 25%, #e8e8e8 0% 50%) 0 0 / 24px 24px;
+}
+.card-text {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
+  padding: 16px 24px;
+  background: #fff;
+  border-radius: 0 0 20px 20px;
   flex: 1;
 }
-.card-body h3 {
+.card-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.card-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 29px;
+  color: #000;
+  margin: 0;
+}
+.card-desc {
+  font-family: 'Inter', sans-serif;
   font-size: 20px;
-  font-weight: 500;
-  color: var(--c-text);
+  line-height: 24px;
+  color: #757575;
   margin: 0;
-}
-.card-body p {
-  font-size: 15px;
-  line-height: 1.65;
-  color: var(--c-muted);
-  margin: 0;
-  flex: 1;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.card-body time {
-  font-size: 14px;
-  color: var(--c-muted);
+.card-date {
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  color: #757575;
 }
 
-/* ── Pagination ── */
+/* ===== 列表 List ===== */
+.list-group {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 74px;
+}
+.location-list-item {
+  display: flex;
+  gap: 32px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 24px;
+  align-items: flex-start;
+  transition: box-shadow 0.2s;
+}
+.location-list-item:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+.list-img {
+  width: 200px;
+  min-width: 200px;
+  height: 140px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #e8e8e8;
+  flex-shrink: 0;
+}
+.list-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.list-img-placeholder {
+  width: 100%;
+  height: 100%;
+  background: repeating-conic-gradient(#d8d8d8 0% 25%, #e8e8e8 0% 50%) 0 0 / 20px 20px;
+  border-radius: 12px;
+}
+.list-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+.list-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 29px;
+  color: #000;
+  margin: 0;
+}
+.list-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  color: #757575;
+  margin: 0;
+}
+.list-date {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: #757575;
+}
+
+/* ===== 分頁 ===== */
 .pagination {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+}
+.pagination-pages {
   display: flex;
   align-items: center;
   gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
+  justify-content: flex-start;
 }
 .page-btn {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  border: 2px solid #3C3C3C;
-  background: transparent;
-  cursor: pointer;
-  font-family: 'Noto Sans TC', sans-serif;
-  font-size: 18px;
-  color: #3C3C3C;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background .15s, color .15s;
-}
-.page-btn:focus-visible {
-  outline: 2px solid var(--c-accent);
-  outline-offset: 2px;
-}
-.page-btn:hover:not(:disabled):not(.active) {
-  background: #e6e6e6;
-}
-.page-btn.active {
-  background: #3C3C3C;
-  color: var(--c-bg);
+  width: 45px;
+  height: 45px;
+  border-radius: 80px;
+  border: 2px solid #3C3C3C;
+  background: #fff;
+  color: #3C3C3C;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
 }
 .page-btn:disabled {
-  opacity: 0.3;
+  opacity: 0.4;
   cursor: not-allowed;
 }
-.arrow-btn { font-size: 22px; }
-.page-info {
-  font-size: 18px;
-  color: #3C3C3C;
-  margin-left: 8px;
+.page-btn:not(:disabled):hover {
+  background: #3C3C3C;
+  color: #fff;
+}
+.page-btn:focus-visible {
+  outline: 2px solid #1E4620;
+  outline-offset: 2px;
+}
+.page-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 80px;
+  border: 2px solid #3C3C3C;
+  background: #fff;
   font-family: 'Noto Sans TC', sans-serif;
+  font-size: 18px;
+  line-height: 22px;
+  color: #3C3C3C;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.page-number:hover {
+  background: #7D7D7D;
+  color: #F9F6F0;
+  border-color: #7D7D7D;
+}
+.page-number:focus-visible {
+  outline: 2px solid #1E4620;
+  outline-offset: 2px;
+}
+.page-number.active {
+  background: #7D7D7D;
+  border-color: #3C3C3C;
+  color: #3C3C3C;
+}
+.pagination-info {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 24px;
+  line-height: 29px;
+  color: #3C3C3C;
+  margin: 0;
+  white-space: nowrap;
+  /* 佔一個固定寬度讓頁碼能真正置中 */
+  min-width: 160px;
+  text-align: right;
 }
 
-/* ── RWD ── */
-@media (max-width: 1280px) {
-  .news-section { padding: 48px 40px 64px; }
+
+/* ===== 響應式 RWD ===== */
+@media (max-width: 1400px) {
+  .section-container {
+    padding: 0 80px;
+  }
+  .card-group {
+    gap: 40px;
+  }
 }
 
-@media (max-width: 960px) {
-  .card-grid {
+@media (max-width: 1100px) {
+  .section-container {
+    padding: 0 40px;
+  }
+  .card-group {
     grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-container {
+    padding: 0 20px;
+  }
+  .card-group {
+    grid-template-columns: 1fr;
     gap: 24px;
   }
-  .news-section { padding: 40px 24px 56px; }
+  .toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .tag-group {
+    gap: 8px;
+  }
+  .list-img {
+    width: 120px;
+    min-width: 120px;
+    height: 90px;
+  }
+  .list-title {
+    font-size: 18px;
+  }
+  .section-title {
+    font-size: 32px;
+  }
+  .locations-section {
+    padding: 32px 0 48px;
+  }
 }
 
-@media (max-width: 600px) {
-  .card-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  .news-section { padding: 32px 16px 48px; }
-  .hero-title { font-size: 26px; }
-  .view-toggle { position: static; margin-top: 12px; }
-  .section-header {
+@media (max-width: 480px) {
+  .location-list-item {
     flex-direction: column;
-    gap: 12px;
-    align-items: center;
+    padding: 16px;
+  }
+  .list-img {
+    width: 100%;
+    min-width: unset;
+    height: 180px;
+  }
+  .pagination-info {
+    font-size: 16px;
   }
 }
 </style>
