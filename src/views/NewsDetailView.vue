@@ -3,11 +3,18 @@ import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import newsList from "@/data/news.js";
 import Text from "@/components/Text.vue";
+import Breadcrumb from "@/components/Breadcrumb.vue";
 
 const route = useRoute();
 const router = useRouter();
 
 const currentNews = computed(() => newsList.find((news) => news.id === route.params.id));
+
+const breadcrumbItems = computed(() => [
+    { text: "首頁", to: "/" },
+    { text: "最新消息", to: "/news" },
+    { text: currentNews.value?.title || "最新消息詳細" },
+]);
 
 function goBack() {
   if (route.query.from === "home") {
@@ -20,13 +27,7 @@ function goBack() {
 
 <template>
     <main>
-        <div class="breadcrumb">
-            <a-breadcrumb separator=">">
-                <a-breadcrumb-item>首頁</a-breadcrumb-item>
-                <a-breadcrumb-item>最新消息</a-breadcrumb-item>
-                <a-breadcrumb-item>{{ currentNews.title }}</a-breadcrumb-item>
-            </a-breadcrumb>
-        </div>
+        <Breadcrumb :items="breadcrumbItems" />
 
         <div class="content-container">
 
@@ -72,10 +73,6 @@ function goBack() {
 </template>
 
 <style scoped>
-.breadcrumb {
-    padding: 12px;
-}
-
 .container-full {
     width: 100%;
     margin: auto;

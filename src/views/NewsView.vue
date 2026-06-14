@@ -5,11 +5,14 @@ import PageHero from "@/components/PageHero.vue";
 import newsHeroImg from "@/assets/img/最新消息/最新消息測試圖.png";
 import Text from "@/components/Text.vue";
 import HomeNewsCard from "@/components/HomeNewsCard.vue";
-import List from "@/components/List.vue";
+import NewsList from "@/components/NewsList.vue";
+import Breadcrumb from "@/components/Breadcrumb.vue";
 import newsList from "@/data/news.js";
 import { BarChartOutlined, TableOutlined } from "@ant-design/icons-vue";
 
 const route = useRoute();
+
+const breadcrumbItems = [{ text: "首頁", to: "/" }, { text: "最新消息" }];
 const category = ["社大新鮮事", "高齡預防照護", "數位課程", "食農教育", "都市農業", "社區成果分享"];
 const current = ref(Number(route.query.page) || 1);
 const pageSize = 6;
@@ -60,13 +63,8 @@ watch(viewMode, (view) => {
 
 <template>
   <main>
-    <div class="breadcrumb">
-      <a-breadcrumb separator=">">
-        <a-breadcrumb-item>首頁</a-breadcrumb-item>
-        <a-breadcrumb-item>最新消息</a-breadcrumb-item>
-      </a-breadcrumb>
-    </div>
-    
+    <Breadcrumb :items="breadcrumbItems" />
+
     <PageHero class="hero" :image="newsHeroImg"></PageHero>
 
     <div class="container-normal main-section">
@@ -92,7 +90,7 @@ watch(viewMode, (view) => {
       </div>
 
       <div class="lists-area" v-show="viewMode === 'list'">
-        <List v-for="news in cardNews" :key="news.id" :title="news.title" :date="news.date" :content="previewContent(news.content)" @click="goToDetail(news.id)"></List>
+        <NewsList v-for="news in cardNews" :key="news.id" :title="news.title" :date="news.date" :content="previewContent(news.content)" @click="goToDetail(news.id)"></NewsList>
       </div>
 
       <div class="page-area">
@@ -104,10 +102,6 @@ watch(viewMode, (view) => {
 </template>
 
 <style scoped>
-.breadcrumb {
-  padding: 12px;
-}
-
 .container-normal {
   width: 85%;
   margin: auto;
