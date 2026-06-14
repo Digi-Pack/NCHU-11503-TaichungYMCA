@@ -3,7 +3,7 @@ import { ref, computed, watch } from 'vue'
 import PageHero from '@/components/PageHero.vue'
 import Text from '@/components/Text.vue'
 import courses from '@/data/course.json'
-const courseHeroImg =   "https://picsum.photos/1920/500";
+const courseHeroImg = 'https://picsum.photos/1920/500'
 
 const category = [
   '公民與在地',
@@ -16,7 +16,16 @@ const category = [
 ]
 
 const current = ref(1)
-const pageSize = 6
+const pageSize = ref(6)
+
+const pageSizeOptions = [6, 10, 20, 50]
+
+
+function changePageSize(value) {
+  pageSize.value = value
+  current.value = 1
+}
+
 const selectedCategory = ref(null)
 const courseTitleRef = ref(null)
 
@@ -26,11 +35,11 @@ const filteredCourses = computed(() => {
 })
 
 const pageCourses = computed(() => {
-  const start = (current.value - 1) * pageSize
-  return filteredCourses.value.slice(start, start + pageSize)
+  const start = (current.value - 1) * pageSize.value
+  return filteredCourses.value.slice(start, start + pageSize.value)
 })
 
-const totalPages = computed(() => Math.ceil(filteredCourses.value.length / pageSize))
+const totalPages = computed(() => Math.ceil(filteredCourses.value.length / pageSize.value))
 
 function selectCategory(cat) {
   selectedCategory.value = selectedCategory.value === cat ? null : cat
@@ -98,11 +107,24 @@ watch(current, () => {
       </div>
 
       <div class="page-area">
-        <a-pagination
-          v-model:current="current"
-          :total="filteredCourses.length"
-          :page-size="pageSize"
-        />
+        <div class="page-left">
+   <a-pagination
+  v-model:current="current"
+  :total="filteredCourses.length"
+  :page-size="pageSize"
+  :show-size-changer="false"
+/>
+
+          <div class="page-size">
+            <span>每頁顯示</span>
+            <a-select v-model:value="pageSize" style="width: 90px" @change="changePageSize">
+              <a-select-option v-for="num in pageSizeOptions" :key="num" :value="num">
+                {{ num }} 筆
+              </a-select-option>
+            </a-select>
+          </div>
+        </div>
+
         <Text size="text-24" color="deep-gray"> Page {{ current }} of {{ totalPages }} </Text>
       </div>
     </div>
@@ -261,5 +283,18 @@ watch(current, () => {
 .page-area :deep(.ant-pagination-prev),
 .page-area :deep(.ant-pagination-next) {
   display: none;
+}
+
+.page-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.page-size {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #3c3c3c;
 }
 </style>
