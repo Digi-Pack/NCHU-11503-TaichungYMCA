@@ -82,4 +82,10 @@ const props = defineProps({
     border-color: #706F6F;
     font-size: 1.125rem;
 }
+
+.more-btn:hover {
+    background-color: #A0522D;
+    border-color: #A0522D;
+    color: #FFFFFF;
+}
 </style>

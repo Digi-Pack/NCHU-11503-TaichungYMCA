@@ -23,21 +23,17 @@ import news022 from '@/assets/img/最新消息/預覽圖/news022.jpg'
 import news023 from '@/assets/img/最新消息/預覽圖/news023.jpg'
 import news024 from '@/assets/img/最新消息/預覽圖/news024.jpg'
 
-import news001Images from '@/assets/img/最新消息/內文圖/news-001.png'
-import news004Images1 from '@/assets/img/最新消息/內文圖/news-004-01.jpg'
-import news004Images2 from '@/assets/img/最新消息/內文圖/news-004-02.jpg'
-import news015Images from '@/assets/img/最新消息/內文圖/news-015.jpg'
-import news017Images from '@/assets/img/最新消息/內文圖/news-017.png'
-import news022Images1 from '@/assets/img/最新消息/內文圖/news-022-1.jpg'
-import news022Images2 from '@/assets/img/最新消息/內文圖/news-022-2.jpg'
-import news022Images3 from '@/assets/img/最新消息/內文圖/news-022-3.jpg'
-import news022Images4 from '@/assets/img/最新消息/內文圖/news-022-4.jpg'
-import news024Images1 from '@/assets/img/最新消息/內文圖/news-024-1.jpg'
-import news024Images2 from '@/assets/img/最新消息/內文圖/news-024-2.jpg'
-import news024Images3 from '@/assets/img/最新消息/內文圖/news-024-3.jpg'
-import news024Images4 from '@/assets/img/最新消息/內文圖/news-024-4.jpg'
-import news024Images5 from '@/assets/img/最新消息/內文圖/news-024-5.jpg'
-import news024Images6 from '@/assets/img/最新消息/內文圖/news-024-6.jpg'
+import news001Images from '@/assets/img/最新消息/內文圖/news001Images.png'
+import news003Images from '@/assets/img/最新消息/內文圖/news003Images.png'
+import news004Images from '@/assets/img/最新消息/內文圖/news004Images.png'
+import news015Images from '@/assets/img/最新消息/內文圖/news015Images.png'
+import news016Images from '@/assets/img/最新消息/內文圖/news016Images.png'
+import news017Images from '@/assets/img/最新消息/內文圖/news017Images.png'
+import news018Images from '@/assets/img/最新消息/內文圖/news018Images.png'
+import news021Images from '@/assets/img/最新消息/內文圖/news021Images.png'
+import news022Images from '@/assets/img/最新消息/內文圖/news022Images.png'
+import news023Images from '@/assets/img/最新消息/內文圖/news023Images.png'
+import news024Images from '@/assets/img/最新消息/內文圖/news024Images.png'
 
 export default [
   {
@@ -98,7 +94,7 @@ export default [
 
       '未來北屯社區大學將持續結合社區夥伴與公部門資源，推動更多兼具環境教育、食農教育與社區參與的特色活動，讓更多民眾了解荔森、參與荔森，共同為在地環境的永續發展貢獻心力。',
     ],
-    images: null,
+    images: news003Images,
     youtubeUrls: null,
     spotifyUrl: null,
   },
@@ -122,7 +118,7 @@ export default [
 
       '未來北屯社區大學將持續深耕在地，推動多元學習與社區參與，陪伴更多民眾在學習中成長，在交流中建立連結，讓終身學習的種子持續扎根，為社區注入更多正向能量與發展動力。',
     ],
-    images: [news004Images1, news004Images2],
+    images: news004Images,
     youtubeUrls: null,
     spotifyUrl: null,
   },
@@ -381,7 +377,7 @@ export default [
 
       '北屯社區大學期待更多優秀師資加入，共同發展具在地特色與社會關懷的課程，陪伴民眾透過終身學習拓展視野、提升能力，並共同為社區發展注入更多活力與創新能量。',
     ],
-    images: null,
+    images: news016Images,
     youtubeUrls: null,
     spotifyUrl: null,
   },
@@ -425,7 +421,7 @@ export default [
 
       '歡迎有興趣的民眾前往課程資訊頁面查詢詳細內容及報名方式，選擇適合自己的課程，一起加入北屯社區大學的學習行列，開啟充實而精彩的新學期。',
     ],
-    images: null,
+    images: news018Images,
     youtubeUrls: null,
     spotifyUrl: null,
   },
@@ -499,7 +495,7 @@ export default [
 
       '如有課程相關問題，歡迎洽詢北屯社區大學。感謝所有學員的理解與配合，讓我們共同守護社區安全與健康，期待疫情穩定後再次相聚於學習的課堂中。',
     ],
-    images: null,
+    images: news021Images,
     youtubeUrls: null,
     spotifyUrl: null,
   },
@@ -510,19 +506,6 @@ export default [
     date: '2019.08.01',
     title: '美妝志工隊服務：我的美妝心體驗',
     desc: '美妝志工隊走入高齡社區據點，透過妝容服務與陪伴交流，展現社區關懷與長者自信。',
-    content:
-      '最美的相遇 -我的美妝心體驗\n\n由社區大學 彩妝美容班組成的社區志工服務小隊，與高齡社區巷弄C據點合作，為我們的社區奶奶妝點繽紛，透過志工的巧手奶奶們各個都變得不一樣了!因為修眉、修容，奶奶們都像是脫胎換骨一般。\n畫眉、上粉、彩朱唇，奶奶們一開始都害羞不已，但是當美妝志工的巧手妝點後，奶奶們各個都展現出自信的笑容。A奶奶:【我以前也會化妝，但是人老之後，再畫也不好看，我就不想浪費錢了!】\n志工夥伴：【不會阿，化妝不是為了給人家看，是自己看得開心啊!你看你畫完之後氣色變得好好!】\n\n志工們不僅是美妝的服務，更在化妝過程中與奶奶們聊天，開解老人家的心結，傾聽老人家的故事。\n#在社大遇到愛，與妳最美的相遇\n#妝點繽紛，傾聽你的故事\n#長者的自信是來自於內心與你的肯定\n#自信長者，健康生命，傾聽陪伴，活躍老化',
-    images: [news022Images1, news022Images2, news022Images3, news022Images4],
-    youtubeUrls: null,
-    spotifyUrl: null,
-  },
-  {
-    id: 'news023',
-    outPicture: news023,
-    category: '食農教育',
-    date: '2018.10.15',
-    title: '【保護百年荔枝森林】',
-    desc: '北屯社大攜手居民推動護樹行動，共同守護百年荔枝森林。',
     content: [
       '北屯社區大學彩妝美容班組成美妝志工服務團隊，攜手高齡社區巷弄長照C據點辦理「我的美妝心體驗」活動，希望透過專業彩妝服務與溫暖陪伴，為長者帶來不一樣的生活體驗，讓美麗與自信重新回到日常生活之中。',
 
@@ -536,7 +519,31 @@ export default [
 
       '北屯社區大學長期鼓勵學員將專業能力投入社區服務，透過實際行動回饋社會。本次美妝志工服務不僅展現課程學習成果，也讓更多長者在陪伴與關懷中找回笑容與自信。未來將持續推動高齡友善與社區關懷行動，陪伴長者擁有健康、自信且充滿活力的生活。',
     ],
-    images: null,
+    images: news022Images,
+    youtubeUrls: null,
+    spotifyUrl: null,
+  },
+  {
+    id: 'news023',
+    outPicture: news023,
+    category: '食農教育',
+    date: '2018.10.15',
+    title: '【保護百年荔枝森林】',
+    desc: '北屯社大攜手居民推動護樹行動，共同守護百年荔枝森林。',
+    content: [
+      '位於北屯區的百年荔枝森林，不僅是珍貴的都市綠地，更承載著地方歷史記憶、生態價值與居民共同生活的情感連結。茂密的荔枝老樹歷經百年歲月，見證地方發展與環境變遷，也成為北屯地區重要的自然資產與生態教育場域。',
+
+      '然而，隨著社會住宅開發計畫推動，荔枝森林面臨大量老樹移植與棲地改變的挑戰，引發許多居民與關心環境議題人士的關注。為了守護這片珍貴的綠色資產，在地居民、民間團體與北屯社區大學共同投入保護行動，希望透過公共參與凝聚更多支持力量。',
+
+      '北屯社區大學長期關注地方環境與生態議題，積極參與「搶救百年荔枝森林行動聯盟」，並結合課程與社區力量推動相關倡議活動。透過校內宣導、連署推廣、環境教育及社區交流等方式，讓更多民眾認識荔枝森林的重要性，進一步了解都市發展與生態保存之間的平衡課題。',
+
+      '本次護樹行動重點包括：',
+
+      '• 推廣百年荔枝森林保存理念\n• 凝聚社區居民與民間團體力量\n• 提升民眾對都市生態保育的認識\n• 結合食農教育與環境教育推廣\n• 守護地方文化與自然資產',
+
+      '透過一系列行動與倡議，希望讓更多人看見百年荔枝森林所具備的生態、文化與教育價值。北屯社區大學未來也將持續投入地方環境守護工作，陪伴社區共同關心公共議題，讓珍貴的自然資產得以永續保存，成為下一代認識土地與生態的重要學習場域。',
+    ],
+    images: news023Images,
     youtubeUrls: null,
     spotifyUrl: null,
   },
@@ -560,14 +567,7 @@ export default [
 
       '北屯社區大學期望透過都市農業師資培育工作坊，培養更多關心環境與社區發展的人才，共同推動健康、友善且永續的生活方式。未來也將持續結合在地資源與社區力量，打造兼具生態、教育與公共參與價值的綠色學習環境。',
     ],
-    images: [
-      news024Images1,
-      news024Images2,
-      news024Images3,
-      news024Images4,
-      news024Images5,
-      news024Images6,
-    ],
+    images: news024Images,
     youtubeUrls: null,
     spotifyUrl: null,
   },
