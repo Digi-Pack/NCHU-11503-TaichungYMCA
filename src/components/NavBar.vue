@@ -16,17 +16,17 @@
 <style scoped>
 .navbar {
   width: 100%;
-  height: 51px;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 48px;
-  background-color: #fff;
+  background-color: fff;
   box-sizing: border-box;
 }
 
 .logo img {
-  width: 120px;
+  width: 136px;
   height: auto;
   display: block;
 }
@@ -37,8 +37,8 @@
 }
 
 .nav-links a {
-  font-size: 14px;
-  color: #111;
+  font-size: 18px;
+  color: #1E4620;
   text-decoration: none;
 }
 
