@@ -38,9 +38,16 @@ const props = defineProps({
     font-size: 1.5rem;
 }
 
+
+.text-18{
+    font-size: 1.125rem;
+}
+
+
 .text-20{
     font-size: 1.25rem;
 }
+
 
 .text-16{
     font-size: 1rem;
