@@ -42,7 +42,9 @@ const props = defineProps({
 .card {
     width: calc(100% / 3);
     /* background-color: bisque; */
-    position: relative
+    position: relative;
+    border-radius:20px;
+
 }
 
 .card::after {
@@ -53,6 +55,7 @@ const props = defineProps({
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
+    border-radius:20px;
 }
 
 .card:hover::after {
@@ -62,12 +65,15 @@ const props = defineProps({
 .card-top {
     width: 100%;
     height: 302px;
-    /* background-color: brown; */
+    overflow: hidden;
 }
 
 img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius:20px 20px 0 0;
 }
 
 .card-bot {
