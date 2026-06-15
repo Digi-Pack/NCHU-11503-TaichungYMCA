@@ -1,421 +1,627 @@
-<template>
-  <main id="main-content" class="location-page">
-
-    <!-- ===== Section 1：Hero Banner 全寬圖片 + 標題 ===== -->
-   <section class="hero-section" aria-labelledby="about-heading">
-  <h1 id="about-heading" class="about-title">關於我們</h1>
-  <PageHero image="https://picsum.photos/1920/400" />
-</section>
-
-    <!-- ===== Section 2：創校歷史 — 文字左 + 圖片右（圖片往左覆蓋文字） ===== -->
-    <section class="section-history-a" aria-labelledby="history-a-title">
-      <div class="history-a-inner">
-        <!-- 文字區：width 758px, left calc(50% - 758/2 - 308px) -->
-        <div class="history-a-text">
-          <h2 id="history-a-title" class="section-heading">創校歷史</h2>
-          <p class="section-body">
-            臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多人次。臺中市政府自開辦社大以來，由四家開放至六家承辦單位，台中YMCA憑藉良好辦學經驗及成果，至今通過市府多次招標審核、獲選承辦大墩社大。於市政府每年定期之社大評鑑中，皆獲評審委員一致肯定，並連續多年獲得教育部肯定為辦學績優單位。
-          </p>
-        </div>
-        <!-- 圖片區：width 648px, height 508px, left 934px -->
-        <div class="history-a-image">
-          <img
-            src="https://picsum.photos/648/508?random=1"
-            alt="創校歷史照片"
-            class="history-a-img"
-            width="648"
-            height="508"
-            loading="lazy"
-          />
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== Section 3：創校歷史 — 文字在圖片上方中央覆蓋（全寬圖片背景） ===== -->
-    <section class="section-history-b" aria-labelledby="history-b-title">
-      <!-- 全寬圖片背景 -->
-      <img
-        src="https://picsum.photos/1920/662?random=2"
-        alt="校園環境照片"
-        class="history-b-bg"
-        width="1920"
-        height="662"
-        loading="lazy"
-      />
-      <!-- 文字：width 758px, left calc(50% - 758/2), top 126px -->
-      <div class="history-b-text">
-        <h2 id="history-b-title" class="section-heading section-heading--light">創校歷史</h2>
-        <p class="section-body section-body--light">
-          臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多人次。臺中市政府自開辦社大以來，由四家開放至六家承辦單位，台中YMCA憑藉良好辦學經驗及成果，至今通過市府多次招標審核、獲選承辦大墩社大。於市政府每年定期之社大評鑑中，皆獲評審委員一致肯定，並連續多年獲得教育部肯定為辦學績優單位。
-        </p>
-      </div>
-    </section>
-
-    <!-- ===== Section 4：願景 ===== -->
-    <section class="section-vision" aria-labelledby="vision-title">
-      <!-- 願景標題：width 128px, left calc(50% - 128/2), top 0 -->
-      <h2 id="vision-title" class="vision-heading">願景</h2>
-
-      <!-- 三欄圖片：width 1616px, gap 64px, 每張 496×517px -->
-      <div class="vision-grid" role="list">
-        <article
-          v-for="(item, index) in visionItems"
-          :key="index"
-          class="vision-card"
-          role="listitem"
-        >
-          <img
-            :src="item.image"
-            :alt="item.alt"
-            class="vision-img"
-            width="496"
-            height="517"
-            loading="lazy"
-          />
-        </article>
-      </div>
-    </section>
-
-  </main>
-</template>
-
 <script setup>
-import PageHero from '@/components/PageHero.vue' 
-// ─── SEO Meta (搭配 @vueuse/head 或 vue-meta 使用) ──────────────────
-// useHead({
-//   title: '創校歷史 — 臺中市北屯社區大學',
-//   meta: [
-//     { name: 'description', content: '臺中市北屯社區大學創校歷史、辦學願景與社區連結介紹。' },
-//     { property: 'og:title', content: '創校歷史 — 臺中市北屯社區大學' },
-//     { property: 'og:description', content: '臺中市北屯社區大學開辦於民國九十一年六月，持續提供優質社區學習環境。' },
-//   ]
-// })
+import { ref, computed } from 'vue'
+import { RouterLink } from 'vue-router'
+import PageHero from '@/components/PageHero.vue'
+import Breadcrumb from '@/components/Breadcrumb.vue' // 引入元件
+import { aboutCards } from '@/data/aboutData.js'
 
-// ─── Vision Data ─────────────────────────────────────────────────────
-const visionItems = [
-  { image: 'https://picsum.photos/496/517?random=3', alt: '願景一：社區連結' },
-  { image: 'https://picsum.photos/496/517?random=4', alt: '願景二：終身學習' },
-  { image: 'https://picsum.photos/496/517?random=5', alt: '願景三：文化傳承' },
+// 定義麵包屑數據
+const breadcrumbItems = [
+  { text: '首頁', to: '/' },
+  { text: '關於我們' },
 ]
+
+const heroBanner = ref('https://picsum.photos/1918/336')
+
+const cardList = ref(aboutCards)
+
+const PAGE_SIZE = 4
+const currentPage = ref(1)
+
+const totalPages = computed(() =>
+  Math.ceil(cardList.value.length / PAGE_SIZE)
+)
+
+const pagedNews = computed(() => {
+  const start =
+    (currentPage.value - 1) * PAGE_SIZE
+
+  return cardList.value.slice(
+    start,
+    start + PAGE_SIZE
+  )
+})
+
+function goPage(p) {
+  if (p < 1 || p > totalPages.value) return
+
+  currentPage.value = p
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  })
+}
 </script>
 
+<template>
+  <div class="about-page">
+
+    <!-- Banner -->
+    <section class="banner-section">
+
+      <Breadcrumb :items="breadcrumbItems" />
+
+      <div class="hero-wrapper">
+
+        <PageHero :image="heroBanner" />
+
+        <div class="hero-title">
+    
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- Main -->
+    <main>
+
+      <section class="news-section">
+
+        <!-- 關於我們 -->
+        <div class="intro">
+
+          <div class="intro-header">
+
+            <h2>北屯社區大學</h2>
+
+            <div class="line"></div>
+
+          </div>
+
+          <div class="intro-title">
+            落實終身學習、發揚北屯特色、致力在地公共事務、推動社會關懷
+          </div>
+
+          <p class="intro-desc">
+            推動地方與社區永續發展、培育在地人才，落實在地文化治理與終身學習，以達公民社會之目標。
+            北屯社大秉持上述精神，期許發展成以人為本的城鄉並重型社區大學，我們秉持推展終身教育的精神，以「落實終身學習、發揚北屯特色、致力在地公共事務、推動社會關懷」為辦學理念，並以「都市農業的推廣」、「高齡預防照護支持體系的推動」、「北屯在地特色的開發與傳承」為致力方向，並透過課程發展、公民行動社群、在地學習圈建立等行動模式，激發學員的學習動機，讓北屯社大可以成為快樂學習、方便進修的學習機構，並且在民眾不斷的進修與自我成長之際，也和北屯在地一同成長，進一步展現北屯特色，創立共好的北屯在地風貌。
+          </p>
+
+          <div class="intro-image">
+
+            <img 
+            src="@/assets/img/關於我們/about.png"
+             alt="" 
+             >
+
+          </div>
+
+        </div>
+
+        <!-- 理念 -->
+        <div class="card-section">
+
+          <div class="intro-header">
+
+            <h2>社大發展區域</h2>
+
+            <div class="line"></div>
+
+          </div>
+
+          <ul class="card-grid">
+
+            <li v-for="item in pagedNews" :key="item.id" class="card">
+
+              <img :src="item.image" :alt="item.title" />
+
+              <div class="card-body">
+
+                <h3>
+                  {{ item.title }}
+                </h3>
+
+                <p>
+                  {{ item.summary }}
+                </p>
+
+                <time>
+                  {{ item.date }}
+                </time>
+
+              </div>
+
+            </li>
+
+          </ul>
+
+        </div>
+
+
+      </section>
+
+    </main>
+
+  </div>
+</template>
 <style scoped>
-/* ─── Design Tokens（對應 Figma 規格） ──────────────────────────────── */
-
-.about-title {
-  font-family: 'Noto Sans TC', sans-serif;
-  font-size: clamp(28px, 3.5vw, 64px);
-  font-weight: 500;
-  color: #000000;
-  padding: 16px clamp(20px, 4vw, 80px);
-  margin: 0;
+* {
+  box-sizing: border-box;
 }
-.location-page {
-  --color-cream:       #F9F6F0;
-  --color-green:       #1E4620;
-  --color-orange:      #D96B27;
-  --color-text-body:   #757575;
-  --color-text-dark:   #000000;
 
-  --font-heading-size: 64px;
-  --font-heading-lh:   77px;
-  --font-body-size:    32px;
-  --font-body-lh:      39px;
+.about-page {
 
-  --section-gap:       80px;       /* Figma gap: 80px */
-  --page-width:        1920px;
-  --container-width:   1616px;     /* 願景 frame 寬度 */
+  position: relative;
+
+  width: 1920px;
+
+  min-height: 4039px;
+
+  margin: auto;
+
+  background: #ffffff;
 
   display: flex;
+
   flex-direction: column;
-  align-items: flex-end;
-  gap: var(--section-gap);         /* Figma: gap 80px */
-  width: 100%;
-  background: #ffffff;
-  font-family: 'Noto Sans TC', 'Inter', sans-serif;
-  overflow-x: hidden;
+
+  gap: 80px;
+
+  overflow: hidden;
+
+  font-family:
+    'Noto Sans TC';
+
 }
 
-/* ─── 通用標題 ──────────────────────────────────────────────────────── */
-.section-heading {
-  font-size: var(--font-heading-size);
-  line-height: var(--font-heading-lh);
-  font-weight: 400;
-  color: var(--color-text-dark);
-  margin-bottom: 32px;             /* Figma text gap: 32px */
-}
 
-.section-heading--light {
-  color: #ffffff;
-}
-
-.section-body {
-  font-size: var(--font-body-size);
-  line-height: var(--font-body-lh);
-  font-weight: 400;
-  color: var(--color-text-body);
-}
-
-.section-body--light {
-  color: rgba(255, 255, 255, 0.9);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════
-   Section 1 — Hero  (width: 1918px, height: 336px)
-══════════════════════════════════════════════════════════════════════ */
-
-/* 標題：left calc(50% - 320px/2 - 96px), top calc(50% - 77px/2 + 0.5px) */
-/* Section 1 — Hero */
-.hero-section {
-  width: 100%;
-  align-self: stretch;
-  flex-shrink: 0;
-}
-
-/* ✅ 穿透 scoped，讓 PageHero 的 SVG 撐滿 */
-.hero-section :deep(svg) {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-/* ✅ SVG 內的 image 對應 viewBox 絕對尺寸 */
-.hero-section :deep(image) {
+.hero-container {
+  position: relative;
   width: 1918px;
   height: 336px;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════
-   Section 2 — 創校歷史 A  (width: 1920px, height: 662px)
-   文字 left calc(50% - 758/2 - 308px), top 126px
-   圖片 left 934px, top 65px, width 648px, height 508px
-══════════════════════════════════════════════════════════════════════ */
-.section-history-a {
-  position: relative;
-  width: 100%;
-  height: 662px;
-  align-self: stretch;
-  flex-shrink: 0;
-}
-
-.history-a-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-/* 文字區：absolute, width 758px, height 382px */
-.history-a-text {
-  position: absolute;
-  width: 758px;
-  height: 382px;
-  left: calc(50% - 758px / 2 - 308px);
-  top: 126px;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-
-.history-a-text .section-heading {
-  margin-bottom: 0;
-}
-
-/* 圖片：absolute, width 648px, height 508px, left 934px, top 65px */
-.history-a-image {
-  position: absolute;
-  width: 648px;
-  height: 508px;
-  left: 934px;
-  top: 65px;
-}
-
-.history-a-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 20px;
-  display: block;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════
-   Section 3 — 創校歷史 B  (width: 1920px, height: 662px, 全寬圖片背景)
-   文字 left calc(50% - 758/2), top 126px → 字在圖片上
-══════════════════════════════════════════════════════════════════════ */
-.section-history-b {
-  position: relative;
-  width: 100%;
-  height: 662px;
-  align-self: stretch;
-  flex-shrink: 0;
+  margin: auto;
   overflow: hidden;
+  border-radius: 20px;
+  /* 根據 Figma 常見設計 */
 }
 
-.history-b-bg {
-  position: absolute;
-  inset: 0;
+/* 確保 PageHero 元件內的圖片能填滿容器 */
+.hero-container :deep(img) {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-/* 半透明遮罩讓文字可讀 */
-.section-history-b::after {
-  content: '';
+.hero-title {
   position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.38);
-  pointer-events: none;
-}
-
-/* 文字：width 758px, height 382px, left calc(50% - 758/2), top 126px */
-.history-b-text {
-  position: absolute;
-  z-index: 2;
-  width: 758px;
-  height: 382px;
-  left: calc(50% - 758px / 2);
-  top: 126px;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-
-.history-b-text .section-heading {
-  margin-bottom: 0;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════
-   Section 4 — 願景  (width: 1920px, height: 662px)
-   標題：width 128px, left calc(50% - 128/2), top 0
-   Grid：width 1616px, height 517px, left calc(50% - 1616/2), top 151px, gap 64px
-   每張：width 496px, height 517px, border-radius 20px
-══════════════════════════════════════════════════════════════════════ */
-.section-vision {
-  position: relative;
-  width: 100%;
-  height: 662px;
-  align-self: stretch;
-  flex-shrink: 0;
-}
-
-.vision-heading {
-  position: absolute;
-  width: 128px;
-  height: 77px;
-  left: calc(50% - 128px / 2);
-  top: 0;
-  font-family: 'Inter', sans-serif;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   font-size: 64px;
-  font-weight: 400;
-  line-height: 77px;
-  color: var(--color-text-dark);
-  white-space: nowrap;
+  color: #FFFFFF;
+  /* 確保文字顏色與背景區隔 */
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  /* 增加陰影讓文字更清晰 */
+  margin: 0;
+  z-index: 2;
+  pointer-events: none;
+  /* 讓點擊穿透到下方 */
 }
 
-.vision-grid {
-  position: absolute;
+/* body */
+
+main {
+
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 64px;                        /* Figma gap: 64px */
-  width: 1616px;
-  height: 517px;
-  left: calc(50% - 1616px / 2);
-  top: 151px;
+
+  flex-direction: column;
+
+  width: 1920px;
+
+  min-height: 3443px;
+
 }
 
-.vision-card {
-  flex: none;
-  width: 496px;
-  height: 517px;
+/* ===== Banner ===== */
+
+.banner-section {
+  width: 100%;
 }
 
-.vision-img {
-  width: 496px;
-  height: 517px;
-  object-fit: cover;
-  border-radius: 20px;
+.hero-wrapper {
+
+  position: relative;
+
+  width: 100%;
+
+  max-width: 1918px;
+
+  margin: auto;
+
+}
+
+/* 控制 PageHero 尺寸 */
+
+.hero-wrapper :deep(svg) {
+
   display: block;
+
+  width: 100%;
+
+  height: auto;
+
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
-   RWD — 響應式斷點
-══════════════════════════════════════════════════════════════════════ */
+/* 疊在 PageHero 上 */
 
-/* ── 1440px 寬螢幕縮放 ─────────────────────────────────────────────── */
-@media (max-width: 1919px) {
-  .location-page {
-    --font-heading-size: clamp(32px, 3.5vw, 64px);
-    --font-heading-lh:   1.2;
-    --font-body-size:    clamp(16px, 1.8vw, 32px);
-    --font-body-lh:      1.7;
+.hero-title {
+
+  position: absolute;
+
+  top: 50%;
+
+  left: 50%;
+
+  transform:
+    translate(-50%, -50%);
+
+  z-index: 10;
+
+  color: #FFF;
+
+  font-size: 64px;
+
+  font-weight: 500;
+
+  line-height: 1.2;
+
+  text-align: center;
+
+  text-shadow:
+    0 4px 20px rgba(0, 0, 0, .35);
+
+  pointer-events: none;
+
+}
+
+@media (max-width:1200px) {
+
+  .hero-title {
+
+    font-size: 40px;
+
   }
 
-  /* .hero-wrapper      { height: clamp(200px, 17.5vw, 336px); }
-  .hero-title        { font-size: clamp(28px, 3.5vw, 64px); line-height: 1.2; } */
-
-  /* Section 2 */
-  .section-history-a { height: auto; min-height: 500px; padding: 80px 0; }
-  .history-a-inner   { display: flex; flex-direction: row; align-items: center;
-                        padding-inline: clamp(40px, 4vw, 160px); gap: 0; }
-  .history-a-text    { position: static; width: 50%; height: auto; padding-right: 48px; }
-  .history-a-image   { position: static; width: 50%; height: auto; }
-  .history-a-img     { width: 100%; height: clamp(280px, 26vw, 508px); }
-
-  /* Section 3 */
-  .section-history-b { height: clamp(400px, 34.5vw, 662px); }
-  .history-b-text    { position: absolute;
-                        width: clamp(400px, 39.5vw, 758px);
-                        height: auto;
-                        left: 50%; transform: translateX(-50%);
-                        top: clamp(60px, 6.5vw, 126px); }
-
-  /* Section 4 */
-  .section-vision    { height: auto; padding: clamp(40px, 4vw, 80px) 0 clamp(60px, 5vw, 80px); }
-  .vision-heading    { position: static; text-align: center; display: block;
-                        font-size: clamp(32px, 3.5vw, 64px); line-height: 1.2;
-                        margin-bottom: clamp(24px, 2.5vw, 74px); }
-  .vision-grid       { position: static; width: clamp(80%, 84vw, 1616px);
-                        height: auto; margin-inline: auto; gap: clamp(20px, 3.3vw, 64px); }
-  .vision-card       { width: auto; flex: 1; height: auto; }
-  .vision-img        { width: 100%; height: clamp(200px, 26.9vw, 517px); }
 }
 
-/* ── Tablet 768px ─────────────────────────────────────────────────── */
-@media (max-width: 1024px) {
-  .location-page { --section-gap: 60px; }
+/* ===== 關於我們 ===== */
 
-  .hero-title { left: 50%; transform: translateX(-50%); width: auto; white-space: nowrap; }
 
-  /* Section 2：上下堆疊 */
-  .history-a-inner   { flex-direction: column; padding-inline: 40px; }
-  .history-a-text    { width: 100%; padding-right: 0; }
-  .history-a-img     { height: 320px; }
+.intro{
 
-  /* Section 3 文字置中 */
-  .history-b-text    { width: 80%; left: 10%; transform: none; }
+  width:100%;
 
-  /* 願景 2欄 */
-  .vision-grid       { flex-wrap: wrap; justify-content: center; }
-  .vision-card       { width: calc(50% - 32px); flex: none; }
-  .vision-img        { width: 100%; height: 280px; }
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
 }
 
-/* ── Mobile ≤ 767px ────────────────────────────────────────────────── */
-@media (max-width: 767px) {
-  .location-page { --section-gap: 40px; }
+.intro-image{
 
-  .section-heading   { font-size: 28px; line-height: 1.3; }
-  .section-body      { font-size: 15px; line-height: 1.75; }
+  width:976px;
 
-  .history-a-inner   { padding-inline: 20px; }
+  margin:0 auto;
 
-  .history-b-text    { width: 90%; left: 5%; transform: none; top: 40px; }
-  .section-history-b { height: 380px; }
+}
 
-  .vision-grid       { flex-direction: column; width: 90%; gap: 24px; }
-  .vision-card       { width: 100%; }
-  .vision-img        { height: 220px; }
+.intro-image img{
+
+  display:block;
+
+  width:100%;
+
+  border-radius:20px;
+
+  object-fit:cover;
+
+}
+
+.intro-header,
+.intro-title,
+.intro-desc{
+
+  width:976px;
+
+  margin-left:auto;
+
+  margin-right:auto;
+
+}
+
+.news-section {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  padding: 0 152px;
+
+  gap: 80px;
+
+  width: 1920px;
+
+}
+
+/* 標題 */
+
+.section-header {
+
+  width: 1600px;
+
+  display: flex;
+
+  justify-content: center;
+
+}
+
+.section-header h2 {
+
+  font-size: 64px;
+
+  font-weight: 400;
+
+  line-height: 77px;
+
+  margin: 0;
+
+
+}
+
+/* ===== 卡片區 ===== */
+
+.card-grid {
+
+  display: grid;
+
+  grid-template-columns:
+
+    765px 765px;
+
+  column-gap: 64px;
+
+  row-gap: 74px;
+
+  width: 1600px;
+
+  padding: 0;
+
+  margin: 0;
+
+  list-style: none;
+
+}
+
+/* 單卡 */
+
+.card {
+
+  width: 765px;
+
+  height: 806px;
+
+  position: relative;
+
+  overflow: hidden;
+
+  border-radius: 31px;
+
+}
+
+/* 圖 */
+
+.card-img {
+
+  position: absolute;
+
+  top: 0;
+
+  left: 0;
+
+  width: 765px;
+
+  height: 806px;
+
+  border-radius: 31px;
+
+  /* overflow:hidden; */
+  object-fit: cover;
+  display: block;
+
+}
+
+.card-img img {
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+
+}
+
+/* 白底文字 */
+
+.card-body {
+
+  position: absolute;
+
+  left: 50%;
+
+  bottom: 1px;
+
+  transform: translateX(-50%);
+
+  width: 765px;
+
+  height: 260px;
+
+  padding:
+
+    25px 37px;
+
+  background: #fff;
+
+  border-radius:
+
+    0 0 31px 31px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 25px;
+
+}
+
+.card-body h3 {
+
+  margin: 0;
+
+  font-size: 37px;
+
+  font-weight: 400;
+
+  line-height: 45px;
+
+}
+
+.card-body p {
+
+  margin: 0;
+
+  font-size: 31px;
+
+  line-height: 38px;
+
+  color: #757575;
+
+}
+
+.card-body time {
+
+  font-size: 31px;
+
+  line-height: 38px;
+
+  color: #757575;
+
+}
+
+
+/* ===== RWD ===== */
+
+@media (max-width:1920px) {
+
+  .about-page {
+
+    width: 100%;
+
+  }
+
+  main {
+
+    width: 100%;
+
+  }
+
+  .news-section {
+
+    width: 100%;
+
+    padding:
+
+      0 80px;
+
+  }
+
+  .card-grid {
+
+    width: 100%;
+
+    grid-template-columns:
+
+      repeat(2,
+        minmax(0, 1fr));
+
+  }
+
+  .card {
+
+    width: 100%;
+
+    height: auto;
+
+  }
+
+  .card-img {
+
+    position: relative;
+
+    width: 100%;
+
+    height: auto;
+
+    aspect-ratio: 765/806;
+
+    border-radius: 31px;
+  }
+
+  .card-body {
+
+    position: relative;
+
+    left: auto;
+
+    bottom: auto;
+
+    transform: none;
+
+    width: 100%;
+
+    height: auto;
+
+  }
+
+}
+
+@media (max-width:1200px) {
+
+  .card-grid {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .hero-title {
+
+    font-size: 40px;
+
+  }
+
+  .section-header h2 {
+
+    font-size: 40px;
+
+  }
+
 }
 </style>
