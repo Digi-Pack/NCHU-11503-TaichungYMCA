@@ -103,7 +103,7 @@ watch(viewMode, (view) => {
 
 <style scoped>
 .container-normal {
-  width: 85%;
+  width: calc(70% - 33.5px);
   margin: auto;
 }
 
