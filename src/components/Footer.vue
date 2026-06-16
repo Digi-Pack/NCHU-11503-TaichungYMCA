@@ -9,7 +9,7 @@
               width="1920" height="515" preserveAspectRatio="xMidYMid slice" />
           </pattern>
         </defs>
-  <!-- 弧形的圖片改上面的網址 -->
+        <!-- 弧形的圖片改上面的網址 -->
         <path
           d="M0 514.788V68.2881C367 -1.2119 808 5.7881 973.5 1.7881C1353.9 -10.2119 1762.67 41.1214 1919.5 68.2881V514.788H0Z"
           fill="url(#footerPattern)" />
@@ -43,26 +43,26 @@
     </div>
   </footer>
 </template>
+
 <style scoped>
-.footer {
-  width: 100%;
-}
+  .footer {
+    width: 100%;
+  }
 
-.footer-shape {
-  position: relative;
-  height: 514px;
-  overflow: hidden;
-  opacity:60%; 
-  /* 字很淺先把圖片的透明度設高 */
-}
+  .footer-shape {
+    position: relative;
+    height: 514px;
+    overflow: hidden;
+  }
 
-.footer-shape svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
+  .footer-shape svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.6;
+  }
 
 .footer-main {
   position: relative;
@@ -70,56 +70,63 @@
   min-height: 515px;
   box-sizing: border-box;
 
+  width: min(85%, 1440px);
+  margin: 0 auto;
+
   display: flex;
   justify-content: center;
-  align-items: start;
-  gap: 80px;
-  padding: 190px 250px 250px;
+  align-items: flex-start;
+
+  gap: clamp(32px, 4vw, 80px);
+
+  padding-top: 190px;
+  padding-bottom: 80px;
 }
 
 .footer-logo {
-  width: 400px;
-  height: 171px;
-  flex-shrink: 0;
+  width: clamp(220px, 22vw, 400px);
+  height: auto;
+  flex-shrink: 1;
 }
-
 .footer-logo img {
   width: 100%;
   display: block;
 }
 
+
 .footer-right {
   display: flex;
   align-items: flex-start;
-  gap: 80px;
+
+  gap: clamp(32px, 4vw, 80px);
+
+  min-width: 0;
 }
 
 .footer-contact {
-  width: 420px;
-  flex-shrink: 0;
+  width: clamp(280px, 28vw, 420px);
+  flex-shrink: 1;
 }
 
-.footer-contact .footer-title {
-  font-size: 24px;
-  font-weight: 700;
-  margin: 0 0 20px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #000;
-  color: rgba(71, 65, 53, 1);
-}
+  .footer-contact .footer-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #000;
+    color: #474135;
+  }
 
+  .footer-contact p {
+    margin: 0 0 10px;
+    font-size: 1.5rem;
+    color: #2d2d2d;
+  }
 
-
-.footer-contact p {
-  margin: 0 0 10px;
-  font-size: 1.5rem;
-  color: #2d2d2d;
-}
-
-.footer-map {
-  width: 392px;
+ .footer-map {
+  width: clamp(280px, 28vw, 392px);
   height: 265px;
-  flex-shrink: 0;
+  flex-shrink: 1;
 }
 
 .footer-map iframe {
@@ -129,21 +136,161 @@
   display: block;
 }
 
-.footer-bottom {
-  background: #3C3C3C;
-  height: 54px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  .footer-bottom {
+    background: #3c3c3c;
+    height: 54px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .footer-bottom p {
+    margin: 0;
+    color: #f9f6f0;
+    font-size: 1.125rem;
+    text-align: center;
+  }
+
+
+/* =====================================
+   Tablet Landscape 1024px
+===================================== */
+@media (max-width: 1024px) {
+
+  .footer-main {
+    min-height: auto;
+
+    padding: 140px 60px 80px;
+
+    gap: 48px;
+
+    justify-content: center;
+  }
+
+  .footer-logo {
+    width: 260px;
+    height: auto;
+  }
+
+  .footer-right {
+    gap: 40px;
+  }
+
+  .footer-contact {
+    width: 320px;
+  }
+
+  .footer-contact .footer-title {
+    font-size: 1.5rem;
+  }
+
+  .footer-contact p {
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+
+  .footer-map {
+    width: 320px;
+    height: 220px;
+  }
 }
 
+/* Tablet */
+@media (max-width: 768px) {
+  .footer-shape {
+    height: auto;
+    min-height: 620px;
+  }
+
+  .footer-main {
+    min-height: auto;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+
+    padding: 80px 40px 60px;
+  }
+
+  .footer-logo {
+    width: 220px;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .footer-right {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+    align-items: flex-start;
+
+    gap: 32px;
+  }
+
+  .footer-contact {
+    width: 38%;
+    text-align: left;
+  }
+
+  .footer-contact .footer-title {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+  }
+
+  .footer-contact p {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  .footer-map {
+    width: 58%;
+    height: 250px;
+  }
+
+  .footer-map iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}
+
+/* Mobile */
+@media (max-width: 432px) {
+  .footer-shape {
+    min-height: 700px;
+  }
+
+  .footer-main {
+    padding: 100px 40px 80px;
+    flex-direction: column;
+  }
 
 
-.footer-bottom p {
-  margin: 0;
-  color: #F9F6F0;
-  font-size: 1.125rem;
-  text-align: center;
+  .footer-logo {
+    width: 180px;
+  }
 
+  .footer-contact .footer-title {
+    font-size: 1.25rem;
+  }
+
+  .footer-contact p {
+    font-size: 1rem;
+  }
+
+  .footer-map {
+    height: 220px;
+  }
+
+  .footer-bottom {
+    height: 48px;
+  }
+
+  .footer-bottom p {
+    font-size: 0.875rem;
+  }
 }
 </style>

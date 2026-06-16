@@ -10,8 +10,7 @@ import OpinionBtn from "./components/OpinionBtn.vue";
 
     <main class="main-content">
       <RouterView />
-     暫放 大家加油
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRREZt-Cb1v5C4C-ssnj0XkdcZIEBWD1ZbSlD9BgwFWNA&s=10" alt="">
+
     </main>
 
     <OpinionBtn></OpinionBtn>
