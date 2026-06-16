@@ -3,6 +3,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { BarChartOutlined, TableOutlined } from "@ant-design/icons-vue";
 import PageHero from '@/components/PageHero.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
+import { allLocations as initialLocations } from '@/data/location.js';
 
 // Banner 圖片路徑，替換成實際圖片
 const heroImage = '/images/locations-banner.jpg'
@@ -43,16 +44,15 @@ onUnmounted(() => {
 // Banner 圖片（替換成實際圖片路徑）
 
 // 篩選標籤
-const tags = [
-  { label: '全部地區', value: 'all' },
-  { label: '北屯區', value: '北屯區' },
-  { label: '西屯區', value: '西屯區' },
-  { label: '南屯區', value: '南屯區' },
-  { label: '大墩地區', value: '大墩地區' },
-  { label: '中區', value: '中區' },
-  { label: '東區', value: '東區' },
-  { label: '西區', value: '西區' },
-]
+const branchTags = [
+  { label: '全部', value: 'all' },
+  { label: '北屯會館', value: '北屯本部' },
+  { label: '松竹分部', value: '松竹分部' },
+  { label: '東山分部', value: '東山分部' },
+  { label: '大德分部', value: '大德分部' },
+  { label: '陳平分部', value: '陳平分部' },
+  { label: '仁美分部', value: '仁美分部' },
+];
 
 const activeTag = ref('all')
 const viewMode = ref('grid')
@@ -60,64 +60,9 @@ const currentPage = ref(1)
 const itemsPerPage = 6
 
 // 模擬資料
-const allLocations = ref([
-  {
-    id: 1,
-    name: '最新消息',
-    description: '臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多...',
-    date: '2026-01-01',
-    image: '',
-    region: '北屯區',
-  },
-  {
-    id: 2,
-    name: '最新消息',
-    description: '臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多...',
-    date: '2026-01-01',
-    image: '',
-    region: '西屯區',
-  },
-  {
-    id: 3,
-    name: '最新消息',
-    description: '臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多...',
-    date: '2026-01-01',
-    image: '',
-    region: '南屯區',
-  },
-  {
-    id: 4,
-    name: '最新消息',
-    description: '臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多...',
-    date: '2026-01-01',
-    image: '',
-    region: '北屯區',
-  },
-  {
-    id: 5,
-    name: '最新消息',
-    description: '臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多...',
-    date: '2026-01-01',
-    image: '',
-    region: '中區',
-  },
-  {
-    id: 6,
-    name: '最新消息',
-    description: '臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多...',
-    date: '2026-01-01',
-    image: '',
-    region: '東區',
-  },
-  {
-    id: 7,
-    name: '最新消息',
-    description: '臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多...',
-    date: '2026-01-01',
-    image: '',
-    region: '西區',
-  },
-])
+const allLocations = ref(initialLocations)
+
+
 
 const setTag = (tag) => {
   activeTag.value = tag
@@ -163,16 +108,11 @@ const changePage = (page) => {
         <div class="toolbar" role="toolbar" aria-label="篩選與檢視工具列">
           <!-- Tag 篩選列 -->
           <div class="tag-group" role="group" aria-label="地區篩選">
-            <a-button
-              v-for="tag in tags"
-              :key="tag.value"
-              shape="round"
-              :aria-pressed="activeTag === tag.value"
+            <a-button v-for="tag in branchTags" :key="tag.value" shape="round" :aria-pressed="activeTag === tag.value"
               :style="activeTag === tag.value
                 ? { background: '#3C3C3C', borderColor: '#938D6B', color: '#ffffff', fontSize: '1rem', height: '51px', minWidth: '120px' }
                 : { background: '#ffffff', borderColor: '#3C3C3C', color: '#3C3C3C', fontSize: '1rem', height: '51px', minWidth: '120px' }"
-              @click="setTag(tag.value)"
-            >
+              @click="setTag(tag.value)">
               {{ tag.label }}
             </a-button>
           </div>
@@ -180,66 +120,40 @@ const changePage = (page) => {
           <!-- 切換卡片/列表 -->
           <a-button-group role="group" aria-label="切換顯示模式">
             <!-- 左：Grid 卡片（AppstoreOutlined） -->
-            <a-button
-              :aria-pressed="viewMode === 'grid'"
-              aria-label="卡片檢視"
-              :style="{
-                background: viewMode === 'grid' ? '#3C3C3C' : '#ffffff',
-                borderColor: viewMode === 'grid' ? '#3C3C3C' : '#d9d9d9',
-                width: '56px',
-                height: '56px',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: '8px 0 0 8px',
-              }"
-              @click="viewMode = 'grid'"
-            >
+            <a-button :aria-pressed="viewMode === 'grid'" aria-label="卡片檢視" :style="{
+              background: viewMode === 'grid' ? '#3C3C3C' : '#ffffff',
+              borderColor: viewMode === 'grid' ? '#3C3C3C' : '#d9d9d9',
+              width: '56px',
+              height: '56px',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '8px 0 0 8px',
+            }" @click="viewMode = 'grid'">
               <TableOutlined :style="{ fontSize: '20px', color: viewMode === 'grid' ? '#ffffff' : '#3C3C3C' }" />
             </a-button>
             <!-- 右：List 列表（BarChartOutlined） -->
-            <a-button
-              :aria-pressed="viewMode === 'list'"
-              aria-label="列表檢視"
-              :style="{
-                background: viewMode === 'list' ? '#1E4620' : '#ffffff',
-                borderColor: viewMode === 'list' ? '#1E4620' : '#d9d9d9',
-                width: '56px',
-                height: '56px',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: '0 8px 8px 0',
-              }"
-              @click="viewMode = 'list'"
-            >
+            <a-button :aria-pressed="viewMode === 'list'" aria-label="列表檢視" :style="{
+              background: viewMode === 'list' ? '#1E4620' : '#ffffff',
+              borderColor: viewMode === 'list' ? '#1E4620' : '#d9d9d9',
+              width: '56px',
+              height: '56px',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '0 8px 8px 0',
+            }" @click="viewMode = 'list'">
               <BarChartOutlined :style="{ fontSize: '20px', color: viewMode === 'list' ? '#ffffff' : '#3C3C3C' }" />
             </a-button>
           </a-button-group>
         </div>
 
         <!-- 卡片模式 -->
-        <div
-          v-if="viewMode === 'grid'"
-          class="card-group"
-          role="list"
-          aria-label="服務據點卡片列表"
-        >
-          <article
-            v-for="location in paginatedLocations"
-            :key="location.id"
-            class="location-card"
-            role="listitem"
-          >
+        <div v-if="viewMode === 'grid'" class="card-group" role="list" aria-label="服務據點卡片列表">
+          <article v-for="location in paginatedLocations" :key="location.id" class="location-card" role="listitem">
             <div class="card-img" aria-hidden="true">
-              <img
-                v-if="location.image"
-                :src="location.image"
-                :alt="location.name + '照片'"
-                loading="lazy"
-                width="491"
-                height="350"
-              />
+              <img v-if="location.image" :src="location.image" :alt="location.name + '照片'" loading="lazy" width="491"
+                height="350" />
               <div v-else class="card-img-placeholder" aria-hidden="true"></div>
             </div>
             <div class="card-text">
@@ -253,27 +167,11 @@ const changePage = (page) => {
         </div>
 
         <!-- 列表模式 -->
-        <div
-          v-else
-          class="list-group"
-          role="list"
-          aria-label="服務據點列表"
-        >
-          <article
-            v-for="location in paginatedLocations"
-            :key="location.id"
-            class="location-list-item"
-            role="listitem"
-          >
+        <div v-else class="list-group" role="list" aria-label="服務據點列表">
+          <article v-for="location in paginatedLocations" :key="location.id" class="location-list-item" role="listitem">
             <div class="list-img" aria-hidden="true">
-              <img
-                v-if="location.image"
-                :src="location.image"
-                :alt="location.name + '照片'"
-                loading="lazy"
-                width="200"
-                height="140"
-              />
+              <img v-if="location.image" :src="location.image" :alt="location.name + '照片'" loading="lazy" width="200"
+                height="140" />
               <div v-else class="list-img-placeholder" aria-hidden="true"></div>
             </div>
             <div class="list-content">
@@ -288,39 +186,27 @@ const changePage = (page) => {
         <nav class="pagination" aria-label="頁碼導覽">
           <!-- 左：頁碼群組（箭頭 + 數字 + 箭頭） -->
           <div class="pagination-pages">
-            <button
-              class="page-btn"
-              :disabled="currentPage === 1"
-              :aria-disabled="currentPage === 1"
-              aria-label="上一頁"
-              @click="changePage(currentPage - 1)"
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M10 3L6 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <button class="page-btn" :disabled="currentPage === 1" :aria-disabled="currentPage === 1" aria-label="上一頁"
+              @click="changePage(currentPage - 1)">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true">
+                <path d="M10 3L6 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
               </svg>
             </button>
 
-            <button
-              v-for="page in totalPages"
-              :key="page"
-              class="page-number"
-              :class="{ active: currentPage === page }"
-              :aria-label="`第 ${page} 頁`"
-              :aria-current="currentPage === page ? 'page' : undefined"
-              @click="changePage(page)"
-            >
+            <button v-for="page in totalPages" :key="page" class="page-number" :class="{ active: currentPage === page }"
+              :aria-label="`第 ${page} 頁`" :aria-current="currentPage === page ? 'page' : undefined"
+              @click="changePage(page)">
               {{ page }}
             </button>
 
-            <button
-              class="page-btn"
-              :disabled="currentPage === totalPages"
-              :aria-disabled="currentPage === totalPages"
-              aria-label="下一頁"
-              @click="changePage(currentPage + 1)"
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M6 3L10 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <button class="page-btn" :disabled="currentPage === totalPages" :aria-disabled="currentPage === totalPages"
+              aria-label="下一頁" @click="changePage(currentPage + 1)">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true">
+                <path d="M6 3L10 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
               </svg>
             </button>
           </div>
@@ -350,16 +236,18 @@ const changePage = (page) => {
   padding: 60px 0 80px;
   background: #fff;
 }
+
 .section-container {
   max-width: 1616px;
   margin: 0 auto;
-  padding: 0 152px;
+  padding: 0 158px;
 }
 
 /* ===== 標題 ===== */
 .section-header {
   margin-bottom: 32px;
 }
+
 .section-title {
   font-family: 'Inter', sans-serif;
   font-size: clamp(32px, 4vw, 64px);
@@ -386,6 +274,7 @@ const changePage = (page) => {
   gap: 16px;
   align-items: center;
 }
+
 /* tag-btn 樣式由 a-button :style 控制 */
 
 /* view-toggle 樣式由 a-button-group + a-button :style 控制 */
@@ -397,19 +286,22 @@ const changePage = (page) => {
   gap: 64px 64px;
   margin-bottom: 74px;
 }
+
 .location-card {
   display: flex;
   flex-direction: column;
   border-radius: 20px;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   transition: box-shadow 0.2s, transform 0.2s;
 }
+
 .location-card:hover {
-  box-shadow: 0 6px 20px rgba(0,0,0,0.13);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.13);
   transform: translateY(-2px);
 }
+
 .card-img {
   width: 100%;
   aspect-ratio: 491 / 350;
@@ -417,17 +309,20 @@ const changePage = (page) => {
   background: #e8e8e8;
   position: relative;
 }
+
 .card-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
+
 .card-img-placeholder {
   width: 100%;
   height: 100%;
   background: repeating-conic-gradient(#d8d8d8 0% 25%, #e8e8e8 0% 50%) 0 0 / 24px 24px;
 }
+
 .card-text {
   display: flex;
   flex-direction: column;
@@ -437,11 +332,13 @@ const changePage = (page) => {
   border-radius: 0 0 20px 20px;
   flex: 1;
 }
+
 .card-title-group {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
+
 .card-title {
   font-family: 'Inter', sans-serif;
   font-size: 24px;
@@ -450,6 +347,7 @@ const changePage = (page) => {
   color: #000;
   margin: 0;
 }
+
 .card-desc {
   font-family: 'Inter', sans-serif;
   font-size: 20px;
@@ -461,6 +359,7 @@ const changePage = (page) => {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
 .card-date {
   font-family: 'Inter', sans-serif;
   font-size: 20px;
@@ -475,20 +374,23 @@ const changePage = (page) => {
   gap: 24px;
   margin-bottom: 74px;
 }
+
 .location-list-item {
   display: flex;
   gap: 32px;
   border-radius: 16px;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   padding: 24px;
   align-items: flex-start;
   transition: box-shadow 0.2s;
 }
+
 .location-list-item:hover {
-  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
+
 .list-img {
   width: 200px;
   min-width: 200px;
@@ -498,24 +400,28 @@ const changePage = (page) => {
   background: #e8e8e8;
   flex-shrink: 0;
 }
+
 .list-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
+
 .list-img-placeholder {
   width: 100%;
   height: 100%;
   background: repeating-conic-gradient(#d8d8d8 0% 25%, #e8e8e8 0% 50%) 0 0 / 20px 20px;
   border-radius: 12px;
 }
+
 .list-content {
   display: flex;
   flex-direction: column;
   gap: 12px;
   flex: 1;
 }
+
 .list-title {
   font-family: 'Inter', sans-serif;
   font-size: 24px;
@@ -524,6 +430,7 @@ const changePage = (page) => {
   color: #000;
   margin: 0;
 }
+
 .list-desc {
   font-family: 'Inter', sans-serif;
   font-size: 18px;
@@ -531,6 +438,7 @@ const changePage = (page) => {
   color: #757575;
   margin: 0;
 }
+
 .list-date {
   font-family: 'Inter', sans-serif;
   font-size: 16px;
@@ -547,12 +455,14 @@ const changePage = (page) => {
   width: 100%;
   gap: 12px;
 }
+
 .pagination-pages {
   display: flex;
   align-items: center;
   gap: 12px;
   justify-content: flex-start;
 }
+
 .page-btn {
   display: flex;
   align-items: center;
@@ -566,18 +476,22 @@ const changePage = (page) => {
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
 }
+
 .page-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
+
 .page-btn:not(:disabled):hover {
   background: #3C3C3C;
   color: #fff;
 }
+
 .page-btn:focus-visible {
   outline: 2px solid #1E4620;
   outline-offset: 2px;
 }
+
 .page-number {
   display: flex;
   align-items: center;
@@ -594,20 +508,24 @@ const changePage = (page) => {
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
 }
+
 .page-number:hover {
   background: #7D7D7D;
   color: #F9F6F0;
   border-color: #7D7D7D;
 }
+
 .page-number:focus-visible {
   outline: 2px solid #1E4620;
   outline-offset: 2px;
 }
+
 .page-number.active {
   background: #7D7D7D;
   border-color: #3C3C3C;
   color: #3C3C3C;
 }
+
 .pagination-info {
   font-family: 'Noto Sans TC', sans-serif;
   font-size: 24px;
@@ -626,6 +544,7 @@ const changePage = (page) => {
   .section-container {
     padding: 0 80px;
   }
+
   .card-group {
     gap: 40px;
   }
@@ -635,6 +554,7 @@ const changePage = (page) => {
   .section-container {
     padding: 0 40px;
   }
+
   .card-group {
     grid-template-columns: repeat(2, 1fr);
     gap: 32px;
@@ -645,28 +565,35 @@ const changePage = (page) => {
   .section-container {
     padding: 0 20px;
   }
+
   .card-group {
     grid-template-columns: 1fr;
     gap: 24px;
   }
+
   .toolbar {
     flex-direction: column;
     align-items: flex-start;
   }
+
   .tag-group {
     gap: 8px;
   }
+
   .list-img {
     width: 120px;
     min-width: 120px;
     height: 90px;
   }
+
   .list-title {
     font-size: 18px;
   }
+
   .section-title {
     font-size: 32px;
   }
+
   .locations-section {
     padding: 32px 0 48px;
   }
@@ -677,11 +604,13 @@ const changePage = (page) => {
     flex-direction: column;
     padding: 16px;
   }
+
   .list-img {
     width: 100%;
     min-width: unset;
     height: 180px;
   }
+
   .pagination-info {
     font-size: 16px;
   }
