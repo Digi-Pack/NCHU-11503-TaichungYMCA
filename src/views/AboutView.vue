@@ -1,8 +1,10 @@
 <script setup>
-import { ref } from 'vue' 
+import { ref } from 'vue'
 import PageHero from '@/components/PageHero.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import { aboutCards } from '@/data/aboutData.js'
+import aboutImage from '@/assets/img/關於我們/about.png'
+
 
 
 const breadcrumbItems = [
@@ -11,7 +13,7 @@ const breadcrumbItems = [
 ]
 
 const heroBanner = ref('https://picsum.photos/1918/336')
-const cardList = ref(aboutCards) // 直接使用資料來源
+const cardList = ref(aboutCards)
 </script>
 
 <template>
@@ -32,6 +34,7 @@ const cardList = ref(aboutCards) // 直接使用資料來源
 
         <!-- 關於我們 -->
         <div class="intro">
+         
 
           <div class="intro-header">
             <div class="intro-header-text">
@@ -40,9 +43,6 @@ const cardList = ref(aboutCards) // 直接使用資料來源
             <div class="line"></div>
           </div>
 
-          <div class="intro-title-row">
-            <h3 class="intro-subtitle">北屯社區大學</h3>
-          </div>
 
           <div class="intro-tagline">
             落實終身學習、發揚北屯特色、致力在地公共事務、推動社會關懷
@@ -52,8 +52,8 @@ const cardList = ref(aboutCards) // 直接使用資料來源
             北屯社大在北屯區擁有「全市最高的高齡人口數」，且辦學主軸聚焦於「高齡預防照護支持」、「都市農業與食農教育」以及「在地文化傳承」
           </p>
 
-          <div class="intro-image">
-            <img src="@/assets/img/關於我們/about.png" alt="關於北屯社區大學" />
+           <div class="intro-image">
+            <img :src="aboutImage" alt="關於北屯社區大學" />
           </div>
 
         </div>
@@ -97,14 +97,12 @@ const cardList = ref(aboutCards) // 直接使用資料來源
 }
 
 .about-page {
-  /* 移除 min-height: 4039px; */
   width: 100%;
   margin: 0;
   background: #ffffff;
   display: flex;
   flex-direction: column;
-  /* 讓容器根據內容自動撐開，並在下方保留適當的 padding */
-  padding-bottom: 80px; 
+  padding-bottom: 80px;
 }
 
 /* ===== Banner ===== */
@@ -113,13 +111,11 @@ const cardList = ref(aboutCards) // 直接使用資料來源
   display: flex;
   flex-direction: column;
   padding-bottom: 80px;
-
 }
 
 .hero-wrapper {
   position: relative;
   width: 100%;
-
 }
 
 .hero-wrapper :deep(svg),
@@ -137,9 +133,9 @@ const cardList = ref(aboutCards) // 直接使用資料來源
   z-index: 10;
   color: #000000;
   font-family: 'Inter', sans-serif;
-  font-size: 64px;
+  font-size: clamp(1.75rem, 4vw, 4rem);
   font-weight: 500;
-  line-height: 77px;
+  line-height: 1.2;
   text-align: center;
   pointer-events: none;
   white-space: nowrap;
@@ -153,44 +149,44 @@ main {
   width: 100%;
 }
 
+/* 中間 section 寬度固定 1300px，水平置中 */
 .news-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 152px;
+  width: min(1300px, 100%);
+  margin: 0 auto;
+  /* padding: 0 24px; */
   gap: 80px;
-  width: 100%;
 }
 
 /* ===== Section Header (shared) ===== */
 .intro-header {
   width: 100%;
-  max-width: 1600px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin: 0 auto;
 }
 
 .intro-header-text {
   display: flex;
   flex-direction: row;
   align-items: center;
+
 }
 
 .intro-header h2 {
-  /* PC/Title/H3 */
   font-family: 'Noto Sans TC', sans-serif;
   font-style: normal;
   font-weight: 500;
-  font-size: 36px;
+  font-size: 4rem;
   line-height: 43px;
   color: #3C3C3C;
   margin: 0;
 }
 
 .line {
-  width: 1600px;
+  width: 100%;
   height: 0;
   border-top: 3px solid #1E4620;
 }
@@ -205,49 +201,49 @@ main {
 }
 
 .intro-title-row {
-  width: 1600px;
+  width: 100%;
 }
 
-.intro-subtitle {
-  font-family: 'Inter', sans-serif;
-  font-size: 64px;
-  font-weight: 400;
-  line-height: 77px;
-  color: #000000;
-  margin: 0;
-}
+
+
 
 .intro-tagline {
-  width: 1600px;
+  width: 100%;
   font-family: 'Inter', sans-serif;
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 400;
   line-height: 29px;
   color: #000000;
 }
 
 .intro-desc {
-  width: 1600px;
+  width: 100%;
   font-family: 'Inter', sans-serif;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 400;
   line-height: 22px;
   color: #000000;
   margin: 0;
 }
 
+/* ===== about 圖片：976×243px ===== */
+/* ===== about 圖片 ===== */
 .intro-image {
   width: 976px;
+  max-width: 100%;
+
   margin: 0 auto;
+
+  border-radius: 20px;
+  overflow: hidden;
 }
 
 .intro-image img {
   display: block;
   width: 100%;
+  height: auto;     /* ← 關鍵 */
   border-radius: 20px;
-  object-fit: cover;
-  background: #d9d9d9;
-  min-height: 400px;
+  object-fit: contain;
 }
 
 /* ===== 社大發展區域 cards ===== */
@@ -261,10 +257,10 @@ main {
 
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(500px, 100%), 1fr));
   column-gap: 64px;
   row-gap: 74px;
-  width: 1600px;
+  width: 100%;
   padding: 0;
   margin: 0;
   list-style: none;
@@ -319,7 +315,7 @@ main {
 .card-body h3 {
   margin: 0;
   font-family: 'Inter', sans-serif;
-  font-size: 37.43px;
+  font-size: 2.25rem;
   font-weight: 400;
   line-height: 45px;
   color: #000000;
@@ -328,11 +324,11 @@ main {
 .card-body p {
   margin: 0;
   font-family: 'Inter', sans-serif;
-  font-size: 31.19px;
+  font-size: 2rem;
   line-height: 38px;
   color: #757575;
   display: -webkit-box;
-  -webkit-line-clamp: 1;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -340,63 +336,8 @@ main {
 
 .card-body time {
   font-family: 'Inter', sans-serif;
-  font-size: 31.19px;
+  font-size: 2rem;
   line-height: 38px;
   color: #757575;
-}
-
-/* ===== RWD ===== */
-@media (max-width: 1920px) {
-  .news-section {
-    padding: 0 262px;
-  }
-
-  .intro-header,
-  .line {
-    width: 100%;
-  }
-
-  .intro-title-row,
-  .intro-tagline,
-  .intro-desc {
-    width: 100%;
-  }
-
-  .card-grid {
-    width: 100%;
-  }
-}
-
-@media (max-width: 1200px) {
-  .card-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-title {
-    font-size: 40px;
-  }
-
-  .intro-subtitle {
-    font-size: 40px;
-  }
-}
-
-@media (max-width: 768px) {
-  .news-section {
-    padding: 0 24px;
-  }
-
-  .hero-title {
-    font-size: 28px;
-  }
-
-  .card-body h3 {
-    font-size: 24px;
-  }
-
-  .card-body p,
-  .card-body time {
-    font-size: 18px;
-  }
 }
 </style>
