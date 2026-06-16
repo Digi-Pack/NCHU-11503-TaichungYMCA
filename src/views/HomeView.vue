@@ -6,10 +6,13 @@ import newsList from "@/data/news.js";
 import Text from "@/components/Text.vue";
 import HomeNewsCard from "@/components/HomeNewsCard.vue";
 import { RightCircleOutlined } from "@ant-design/icons-vue";
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 const latestNews = computed(() =>
-  [...newsList].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3)
-  // 只取前三筆最新的資料
+  [...newsList].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 4)
 );
 
 const router = useRouter();
@@ -48,6 +51,7 @@ function goToDetail(id) {
             <Text>北屯社區大學</Text>
           </div>
           <Text size="text-48" color="gray">落實終身學習、發揚北屯特色、致力在地公共事務、推動社會關懷</Text>
+          <RouterLink to="/courses" class="courses-btn">查看最新課程 →</RouterLink>
         </div>
       </div>
     </div>
@@ -63,14 +67,26 @@ function goToDetail(id) {
     </div>
 
     <div class="news container-normal" id="latest-news">
-      <Text size="text-48">最新消息</Text>
+      <div class="news-title-row">
+        <Text size="text-48">最新消息</Text>
+        <RouterLink to="/news" class="news-more-btn">查看更多 →</RouterLink>
+      </div>
       <div class="card-container">
         <HomeNewsCard v-for="news in latestNews" :key="news.id" :outPicture="news.outPicture" :title="news.title"
           :desc="news.desc" :date="news.date" @click="goToDetail(news.id)"></HomeNewsCard>
       </div>
+
+      <div class="news-swiper">
+        <Swiper :modules="[Pagination]" :slides-per-view="1" :pagination="{ clickable: true }">
+          <SwiperSlide v-for="news in latestNews" :key="news.id">
+            <HomeNewsCard :outPicture="news.outPicture" :title="news.title"
+              :desc="news.desc" :date="news.date" @click="goToDetail(news.id)" />
+          </SwiperSlide>
+        </Swiper>
+      </div>
     </div>
 
-    <div class="location container-normal">
+    <div class="location container-normal" @click="router.push('/locations')">
       <div class="location-left">
         <div class="location-text-container">
           <div class="location-title">
@@ -165,6 +181,21 @@ image {
   gap: 12px 0;
 }
 
+.courses-btn {
+  display: none;
+  padding: 14px 28px;
+  border-radius: 6px;
+  background-color: #1e4620;
+  color: #f0e9e3;
+  text-decoration: none;
+  font-size: 1.25rem;
+  align-self: flex-start;
+}
+
+.courses-btn:hover {
+  opacity: 0.85;
+}
+
 .banner {
   height: 400px;
   position: relative;
@@ -206,24 +237,49 @@ image {
   /* background-color: lightgray; */
 }
 
+.news-title-row {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px 0;
+}
+
+.news-more-btn {
+  display: none;
+  align-self: flex-end;
+  padding: 10px 20px;
+  border-radius: 6px;
+  background-color: #1e4620;
+  color: #f0e9e3;
+  text-decoration: none;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.news-more-btn:hover {
+  opacity: 0.85;
+}
+
 .card-container :deep(.card) {
   cursor: pointer;
 }
 
 .card-container {
   width: 100%;
-  /* flex: 1; */
   display: flex;
   gap: 0 64px;
-  /* background-color: aquamarine; */
+}
+
+.card-container :deep(.card):nth-child(4) {
+  display: none;
 }
 
 .location {
-  /* height: 525px; */
   display: flex;
   align-items: center;
-  /* background-color: lightblue; */
   position: relative;
+  cursor: pointer;
+  margin-bottom: 80px;
   min-height: 510px;
 }
 
@@ -283,4 +339,103 @@ image {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
+@media (max-width: 768px) {
+  .hero-area {
+    flex-direction: column;
+    gap: 40px 0;
+  }
+
+  .hero-left {
+    width: 100%;
+  }
+
+  .hero-right {
+    width: 100%;
+    padding: 0 10%;
+  }
+
+  .courses-btn {
+    display: inline-block;
+  }
+
+  .banner-text-container {
+    padding: 0 10%;
+  }
+
+  .news.container-normal {
+    width: 100%;
+    padding: 0 10%;
+    box-sizing: border-box;
+    align-items: flex-start;
+    gap: 16px 0;
+  }
+
+  .news-more-btn {
+    display: inline-block;
+  }
+
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+
+  .location {
+    min-height: unset;
+  }
+
+  .location.container-normal {
+    width: 100%;
+    padding: 0 10%;
+    box-sizing: border-box;
+  }
+
+  .location-left {
+    width: 100%;
+  }
+
+  .location-right {
+    display: none;
+  }
+
+  .card-container :deep(.card):nth-child(4) {
+    display: block;
+  }
+
+  .card-container :deep(.card) {
+    width: 100%;
+  }
+
+}
+
+.news-swiper {
+  display: none;
+  width: 100%;
+}
+
+.news-swiper :deep(.card) {
+  width: 100%;
+  cursor: pointer;
+}
+
+.news-swiper :deep(.swiper-pagination) {
+  position: static;
+  margin-top: 16px;
+}
+
+@media (max-width: 390px) {
+  .card-container {
+    display: none;
+  }
+
+  .news-swiper {
+    display: block;
+  }
+
+  .location-desc {
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+    overflow: visible;
+  }
+}
 </style>

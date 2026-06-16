@@ -84,7 +84,8 @@ img {
 }
 
 .title-height{
-    height: 83px;
+    line-height: 1.2;
+    height: 2.4em;
 }
 
 /* 修改line-clamp可以限制幾行後截斷 */
@@ -97,6 +98,9 @@ img {
 }
 
 .fixed-height{
-    height: 56px;
+    line-height: 1.2;
+    height: 3.6em;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
 }
 </style>

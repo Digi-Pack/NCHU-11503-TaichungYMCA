@@ -53,6 +53,21 @@ const props = defineProps({
     font-size: 1rem;
 }
 
+@media (max-width: 768px) {
+    .text-64 { font-size: 3rem; }
+    .text-48 { font-size: 2.25rem; }
+    .text-36 { font-size: 1.75rem; }
+    .text-32 { font-size: 1.5rem; }
+    .text-24 { font-size: 1.25rem; }
+}
+
+@media (max-width: 390px) {
+    .text-64 { font-size: 2.5rem; }
+    .text-48 { font-size: 2rem; }
+    .text-36 { font-size: 1.5rem; }
+    .text-32 { font-size: 1.25rem; }
+}
+
 .black {
     color: black;
 }
