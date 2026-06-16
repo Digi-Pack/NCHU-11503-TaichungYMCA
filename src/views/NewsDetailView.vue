@@ -79,8 +79,8 @@ function goBack() {
 }
 
 .container-normal {
-    width: 85%;
-    margin: auto;
+  width: calc(70% - 33.5px);
+  margin: auto;
 }
 
 .container-small {
