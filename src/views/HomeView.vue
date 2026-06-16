@@ -98,7 +98,7 @@ function goToDetail(id) {
 }
 
 .container-normal {
-  width: 85%;
+  width: calc(70% - 33.5px);
   margin: auto;
 }
 
@@ -210,12 +210,11 @@ image {
   display: flex;
   align-items: center;
   /* background-color: lightblue; */
-  padding: 0 0 0 178px;
   position: relative;
 }
 
 .location-left {
-  max-width: 760px;
+  width: 760px;
   z-index: 1;
 }
 
@@ -245,11 +244,11 @@ image {
 }
 
 .img-wrapper {
-  height: 525px;
+  height: 510px;
   min-width: 650px;
-  max-width: 650px;
+  /* max-width: 650px; */
   position: relative;
-  left: -100px;
+  /* left: -100px; */
 }
 
 .location-img {
