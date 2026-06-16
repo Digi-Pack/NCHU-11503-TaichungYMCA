@@ -77,7 +77,7 @@ function goToDetail(id) {
             <Text size="text-48">服務據點</Text>
             <RightCircleOutlined class="location-icon" />
           </div>
-          <Text size="text-36" color="gray"
+          <Text size="text-32" color="gray"
             class="location-desc">臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多人次。臺中市政府自開辦社大以來，由四家開放至六家承辦單位，台中YMCA憑藉良好辦學經驗及成果，至今通過市府多次招標審核、獲選承辦大墩社大。於市政府每年定期之社大評鑑中，皆獲評審委員一致肯定，並連續多年獲得教育部肯定為辦學績優單位。</Text>
         </div>
       </div>
@@ -211,10 +211,12 @@ image {
   align-items: center;
   /* background-color: lightblue; */
   position: relative;
+  min-height: 510px;
 }
 
 .location-left {
-  width: 760px;
+  width: calc(50% + 110px);
+  flex-shrink: 0;
   z-index: 1;
 }
 
@@ -237,18 +239,24 @@ image {
 
 .location-desc {
   text-align: justify;
+  display: -webkit-box;
+  -webkit-line-clamp: 7;
+  line-clamp: 7;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .location-right {
-  flex: 1;
+  width: 50%;
+  flex-shrink: 0;
+  margin-left: -110px;
 }
 
 .img-wrapper {
-  height: 510px;
-  min-width: 650px;
+  width: 100%;
+  aspect-ratio: 650 / 510;
   /* max-width: 650px; */
   position: relative;
-  /* left: -100px; */
 }
 
 .location-img {
@@ -261,4 +269,5 @@ image {
   inset: 0;
   background-color: rgba(255, 255, 255, 0.5);
 }
+
 </style>
