@@ -1,12 +1,11 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { BarChartOutlined, TableOutlined } from "@ant-design/icons-vue";
 import PageHero from '@/components/PageHero.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import { allLocations as initialLocations } from '@/data/location.js';
 
 // Banner 圖片路徑，替換成實際圖片
-const heroImage = '/images/locations-banner.jpg'
+const heroBanner = ref('https://picsum.photos/1918/336')
 
 // 麵包屑
 const breadcrumbItems = [
@@ -94,7 +93,7 @@ const changePage = (page) => {
     <Breadcrumb :items="breadcrumbItems" />
 
     <!-- Banner 區塊 -->
-    <PageHero :image="heroImage" />
+    <PageHero :image="heroBanner" />
 
     <!-- 主內容 -->
     <section class="locations-section" aria-labelledby="locations-heading">
@@ -116,36 +115,6 @@ const changePage = (page) => {
               {{ tag.label }}
             </a-button>
           </div>
-
-          <!-- 切換卡片/列表 -->
-          <a-button-group role="group" aria-label="切換顯示模式">
-            <!-- 左：Grid 卡片（AppstoreOutlined） -->
-            <a-button :aria-pressed="viewMode === 'grid'" aria-label="卡片檢視" :style="{
-              background: viewMode === 'grid' ? '#3C3C3C' : '#ffffff',
-              borderColor: viewMode === 'grid' ? '#3C3C3C' : '#d9d9d9',
-              width: '56px',
-              height: '56px',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: '8px 0 0 8px',
-            }" @click="viewMode = 'grid'">
-              <TableOutlined :style="{ fontSize: '20px', color: viewMode === 'grid' ? '#ffffff' : '#3C3C3C' }" />
-            </a-button>
-            <!-- 右：List 列表（BarChartOutlined） -->
-            <a-button :aria-pressed="viewMode === 'list'" aria-label="列表檢視" :style="{
-              background: viewMode === 'list' ? '#1E4620' : '#ffffff',
-              borderColor: viewMode === 'list' ? '#1E4620' : '#d9d9d9',
-              width: '56px',
-              height: '56px',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: '0 8px 8px 0',
-            }" @click="viewMode = 'list'">
-              <BarChartOutlined :style="{ fontSize: '20px', color: viewMode === 'list' ? '#ffffff' : '#3C3C3C' }" />
-            </a-button>
-          </a-button-group>
         </div>
 
         <!-- 卡片模式 -->
@@ -180,38 +149,22 @@ const changePage = (page) => {
               <time class="list-date" :datetime="location.date">{{ location.date }}</time>
             </div>
           </article>
+         
         </div>
 
         <!-- 分頁 Pagination -->
         <nav class="pagination" aria-label="頁碼導覽">
           <!-- 左：頁碼群組（箭頭 + 數字 + 箭頭） -->
           <div class="pagination-pages">
-            <button class="page-btn" :disabled="currentPage === 1" :aria-disabled="currentPage === 1" aria-label="上一頁"
-              @click="changePage(currentPage - 1)">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true">
-                <path d="M10 3L6 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg>
-            </button>
-
+            
             <button v-for="page in totalPages" :key="page" class="page-number" :class="{ active: currentPage === page }"
               :aria-label="`第 ${page} 頁`" :aria-current="currentPage === page ? 'page' : undefined"
               @click="changePage(page)">
               {{ page }}
             </button>
 
-            <button class="page-btn" :disabled="currentPage === totalPages" :aria-disabled="currentPage === totalPages"
-              aria-label="下一頁" @click="changePage(currentPage + 1)">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true">
-                <path d="M6 3L10 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg>
-            </button>
           </div>
 
-          <!-- 右：Page X of Y -->
           <p class="pagination-info" aria-live="polite">Page {{ currentPage }} of {{ totalPages }}</p>
         </nav>
       </div>
@@ -222,14 +175,6 @@ const changePage = (page) => {
 
 
 <style scoped>
-/* ===== 色票 ===== */
-/* Primary/3: #1E4620  Primary/0: #F0E9E3  Gary/5: #3C3C3C
-   Gary/4: #706F6F  Gary/3: #7D7D7D  Gary/0: #F9F6F0
-   White: #FFFFFF  Primary/5: #474135 */
-
-/* 麵包屑樣式由 Breadcrumb.vue 元件管理 */
-
-/* Banner 由 PageHero 元件負責，樣式定義在 PageHero.vue */
 
 /* ===== 主內容區 ===== */
 .locations-section {
@@ -250,7 +195,7 @@ const changePage = (page) => {
 
 .section-title {
   font-family: 'Inter', sans-serif;
-  font-size: clamp(32px, 4vw, 64px);
+  font-size: clamp(2rem, 4vw, 4rem);
   font-weight: 400;
   line-height: 1.2;
   color: #000;
@@ -341,7 +286,7 @@ const changePage = (page) => {
 
 .card-title {
   font-family: 'Inter', sans-serif;
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 400;
   line-height: 29px;
   color: #000;
@@ -350,7 +295,7 @@ const changePage = (page) => {
 
 .card-desc {
   font-family: 'Inter', sans-serif;
-  font-size: 20px;
+  font-size: 1.25rem;
   line-height: 24px;
   color: #757575;
   margin: 0;
@@ -362,7 +307,7 @@ const changePage = (page) => {
 
 .card-date {
   font-family: 'Inter', sans-serif;
-  font-size: 20px;
+  font-size: 1.25rem ;
   line-height: 24px;
   color: #757575;
 }
@@ -424,7 +369,7 @@ const changePage = (page) => {
 
 .list-title {
   font-family: 'Inter', sans-serif;
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 400;
   line-height: 29px;
   color: #000;
@@ -433,7 +378,7 @@ const changePage = (page) => {
 
 .list-desc {
   font-family: 'Inter', sans-serif;
-  font-size: 18px;
+  font-size: 1.125rem;
   line-height: 24px;
   color: #757575;
   margin: 0;
@@ -441,7 +386,7 @@ const changePage = (page) => {
 
 .list-date {
   font-family: 'Inter', sans-serif;
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 24px;
   color: #757575;
 }
@@ -502,7 +447,7 @@ const changePage = (page) => {
   border: 2px solid #3C3C3C;
   background: #fff;
   font-family: 'Noto Sans TC', sans-serif;
-  font-size: 18px;
+  font-size: 1.125rem;
   line-height: 22px;
   color: #3C3C3C;
   cursor: pointer;
@@ -528,7 +473,7 @@ const changePage = (page) => {
 
 .pagination-info {
   font-family: 'Noto Sans TC', sans-serif;
-  font-size: 24px;
+  font-size: 1.5rem;
   line-height: 29px;
   color: #3C3C3C;
   margin: 0;
@@ -587,11 +532,11 @@ const changePage = (page) => {
   }
 
   .list-title {
-    font-size: 18px;
+    font-size: 1.125rem;
   }
 
   .section-title {
-    font-size: 32px;
+    font-size: 2rem;
   }
 
   .locations-section {
@@ -612,7 +557,7 @@ const changePage = (page) => {
   }
 
   .pagination-info {
-    font-size: 16px;
+    font-size: 1rem;
   }
 }
 </style>
