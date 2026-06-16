@@ -112,10 +112,22 @@ function goToDetail(id) {
   /* background-color: black; */
   display: flex;
   gap: 0 75px;
+  overflow: hidden;
+}
+
+@keyframes slide-in-left {
+  from { transform: translateX(-120%); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(120%); }
+  to   { transform: translateX(0); }
 }
 
 .hero-left {
   width: 53%;
+  animation: slide-in-left 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 svg {
@@ -134,6 +146,7 @@ image {
   /* background-color: beige; */
   display: flex;
   align-items: center;
+  animation: slide-in-right 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s both;
 }
 
 .text-content {
