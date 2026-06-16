@@ -154,34 +154,24 @@
 
 /* =====================================
    Tablet Landscape 1024px
-===================================== */
+/* 1024 */
 @media (max-width: 1024px) {
-
   .footer-main {
-    min-height: auto;
-
-    padding: 140px 60px 80px;
-
-    gap: 48px;
-
-    justify-content: center;
-  }
-
-  .footer-logo {
-    width: 260px;
-    height: auto;
-  }
-
-  .footer-right {
+    width: 100%;
+    padding: 140px 48px 80px;
     gap: 40px;
   }
 
-  .footer-contact {
-    width: 320px;
+  .footer-logo {
+    width: 240px;
   }
 
-  .footer-contact .footer-title {
-    font-size: 1.5rem;
+  .footer-right {
+    gap: 32px;
+  }
+
+  .footer-contact {
+    width: 300px;
   }
 
   .footer-contact p {
@@ -190,12 +180,13 @@
   }
 
   .footer-map {
-    width: 320px;
+    width: 300px;
     height: 220px;
   }
 }
 
-/* Tablet */
+
+/* 768 */
 @media (max-width: 768px) {
   .footer-shape {
     height: auto;
@@ -203,85 +194,84 @@
   }
 
   .footer-main {
-    min-height: auto;
+    width: 100%;
     flex-direction: column;
     align-items: center;
-    gap: 32px;
-
-    padding: 80px 40px 60px;
+    padding: 90px 40px 60px;
+    gap: 36px;
   }
 
   .footer-logo {
     width: 220px;
-    height: auto;
-    margin: 0 auto;
   }
 
   .footer-right {
     width: 100%;
-
-    display: flex;
     flex-direction: row;
-
     justify-content: space-between;
-    align-items: flex-start;
-
-    gap: 32px;
+    gap: 28px;
   }
 
   .footer-contact {
-    width: 38%;
-    text-align: left;
+    width: 40%;
+  }
+
+  .footer-map {
+    width: 56%;
+    height: 240px;
   }
 
   .footer-contact .footer-title {
     font-size: 1.5rem;
-    margin-bottom: 16px;
   }
 
   .footer-contact p {
     font-size: 1.125rem;
     line-height: 1.6;
-    margin-bottom: 8px;
-  }
-
-  .footer-map {
-    width: 58%;
-    height: 250px;
-  }
-
-  .footer-map iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
   }
 }
 
-/* Mobile */
+
+/* 432 */
 @media (max-width: 432px) {
   .footer-shape {
-    min-height: 700px;
+    min-height: 760px;
   }
 
   .footer-main {
-    padding: 100px 40px 80px;
-    flex-direction: column;
+    padding: 90px 24px 60px;
+    gap: 28px;
   }
-
 
   .footer-logo {
     width: 180px;
   }
 
+  .footer-right {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .footer-contact {
+    width: 100%;
+    text-align: left;
+  }
+
   .footer-contact .footer-title {
     font-size: 1.25rem;
+    margin-bottom: 14px;
   }
 
   .footer-contact p {
     font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 6px;
   }
 
   .footer-map {
+    width: 100%;
     height: 220px;
   }
 
