@@ -1,9 +1,9 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { RouterLink } from 'vue-router'
+import { ref } from 'vue' 
 import PageHero from '@/components/PageHero.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import { aboutCards } from '@/data/aboutData.js'
+
 
 const breadcrumbItems = [
   { text: '首頁', to: '/' },
@@ -11,26 +11,7 @@ const breadcrumbItems = [
 ]
 
 const heroBanner = ref('https://picsum.photos/1918/336')
-
-const cardList = ref(aboutCards)
-
-const PAGE_SIZE = 4
-const currentPage = ref(1)
-
-const totalPages = computed(() =>
-  Math.ceil(cardList.value.length / PAGE_SIZE)
-)
-
-const pagedNews = computed(() => {
-  const start = (currentPage.value - 1) * PAGE_SIZE
-  return cardList.value.slice(start, start + PAGE_SIZE)
-})
-
-function goPage(p) {
-  if (p < 1 || p > totalPages.value) return
-  currentPage.value = p
-  window.scrollTo({ top: 0, behavior: 'smooth' })
-}
+const cardList = ref(aboutCards) // 直接使用資料來源
 </script>
 
 <template>
@@ -72,10 +53,7 @@ function goPage(p) {
           </p>
 
           <div class="intro-image">
-            <img
-              src="@/assets/img/關於我們/about.png"
-              alt="關於北屯社區大學"
-            />
+            <img src="@/assets/img/關於我們/about.png" alt="關於北屯社區大學" />
           </div>
 
         </div>
@@ -91,7 +69,7 @@ function goPage(p) {
           </div>
 
           <ul class="card-grid">
-            <li v-for="item in pagedNews" :key="item.id" class="card">
+            <li v-for="item in cardList" :key="item.id" class="card">
               <div class="card-img">
                 <img :src="item.image" :alt="item.title" />
               </div>
@@ -119,17 +97,14 @@ function goPage(p) {
 }
 
 .about-page {
-  position: relative;
+  /* 移除 min-height: 4039px; */
   width: 100%;
-  max-width: 1920px;
-  min-height: 4039px;
-  margin: auto;
+  margin: 0;
   background: #ffffff;
   display: flex;
   flex-direction: column;
-  gap: 0;
-  overflow: hidden;
-  font-family: 'Noto Sans TC', sans-serif;
+  /* 讓容器根據內容自動撐開，並在下方保留適當的 padding */
+  padding-bottom: 80px; 
 }
 
 /* ===== Banner ===== */
@@ -138,11 +113,13 @@ function goPage(p) {
   display: flex;
   flex-direction: column;
   padding-bottom: 80px;
+
 }
 
 .hero-wrapper {
   position: relative;
   width: 100%;
+
 }
 
 .hero-wrapper :deep(svg),
@@ -187,10 +164,12 @@ main {
 
 /* ===== Section Header (shared) ===== */
 .intro-header {
-  width: 1600px;
+  width: 100%;
+  max-width: 1600px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  margin: 0 auto;
 }
 
 .intro-header-text {
@@ -369,7 +348,7 @@ main {
 /* ===== RWD ===== */
 @media (max-width: 1920px) {
   .news-section {
-    padding: 0 80px;
+    padding: 0 262px;
   }
 
   .intro-header,
