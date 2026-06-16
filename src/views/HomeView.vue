@@ -26,7 +26,7 @@ function goToDetail(id) {
     <div class="hero-area container-full">
       <div class="hero-left">
         <!-- SVG 畫布：寬 1017、高 659整體概念：先把圖片鋪滿整個畫布，再用 clipPath 把超出形狀的部分裁掉 -->
-        <svg viewBox="0 0 1017 659" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 1017 659" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <!-- clipPath（裁切路徑）：定義一個不規則形狀的「模板」
           只有落在這個形狀內的圖片區域才會顯示，超出的部分會被隱藏 -->
@@ -149,7 +149,7 @@ function goToDetail(id) {
 svg {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
 }
 
 image {
@@ -323,20 +323,64 @@ image {
 
 .img-wrapper {
   width: 100%;
-  aspect-ratio: 650 / 510;
-  /* max-width: 650px; */
+  height: 510px;
   position: relative;
 }
 
 .location-img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
 .location-overlay {
   position: absolute;
   inset: 0;
   background-color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 1024px) {
+  .hero-area {
+    gap: 0 40px;
+  }
+
+  .hero-left {
+    width: 60%;
+  }
+
+  .news {
+    gap: 32px 0;
+  }
+
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+
+  .card-container :deep(.card):nth-child(4) {
+    display: block;
+  }
+
+  .card-container :deep(.card) {
+    width: 100%;
+  }
+
+  .location {
+    min-height: unset;
+  }
+
+  .location-right {
+    display: none;
+  }
+
+  .location-left {
+    width: 100%;
+  }
+
+  .location-icon {
+    font-size: 2.625rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -398,6 +442,16 @@ image {
     display: none;
   }
 
+  .location-desc {
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+    overflow: visible;
+  }
+
+  .location-icon {
+    font-size: 2.25rem;
+  }
+
   .card-container :deep(.card):nth-child(4) {
     display: block;
   }
@@ -423,6 +477,32 @@ image {
   margin-top: 16px;
 }
 
+@media (max-width: 576px) {
+  .card-container {
+    display: none;
+  }
+
+  .news-swiper {
+    display: block;
+  }
+
+  .news.container-normal {
+    padding: 0 6%;
+  }
+
+  .hero-right {
+    padding: 0 6%;
+  }
+
+  .banner-text-container {
+    padding: 0 6%;
+  }
+
+  .location.container-normal {
+    padding: 0 6%;
+  }
+}
+
 @media (max-width: 390px) {
   .card-container {
     display: none;
@@ -436,6 +516,10 @@ image {
     -webkit-line-clamp: unset;
     line-clamp: unset;
     overflow: visible;
+  }
+
+  .location-icon {
+    font-size: 2rem;
   }
 }
 </style>
