@@ -418,28 +418,10 @@ image {
     display: inline-block;
   }
 
-  .card-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 40px;
-  }
-
-  .location {
-    min-height: unset;
-  }
-
   .location.container-normal {
     width: 100%;
     padding: 0 10%;
     box-sizing: border-box;
-  }
-
-  .location-left {
-    width: 100%;
-  }
-
-  .location-right {
-    display: none;
   }
 
   .location-desc {
@@ -450,14 +432,6 @@ image {
 
   .location-icon {
     font-size: 2.25rem;
-  }
-
-  .card-container :deep(.card):nth-child(4) {
-    display: block;
-  }
-
-  .card-container :deep(.card) {
-    width: 100%;
   }
 
 }
@@ -504,20 +478,6 @@ image {
 }
 
 @media (max-width: 390px) {
-  .card-container {
-    display: none;
-  }
-
-  .news-swiper {
-    display: block;
-  }
-
-  .location-desc {
-    -webkit-line-clamp: unset;
-    line-clamp: unset;
-    overflow: visible;
-  }
-
   .location-icon {
     font-size: 2rem;
   }
