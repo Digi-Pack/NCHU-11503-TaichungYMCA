@@ -1,5 +1,30 @@
+<script setup>
+import { ref, onMounted, onUnmounted } from "vue";
+
+const navbarBg = ref("rgba(255,255,255,0.95)");
+
+function handleScroll() {
+  const scrollY = window.scrollY;
+
+  const alpha = Math.max(
+    0.4,
+    0.95 - scrollY / 500
+  );
+
+  navbarBg.value = `rgba(255,255,255,${alpha})`;
+}
+
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
+});
+
+</script>
 <template>
-  <header class="navbar">
+  <header class="navbar" :style="{ backgroundColor: navbarBg }">
     <RouterLink to="/" class="logo">
       <img src="/img/logo.png" alt="北屯社區大學" />
     </RouterLink>
@@ -19,7 +44,6 @@
         <a href="#">
           <img src="/img/ig.png" alt="Instagram" />
         </a>
-        
       </div>
     </div>
   </header>
@@ -29,12 +53,17 @@
 .navbar {
   width: 100%;
   height: 72px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 48px;
-  background-color: #fff;
   box-sizing: border-box;
+  backdrop-filter: blur(8px);
+  transition: background-color 0.3s ease;
 }
 
 .logo img {
@@ -57,7 +86,7 @@
 
 .nav-links a {
   font-size: 1.25rem;
-  color: #1E4620;
+  color: #1e4620;
   text-decoration: none;
   white-space: nowrap;
 }
@@ -73,8 +102,8 @@
 }
 
 .social-links a {
-width: 50px;
-height: 56px;
+  width: 50px;
+  height: 56px;
   display: flex;
   justify-content: center;
   align-items: center;
