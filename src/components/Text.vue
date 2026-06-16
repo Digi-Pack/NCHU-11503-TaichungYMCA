@@ -22,7 +22,7 @@ const props = defineProps({
     font-size: 4rem;
 }
 
-.text-48{
+.text-48 {
     font-size: 3rem;
 }
 
