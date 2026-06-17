@@ -7,6 +7,7 @@ import LocationsView from '@/views/LocationsView.vue'
 import CoursesView from '@/views/CoursesView.vue'
 import CourseDetailView from '@/views/CourseDetailView.vue'
 import NewsDetailView from '@/views/NewsDetailView.vue'
+import NotFoundView from '@/views/NotFoundView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -59,6 +60,11 @@ const router = createRouter({
       path: '/courses/:id',
       name: 'course-detail',
       component: CourseDetailView,
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: NotFoundView,
     },
   ],
 })

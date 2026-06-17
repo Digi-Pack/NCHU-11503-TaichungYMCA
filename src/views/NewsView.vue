@@ -16,17 +16,37 @@ const breadcrumbItems = [{ text: "首頁", to: "/" }, { text: "最新消息" }];
 const category = ["社大新鮮事", "高齡預防照護", "數位課程", "食農教育", "都市農業", "社區成果分享"];
 const current = ref(Number(route.query.page) || 1);
 const pageSize = 6;
-const selectedCategory = ref(null);
+const selectedCategory = ref(route.query.category || null);
 const viewMode = ref(route.query.view === "list" ? "list" : "card");
+const keywordInput = ref('');
+const keyword = ref('');
 
 function setViewMode(mode) {
   viewMode.value = mode;
 }
 
 const filteredNews = computed(() => {
-  if (!selectedCategory.value) return newsList;
-  return newsList.filter((news) => news.category === selectedCategory.value);
+  const searchText = keyword.value.trim().toLowerCase();
+  return newsList.filter((news) => {
+    const matchCategory = !selectedCategory.value || news.category === selectedCategory.value;
+    const matchKeyword =
+      !searchText ||
+      news.title?.toLowerCase().includes(searchText) ||
+      news.content?.join('').toLowerCase().includes(searchText);
+    return matchCategory && matchKeyword;
+  });
 });
+
+function searchNews() {
+  keyword.value = keywordInput.value;
+  current.value = 1;
+}
+
+function clearSearch() {
+  keywordInput.value = '';
+  keyword.value = '';
+  current.value = 1;
+}
 
 const cardNews = computed(() => {
   const start = (current.value - 1) * pageSize;
@@ -46,7 +66,7 @@ function previewContent(content) {
 const router = useRouter();
 
 function goToDetail(id) {
-  router.push({ name: "news-detail", params: { id }, query: { from: "news", page: current.value, view: viewMode.value } });
+  router.push({ name: "news-detail", params: { id }, query: { from: "news", page: current.value, view: viewMode.value, category: selectedCategory.value } });
 }
 
 const newsTitleRef = ref(null);
@@ -82,6 +102,18 @@ watch(viewMode, (view) => {
           <TableOutlined class="icon table" :class="{ active: viewMode === 'card' }" @click="setViewMode('card')" />
           <BarChartOutlined class="icon chart" :class="{ active: viewMode === 'list' }" @click="setViewMode('list')" />
         </div>
+      </div>
+
+      <div class="search-area">
+        <input
+          v-model="keywordInput"
+          type="text"
+          class="search-input"
+          placeholder="請輸入標題或內文關鍵字"
+          @keyup.enter="searchNews"
+        />
+        <button class="search-btn" @click="searchNews">搜尋</button>
+        <button v-if="keyword" class="clear-btn" @click="clearSearch">清除</button>
       </div>
 
       <div class="cards-area" v-show="viewMode === 'card'">
@@ -131,6 +163,45 @@ watch(viewMode, (view) => {
 .checkable-area {
   display: flex;
   justify-content: space-between;
+}
+
+.search-area {
+  display: flex;
+  gap: 12px;
+}
+
+.search-input {
+  flex: 1;
+  height: 52px;
+  padding: 0 20px;
+  border: 1px solid #cfcfcf;
+  border-radius: 999px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: #3c3c3c;
+}
+
+.search-btn,
+.clear-btn {
+  min-width: 88px;
+  height: 52px;
+  padding: 0 20px;
+  border-radius: 999px;
+  border: 1px solid #3c3c3c;
+  cursor: pointer;
+}
+
+.search-btn {
+  background-color: #3c3c3c;
+  color: #f0e9e3;
+}
+
+.clear-btn {
+  background-color: white;
+  color: #3c3c3c;
 }
 
 .button-area {

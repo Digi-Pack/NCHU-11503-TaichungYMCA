@@ -20,6 +20,35 @@ const router = useRouter();
 function goToDetail(id) {
   router.push({ name: "news-detail", params: { id }, query: { from: "home" } });
 }
+
+const vReveal = {
+  beforeMount(el, binding) {
+    el.classList.add("reveal-hidden");
+    const index = binding.value?.index ?? 0;
+    el.style.transitionDelay = `${index * 0.12}s`;
+  },
+  mounted(el, binding) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            el.classList.add("reveal-visible");
+            observer.unobserve(el);
+          }
+        });
+      },
+      {
+        threshold: binding.value?.threshold ?? 0.15,
+        rootMargin: binding.value?.rootMargin ?? "0px 0px -10% 0px",
+      }
+    );
+    observer.observe(el);
+    el._revealObserver = observer;
+  },
+  unmounted(el) {
+    el._revealObserver?.disconnect();
+  },
+};
 </script>
 <template>
   <main class="home">
@@ -56,7 +85,7 @@ function goToDetail(id) {
       </div>
     </div>
 
-    <div class="banner container-full">
+    <div class="banner container-full" v-reveal>
       <img class="banner-img" src="https://picsum.photos/1905/400" alt="">
       <div class="banner-overlay"></div>
       <div class="banner-text-container">
@@ -71,11 +100,12 @@ function goToDetail(id) {
         <Text size="text-48">最新消息</Text>
       </div>
       <div class="card-container">
-        <HomeNewsCard v-for="news in latestNews" :key="news.id" :outPicture="news.outPicture" :title="news.title"
+        <HomeNewsCard v-for="(news, index) in latestNews" :key="news.id" v-reveal="{ index }"
+          :outPicture="news.outPicture" :title="news.title"
           :desc="news.desc" :date="news.date" @click="goToDetail(news.id)"></HomeNewsCard>
       </div>
 
-      <div class="news-swiper">
+      <div class="news-swiper" v-reveal>
         <Swiper :modules="[Pagination]" :slides-per-view="1" :pagination="{ clickable: true }">
           <SwiperSlide v-for="news in latestNews" :key="news.id">
             <HomeNewsCard :outPicture="news.outPicture" :title="news.title"
@@ -87,7 +117,7 @@ function goToDetail(id) {
       <RouterLink to="/news" class="news-more-btn">查看更多 →</RouterLink>
     </div>
 
-    <div class="location container-normal" @click="router.push('/locations')">
+    <div class="location container-normal" v-reveal @click="router.push('/locations')">
       <div class="location-left">
         <div class="location-text-container">
           <div class="location-title">
@@ -183,7 +213,7 @@ image {
 }
 
 .courses-btn {
-  display: none;
+  display: inline-block;
   padding: 14px 28px;
   border-radius: 6px;
   background-color: #1e4620;
@@ -255,7 +285,7 @@ image {
 }
 
 .news-more-btn {
-  display: none;
+  display: inline-block;
   align-self: flex-end;
   padding: 10px 20px;
   border-radius: 6px;
@@ -264,6 +294,7 @@ image {
   text-decoration: none;
   font-size: 1rem;
   white-space: nowrap;
+  /* margin-top: -32px; */
 }
 
 .news-more-btn:hover {
@@ -349,6 +380,12 @@ image {
   position: absolute;
   inset: 0;
   background-color: rgba(255, 255, 255, 0.5);
+}
+
+@media (min-width: 1300px) {
+  .news-more-btn {
+    margin-top: -42px;
+  }
 }
 
 @media (max-width: 1750px) {
@@ -446,11 +483,7 @@ image {
     padding: 0 10%;
   }
 
-  .courses-btn {
-    display: inline-block;
-  }
-
-  .banner-text-container {
+.banner-text-container {
     padding: 0 10%;
   }
 
@@ -460,11 +493,7 @@ image {
     gap: 16px 0;
   }
 
-  .news-more-btn {
-    display: inline-block;
-  }
-
-  .location.container-normal {
+.location.container-normal {
     width: 100%;
     padding: 0 10%;
     box-sizing: border-box;
@@ -516,6 +545,27 @@ image {
 @media (max-width: 390px) {
   .location-icon {
     font-size: 2rem;
+  }
+}
+
+/* === 捲動淡入動畫 === */
+.reveal-hidden {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-hidden {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    transition-delay: 0s;
   }
 }
 </style>

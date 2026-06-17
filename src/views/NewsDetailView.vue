@@ -20,7 +20,7 @@ function goBack() {
   if (route.query.from === "home") {
     router.push({ name: "home", hash: "#latest-news" });
   } else {
-    router.push({ name: "news", query: { page: route.query.page, view: route.query.view }, hash: "#news-title" });
+    router.push({ name: "news", query: { page: route.query.page, view: route.query.view, category: route.query.category }, hash: "#news-title" });
   }
 }
 </script>
@@ -167,7 +167,7 @@ function goBack() {
 
 .video-section {
     width: 100%;
-    height: 630px;
+    height: clamp(250px, 33vw, 630px);
 }
 
 .video-section iframe {
@@ -179,7 +179,7 @@ function goBack() {
 
 .audio-section {
     width: 100%;
-    height: 352px;
+    height: clamp(180px, 18.4vw, 352px);
 }
 
 .audio-section iframe {
