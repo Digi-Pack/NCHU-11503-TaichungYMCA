@@ -1,5 +1,33 @@
 <script setup>
-import Text from "@/components/Text.vue";
+import { reactive, ref } from "vue";
+
+const isOpen = ref(false);
+
+const form = reactive({
+    name: "",
+    email: "",
+    message: "",
+});
+
+function openModal() {
+    isOpen.value = true;
+}
+
+function closeModal() {
+    isOpen.value = false;
+}
+
+function submitForm() {
+    console.log("送出的資料：", form);
+
+    alert("感謝您的回饋！");
+
+    form.name = "";
+    form.email = "";
+    form.message = "";
+
+    closeModal();
+}
 </script>
 
 <template>
@@ -36,37 +64,6 @@ import Text from "@/components/Text.vue";
     </div>
 </template>
 
-<script setup>
-import { reactive, ref } from "vue";
-
-const isOpen = ref(false);
-
-const form = reactive({
-    name: "",
-    email: "",
-    message: "",
-});
-
-function openModal() {
-    isOpen.value = true;
-}
-
-function closeModal() {
-    isOpen.value = false;
-}
-
-function submitForm() {
-    console.log("送出的資料：", form);
-
-    alert("感謝您的回饋！");
-
-    form.name = "";
-    form.email = "";
-    form.message = "";
-
-    closeModal();
-}
-</script>
 
 <style scoped>
 .opinion-btn {
