@@ -1,102 +1,45 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed } from 'vue'
+import { allLocations } from '@/data/location.js'
 import PageHero from '@/components/PageHero.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
-import { allLocations as initialLocations } from '@/data/location.js'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Pagination } from 'swiper/modules'
-import 'swiper/css'
-import 'swiper/css/pagination'
 
-const heroBanner = ref('https://picsum.photos/1918/336')
 
-const breadcrumbItems = [
+const locationHeroImg = ref('https://picsum.photos/1920/336')
+
+const BreadcrumbItems = [
   { text: '首頁', to: '/' },
   { text: '服務據點' },
 ]
 
-const setMeta = (name, content, isProperty = false) => {
-  const attr = isProperty ? 'property' : 'name'
-  let el = document.querySelector(`meta[${attr}="${name}"]`)
-  if (!el) {
-    el = document.createElement('meta')
-    el.setAttribute(attr, name)
-    document.head.appendChild(el)
-  }
-  el.setAttribute('content', content)
+
+
+
+// 特定 alias 對應徽章顏色
+const aliasBadgeColors = {
+  '東光活動中心': { bg: '#E8F4FD', text: '#1565C0', border: '#90CAF9' },
+  '大德國中': { bg: '#FFF3E0', text: '#E65100', border: '#FFCC80' },
+  '陳平國小': { bg: '#F3E5F5', text: '#6A1B9A', border: '#CE93D8' },
+  '文昌國小': { bg: '#E8F5E9', text: '#2E7D32', border: '#A5D6A7' },
+  '北屯會館': { bg: '#FCE4EC', text: '#880E4F', border: '#F48FB1' },
+  '松竹國小': { bg: '#E0F7FA', text: '#00695C', border: '#80DEEA' },
+  '仁美國小': { bg: '#FFFDE7', text: '#F57F17', border: '#FFF176' },
+  '東山高中': { bg: '#E5E1FC', text: '#20107E', border: '#B39DDB' },
 }
 
-const prevTitle = document.title
+function getBadgeStyle(alias) {
+  const c = aliasBadgeColors[alias]
+  if (!c) return null
+  return {
+    backgroundColor: c.bg,
+    color: c.text,
+    border: `1px solid ${c.border}`,
+  }
+}
 
-// ── 視窗寬度偵測（驅動所有 RWD，不用 media query）────────────
-const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1280)
-const updateWindowWidth = () => { windowWidth.value = window.innerWidth }
-
-// 是否進入 Swiper 模式
-const isMobileSwiper = computed(() => windowWidth.value < 576)
-
-// section-container padding（取代 media query）
-const containerPadding = computed(() => {
-  const w = windowWidth.value
-  if (w < 576)  return '0 16px'
-  if (w < 768)  return '0 20px'
-  if (w < 1100) return '0 40px'
-  if (w < 1400) return '0 80px'
-  return '0 158px'
-})
-
-// card-group grid columns（取代 media query）
-const cardColumns = computed(() => {
-  const w = windowWidth.value
-  if (w < 1100) return 'repeat(2, 1fr)'
-  return 'repeat(3, 1fr)'
-})
-
-// card-group gap（取代 media query）
-const cardGap = computed(() => {
-  const w = windowWidth.value
-  if (w < 1100) return '32px'
-  if (w < 1400) return '40px'
-  return '64px'
-})
-
-// toolbar 方向（取代 media query）
-const toolbarDirection = computed(() => windowWidth.value < 768 ? 'column' : 'row')
-const toolbarAlign = computed(() => windowWidth.value < 768 ? 'flex-start' : 'center')
-
-// section padding（取代 media query）
-const sectionPadding = computed(() => windowWidth.value < 768 ? '32px 0 48px' : '60px 0 80px')
-
-// section-title size
-const titleSize = computed(() => {
-  const w = windowWidth.value
-  if (w < 576) return '2rem'
-  return 'clamp(2rem, 4vw, 4rem)'
-})
-
-// list-img size
-const listImgWidth = computed(() => windowWidth.value < 768 ? '120px' : '200px')
-const listImgHeight = computed(() => windowWidth.value < 768 ? '90px' : '140px')
-
-onMounted(() => {
-  document.title = '服務據點 | 臺中市北屯社區大學'
-  setMeta('description', '查詢臺中市北屯社區大學各服務據點資訊，包含地址、電話及交通方式。')
-  setMeta('og:title', '服務據點 | 臺中市北屯社區大學', true)
-  setMeta('og:description', '查詢臺中市北屯社區大學各服務據點資訊。', true)
-  setMeta('og:type', 'website', true)
-  updateWindowWidth()
-  window.addEventListener('resize', updateWindowWidth)
-})
-
-onUnmounted(() => {
-  document.title = prevTitle
-  window.removeEventListener('resize', updateWindowWidth)
-})
-
-// ── 分部標籤 ─────────────────────────────────────────────
-const branchTags = [
+const tags = [
   { label: '全部', value: 'all' },
-  { label: '北屯分部', value: '北屯分部' },
+  { label: '北屯本部', value: '北屯本部' },
   { label: '松竹分部', value: '松竹分部' },
   { label: '東山分部', value: '東山分部' },
   { label: '大德分部', value: '大德分部' },
@@ -106,635 +49,476 @@ const branchTags = [
 ]
 
 const activeTag = ref('all')
-const viewMode = ref('grid')
-const currentPage = ref(1)
-const itemsPerPage = 6
+function setActiveTag(v) { activeTag.value = v }
 
-const allLocations = ref(initialLocations)
-
-const setTag = (tag) => {
-  activeTag.value = tag
-  currentPage.value = 1
-}
-
-const filteredLocations = computed(() => {
-  if (activeTag.value === 'all') return allLocations.value
-  return allLocations.value.filter((l) => l.region === activeTag.value)
-})
-
-const totalPages = computed(() => Math.ceil(filteredLocations.value.length / itemsPerPage))
-
-const paginatedLocations = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage
-  return filteredLocations.value.slice(start, start + itemsPerPage)
-})
-
-const changePage = (page) => {
-  if (page < 1 || page > totalPages.value) return
-  currentPage.value = page
-  window.scrollTo({ top: 0, behavior: 'smooth' })
-}
-
-const swiperModules = [Pagination]
+const filteredLocations = computed(() =>
+  activeTag.value === 'all'
+    ? allLocations
+    : allLocations.filter(loc => loc.region === activeTag.value)
+)
 </script>
 
 <template>
-  <main id="main-content">
-    <Breadcrumb :items="breadcrumbItems" />
-    <PageHero :image="heroBanner" />
+  <main id="main-content" class="locations-page">
 
-    <section
-      class="locations-section"
-      aria-labelledby="locations-heading"
-      :style="{ padding: sectionPadding }"
-    >
-      <div
-        class="section-container"
-        :style="{ padding: containerPadding }"
-      >
-        <div class="section-header">
-          <h1
-            id="locations-heading"
-            class="section-title"
-            :style="{ fontSize: titleSize }"
-          >
-            服務據點
-          </h1>
-        </div>
+    <!-- Banner -->
+    <section class="banner" aria-label="服務據點頁面標題">
+      <Breadcrumb :items="BreadcrumbItems" />
+      <PageHero :image="locationHeroImg" />
+    </section>
 
-        <div
-          class="toolbar"
-          role="toolbar"
-          aria-label="篩選與檢視工具列"
-          :style="{
-            flexDirection: toolbarDirection,
-            alignItems: toolbarAlign,
-          }"
-        >
-          <div class="tag-group" role="group" aria-label="地區篩選">
-            <a-button
-              v-for="tag in branchTags"
-              :key="tag.value"
-              shape="round"
-              :aria-pressed="activeTag === tag.value"
-              :style="activeTag === tag.value
-                ? { background: '#3C3C3C', borderColor: '#938D6B', color: '#ffffff', fontSize: '1rem', height: '51px', minWidth: '120px' }
-                : { background: '#ffffff', borderColor: '#3C3C3C', color: '#3C3C3C', fontSize: '1rem', height: '51px', minWidth: '120px' }"
-              @click="setTag(tag.value)"
-            >
-              {{ tag.label }}
-            </a-button>
+    <!-- Main content -->
+    <section class="locations-section" aria-labelledby="locations-title">
+      <div class="container">
+
+        <!-- Section heading -->
+        <header class="section-header">
+          <div class="section-header__title-row">
+            <div class="section-header__title-group">
+              <h1 id="locations-title" class="section-header__h1">服務據點</h1>
+              <div class="section-header__underline" aria-hidden="true"></div>
+            </div>
           </div>
+          <p class="section-header__subtitle">
+            臺中市北屯（原大墩）社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多人次。臺中市政府自開辦社大以來，由四家開放至六家承辦單位，台中YMCA憑藉良好辦學經驗及成果，至今通過市府多次招標審核、獲選承辦大墩社大。
+          </p>
+        </header>
+
+        <!-- Filter tags -->
+        <div class="tag-group" role="group" aria-label="篩選服務據點分類">
+          <button v-for="tag in tags" :key="tag.value" class="tag" :class="{ 'tag--active': activeTag === tag.value }"
+            :aria-pressed="activeTag === tag.value" @click="setActiveTag(tag.value)">
+            {{ tag.label }}
+          </button>
         </div>
 
-        <!-- ══ Swiper 模式（< 576px）══════════════════════════ -->
-        <template v-if="isMobileSwiper">
-          <!--
-            .swiper-host：固定用 100vw 撐滿視窗、左移到螢幕邊緣，
-            避免父層 padding 造成的寬度錯誤與圖片溢出。
-          -->
-          <div class="swiper-host">
-            <Swiper
-              :modules="swiperModules"
-              :slides-per-view="1"
-              :space-between="16"
-              :centered-slides="true"
-              :pagination="{ clickable: true }"
-              class="location-swiper"
-              aria-label="服務據點滑動卡片"
-            >
-              <SwiperSlide
-                v-for="location in filteredLocations"
-                :key="location.id"
-              >
-                <article class="location-card">
-                  <div class="card-img" aria-hidden="true">
-                    <img
-                      v-if="location.image"
-                      :src="location.image"
-                      :alt="location.name + '照片'"
-                      loading="lazy"
-                      width="491"
-                      height="350"
-                    />
-                    <div v-else class="card-img-placeholder" aria-hidden="true"></div>
+        <!-- Locations list -->
+        <div class="locations-list" role="list" aria-label="服務據點清單">
+          <article v-for="location in filteredLocations" :key="location.id" class="location-card" role="listitem">
+            <div class="location-card__body">
+
+              <!-- Image -->
+              <div class="location-card__img-wrap">
+                <img :src="location.image" :alt="`${location.name} ${location.alias}`" class="location-card__img"
+                  loading="lazy" width="207" height="207" />
+              </div>
+
+              <!-- Info -->
+              <div class="location-card__content">
+                <div class="location-card__title-group">
+                  <div class="location-card__name-row">
+                    <h2 class="location-card__name">{{ location.name }}</h2>
+                    <!-- 有顏色徽章：東光活動中心 / 大德國中 / 陳平國小 -->
+                    <span v-if="location.alias && getBadgeStyle(location.alias)" class="location-card__badge"
+                      :style="getBadgeStyle(location.alias)" aria-label="`場地：${location.alias}`">{{ location.alias
+                      }}</span>
+                    <!-- 一般 alias（無特定顏色） -->
+                    <span v-else-if="location.alias" class="location-card__alias">{{ location.alias }}</span>
                   </div>
-                  <div class="card-text">
-                    <span class="card-region-tag">{{ location.region }}</span>
-                    <h3 class="card-title">{{ location.alias }}</h3>
-                    <p class="card-address">
-                      <svg class="address-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                        <circle cx="12" cy="10" r="3" />
-                      </svg>
-                      {{ location.description }}
-                    </p>
-                    <a
-                      :href="location.mapUrl"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="card-map-btn"
-                      :aria-label="'查看' + location.alias + '地圖'"
-                    >
+                  <div class="location-card__title-line" aria-hidden="true"></div>
+                </div>
+
+                <div class="location-card__details">
+                  <div class="location-card__info-group">
+
+                    <div class="location-card__info-block">
+                      <p class="location-card__info-label">營業時間</p>
+                      <p class="location-card__info-value">週一至週五 14:00 - 21:00，週六日公休</p>
+                    </div>
+
+                    <div class="location-card__info-block">
+                      <p class="location-card__info-label">地址</p>
+                      <p class="location-card__info-value">{{ location.description }}</p>
+                    </div>
+
+                    <div class="location-card__info-block">
+                      <p class="location-card__info-label">電話</p>
+                      <p class="location-card__info-value">
+                        <a :href="`tel:${location.tel}`" class="location-card__tel-link">{{ location.tel }}</a>
+                      </p>
+                    </div>
+
+                  </div>
+
+                  <div class="location-card__more">
+                    <a :href="location.mapUrl" target="_blank" rel="noopener noreferrer" class="btn btn--gray"
+                      :aria-label="`查看 ${location.name} 地圖位置（開啟新視窗）`">
                       查看地圖
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" aria-hidden="true"
-                        style="vertical-align: middle; margin-left: 4px;">
-                        <path d="M3 11l19-9-9 19-2-8-8-2z" />
-                      </svg>
                     </a>
                   </div>
-                </article>
-              </SwiperSlide>
-            </Swiper>
-          </div>
-        </template>
+                </div>
+              </div>
 
-        <!-- ══ 一般模式（≥ 576px）══════════════════════════════ -->
-        <template v-else>
-          <!-- 卡片 Grid -->
-          <div
-            v-if="viewMode === 'grid'"
-            class="card-group"
-            role="list"
-            aria-label="服務據點卡片列表"
-            :style="{
-              gridTemplateColumns: cardColumns,
-              gap: cardGap,
-            }"
-          >
-            <article
-              v-for="location in paginatedLocations"
-              :key="location.id"
-              class="location-card"
-              role="listitem"
-            >
-              <div class="card-img" aria-hidden="true">
-                <img
-                  v-if="location.image"
-                  :src="location.image"
-                  :alt="location.name + '照片'"
-                  loading="lazy"
-                  width="491"
-                  height="350"
-                />
-                <div v-else class="card-img-placeholder" aria-hidden="true"></div>
-              </div>
-              <div class="card-text">
-                <span class="card-region-tag">{{ location.region }}</span>
-                <h3 class="card-title">{{ location.alias }}</h3>
-                <p class="card-address">
-                  <svg class="address-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
-                  {{ location.description }}
-                </p>
-                <a
-                  :href="location.mapUrl"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="card-map-btn"
-                  :aria-label="'查看' + location.alias + '地圖'"
-                >
-                  查看地圖
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" aria-hidden="true"
-                    style="vertical-align: middle; margin-left: 4px;">
-                    <path d="M3 11l19-9-9 19-2-8-8-2z" />
-                  </svg>
-                </a>
-              </div>
-            </article>
-          </div>
-
-          <!-- 列表 List -->
-          <div v-else class="list-group" role="list" aria-label="服務據點列表">
-            <article
-              v-for="location in paginatedLocations"
-              :key="location.id"
-              class="location-list-item"
-              role="listitem"
-            >
-              <div
-                class="list-img"
-                aria-hidden="true"
-                :style="{ width: listImgWidth, minWidth: listImgWidth, height: listImgHeight }"
-              >
-                <img
-                  v-if="location.image"
-                  :src="location.image"
-                  :alt="location.name + '照片'"
-                  loading="lazy"
-                  width="200"
-                  height="140"
-                />
-                <div v-else class="list-img-placeholder" aria-hidden="true"></div>
-              </div>
-              <div class="list-content">
-                <span class="card-region-tag">{{ location.region }}</span>
-                <h3 class="list-title">{{ location.alias }}</h3>
-                <p class="card-address">
-                  <svg class="address-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
-                  {{ location.description }}
-                </p>
-                <a
-                  :href="location.mapUrl"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="card-map-btn"
-                  :aria-label="'查看' + location.alias + '地圖'"
-                >
-                  查看地圖
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" aria-hidden="true"
-                    style="vertical-align: middle; margin-left: 4px;">
-                    <path d="M3 11l19-9-9 19-2-8-8-2z" />
-                  </svg>
-                </a>
-              </div>
-            </article>
-          </div>
-
-          <!-- 分頁 -->
-          <nav class="pagination" aria-label="頁碼導覽">
-            <div class="pagination-pages">
-              <button
-                v-for="page in totalPages"
-                :key="page"
-                class="page-number"
-                :class="{ active: currentPage === page }"
-                :aria-label="`第 ${page} 頁`"
-                :aria-current="currentPage === page ? 'page' : undefined"
-                @click="changePage(page)"
-              >
-                {{ page }}
-              </button>
             </div>
-            <p class="pagination-info" aria-live="polite">Page {{ currentPage }} of {{ totalPages }}</p>
-          </nav>
-        </template>
+          </article>
+        </div>
 
       </div>
     </section>
   </main>
 </template>
 
+
+
 <style scoped>
-/* ── 不含 RWD breakpoint 的 media query，全部改由 JS computed 控制 ── */
+/* ── CSS custom properties (scoped to component root) ── */
+.locations-page {
+  --c-primary: #1E4620;
+  --c-primary-bg: #F0E9E3;
+  --c-gray-0: #F9F6F0;
+  --c-gray-2: #B1B0B0;
+  --c-gray-3: #7D7D7D;
+  --c-gray-4: #706F6F;
+  --c-gray-5: #3C3C3C;
+  --c-white: #FFFFFF;
+  --c-border: #000000;
+  --c-tag-border: #938D6B;
+  --f-noto: 'Noto Sans TC', sans-serif;
+  --f-inter: 'Inter', sans-serif;
 
+  display: flex;
+  flex-direction: column;
+  background: var(--c-gray-0);
+  min-height: 100vh;
+}
+
+/* ── Banner ── */
+.banner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.breadcrumb-nav {
+  width: 1300px;
+  max-width: 100%;
+  margin-inline: auto;
+  padding: 12px clamp(16px, 4vw, 40px);
+  box-sizing: border-box;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 12px 0;
+}
+
+.breadcrumb__item {
+  font-family: var(--f-noto);
+  font-size: 1rem;
+  line-height: 19px;
+}
+
+.breadcrumb__separator {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb__link {
+  color: var(--c-gray-3);
+  text-decoration: none;
+}
+
+.breadcrumb__link:hover,
+.breadcrumb__link:focus {
+  text-decoration: underline;
+  color: var(--c-primary);
+}
+
+.breadcrumb__item--current {
+  font-weight: 500;
+  color: var(--c-primary);
+}
+
+/* ── Container: fixed 1300px centre column ── */
+.container {
+  max-width: 1300px; /* 限制最大寬度為 1300px */
+  margin-inline: auto; /* 水平置中 */
+  padding-inline: clamp(16px, 4vw, 40px);
+  width: 100%; /* 確保在小螢幕時能自動縮放 */
+}
+
+/* ── Locations section ── */
 .locations-section {
-  background: #fff;
-  /* padding 由 :style 綁定 */
+  padding-block: clamp(32px, 4vw, 80px);
 }
 
-.section-container {
-  max-width: 1616px;
-  margin: 0 auto;
-  /* padding 由 :style 綁定 */
-}
-
+/* ── Section header ── */
 .section-header {
-  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
-.section-title {
-  font-family: 'Inter', sans-serif;
-  font-weight: 400;
+.section-header__title-row {
+  border-bottom: 3px solid var(--c-gray-5);
+  padding-bottom: 8px;
+}
+
+.section-header__title-group {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.section-header__h1 {
+  font-family: var(--f-noto);
+  font-weight: 500;
+  font-size: clamp(2rem, 4vw, 4rem);
   line-height: 1.2;
+  color: var(--c-gray-5);
+  margin: 0;
+}
+
+.section-header__subtitle {
+  font-family: var(--f-inter);
+  font-weight: 400;
+  font-size: clamp(1rem, 1.4vw, 1.5rem);
+  line-height: 1.7;
   color: #000;
   margin: 0;
-  /* font-size 由 :style 綁定 */
 }
 
-.toolbar {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 40px;
-  flex-wrap: wrap;
-  /* flex-direction / align-items 由 :style 綁定 */
-}
-
+/* ── Tag group ── */
 .tag-group {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
+  align-items: center;
   gap: 16px;
-  align-items: center;
+  padding:40px 0;
 }
 
-/* ===== 卡片 Grid ===== */
-.card-group {
-  display: grid;
-  /* grid-template-columns / gap 由 :style 綁定 */
-  margin-bottom: 74px;
-}
-
-.location-card {
-  display: flex;
-  flex-direction: column;
-  border-radius: 20px;
-  overflow: hidden;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-  transition: box-shadow 0.2s, transform 0.2s;
-}
-
-.location-card:hover {
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.13);
-  transform: translateY(-2px);
-}
-
-.card-img {
-  width: 100%;
-  aspect-ratio: 491 / 350;
-  overflow: hidden;
-  background: #e8e8e8;
-  position: relative;
-}
-
-.card-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.card-img-placeholder {
-  width: 100%;
-  height: 100%;
-  background: repeating-conic-gradient(#d8d8d8 0% 25%, #e8e8e8 0% 50%) 0 0 / 24px 24px;
-}
-
-.card-text {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 16px 24px 24px;
-  background: #fff;
-  border-radius: 0 0 20px 20px;
-  flex: 1;
-}
-
-.card-region-tag {
-  display: inline-block;
-  font-family: 'Noto Sans TC', sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #4a7c59;
-  background: #eaf3ed;
-  border-radius: 4px;
-  padding: 2px 10px;
-  width: fit-content;
-}
-
-.card-title {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 600;
-  line-height: 1.3;
-  color: #000;
-  margin: 0;
-}
-
-.card-address {
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
-  font-family: 'Noto Sans TC', sans-serif;
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #757575;
-  margin: 0;
-}
-
-.address-icon {
-  flex-shrink: 0;
-  margin-top: 3px;
-  color: #757575;
-}
-
-.card-map-btn {
-  display: flex;
-  align-items: center;
+.tag {
+  display: inline-flex;
   justify-content: center;
-  gap: 6px;
-  margin-top: auto;
-  padding: 12px 0;
-  background: #2d5a3d;
-  color: #fff;
-  border-radius: 8px;
-  font-family: 'Noto Sans TC', sans-serif;
+  align-items: center;
+  padding: 10px 16px;
+  height: 51px;
+  min-width: 96px;
+  background: var(--c-white);
+  border: 1px solid var(--c-gray-5);
+  border-radius: 20px;
+  font-family: var(--f-noto);
   font-size: 1rem;
-  font-weight: 500;
-  text-decoration: none;
-  transition: background 0.2s;
+  color: var(--c-gray-5);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
 }
 
-.card-map-btn:hover {
-  background: #1e4020;
+.tag:hover {
+  background: var(--c-gray-5);
+  color: var(--c-primary-bg);
+  border-color: var(--c-tag-border);
 }
 
-.card-map-btn:focus-visible {
-  outline: 2px solid #1E4620;
+.tag:focus-visible {
+  outline: 3px solid var(--c-primary);
   outline-offset: 2px;
 }
 
-/* ===== 列表 List ===== */
-.list-group {
+.tag--active {
+  background: var(--c-gray-5);
+  border-color: var(--c-tag-border);
+  color: var(--c-primary-bg);
+}
+
+/* ── Location list ── */
+.locations-list {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  margin-bottom: 74px;
+  padding-bottom: 40px;
 }
 
-.location-list-item {
-  display: flex;
-  gap: 32px;
-  border-radius: 16px;
-  overflow: hidden;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+/* ── Location card ── */
+.location-card {
+  background: var(--c-white);
+  border: 1px solid var(--c-border);
+  border-radius: 20px;
   padding: 24px;
-  align-items: flex-start;
-  transition: box-shadow 0.2s;
+  box-sizing: border-box;
+  display: flex;
 }
 
-.location-list-item:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+.location-card__body {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
 }
 
-.list-img {
-  /* width / min-width / height 由 :style 綁定 */
-  border-radius: 12px;
+/* Image */
+.location-card__img-wrap {
+  flex: 0 0 auto;
+  width: clamp(100px, 14vw, 207px);
+  height: clamp(100px, 14vw, 207px);
+  border-radius: 10px;
   overflow: hidden;
-  background: #e8e8e8;
-  flex-shrink: 0;
+  background: var(--c-gray-2);
 }
 
-.list-img img {
+.location-card__img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.list-img-placeholder {
-  width: 100%;
-  height: 100%;
-  background: repeating-conic-gradient(#d8d8d8 0% 25%, #e8e8e8 0% 50%) 0 0 / 20px 20px;
-  border-radius: 12px;
-}
-
-.list-content {
+/* Content area */
+.location-card__content {
+  flex: 1 1 320px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  flex: 1;
+  gap: 16px;
+  min-width: 0;
 }
 
-.list-title {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 600;
-  line-height: 29px;
+/* Title */
+.location-card__title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.location-card__name-row {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.location-card__name {
+  font-family: var(--f-noto);
+  font-weight: 500;
+  font-size: clamp(1.25rem, 2vw, 2.25rem);
+  line-height: 1.2;
+  color: var(--c-gray-5);
+  margin: 0;
+}
+
+.location-card__alias {
+  font-family: var(--f-noto);
+  font-weight: 400;
+  font-size: clamp(1rem, 1.2vw, 1.25rem);
+  color: var(--c-gray-3);
+  white-space: nowrap;
+}
+
+.location-card__title-line {
+  width: 100%;
+  height: 3px;
+  background: var(--c-primary);
+  border-radius: 2px;
+}
+
+/* Details row */
+.location-card__details {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.location-card__info-group {
+  flex: 1 1 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.location-card__info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.location-card__info-label {
+  font-family: var(--f-inter);
+  font-weight: 500;
+  font-size: clamp(1rem, 1.2vw, 1.5rem);
+  line-height: 1.4;
   color: #000;
   margin: 0;
 }
 
-/* ===== 分頁 ===== */
-.pagination {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  gap: 12px;
+.location-card__info-value {
+  font-family: var(--f-inter);
+  font-weight: 400;
+  font-size: clamp(1rem, 1.1vw, 1.5rem);
+  line-height: 1.4;
+  color: #000;
+  margin: 0;
 }
 
-.pagination-pages {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  justify-content: flex-start;
+.location-card__tel-link {
+  color: inherit;
+  text-decoration: none;
 }
 
-.page-number {
-  display: flex;
-  align-items: center;
+.location-card__tel-link:hover,
+.location-card__tel-link:focus {
+  text-decoration: underline;
+  color: var(--c-primary);
+}
+
+/* CTA */
+.location-card__more {
+  flex: 0 0 auto;
+  align-self: flex-end;
+}
+
+/* ── Button ── */
+.btn {
+  display: inline-flex;
   justify-content: center;
-  width: 45px;
-  height: 45px;
-  border-radius: 80px;
-  border: 2px solid #3C3C3C;
-  background: #fff;
-  font-family: 'Noto Sans TC', sans-serif;
+  align-items: center;
+  padding: 16px;
+  min-width: 104px;
+  height: 54px;
+  border-radius: 8px;
+  font-family: var(--f-noto);
+  font-weight: 400;
   font-size: 1.125rem;
-  line-height: 22px;
-  color: #3C3C3C;
+  text-decoration: none;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  border: none;
+  transition: opacity 0.18s, transform 0.15s;
+  white-space: nowrap;
+  
 }
 
-.page-number:hover {
-  background: #7D7D7D;
-  color: #F9F6F0;
-  border-color: #7D7D7D;
+.btn:hover {
+  opacity: 0.82;
+  transform: translateY(-1px);
 }
 
-.page-number:focus-visible {
-  outline: 2px solid #1E4620;
+.btn:focus-visible {
+  outline: 3px solid var(--c-primary);
   outline-offset: 2px;
 }
 
-.page-number.active {
-  background: #7D7D7D;
-  border-color: #3C3C3C;
-  color: #3C3C3C;
+.btn--gray {
+  background: var(--c-gray-4);
+  color: var(--c-gray-0);
 }
 
-.pagination-info {
-  font-family: 'Noto Sans TC', sans-serif;
-  font-size: 1.5rem;
-  line-height: 29px;
-  color: #3C3C3C;
-  margin: 0;
-  white-space: nowrap;
-  min-width: 160px;
-  text-align: right;
-}
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
 
-/* ===== Swiper ===== */
-
-/*
- * swiper-host：用 100vw 撐滿螢幕寬、以負 margin 抵消父層 padding，
- * 讓 Swiper 不受 section-container padding 影響，徹底解決圖片溢出。
- * overflow:hidden 截斷相鄰 slide 殘影。
- * padding-bottom 留給 pagination dots。
- */
-.swiper-host {
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  overflow: hidden;
-  padding-bottom: 52px;
-  box-sizing: border-box;
-}
-
-.location-swiper {
-  width: 100%;
-  /* 左右各留 16px 讓卡片不貼螢幕邊 */
-  padding-left: 16px !important;
-  padding-right: 16px !important;
-  box-sizing: border-box;
-}
-
-/* slide 高度 auto，讓卡片自然撐高 */
-.location-swiper :deep(.swiper-slide) {
-  height: auto;
-}
-
-/* swiper-slide 內的 article 撐滿高度 */
-.location-swiper :deep(.swiper-slide) .location-card {
-  height: 100%;
-}
-
-/* pagination dots 容器 */
-.location-swiper :deep(.swiper-pagination) {
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 0 0;
-}
-
-/* 預設 dot */
-.location-swiper :deep(.swiper-pagination-bullet) {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #C4C4C4;
-  opacity: 1;
-  flex-shrink: 0;
-  transition: background 0.2s, transform 0.2s;
-}
-
-/* 目前頁 dot */
-.location-swiper :deep(.swiper-pagination-bullet-active) {
-  background: #2d5a3d;
-  transform: scale(1.2);
+  .btn,
+  .tag {
+    transition: none;
+  }
 }
 </style>
