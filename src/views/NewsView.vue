@@ -103,8 +103,10 @@ watch(viewMode, (view) => {
 
 <style scoped>
 .container-normal {
-  width: calc(70% - 33.5px);
-  margin: auto;
+  width: 100%;
+  max-width: 1300px;
+  box-sizing: border-box;
+  margin: 0 auto;
 }
 
 .main-section {
@@ -113,6 +115,7 @@ watch(viewMode, (view) => {
   display: flex;
   flex-direction: column;
   gap: 40px 0;
+  margin-bottom: 80px;
 }
 
 .hero{
@@ -128,7 +131,7 @@ watch(viewMode, (view) => {
   max-width: 800px;
   display: flex;
   flex-wrap: wrap;
-  gap: 0 16px;
+  gap: 12px 16px;
 }
 
 .icon {
@@ -237,5 +240,80 @@ watch(viewMode, (view) => {
 .page-area :deep(.ant-pagination-prev),
 .page-area :deep(.ant-pagination-next) {
   display: none;
+}
+
+
+@media (max-width: 1400px) {
+  .container-normal {
+    padding: 0 80px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .hero {
+    margin-bottom: 40px;
+  }
+
+  .checkable-area {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .container-normal {
+    padding: 0 40px;
+  }
+
+  .cards-area {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 40px;
+  }
+}
+
+
+@media (max-width: 400px) {
+  .page-area {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .container-normal {
+    padding: 0 20px;
+  }
+
+  .cards-area {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .checkable-area {
+    flex-direction: column-reverse;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 560px) {
+  .button-area {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .category-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 440px) {
+  .button-area {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 </style>
