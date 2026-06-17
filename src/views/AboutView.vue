@@ -182,7 +182,7 @@ main {
   font-size: 4rem;
   line-height: 43px;
   color: #3C3C3C;
-  margin: 0;
+  margin: 8px 0;
 }
 
 .line {
