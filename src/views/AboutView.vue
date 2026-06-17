@@ -10,19 +10,19 @@ import Breadcrumb from '@/components/Breadcrumb.vue'
 import { aboutCards } from '@/data/aboutData.js'
 import aboutImage from '@/assets/img/關於我們/about.png'
 
-const breadcrumbItems = [
+const BreadcrumbItems = [
   { text: '首頁', to: '/' },
   { text: '關於我們' },
 ]
 
-const heroBanner = ref('https://picsum.photos/1918/336')
+const heroBanner = ref('https://picsum.photos/1920/336')
 const cardList = ref(aboutCards)
 const swiperModules = [Pagination]
 </script>
 <template>
   <div class="about-page">
     <section class="banner-section">
-      <Breadcrumb :items="breadcrumbItems" />
+      <Breadcrumb :items="BreadcrumbItems" />
       <div class="hero-wrapper">
         <PageHero :image="heroBanner" />
         <h1 class="hero-title"></h1>
