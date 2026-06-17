@@ -69,7 +69,6 @@ function goToDetail(id) {
     <div class="news container-normal" id="latest-news">
       <div class="news-title-row">
         <Text size="text-48">最新消息</Text>
-        <RouterLink to="/news" class="news-more-btn">查看更多 →</RouterLink>
       </div>
       <div class="card-container">
         <HomeNewsCard v-for="news in latestNews" :key="news.id" :outPicture="news.outPicture" :title="news.title"
@@ -84,6 +83,8 @@ function goToDetail(id) {
           </SwiperSlide>
         </Swiper>
       </div>
+
+      <RouterLink to="/news" class="news-more-btn">查看更多 →</RouterLink>
     </div>
 
     <div class="location container-normal" @click="router.push('/locations')">
@@ -237,11 +238,20 @@ image {
   /* background-color: lightgray; */
 }
 
+.news.container-normal {
+  width: 100%;
+  max-width: 1300px;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
 .news-title-row {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 12px 0;
+  border-bottom: 2px solid black;
+  padding-bottom: 2px;
 }
 
 .news-more-btn {
@@ -299,6 +309,8 @@ image {
   display: flex;
   align-items: center;
   gap: 0 10px;
+  border-bottom: 2px solid black;
+  padding-bottom: 2px;
 }
 
 .location-icon {
@@ -323,7 +335,7 @@ image {
 
 .img-wrapper {
   width: 100%;
-  height: 510px;
+  height: clamp(400px, calc(274.29px + 12.277vw), 510px);
   position: relative;
 }
 
@@ -339,15 +351,25 @@ image {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-@media (max-width: 1024px) {
-  .hero-area {
-    gap: 0 40px;
+@media (max-width: 1750px) {
+  .hero-right {
+    padding-right: 5%;
   }
+}
 
-  .hero-left {
-    width: 60%;
+@media (max-width: 1400px) {
+  .news.container-normal {
+    padding: 0 80px;
   }
+}
 
+@media (max-width: 1100px) {
+  .news.container-normal {
+    padding: 0 40px;
+  }
+}
+
+@media (max-width: 1300px) {
   .news {
     gap: 32px 0;
   }
@@ -366,6 +388,24 @@ image {
     width: 100%;
   }
 
+  .location-icon {
+    font-size: 2.625rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero-area {
+    gap: 0 40px;
+  }
+
+  .hero-left {
+    width: 60%;
+  }
+
+  .banner-text-container {
+    padding: 0 10%;
+  }
+
   .location {
     min-height: unset;
   }
@@ -378,8 +418,16 @@ image {
     width: 100%;
   }
 
+  .location-desc {
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+    overflow: visible;
+  }
+}
+
+@media (max-width: 950px) {
   .location-icon {
-    font-size: 2.625rem;
+    font-size: 2.375rem;
   }
 }
 
@@ -407,9 +455,7 @@ image {
   }
 
   .news.container-normal {
-    width: 100%;
-    padding: 0 10%;
-    box-sizing: border-box;
+    padding: 0 20px;
     align-items: flex-start;
     gap: 16px 0;
   }
@@ -422,12 +468,6 @@ image {
     width: 100%;
     padding: 0 10%;
     box-sizing: border-box;
-  }
-
-  .location-desc {
-    -webkit-line-clamp: unset;
-    line-clamp: unset;
-    overflow: visible;
   }
 
   .location-icon {
@@ -458,10 +498,6 @@ image {
 
   .news-swiper {
     display: block;
-  }
-
-  .news.container-normal {
-    padding: 0 6%;
   }
 
   .hero-right {
