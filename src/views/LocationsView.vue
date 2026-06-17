@@ -2,7 +2,11 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import PageHero from '@/components/PageHero.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
-import { allLocations as initialLocations } from '@/data/location.js';
+import { allLocations as initialLocations } from '@/data/location.js'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Pagination } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/pagination'
 
 const heroBanner = ref('https://picsum.photos/1918/336')
 
@@ -24,16 +28,69 @@ const setMeta = (name, content, isProperty = false) => {
 
 const prevTitle = document.title
 
+// ── 視窗寬度偵測（驅動所有 RWD，不用 media query）────────────
+const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1280)
+const updateWindowWidth = () => { windowWidth.value = window.innerWidth }
+
+// 是否進入 Swiper 模式
+const isMobileSwiper = computed(() => windowWidth.value < 576)
+
+// section-container padding（取代 media query）
+const containerPadding = computed(() => {
+  const w = windowWidth.value
+  if (w < 576)  return '0 16px'
+  if (w < 768)  return '0 20px'
+  if (w < 1100) return '0 40px'
+  if (w < 1400) return '0 80px'
+  return '0 158px'
+})
+
+// card-group grid columns（取代 media query）
+const cardColumns = computed(() => {
+  const w = windowWidth.value
+  if (w < 1100) return 'repeat(2, 1fr)'
+  return 'repeat(3, 1fr)'
+})
+
+// card-group gap（取代 media query）
+const cardGap = computed(() => {
+  const w = windowWidth.value
+  if (w < 1100) return '32px'
+  if (w < 1400) return '40px'
+  return '64px'
+})
+
+// toolbar 方向（取代 media query）
+const toolbarDirection = computed(() => windowWidth.value < 768 ? 'column' : 'row')
+const toolbarAlign = computed(() => windowWidth.value < 768 ? 'flex-start' : 'center')
+
+// section padding（取代 media query）
+const sectionPadding = computed(() => windowWidth.value < 768 ? '32px 0 48px' : '60px 0 80px')
+
+// section-title size
+const titleSize = computed(() => {
+  const w = windowWidth.value
+  if (w < 576) return '2rem'
+  return 'clamp(2rem, 4vw, 4rem)'
+})
+
+// list-img size
+const listImgWidth = computed(() => windowWidth.value < 768 ? '120px' : '200px')
+const listImgHeight = computed(() => windowWidth.value < 768 ? '90px' : '140px')
+
 onMounted(() => {
   document.title = '服務據點 | 臺中市北屯社區大學'
   setMeta('description', '查詢臺中市北屯社區大學各服務據點資訊，包含地址、電話及交通方式。')
   setMeta('og:title', '服務據點 | 臺中市北屯社區大學', true)
   setMeta('og:description', '查詢臺中市北屯社區大學各服務據點資訊。', true)
   setMeta('og:type', 'website', true)
+  updateWindowWidth()
+  window.addEventListener('resize', updateWindowWidth)
 })
 
 onUnmounted(() => {
   document.title = prevTitle
+  window.removeEventListener('resize', updateWindowWidth)
 })
 
 const branchTags = [
@@ -76,6 +133,8 @@ const changePage = (page) => {
   currentPage.value = page
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
+
+const swiperModules = [Pagination]
 </script>
 
 <template>
@@ -86,16 +145,27 @@ const changePage = (page) => {
     <section class="locations-section" aria-labelledby="locations-heading">
       <div class="section-container">
         <div class="section-header">
-          <h1 id="locations-heading" class="section-title">服務據點</h1>
+          <h1
+            id="locations-heading"
+            class="section-title"
+            :style="{ fontSize: titleSize }"
+          >
+            服務據點
+          </h1>
         </div>
 
         <div class="toolbar" role="toolbar" aria-label="篩選與檢視工具列">
           <div class="tag-group" role="group" aria-label="地區篩選">
-            <a-button v-for="tag in branchTags" :key="tag.value" shape="round" :aria-pressed="activeTag === tag.value"
+            <a-button
+              v-for="tag in branchTags"
+              :key="tag.value"
+              shape="round"
+              :aria-pressed="activeTag === tag.value"
               :style="activeTag === tag.value
                 ? { background: '#3C3C3C', borderColor: '#938D6B', color: '#ffffff', fontSize: '1rem', height: '51px', minWidth: '120px' }
                 : { background: '#ffffff', borderColor: '#3C3C3C', color: '#3C3C3C', fontSize: '1rem', height: '51px', minWidth: '120px' }"
-              @click="setTag(tag.value)">
+              @click="setTag(tag.value)"
+            >
               {{ tag.label }}
             </a-button>
           </div>
@@ -189,14 +259,14 @@ const changePage = (page) => {
 
 <style scoped>
 .locations-section {
-  padding: 60px 0 80px;
   background: #fff;
+  /* padding 由 :style 綁定 */
 }
 
 .section-container {
   max-width: 1616px;
   margin: 0 auto;
-  padding: 0 158px;
+  /* padding 由 :style 綁定 */
 }
 
 .section-header {
@@ -205,20 +275,19 @@ const changePage = (page) => {
 
 .section-title {
   font-family: 'Inter', sans-serif;
-  font-size: clamp(2rem, 4vw, 4rem);
   font-weight: 400;
   line-height: 1.2;
   color: #000;
   margin: 0;
+  /* font-size 由 :style 綁定 */
 }
 
 .toolbar {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
   gap: 16px;
   margin-bottom: 40px;
   flex-wrap: wrap;
+  /* flex-direction / align-items 由 :style 綁定 */
 }
 
 .tag-group {
@@ -231,8 +300,7 @@ const changePage = (page) => {
 /* ===== 卡片 Grid ===== */
 .card-group {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 64px 64px;
+  /* grid-template-columns / gap 由 :style 綁定 */
   margin-bottom: 74px;
 }
 
@@ -374,9 +442,7 @@ const changePage = (page) => {
 }
 
 .list-img {
-  width: 200px;
-  min-width: 200px;
-  height: 140px;
+  /* width / min-width / height 由 :style 綁定 */
   border-radius: 12px;
   overflow: hidden;
   background: #e8e8e8;
@@ -486,69 +552,48 @@ const changePage = (page) => {
   }
 }
 
-@media (max-width: 1100px) {
-  .section-container {
-    padding: 0 40px;
-  }
-
-  .card-group {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
-  }
+.location-swiper {
+  width: 100%;
+  /* 左右各留 16px 讓卡片不貼螢幕邊 */
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+  box-sizing: border-box;
 }
 
-@media (max-width: 768px) {
-  .section-container {
-    padding: 0 20px;
-  }
-
-  .card-group {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
-  .toolbar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .tag-group {
-    gap: 8px;
-  }
-
-  .list-img {
-    width: 120px;
-    min-width: 120px;
-    height: 90px;
-  }
-
-  .list-title {
-    font-size: 1.125rem;
-  }
-
-  .section-title {
-    font-size: 2rem;
-  }
-
-  .locations-section {
-    padding: 32px 0 48px;
-  }
+/* slide 高度 auto，讓卡片自然撐高 */
+.location-swiper :deep(.swiper-slide) {
+  height: auto;
 }
 
-@media (max-width: 480px) {
-  .location-list-item {
-    flex-direction: column;
-    padding: 16px;
-  }
+/* swiper-slide 內的 article 撐滿高度 */
+.location-swiper :deep(.swiper-slide) .location-card {
+  height: 100%;
+}
 
-  .list-img {
-    width: 100%;
-    min-width: unset;
-    height: 180px;
-  }
+/* pagination dots 容器 */
+.location-swiper :deep(.swiper-pagination) {
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 0 0;
+}
 
-  .pagination-info {
-    font-size: 1rem;
-  }
+/* 預設 dot */
+.location-swiper :deep(.swiper-pagination-bullet) {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #C4C4C4;
+  opacity: 1;
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.2s;
+}
+
+/* 目前頁 dot */
+.location-swiper :deep(.swiper-pagination-bullet-active) {
+  background: #2d5a3d;
+  transform: scale(1.2);
 }
 </style>
