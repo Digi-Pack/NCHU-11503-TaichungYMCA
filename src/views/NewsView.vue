@@ -69,7 +69,7 @@ watch(viewMode, (view) => {
 
     <div class="container-normal main-section">
 
-      <div ref="newsTitleRef" id="news-title">
+      <div class="newsTitle" ref="newsTitleRef" id="news-title">
         <Text>最新消息</Text>
       </div>
 
@@ -90,7 +90,8 @@ watch(viewMode, (view) => {
       </div>
 
       <div class="lists-area" v-show="viewMode === 'list'">
-        <NewsList v-for="news in cardNews" :key="news.id" :title="news.title" :date="news.date" :content="previewContent(news.content)" @click="goToDetail(news.id)"></NewsList>
+        <NewsList v-for="news in cardNews" :key="news.id" :title="news.title" :date="news.date"
+          :content="previewContent(news.content)" @click="goToDetail(news.id)"></NewsList>
       </div>
 
       <div class="page-area">
@@ -118,7 +119,12 @@ watch(viewMode, (view) => {
   margin-bottom: 80px;
 }
 
-.hero{
+.newsTitle {
+  border-bottom: 2px solid black;
+  padding-bottom: 2px;
+}
+
+.hero {
   margin-bottom: 80px;
 }
 
