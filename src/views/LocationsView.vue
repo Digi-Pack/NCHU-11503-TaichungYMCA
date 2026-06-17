@@ -4,16 +4,13 @@ import PageHero from '@/components/PageHero.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import { allLocations as initialLocations } from '@/data/location.js';
 
-// Banner 圖片路徑，替換成實際圖片
 const heroBanner = ref('https://picsum.photos/1918/336')
 
-// 麵包屑
 const breadcrumbItems = [
   { text: '首頁', to: '/' },
   { text: '服務據點' },
 ]
 
-// SEO — 原生 DOM，不需安裝任何套件
 const setMeta = (name, content, isProperty = false) => {
   const attr = isProperty ? 'property' : 'name'
   let el = document.querySelector(`meta[${attr}="${name}"]`)
@@ -35,22 +32,19 @@ onMounted(() => {
   setMeta('og:type', 'website', true)
 })
 
-// 離開頁面時還原標題（可選）
 onUnmounted(() => {
   document.title = prevTitle
 })
 
-// Banner 圖片（替換成實際圖片路徑）
-
-// 篩選標籤
 const branchTags = [
   { label: '全部', value: 'all' },
-  { label: '北屯會館', value: '北屯本部' },
+  { label: '北屯分部', value: '北屯分部' },
   { label: '松竹分部', value: '松竹分部' },
   { label: '東山分部', value: '東山分部' },
   { label: '大德分部', value: '大德分部' },
   { label: '陳平分部', value: '陳平分部' },
   { label: '仁美分部', value: '仁美分部' },
+  { label: '文昌分部', value: '文昌分部' },
 ];
 
 const activeTag = ref('all')
@@ -58,10 +52,7 @@ const viewMode = ref('grid')
 const currentPage = ref(1)
 const itemsPerPage = 6
 
-// 模擬資料
 const allLocations = ref(initialLocations)
-
-
 
 const setTag = (tag) => {
   activeTag.value = tag
@@ -89,23 +80,16 @@ const changePage = (page) => {
 
 <template>
   <main id="main-content">
-    <!-- 麵包屑 Breadcrumb -->
     <Breadcrumb :items="breadcrumbItems" />
-
-    <!-- Banner 區塊 -->
     <PageHero :image="heroBanner" />
 
-    <!-- 主內容 -->
     <section class="locations-section" aria-labelledby="locations-heading">
       <div class="section-container">
-        <!-- 標題列 -->
         <div class="section-header">
           <h1 id="locations-heading" class="section-title">服務據點</h1>
         </div>
 
-        <!-- 篩選標籤 + 檢視切換 -->
         <div class="toolbar" role="toolbar" aria-label="篩選與檢視工具列">
-          <!-- Tag 篩選列 -->
           <div class="tag-group" role="group" aria-label="地區篩選">
             <a-button v-for="tag in branchTags" :key="tag.value" shape="round" :aria-pressed="activeTag === tag.value"
               :style="activeTag === tag.value
@@ -126,11 +110,30 @@ const changePage = (page) => {
               <div v-else class="card-img-placeholder" aria-hidden="true"></div>
             </div>
             <div class="card-text">
-              <div class="card-title-group">
-                <h3 class="card-title">{{ location.name }}</h3>
-              </div>
-              <p class="card-desc">{{ location.description }}</p>
-              <time class="card-date" :datetime="location.date">{{ location.date }}</time>
+              <!-- 分部標籤 -->
+              <span class="card-region-tag">{{ location.region }}</span>
+              <!-- alias 作為主標題 -->
+              <h3 class="card-title">{{ location.alias }}</h3>
+              <!-- 地址，附 icon -->
+              <p class="card-address">
+                <svg class="address-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  aria-hidden="true">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                {{ location.description }}
+              </p>
+              <!-- 查看地圖按鈕 -->
+              <a :href="location.mapUrl" target="_blank" rel="noopener noreferrer" class="card-map-btn"
+                :aria-label="'查看' + location.alias + '地圖'">
+                查看地圖
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  aria-hidden="true" style="vertical-align: middle; margin-left: 4px;">
+                  <path d="M3 11l19-9-9 19-2-8-8-2z" />
+                </svg>
+              </a>
             </div>
           </article>
         </div>
@@ -144,27 +147,39 @@ const changePage = (page) => {
               <div v-else class="list-img-placeholder" aria-hidden="true"></div>
             </div>
             <div class="list-content">
-              <h3 class="list-title">{{ location.name }}</h3>
-              <p class="list-desc">{{ location.description }}</p>
-              <time class="list-date" :datetime="location.date">{{ location.date }}</time>
+              <span class="card-region-tag">{{ location.region }}</span>
+              <h3 class="list-title">{{ location.alias }}</h3>
+              <p class="card-address">
+                <svg class="address-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  aria-hidden="true">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                {{ location.description }}
+              </p>
+              <a :href="location.mapUrl" target="_blank" rel="noopener noreferrer" class="card-map-btn"
+                :aria-label="'查看' + location.alias + '地圖'">
+                查看地圖
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  aria-hidden="true" style="vertical-align: middle; margin-left: 4px;">
+                  <path d="M3 11l19-9-9 19-2-8-8-2z" />
+                </svg>
+              </a>
             </div>
           </article>
-         
         </div>
 
-        <!-- 分頁 Pagination -->
+        <!-- 分頁 -->
         <nav class="pagination" aria-label="頁碼導覽">
-          <!-- 左：頁碼群組（箭頭 + 數字 + 箭頭） -->
           <div class="pagination-pages">
-            
             <button v-for="page in totalPages" :key="page" class="page-number" :class="{ active: currentPage === page }"
               :aria-label="`第 ${page} 頁`" :aria-current="currentPage === page ? 'page' : undefined"
               @click="changePage(page)">
               {{ page }}
             </button>
-
           </div>
-
           <p class="pagination-info" aria-live="polite">Page {{ currentPage }} of {{ totalPages }}</p>
         </nav>
       </div>
@@ -172,11 +187,7 @@ const changePage = (page) => {
   </main>
 </template>
 
-
-
 <style scoped>
-
-/* ===== 主內容區 ===== */
 .locations-section {
   padding: 60px 0 80px;
   background: #fff;
@@ -188,7 +199,6 @@ const changePage = (page) => {
   padding: 0 158px;
 }
 
-/* ===== 標題 ===== */
 .section-header {
   margin-bottom: 32px;
 }
@@ -202,7 +212,6 @@ const changePage = (page) => {
   margin: 0;
 }
 
-/* ===== Toolbar ===== */
 .toolbar {
   display: flex;
   align-items: center;
@@ -212,17 +221,12 @@ const changePage = (page) => {
   flex-wrap: wrap;
 }
 
-/* Tag 篩選 */
 .tag-group {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
   align-items: center;
 }
-
-/* tag-btn 樣式由 a-button :style 控制 */
-
-/* view-toggle 樣式由 a-button-group + a-button :style 控制 */
 
 /* ===== 卡片 Grid ===== */
 .card-group {
@@ -271,45 +275,78 @@ const changePage = (page) => {
 .card-text {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 16px 24px;
+  gap: 12px;
+  padding: 16px 24px 24px;
   background: #fff;
   border-radius: 0 0 20px 20px;
   flex: 1;
 }
 
-.card-title-group {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+/* 分部標籤 badge */
+.card-region-tag {
+  display: inline-block;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4a7c59;
+  background: #eaf3ed;
+  border-radius: 4px;
+  padding: 2px 10px;
+  width: fit-content;
 }
 
 .card-title {
   font-family: 'Inter', sans-serif;
   font-size: 1.5rem;
-  font-weight: 400;
-  line-height: 29px;
+  font-weight: 600;
+  line-height: 1.3;
   color: #000;
   margin: 0;
 }
 
-.card-desc {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.25rem;
-  line-height: 24px;
+/* 地址列 */
+.card-address {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
   color: #757575;
   margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
-.card-date {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.25rem ;
-  line-height: 24px;
+.address-icon {
+  flex-shrink: 0;
+  margin-top: 3px;
   color: #757575;
+}
+
+/* 查看地圖按鈕 */
+.card-map-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: auto;
+  padding: 12px 0;
+  background: #2d5a3d;
+  color: #fff;
+  border-radius: 8px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.card-map-btn:hover {
+  background: #1e4020;
+}
+
+.card-map-btn:focus-visible {
+  outline: 2px solid #1E4620;
+  outline-offset: 2px;
 }
 
 /* ===== 列表 List ===== */
@@ -363,32 +400,17 @@ const changePage = (page) => {
 .list-content {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   flex: 1;
 }
 
 .list-title {
   font-family: 'Inter', sans-serif;
   font-size: 1.5rem;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 29px;
   color: #000;
   margin: 0;
-}
-
-.list-desc {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.125rem;
-  line-height: 24px;
-  color: #757575;
-  margin: 0;
-}
-
-.list-date {
-  font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  line-height: 24px;
-  color: #757575;
 }
 
 /* ===== 分頁 ===== */
@@ -406,35 +428,6 @@ const changePage = (page) => {
   align-items: center;
   gap: 12px;
   justify-content: flex-start;
-}
-
-.page-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 45px;
-  height: 45px;
-  border-radius: 80px;
-  border: 2px solid #3C3C3C;
-  background: #fff;
-  color: #3C3C3C;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
-
-.page-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.page-btn:not(:disabled):hover {
-  background: #3C3C3C;
-  color: #fff;
-}
-
-.page-btn:focus-visible {
-  outline: 2px solid #1E4620;
-  outline-offset: 2px;
 }
 
 .page-number {
@@ -478,13 +471,11 @@ const changePage = (page) => {
   color: #3C3C3C;
   margin: 0;
   white-space: nowrap;
-  /* 佔一個固定寬度讓頁碼能真正置中 */
   min-width: 160px;
   text-align: right;
 }
 
-
-/* ===== 響應式 RWD ===== */
+/* ===== RWD ===== */
 @media (max-width: 1400px) {
   .section-container {
     padding: 0 80px;
