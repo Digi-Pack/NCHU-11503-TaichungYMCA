@@ -48,7 +48,7 @@ function goBack() {
                 </div>
             </div>
 
-            <div class="image-video-audio container-small">
+            <div class="image-video-audio container-normal">
                 <div class="image-section" v-if="currentNews?.images">
                     <img :src="currentNews.images" alt="這是一張圖片">
                 </div>
@@ -83,11 +83,6 @@ function goBack() {
   margin: auto;
 }
 
-.container-small {
-    width: 75%;
-    margin: auto;
-}
-
 .content-container{
     display: flex;
     flex-direction: column;
@@ -95,8 +90,14 @@ function goBack() {
 }
 
 .hero {
-    height: 336px;
-    /* background-color: lightblue; */
+    height: clamp(160px, 17.5vw, 336px);
+}
+
+.hero img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .title-section {
@@ -155,7 +156,7 @@ function goBack() {
 
 .image-section {
     width: 100%;
-    height: 630px;
+    height: clamp(250px, 33vw, 630px);
 }
 
 .image-section img {
@@ -192,7 +193,56 @@ function goBack() {
     display: flex;
     flex-direction: column;
     gap: 36px 0;
+    margin-bottom: 80px;
 }
+
+@media (max-width: 1200px) {
+    .content-container {
+        gap: 40px 0;
+    }
+}
+
+@media (max-width: 1100px) {
+    .title-date {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+@media (max-width: 500px) {
+    .content-container {
+        gap: 20px 0;
+    }
+
+    .title-section {
+        display: grid;
+        grid-template-areas:
+            "backbtn"
+            "titledate"
+            "tag";
+    }
+
+    .title-date { grid-area: titledate; }
+
+    .tag-backbtn { display: contents; }
+
+    .tag { grid-area: tag; }
+
+    .back-btn {
+        grid-area: backbtn;
+        align-self: flex-start;
+        justify-self: flex-start;
+    }
+
+    .tag {
+        width: fit-content;
+        height: 26px;
+        line-height: 26px;
+        font-size: 0.75rem;
+        padding: 0 10px;
+    }
+}
+
 
 .brief-section{
     width: 252px;
@@ -204,5 +254,9 @@ function goBack() {
     white-space: pre-line;
     line-height: 1.5;
     text-align: justify;
+}
+
+.content-text{
+    margin-bottom: 40px;
 }
 </style>

@@ -62,7 +62,8 @@ const props = defineProps({
 
 .content {
     max-width: 1420px;
-    min-height: 83px;
+    line-height: 1.2;
+    min-height: 3.6em;
     text-align: justify;
 }
 
@@ -87,5 +88,25 @@ const props = defineProps({
     background-color: #A0522D;
     border-color: #A0522D;
     color: #FFFFFF;
+}
+
+@media (max-width: 768px) {
+    .list{
+        gap: 8px;
+    }
+
+    .title-date {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .content-check {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .btn-wrapper {
+        align-items: flex-start;
+    }
 }
 </style>
