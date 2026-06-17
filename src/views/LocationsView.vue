@@ -93,7 +93,6 @@ onUnmounted(() => {
   window.removeEventListener('resize', updateWindowWidth)
 })
 
-// ── 分部標籤 ─────────────────────────────────────────────
 const branchTags = [
   { label: '全部', value: 'all' },
   { label: '北屯分部', value: '北屯分部' },
@@ -103,7 +102,7 @@ const branchTags = [
   { label: '陳平分部', value: '陳平分部' },
   { label: '仁美分部', value: '仁美分部' },
   { label: '文昌分部', value: '文昌分部' },
-]
+];
 
 const activeTag = ref('all')
 const viewMode = ref('grid')
@@ -143,15 +142,8 @@ const swiperModules = [Pagination]
     <Breadcrumb :items="breadcrumbItems" />
     <PageHero :image="heroBanner" />
 
-    <section
-      class="locations-section"
-      aria-labelledby="locations-heading"
-      :style="{ padding: sectionPadding }"
-    >
-      <div
-        class="section-container"
-        :style="{ padding: containerPadding }"
-      >
+    <section class="locations-section" aria-labelledby="locations-heading">
+      <div class="section-container">
         <div class="section-header">
           <h1
             id="locations-heading"
@@ -162,15 +154,7 @@ const swiperModules = [Pagination]
           </h1>
         </div>
 
-        <div
-          class="toolbar"
-          role="toolbar"
-          aria-label="篩選與檢視工具列"
-          :style="{
-            flexDirection: toolbarDirection,
-            alignItems: toolbarAlign,
-          }"
-        >
+        <div class="toolbar" role="toolbar" aria-label="篩選與檢視工具列">
           <div class="tag-group" role="group" aria-label="地區篩選">
             <a-button
               v-for="tag in branchTags"
@@ -187,214 +171,93 @@ const swiperModules = [Pagination]
           </div>
         </div>
 
-        <!-- ══ Swiper 模式（< 576px）══════════════════════════ -->
-        <template v-if="isMobileSwiper">
-          <!--
-            .swiper-host：固定用 100vw 撐滿視窗、左移到螢幕邊緣，
-            避免父層 padding 造成的寬度錯誤與圖片溢出。
-          -->
-          <div class="swiper-host">
-            <Swiper
-              :modules="swiperModules"
-              :slides-per-view="1"
-              :space-between="16"
-              :centered-slides="true"
-              :pagination="{ clickable: true }"
-              class="location-swiper"
-              aria-label="服務據點滑動卡片"
-            >
-              <SwiperSlide
-                v-for="location in filteredLocations"
-                :key="location.id"
-              >
-                <article class="location-card">
-                  <div class="card-img" aria-hidden="true">
-                    <img
-                      v-if="location.image"
-                      :src="location.image"
-                      :alt="location.name + '照片'"
-                      loading="lazy"
-                      width="491"
-                      height="350"
-                    />
-                    <div v-else class="card-img-placeholder" aria-hidden="true"></div>
-                  </div>
-                  <div class="card-text">
-                    <span class="card-region-tag">{{ location.region }}</span>
-                    <h3 class="card-title">{{ location.alias }}</h3>
-                    <p class="card-address">
-                      <svg class="address-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                        <circle cx="12" cy="10" r="3" />
-                      </svg>
-                      {{ location.description }}
-                    </p>
-                    <a
-                      :href="location.mapUrl"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="card-map-btn"
-                      :aria-label="'查看' + location.alias + '地圖'"
-                    >
-                      查看地圖
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" aria-hidden="true"
-                        style="vertical-align: middle; margin-left: 4px;">
-                        <path d="M3 11l19-9-9 19-2-8-8-2z" />
-                      </svg>
-                    </a>
-                  </div>
-                </article>
-              </SwiperSlide>
-            </Swiper>
-          </div>
-        </template>
-
-        <!-- ══ 一般模式（≥ 576px）══════════════════════════════ -->
-        <template v-else>
-          <!-- 卡片 Grid -->
-          <div
-            v-if="viewMode === 'grid'"
-            class="card-group"
-            role="list"
-            aria-label="服務據點卡片列表"
-            :style="{
-              gridTemplateColumns: cardColumns,
-              gap: cardGap,
-            }"
-          >
-            <article
-              v-for="location in paginatedLocations"
-              :key="location.id"
-              class="location-card"
-              role="listitem"
-            >
-              <div class="card-img" aria-hidden="true">
-                <img
-                  v-if="location.image"
-                  :src="location.image"
-                  :alt="location.name + '照片'"
-                  loading="lazy"
-                  width="491"
-                  height="350"
-                />
-                <div v-else class="card-img-placeholder" aria-hidden="true"></div>
-              </div>
-              <div class="card-text">
-                <span class="card-region-tag">{{ location.region }}</span>
-                <h3 class="card-title">{{ location.alias }}</h3>
-                <p class="card-address">
-                  <svg class="address-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
-                  {{ location.description }}
-                </p>
-                <a
-                  :href="location.mapUrl"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="card-map-btn"
-                  :aria-label="'查看' + location.alias + '地圖'"
-                >
-                  查看地圖
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" aria-hidden="true"
-                    style="vertical-align: middle; margin-left: 4px;">
-                    <path d="M3 11l19-9-9 19-2-8-8-2z" />
-                  </svg>
-                </a>
-              </div>
-            </article>
-          </div>
-
-          <!-- 列表 List -->
-          <div v-else class="list-group" role="list" aria-label="服務據點列表">
-            <article
-              v-for="location in paginatedLocations"
-              :key="location.id"
-              class="location-list-item"
-              role="listitem"
-            >
-              <div
-                class="list-img"
-                aria-hidden="true"
-                :style="{ width: listImgWidth, minWidth: listImgWidth, height: listImgHeight }"
-              >
-                <img
-                  v-if="location.image"
-                  :src="location.image"
-                  :alt="location.name + '照片'"
-                  loading="lazy"
-                  width="200"
-                  height="140"
-                />
-                <div v-else class="list-img-placeholder" aria-hidden="true"></div>
-              </div>
-              <div class="list-content">
-                <span class="card-region-tag">{{ location.region }}</span>
-                <h3 class="list-title">{{ location.alias }}</h3>
-                <p class="card-address">
-                  <svg class="address-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
-                  {{ location.description }}
-                </p>
-                <a
-                  :href="location.mapUrl"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="card-map-btn"
-                  :aria-label="'查看' + location.alias + '地圖'"
-                >
-                  查看地圖
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round" aria-hidden="true"
-                    style="vertical-align: middle; margin-left: 4px;">
-                    <path d="M3 11l19-9-9 19-2-8-8-2z" />
-                  </svg>
-                </a>
-              </div>
-            </article>
-          </div>
-
-          <!-- 分頁 -->
-          <nav class="pagination" aria-label="頁碼導覽">
-            <div class="pagination-pages">
-              <button
-                v-for="page in totalPages"
-                :key="page"
-                class="page-number"
-                :class="{ active: currentPage === page }"
-                :aria-label="`第 ${page} 頁`"
-                :aria-current="currentPage === page ? 'page' : undefined"
-                @click="changePage(page)"
-              >
-                {{ page }}
-              </button>
+        <!-- 卡片模式 -->
+        <div v-if="viewMode === 'grid'" class="card-group" role="list" aria-label="服務據點卡片列表">
+          <article v-for="location in paginatedLocations" :key="location.id" class="location-card" role="listitem">
+            <div class="card-img" aria-hidden="true">
+              <img v-if="location.image" :src="location.image" :alt="location.name + '照片'" loading="lazy" width="491"
+                height="350" />
+              <div v-else class="card-img-placeholder" aria-hidden="true"></div>
             </div>
-            <p class="pagination-info" aria-live="polite">Page {{ currentPage }} of {{ totalPages }}</p>
-          </nav>
-        </template>
+            <div class="card-text">
+              <!-- 分部標籤 -->
+              <span class="card-region-tag">{{ location.region }}</span>
+              <!-- alias 作為主標題 -->
+              <h3 class="card-title">{{ location.alias }}</h3>
+              <!-- 地址，附 icon -->
+              <p class="card-address">
+                <svg class="address-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  aria-hidden="true">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                {{ location.description }}
+              </p>
+              <!-- 查看地圖按鈕 -->
+              <a :href="location.mapUrl" target="_blank" rel="noopener noreferrer" class="card-map-btn"
+                :aria-label="'查看' + location.alias + '地圖'">
+                查看地圖
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  aria-hidden="true" style="vertical-align: middle; margin-left: 4px;">
+                  <path d="M3 11l19-9-9 19-2-8-8-2z" />
+                </svg>
+              </a>
+            </div>
+          </article>
+        </div>
 
+        <!-- 列表模式 -->
+        <div v-else class="list-group" role="list" aria-label="服務據點列表">
+          <article v-for="location in paginatedLocations" :key="location.id" class="location-list-item" role="listitem">
+            <div class="list-img" aria-hidden="true">
+              <img v-if="location.image" :src="location.image" :alt="location.name + '照片'" loading="lazy" width="200"
+                height="140" />
+              <div v-else class="list-img-placeholder" aria-hidden="true"></div>
+            </div>
+            <div class="list-content">
+              <span class="card-region-tag">{{ location.region }}</span>
+              <h3 class="list-title">{{ location.alias }}</h3>
+              <p class="card-address">
+                <svg class="address-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  aria-hidden="true">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                {{ location.description }}
+              </p>
+              <a :href="location.mapUrl" target="_blank" rel="noopener noreferrer" class="card-map-btn"
+                :aria-label="'查看' + location.alias + '地圖'">
+                查看地圖
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  aria-hidden="true" style="vertical-align: middle; margin-left: 4px;">
+                  <path d="M3 11l19-9-9 19-2-8-8-2z" />
+                </svg>
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <!-- 分頁 -->
+        <nav class="pagination" aria-label="頁碼導覽">
+          <div class="pagination-pages">
+            <button v-for="page in totalPages" :key="page" class="page-number" :class="{ active: currentPage === page }"
+              :aria-label="`第 ${page} 頁`" :aria-current="currentPage === page ? 'page' : undefined"
+              @click="changePage(page)">
+              {{ page }}
+            </button>
+          </div>
+          <p class="pagination-info" aria-live="polite">Page {{ currentPage }} of {{ totalPages }}</p>
+        </nav>
       </div>
     </section>
   </main>
 </template>
 
 <style scoped>
-/* ── 不含 RWD breakpoint 的 media query，全部改由 JS computed 控制 ── */
-
 .locations-section {
   background: #fff;
   /* padding 由 :style 綁定 */
@@ -487,6 +350,7 @@ const swiperModules = [Pagination]
   flex: 1;
 }
 
+/* 分部標籤 badge */
 .card-region-tag {
   display: inline-block;
   font-family: 'Noto Sans TC', sans-serif;
@@ -508,6 +372,7 @@ const swiperModules = [Pagination]
   margin: 0;
 }
 
+/* 地址列 */
 .card-address {
   display: flex;
   align-items: flex-start;
@@ -525,6 +390,7 @@ const swiperModules = [Pagination]
   color: #757575;
 }
 
+/* 查看地圖按鈕 */
 .card-map-btn {
   display: flex;
   align-items: center;
@@ -675,22 +541,15 @@ const swiperModules = [Pagination]
   text-align: right;
 }
 
-/* ===== Swiper ===== */
+/* ===== RWD ===== */
+@media (max-width: 1400px) {
+  .section-container {
+    padding: 0 80px;
+  }
 
-/*
- * swiper-host：用 100vw 撐滿螢幕寬、以負 margin 抵消父層 padding，
- * 讓 Swiper 不受 section-container padding 影響，徹底解決圖片溢出。
- * overflow:hidden 截斷相鄰 slide 殘影。
- * padding-bottom 留給 pagination dots。
- */
-.swiper-host {
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  overflow: hidden;
-  padding-bottom: 52px;
-  box-sizing: border-box;
+  .card-group {
+    gap: 40px;
+  }
 }
 
 .location-swiper {
