@@ -10,12 +10,15 @@ defineProps({
 <template>
   <div class="course-card">
     <div class="card-image">
-      <img :src="course.thumbnail" :alt="course.title" />
+      <img
+        :src="course.thumbnail || 'https://placehold.co/401x240'"
+        :alt="course.title"
+      />
     </div>
 
     <div class="card-content">
-      <div class="tags">
-        <span class="category-tag">{{ course.category }}</span>
+      <div class="category-tag">
+        {{ course.category }}
       </div>
 
       <h3 class="course-title">
@@ -30,7 +33,10 @@ defineProps({
         {{ course.period }} ｜ {{ course.time }}
       </p>
 
-      <RouterLink class="detail-btn" :to="`/courses/${course.code}`">
+      <RouterLink
+        :to="`/courses/${course.id}`"
+        class="detail-btn"
+      >
         查看更多 ＞
       </RouterLink>
     </div>
@@ -41,10 +47,10 @@ defineProps({
 .course-card {
   width: 401px;
   height: 423px;
-  border-radius: 12px;
+  background: white;
+  border-radius: 16px;
   overflow: hidden;
-  background: #fff;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
 }
 
 .card-image {
@@ -61,81 +67,116 @@ defineProps({
   display: block;
 }
 
+/* ========================= */
+
 .card-content {
   height: 183px;
-  padding: 14px 18px 16px;
+  padding: 14px 18px;
   box-sizing: border-box;
+
   display: flex;
   flex-direction: column;
 }
 
-.tags {
+.category-tag {
+  width: fit-content;
+
+  padding: 4px 10px;
+
+  background: #f4eee9;
+
+  border-radius: 999px;
+
+  font-size: 13px;
+
+  color: #3c3c3c;
+
+  margin-bottom: 10px;
+}
+
+/* ========================= */
+/* 課程名稱固定一行 */
+/* ========================= */
+
+.course-title {
+  margin: 0;
+
+  font-size: 1.8rem;
+
+  font-weight: 700;
+
+  line-height: 1.2;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
   margin-bottom: 8px;
 }
 
-.category-tag {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: #f0e9e3;
-  color: #3c3c3c;
-  font-size: 14px;
-}
-
-.course-title {
-  margin: 0 0 8px;
-  font-size: 1.4rem;
-  font-weight: 700;
-  line-height: 1.25;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
+/* ========================= */
+/* 老師固定一行 */
+/* ========================= */
 
 .teacher {
-  margin: 0 0 6px;
-  color: #757575;
+  margin: 0;
+
   font-size: 0.95rem;
-  line-height: 1.4;
+
+  color: #757575;
 
   white-space: nowrap;
+
   overflow: hidden;
+
   text-overflow: ellipsis;
+
+  margin-bottom: 8px;
 }
+
+/* ========================= */
+/* 日期時間固定一行 */
+/* ========================= */
 
 .datetime {
   margin: 0;
-  color: #757575;
+
   font-size: 0.9rem;
-  line-height: 1.4;
+
+  color: #757575;
 
   white-space: nowrap;
+
   overflow: hidden;
+
   text-overflow: ellipsis;
 }
 
+/* ========================= */
+
 .detail-btn {
   margin-top: auto;
+
   width: fit-content;
-  padding: 8px 14px;
-  border-radius: 6px;
+
+  padding: 8px 16px;
+
   background: #7d7d7d;
-  color: #fff;
+
+  color: white;
+
   text-decoration: none;
-  font-size: 0.9rem;
+
+  border-radius: 6px;
+
+  font-size: 14px;
+
+  transition: 0.2s;
 }
 
-@media (max-width: 768px) {
-  .course-card {
-    width: 100%;
-  }
-
-  .card-image {
-    width: 100%;
-  }
+.detail-btn:hover {
+  background: #5f5f5f;
 }
 </style>
