@@ -6,11 +6,10 @@ import img4 from '../assets/img/服務據點/location-4.jpg'
 import img5 from '../assets/img/服務據點/location-5.jpg'
 import img6 from '../assets/img/服務據點/location-6.jpg'
 
-
 export const allLocations = [
   {
     id: 1,
-    name: '北屯分部',
+    name: '北屯會館',
     alias: '北屯本部',
     description: '404臺中市北區錦祥里北屯路10號5樓',
     tel: '0422328823',
