@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
 import { useRouter } from "vue-router";
-import testImg from "@/assets/img/首頁/首頁測試圖片.png"
+import testImg from "@/assets/img/home/首頁測試圖片.png"
 import newsList from "@/data/news.js";
 import Text from "@/components/Text.vue";
 import HomeNewsCard from "@/components/HomeNewsCard.vue";
@@ -160,6 +160,7 @@ const vReveal = {
   display: flex;
   gap: 0 75px;
   overflow: hidden;
+  min-height: 500px;
 }
 
 @keyframes slide-in-left {
@@ -315,6 +316,13 @@ image {
   display: none;
 }
 
+.location.container-normal {
+  width: 100%;
+  max-width: 1300px;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
 .location {
   display: flex;
   align-items: center;
@@ -398,10 +406,18 @@ image {
   .news.container-normal {
     padding: 0 80px;
   }
+
+  .location.container-normal {
+    padding: 0 80px;
+  }
 }
 
 @media (max-width: 1100px) {
   .news.container-normal {
+    padding: 0 40px;
+  }
+
+  .location.container-normal {
     padding: 0 40px;
   }
 }
@@ -493,10 +509,12 @@ image {
     gap: 16px 0;
   }
 
+  .card-container {
+    gap: 16px;
+  }
+
 .location.container-normal {
-    width: 100%;
-    padding: 0 10%;
-    box-sizing: border-box;
+    padding: 0 20px;
   }
 
   .location-icon {
@@ -537,9 +555,6 @@ image {
     padding: 0 6%;
   }
 
-  .location.container-normal {
-    padding: 0 6%;
-  }
 }
 
 @media (max-width: 390px) {
