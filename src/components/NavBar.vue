@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
+import { FacebookFilled, InstagramOutlined } from "@ant-design/icons-vue";
 
 const navbarBg = ref("rgba(255,255,255,0.95)");
 const isMenuOpen = ref(false);
@@ -51,10 +52,10 @@ onUnmounted(() => {
 
       <div class="social-links">
         <a href="#">
-          <img src="/img/fb.svg" alt="Facebook" />
+          <FacebookFilled class="social-icon" />
         </a>
         <a href="#">
-          <img src="/img/ig.png" alt="Instagram" />
+          <InstagramOutlined class="social-icon" />
         </a>
       </div>
     </div>
@@ -100,20 +101,34 @@ onUnmounted(() => {
 }
 
 .nav-links a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 104px;
+  height: 54px;
+  padding: 16px;
   font-size: 1.25rem;
   color: #1e4620;
   text-decoration: none;
   white-space: nowrap;
+  border-radius: 8px;
+  border: unset;
+}
+
+.nav-links a:hover {
+  background-color: #938d6b;
+  color: #f0e9e3;
 }
 
 .nav-links a.router-link-active {
-  font-weight: 600;
+  background-color: #1e4620;
+  color: #f0e9e3;
 }
 
 .social-links {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 5px;
 }
 
 .social-links a {
@@ -122,12 +137,20 @@ onUnmounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 8px;
 }
 
-.social-links img {
-  display: block;
-  max-width: 24px;
-  max-height: 24px;
+.social-links a:hover {
+  background-color: #938d6b;
+}
+
+.social-links .social-icon {
+  font-size: 2.25rem;
+  color: #1e4620;
+}
+
+.social-links a:hover .social-icon {
+  color: #f0e9e3;
 }
 
 .hamburger {
@@ -148,20 +171,15 @@ onUnmounted(() => {
   }
 
   .nav-right {
-    gap: 16px;
+    gap: 5px;
   }
 
   .nav-links {
-    gap: 10px;
+    gap: 5px;
   }
 
   .nav-links a {
-    font-size: 1rem;
-  }
-
-  .social-links a {
-    width: 36px;
-    height: 36px;
+    font-size: 18px;
   }
 }
 
@@ -231,7 +249,9 @@ onUnmounted(() => {
   }
 
   .nav-links a {
-    font-size: 1.25rem;
+    font-size: 1.75rem;
+    width: auto;
+    height: auto;
   }
 
   .social-links {
@@ -239,8 +259,13 @@ onUnmounted(() => {
   }
 
   .social-links a {
-    width: 40px;
-    height: 40px;
+    width: auto;
+    height: auto;
+    padding: 6px;
+  }
+
+  .social-links .social-icon {
+    font-size: 3rem;
   }
 }
 
@@ -266,7 +291,7 @@ onUnmounted(() => {
   }
 
   .nav-links a {
-    font-size: 1.125rem;
+    font-size: 1.5rem;
   }
 }
 </style>
