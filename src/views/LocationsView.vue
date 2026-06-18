@@ -141,10 +141,10 @@ const filteredLocations = computed(() =>
                   <h2 class="location-card__name">{{ location.name }}</h2>
                   <span
                     v-if="location.alias && getBadgeStyle(location.alias)"
-                    class="location-card__badge"
+                    class=""
                     :style="getBadgeStyle(location.alias)"
                     :aria-label="`場地：${location.alias}`"
-                  >{{ location.alias }}</span>
+                  ></span>
                   <span
                     v-else-if="location.alias"
                     class="location-card__alias"

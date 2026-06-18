@@ -12,7 +12,7 @@ export const allLocations = [
 {
     id: 1,
     name: "北屯本部",
-    alias: "北屯會館",
+    alias: "",
     description: "臺中市北區錦祥里北屯路10號5樓",
     tel: "04-2232-8823",
     image: img1,
@@ -24,7 +24,7 @@ export const allLocations = [
   {
     id: 2,
     name: "松竹分部",
-    alias: "松竹國小",
+    alias: "",
     description: "臺中市北屯區松和里昌平路二段12號",
     tel: "04-2232-8823",
     image: img2,
@@ -36,7 +36,7 @@ export const allLocations = [
   {
     id: 3,
     name: "東山分部",
-    alias: "東山高中",
+    alias: "",
     description: "臺中市北屯區水景里景賢六路200號",
     tel: "04-2232-8823",
     image: img3,
@@ -48,7 +48,7 @@ export const allLocations = [
   {
     id: 4,
     name: "大德分部",
-    alias: "大德國中",
+    alias: "",
     description: "臺中市北屯區陳平里雷中街2-23號",
     tel: "04-2232-8823",
     image: img4,
@@ -60,7 +60,7 @@ export const allLocations = [
   {
     id: 5,
     name: "陳平分部",
-    alias: "陳平國小",
+    alias: "",
     description: "臺中市北屯區忠平里陳平路58號",
     tel: "04-2232-8823",
     image: img5,
@@ -72,7 +72,7 @@ export const allLocations = [
   {
     id: 6,
     name: "仁美分部",
-    alias: "仁美國小",
+    alias: "",
     description: "臺中市北屯區仁美里崇德路三段568號",
     tel: "04-2232-8823",
     image: img6,
@@ -83,7 +83,7 @@ export const allLocations = [
 
   {
     id: 7,
-    name: "文昌分部",
+    name: "文昌分部(文昌國小)",
     alias: "文昌國小",
     description: "臺中市北屯區平昌里昌平路一段91號",
     tel: "04-2232-8823",
@@ -95,7 +95,7 @@ export const allLocations = [
 
   {
     id: 8,
-    name: "文昌分部",
+    name: "文昌分部(東光活動中心)",
     alias: "東光活動中心",
     description: "臺中市北屯區東光里東山路一段33巷16號",
     tel: "04-2232-8823",
