@@ -77,7 +77,7 @@ const swiperModules = [Pagination]
 </template>
 <style scoped>
 * { box-sizing: border-box; }
-.about-page { width: 100%; margin: 0; background: #ffffff; display: flex; flex-direction: column; padding-bottom: 80px; }
+.about-page { width: 100%; margin: 0; display: flex; flex-direction: column; padding-bottom: 80px; }
 .banner-section { width: 100%; display: flex; flex-direction: column; padding-bottom: 80px; }
 .hero-wrapper { position: relative; width: 100%; }
 .hero-wrapper :deep(img) { display: block; width: 100%; height: auto; }

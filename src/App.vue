@@ -31,6 +31,7 @@ import OpinionBtn from "./components/OpinionBtn.vue";
 
   /* /* 新增這行 *避免內容被蓋住/ */
   padding-top: 72px;
+  background-color: #f0e9e3;
 }
 
 </style>
