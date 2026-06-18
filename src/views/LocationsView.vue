@@ -112,20 +112,14 @@ const filteredLocations = computed(() =>
                   class="location-card__img" loading="lazy" width="207" height="207" />
               </div>
 
+
               <!-- Title + badge -->
               <div class="location-card__title-group">
                 <div class="location-card__name-row">
                   <h2 class="location-card__name">{{ location.name }}</h2>
-                  <span
-                    v-if="location.alias && getBadgeStyle(location.alias)"
-                    class=""
-                    :style="getBadgeStyle(location.alias)"
-                    :aria-label="`場地：${location.alias}`"
-                  ></span>
-                  <span
-                    v-else-if="location.alias"
-                    class="location-card__alias"
-                  >{{ location.alias }}</span>
+                  <span v-if="location.alias && getBadgeStyle(location.alias)" class=""
+                    :style="getBadgeStyle(location.alias)" :aria-label="`場地：${location.alias}`"></span>
+                  <span v-else-if="location.alias" class="location-card__alias">{{ location.alias }}</span>
                 </div>
                 <div class="location-card__title-line" aria-hidden="true"></div>
               </div>
@@ -152,7 +146,6 @@ const filteredLocations = computed(() =>
                   </div>
                 </div>
                 <div class="detail-info">
-
                   <div class="detail-info__block">
                     <p class="detail-info__label">營業時間</p>
                     <p class="detail-info__value">週一至週五 14:00 - 21:00，週六日公休</p>
