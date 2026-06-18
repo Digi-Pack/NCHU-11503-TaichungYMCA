@@ -18,10 +18,6 @@ const props = defineProps({
         type: String,
         default: "",
     },
-    link: {
-        type: String,
-        default: "",
-    },
 })
 </script>
 
@@ -31,7 +27,7 @@ const props = defineProps({
             <img :src="props.outPicture" alt="這是一張圖片">
         </div>
         <div class="card-bot">
-            <Text size="text-36" class="text-limit title-height">{{ props.title }}</Text>
+            <Text size="text-36" weight="f-500" color="deep-gray" class="text-limit title-height">{{ props.title }}</Text>
             <Text size="text-24" color="gray" class="text-limit fixed-height">{{ props.desc }}</Text>
             <Text size="text-24" color="gray">{{ props.date }}</Text>
         </div>
@@ -44,7 +40,6 @@ const props = defineProps({
     /* background-color: bisque; */
     position: relative;
     border-radius:20px;
-
 }
 
 .card::after {
@@ -77,10 +72,13 @@ img {
 }
 
 .card-bot {
-    padding: 24px 23px 34px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
     gap: 16px 0;
+    background-color: white;
+    border-bottom-left-radius:20px;
+    border-bottom-right-radius:20px;
 }
 
 .title-height{
