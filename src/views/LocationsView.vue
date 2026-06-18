@@ -9,35 +9,17 @@ import { Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
 
-const locationHeroImg = ref('https://picsum.photos/1920/336')
+import locationHeroImgSrc from '@/assets/img/locations/banner-location.png'
+const locationHeroImg = ref(locationHeroImgSrc)
 
 const BreadcrumbItems = [
   { text: '首頁', to: '/' },
   { text: '服務據點' },
 ]
 
-// ── 特定 alias 對應徽章顏色 ──
-// const aliasBadgeColors = {
-//   '大德國中':     { bg: '#FFF3E0', text: '#E65100', border: '#FFCC80' },
-//   '陳平國小':     { bg: '#F3E5F5', text: '#6A1B9A', border: '#CE93D8' },
-//   '北屯會館':     { bg: '#FCE4EC', text: '#880E4F', border: '#F48FB1' },
-//   '松竹國小':     { bg: '#E0F7FA', text: '#00695C', border: '#80DEEA' },
-//   '仁美國小':     { bg: '#FFFDE7', text: '#F57F17', border: '#FFF176' },
-// }
-
-// function getBadgeStyle(alias) {
-//   const c = aliasBadgeColors[alias]
-//   if (!c) return null
-//   return {
-//     backgroundColor: c.bg,
-//     color: c.text,
-//     border: `1px solid ${c.border}`,
-//   }
-// }
-
 const tags = [
-  { label: '全部',   value: 'all' },
-  { label: '北屯本部', value: '北屯本部' },
+  { label: '全部',     value: 'all' },
+  { label: '校本部',   value: '校本部' },
   { label: '松竹分部', value: '松竹分部' },
   { label: '東山分部', value: '東山分部' },
   { label: '大德分部', value: '大德分部' },
@@ -50,7 +32,7 @@ const activeTag = ref('all')
 function setActiveTag(v) { activeTag.value = v }
 
 function goToRegion(region) {
-  if (region && activeTag.value === 'all') {
+  if (region) {
     activeTag.value = region
   }
 }
@@ -63,7 +45,6 @@ const filteredLocations = computed(() =>
     : allLocations.filter(loc => loc.region === activeTag.value)
 )
 
-// ── Swiper（< 576px，全部模式 & 詳情模式都用）──
 let swiperInstance = null
 
 function initSwiper() {
@@ -77,10 +58,7 @@ function initSwiper() {
     modules: [Pagination],
     slidesPerView: 1,
     spaceBetween: 16,
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
+    pagination: { el: '.swiper-pagination', clickable: true },
   })
 }
 
@@ -91,7 +69,6 @@ function destroySwiper() {
   }
 }
 
-// 視窗寬度監聽
 const isMobile = ref(false)
 function checkMobile() {
   isMobile.value = window.innerWidth < 576
@@ -106,7 +83,6 @@ onUnmounted(() => {
   destroySwiper()
 })
 
-// < 576px 時，不管全部或詳情模式都初始化 Swiper
 watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   if (mobile) {
     await nextTick()
@@ -134,6 +110,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
         <header class="section-header">
           <div class="section-header__title-group">
             <h1 id="locations-title" class="section-header__h1">服務據點</h1>
+            <div class="section-header__title-line" aria-hidden="true"></div>
           </div>
           <p v-if="!showDetail" class="section-header__subtitle">
             臺中市北屯（原大墩）社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多人次。臺中市政府自開辦社大以來，由四家開放至六家承辦單位，台中YMCA憑藉良好辦學經驗及成果，至今通過市府多次招標審核、獲選承辦大墩社大。
@@ -154,59 +131,48 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
           </button>
         </div>
 
-        <!-- ── 全部模式：桌機列表 / 手機 Swiper ── -->
+        <!-- ── 全部模式 ── -->
         <template v-if="!showDetail">
 
-          <!-- 桌機：一般列表（≥ 576px） -->
-          <div
-            v-if="!isMobile"
-            class="locations-list"
-            role="list"
-            aria-label="服務據點清單"
-          >
+          <!-- 桌機（≥ 576px） -->
+          <div v-if="!isMobile" class="locations-list" role="list" aria-label="服務據點清單">
             <article
               v-for="location in filteredLocations"
               :key="location.id"
               class="location-card"
               role="listitem"
             >
-              <div
-                class="location-card__summary location-card__summary--clickable"
-                role="button"
-                tabindex="0"
-                :aria-label="`前往 ${location.name} 詳細資訊`"
-                @click="goToRegion(location.region)"
-                @keydown.enter.prevent="goToRegion(location.region)"
-                @keydown.space.prevent="goToRegion(location.region)"
-              >
+              <div class="location-card__summary">
+                <!-- 左：圖片 -->
                 <div class="location-card__img-wrap">
                   <img
                     :src="location.image"
-                    :alt="`${location.name}${location.alias ? ' ' + location.alias : ''}`"
+                    :alt="location.name"
                     class="location-card__img"
                     loading="lazy"
                     width="207"
                     height="207"
                   />
                 </div>
-                <div class="location-card__title-group">
-                  <div class="location-card__name-row">
-                    <h2 class="location-card__name">{{ location.name }}</h2>
-                    <!-- <span
-                      v-if="location.alias && getBadgeStyle(location.alias)"
-                      class="location-card__badge"
-                      :style="getBadgeStyle(location.alias)"
-                      :aria-label="`場地：${location.alias}`"
-                    >{{ location.alias }}</span>
-                    <span v-else-if="location.alias" class="location-card__alias">{{ location.alias }}</span> -->
+                <!-- 右：名稱 + 線對齊按鈕 -->
+                <div class="location-card__content">
+                  <h2 class="location-card__name">{{ location.name }}</h2>
+                  <div class="location-card__bottom">
+                    <div class="location-card__title-line" aria-hidden="true"></div>
+                    <div class="location-card__more">
+                      <button
+                        class="btn btn--primary"
+                        @click.stop="goToRegion(location.region)"
+                        :aria-label="`查看 ${location.name} 更多資訊`"
+                      >更多資訊</button>
+                    </div>
                   </div>
-                  <div class="location-card__title-line" aria-hidden="true"></div>
                 </div>
               </div>
             </article>
           </div>
 
-          <!-- 手機：Swiper（< 576px） -->
+          <!-- 手機 Swiper（< 576px） -->
           <div v-else class="swiper locations-swiper" aria-label="服務據點清單">
             <div class="swiper-wrapper">
               <div
@@ -214,75 +180,56 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
                 :key="location.id"
                 class="swiper-slide"
               >
-                <article
-                  class="location-card"
-                  role="listitem"
-                >
-                  <div
-                    class="location-card__summary location-card__summary--clickable"
-                    role="button"
-                    tabindex="0"
-                    :aria-label="`前往 ${location.name} 詳細資訊`"
-                    @click="goToRegion(location.region)"
-                    @keydown.enter.prevent="goToRegion(location.region)"
-                    @keydown.space.prevent="goToRegion(location.region)"
-                  >
+                <article class="location-card" role="listitem">
+                  <div class="location-card__summary">
                     <div class="location-card__img-wrap">
                       <img
                         :src="location.image"
-                        :alt="`${location.name}${location.alias ? ' ' + location.alias : ''}`"
+                        :alt="location.name"
                         class="location-card__img"
                         loading="lazy"
                         width="207"
                         height="207"
                       />
                     </div>
-                    <div class="location-card__title-group">
-                      <div class="location-card__name-row">
-                        <h2 class="location-card__name">{{ location.name }}</h2>
-                        <span
-                          v-if="location.alias && getBadgeStyle(location.alias)"
-                          class="location-card__badge"
-                          :style="getBadgeStyle(location.alias)"
-                          :aria-label="`場地：${location.alias}`"
-                        >{{ location.alias }}</span>
-                        <span v-else-if="location.alias" class="location-card__alias">{{ location.alias }}</span>
+                    <div class="location-card__content">
+                      <h2 class="location-card__name">{{ location.name }}</h2>
+                      <div class="location-card__bottom">
+                        <div class="location-card__title-line" aria-hidden="true"></div>
+                        <div class="location-card__more">
+                          <button
+                            class="btn btn--primary"
+                            @click.stop="goToRegion(location.region)"
+                            :aria-label="`查看 ${location.name} 更多資訊`"
+                          >更多資訊</button>
+                        </div>
                       </div>
-                      <div class="location-card__title-line" aria-hidden="true"></div>
                     </div>
                   </div>
                 </article>
               </div>
             </div>
-            <!-- Swiper pagination dots -->
             <div class="swiper-pagination"></div>
           </div>
 
         </template>
 
         <!-- ── 詳情模式 ── -->
-        <div
-          v-else
-          class="locations-list"
-          role="list"
-          aria-label="服務據點清單"
-        >
+        <div v-else class="locations-list" role="list" aria-label="服務據點清單">
           <article
             v-for="location in filteredLocations"
             :key="location.id"
             class="location-card"
             role="listitem"
           >
-            <!-- 詳情區塊：整張卡片內容 -->
             <div
               :id="`detail-${location.id}`"
               class="location-card__detail"
               role="region"
               :aria-label="`${location.name} 詳細資訊`"
             >
-              <!-- Body：左側圖片 + 右側（標題+線+警語+資訊） -->
               <div class="detail-body">
-                <!-- 左：圖片 + 地圖按鈕，垂直置中 -->
+                <!-- 左：圖片 + 開啟地圖 -->
                 <div class="detail-body__left">
                   <img
                     :src="location.image"
@@ -294,83 +241,58 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
                       :href="location.mapUrl"
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="btn btn--gray"
-                    >
-                      查看地圖
-                    </a>
+                      class="btn btn--primary"
+                    >開啟地圖</a>
                   </div>
                 </div>
 
-                <!-- 右：標題 + 線 + 警語 + 資訊（全部左對齊） -->
+                <!-- 右：標題 + 線 + 警語 + 資訊 -->
                 <div class="detail-right">
-                  <!-- 標題 + 線 -->
                   <div class="detail-right__title-group">
-                    <h2 class="detail-right__name">{{ location.name }}</h2>
+                    <h2 class="detail-right__name">
+                      {{ location.region === '校本部' ? '校本部' : location.name }}
+                    </h2>
                     <div class="detail-right__line" aria-hidden="true"></div>
                   </div>
 
-                  <!-- 固定警語 -->
-                  <div class="detail-alert detail-alert--fixed" role="note">
+                  <div class="detail-alert" role="note">
                     <p class="detail-alert__text">本分部僅提供行政諮詢與報名繳費服務。各課程之實際授課地點，請以課程總表或開課通知簡訊為準。</p>
                   </div>
 
-                  <!-- 動態 Alert（location.alert 有值才顯示） -->
-                  <div
-                    v-if="location.alert"
-                    class="detail-alert"
-                    role="alert"
-                    aria-live="polite"
-                  >
+                  <div v-if="location.alert" class="detail-alert" role="alert" aria-live="polite">
                     <span class="detail-alert__icon" aria-hidden="true">⚠</span>
                     <p class="detail-alert__text">{{ location.alert }}</p>
                   </div>
 
-                  <!-- 資訊區塊 -->
                   <div class="detail-info">
                     <div class="detail-info__block">
                       <p class="detail-info__label">營業時間</p>
                       <p class="detail-info__value">週一至週五 14:00 - 21:00，週六日公休</p>
                     </div>
-
                     <div class="detail-info__block">
                       <p class="detail-info__label">地址</p>
                       <p class="detail-info__value">{{ location.description }}</p>
                     </div>
-
                     <div class="detail-info__block">
                       <p class="detail-info__label">電話</p>
                       <p class="detail-info__value">
-                        <a
-                          :href="`tel:${location.tel}`"
-                          class="detail-tel-link"
-                          :aria-label="`撥打電話 ${location.tel}`"
-                        >{{ location.tel }}</a>
+                        <a :href="`tel:${location.tel}`" class="detail-tel-link" :aria-label="`撥打電話 ${location.tel}`">{{ location.tel }}</a>
                       </p>
                     </div>
-
                     <div class="detail-info__block">
                       <p class="detail-info__label">交通方式</p>
                       <p class="detail-info__value">公車：可搭乘多路公車至「北屯國小」或「監理站」下車步行抵達</p>
                       <p class="detail-info__value">捷運：搭乘台中捷運至「松竹站」或「太原站」下車，轉乘YouBike前往</p>
                     </div>
-
                     <div class="detail-info__block">
                       <p class="detail-info__label">附近停車資訊</p>
                       <p class="detail-info__value">北屯停車場：臺中市北屯區平德里河北路二段3號旁（步行約10分鐘）</p>
                       <p class="detail-info__value">日月停車場 Eclipse Parking：臺中市北屯區松茂里柳陽西街188-1號旁（步行約10分鐘）</p>
                     </div>
                   </div>
-
-                  <div class="detail-info__block">
-                    <p class="detail-info__label">附近停車資訊</p>
-                    <p class="detail-info__value">北屯停車場：臺中市北屯區平德里河北路二段3號旁（步行約10分鐘）</p>
-                    <p class="detail-info__value">日月停車場 Eclipse Parking：臺中市北屯區松茂里柳陽西街188-1號旁（步行約10分鐘）</p>
-                  </div>
-
                 </div>
               </div>
             </div>
-
           </article>
         </div>
 
@@ -380,25 +302,12 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 </template>
 
 <style scoped>
-/* ── CSS custom properties ── */
 .locations-page {
-  --c-primary:    #1E4620;
-  --c-primary-bg: #F0E9E3;
-  --c-gray-0:     #F9F6F0;
-  --c-gray-2:     #B1B0B0;
-  --c-gray-3:     #7D7D7D;
-  --c-gray-4:     #706F6F;
-  --c-gray-5:     #3C3C3C;
-  --c-white:      #FFFFFF;
-  --c-border:     #000000;
-  --c-tag-border: #938D6B;
-  --f-noto:       'Noto Sans TC', sans-serif;
-  --f-inter:      'Inter', sans-serif;
-
   display: flex;
   flex-direction: column;
-  background-color: var(--c-gray-0);
-  min-height: 100vh;
+  background-color: #F9F6F0;
+  width: 100%;
+  height: auto;
 }
 
 /* ── Banner ── */
@@ -415,21 +324,15 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   width: 100%;
   max-width: 1300px;
   margin-inline: auto;
-  /* 預設 > 1400px：無 padding，靠 max-width + margin auto 置中 */
 }
 
-@media (max-width: 1400px) {
-  .container { padding-inline: 80px; }
-}
-@media (max-width: 1100px) {
-  .container { padding-inline: 40px; }
-}
-@media (max-width: 768px) {
-  .container { padding-inline: 20px; }
-}
+@media (max-width: 1400px) { .container { padding-inline: 80px; } }
+@media (max-width: 1100px) { .container { padding-inline: 40px; } }
+@media (max-width: 768px)  { .container { padding-inline: 20px; } }
 
 /* ── Locations section ── */
 .locations-section {
+  width: 100%;
   padding-block: clamp(32px, 4vw, 80px);
 }
 
@@ -448,22 +351,27 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 }
 
 .section-header__h1 {
-  font-family: var(--f-noto);
+  font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
   font-size: clamp(2rem, 4vw, 4rem);
   line-height: 1.2;
-  color: var(--c-gray-5);
+  color: #3C3C3C;
   margin: 0;
 }
 
-
+.section-header__title-line {
+  width: 100%;
+  height: 3px;
+  background-color: #3C3C3C;
+  border-radius: 2px;
+}
 
 .section-header__subtitle {
-  font-family: var(--f-inter);
+  font-family: 'Inter', sans-serif;
   font-weight: 400;
   font-size: clamp(1rem, 1.4vw, 1.5rem);
   line-height: 1.7;
-  color: #000;
+  color: #000000;
   margin: 0;
 }
 
@@ -483,33 +391,20 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   padding: 10px 16px;
   height: 51px;
   min-width: 96px;
-  background-color: var(--c-white);
-  border: 1px solid var(--c-gray-5);
+  background-color: #FFFFFF;
+  border: 1px solid #3C3C3C;
   border-radius: 20px;
-  font-family: var(--f-noto);
+  font-family: 'Noto Sans TC', sans-serif;
   font-size: 1rem;
-  color: var(--c-gray-5);
+  color: #3C3C3C;
   cursor: pointer;
   white-space: nowrap;
   transition: background-color 0.18s, color 0.18s, border-color 0.18s;
 }
 
-.tag:hover {
-  background-color: var(--c-gray-5);
-  color: var(--c-primary-bg);
-  border-color: var(--c-tag-border);
-}
-
-.tag:focus-visible {
-  outline: 3px solid var(--c-primary);
-  outline-offset: 2px;
-}
-
-.tag--active {
-  background-color: var(--c-gray-5);
-  border-color: var(--c-tag-border);
-  color: var(--c-primary-bg);
-}
+.tag:hover        { background-color: #3C3C3C; color: #F0E9E3; border-color: #938D6B; }
+.tag:focus-visible { outline: 3px solid #1E4620; outline-offset: 2px; }
+.tag--active      { background-color: #3C3C3C; border-color: #938D6B; color: #F0E9E3; }
 
 /* ── Location list ── */
 .locations-list {
@@ -521,13 +416,11 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 
 /* ── Location card ── */
 .location-card {
-  background-color: var(--c-white);
-  border: 1px solid var(--c-border);
+  background-color: #FFFFFF;
+  border: 1px solid #000000;
   border-radius: 20px;
   box-sizing: border-box;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
 }
 
 /* ── Summary row ── */
@@ -537,21 +430,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   align-items: center;
   gap: 40px;
   padding: 24px;
-  flex-wrap: wrap;
-}
-
-.location-card__summary--clickable {
-  cursor: pointer;
-  transition: background-color 0.18s;
-  border-radius: 20px;
-}
-
-.location-card__summary--clickable:hover  { background-color: #F5F5F5; }
-
-.location-card__summary--clickable:focus-visible {
-  outline: 3px solid var(--c-primary);
-  outline-offset: -3px;
-  border-radius: 20px;
+  flex-wrap: nowrap;
 }
 
 /* Image */
@@ -561,7 +440,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   height: clamp(100px, 14vw, 207px);
   border-radius: 10px;
   overflow: hidden;
-  background-color: var(--c-gray-2);
+  background-color: #B1B0B0;
 }
 
 .location-card__img {
@@ -571,57 +450,47 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   display: block;
 }
 
-/* Title group */
-.location-card__title-group {
-  flex: 1 1 240px;
+/* 右側內容區：名稱 + 底部（線+按鈕） */
+.location-card__content {
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 8px;
   min-width: 0;
-}
-
-.location-card__name-row {
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-  /* gap: 12px; */
-  flex-wrap: wrap;
+  height: 100%;
 }
 
 .location-card__name {
-  font-family: var(--f-noto);
+  font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
   font-size: clamp(1.25rem, 2vw, 2.25rem);
   line-height: 1.2;
-  color: var(--c-gray-5);
+  color: #3C3C3C;
   margin: 0;
 }
 
-.location-card__badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 12px;
-  border-radius: 16px;
-  font-family: var(--f-noto);
-  font-weight: 500;
-  font-size: 0.875rem;
-  white-space: nowrap;
-  line-height: 1.4;
+/* 線 + 按鈕 同一行 */
+.location-card__bottom {
+ display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* 將內容推向右側 */
+  gap: 16px;
+  width: 100%;
 }
 
-.location-card__alias {
-  font-family: var(--f-noto);
-  font-weight: 400;
-  font-size: clamp(1rem, 1.2vw, 1.25rem);
-  color: var(--c-gray-3);
-  white-space: nowrap;
-}
-
+/* 線撐滿剩餘空間，按鈕固定右側 */
 .location-card__title-line {
+  /* flex: 1 1 auto; */
   width: 100%;
   height: 3px;
-  background-color: var(--c-primary);
+  background-color: #3C3C3C;
   border-radius: 2px;
+  
+}
+
+.location-card__more {
+  flex: 0 0 auto;
 }
 
 /* ── Detail panel ── */
@@ -629,7 +498,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding: 24px 24px 32px;  /* 頂部也有 padding，因為標題現在在 detail 內 */
+  padding: 24px 24px 32px;
 }
 
 /* ── Alert ── */
@@ -638,23 +507,23 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   align-items: center;
   gap: 12px;
   padding: 16px 12px;
-  border: 2px solid #000002;
+  border: 2px solid #6155F5;
   border-radius: 8px;
-  background-color: var(--c-white);
+  background-color: #FFFFFF;
 }
 
 .detail-alert__icon {
   font-size: 1.125rem;
   flex-shrink: 0;
-  color: var(--c-gray-5);
+  color: #3C3C3C;
 }
 
 .detail-alert__text {
-  font-family: var(--f-noto);
+  font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
   font-size: 1.125rem;
   line-height: 1.4;
-  color: #000;
+  color: #6155F5;
   margin: 0;
 }
 
@@ -662,14 +531,14 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .detail-body {
   display: flex;
   flex-direction: row;
-  align-items: center;   /* 左側圖片與右側內容垂直置中對齊 */
-  gap: 40px;             /* 圖片與文字之間 40px */
+  align-items: center;
+  gap: 40px;
+  width: 100%;
 }
 
-/* 左：圖片 + 查看地圖按鈕，垂直置中 */
 .detail-body__left {
   flex: 0 0 207px;
-  align-self: center;    /* 確保左欄垂直置中 */
+  align-self: center;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -684,17 +553,15 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   display: block;
 }
 
-/* 右：標題 + 線 + 警語 + 資訊，全部左對齊 */
 .detail-right {
-  flex: 1 1 320px;
+  flex: 1 1 0;
   display: flex;
   flex-direction: column;
   gap: 40px;
   min-width: 0;
-  align-self: stretch;   /* 右欄撐滿高度，讓左欄能置中 */
+  align-self: stretch;
 }
 
-/* 右欄：標題 + 線 */
 .detail-right__title-group {
   display: flex;
   flex-direction: column;
@@ -702,22 +569,21 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 }
 
 .detail-right__name {
-  font-family: var(--f-noto);
+  font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
   font-size: clamp(1.25rem, 2vw, 2.25rem);
   line-height: 1.2;
-  color: var(--c-gray-5);
+  color: #1E4620;
   margin: 0;
 }
 
 .detail-right__line {
   width: 100%;
   height: 3px;
-  background-color: var(--c-primary);
+  background-color: #1E4620;
   border-radius: 2px;
 }
 
-/* 右欄：資訊區塊 */
 .detail-info {
   display: flex;
   flex-direction: column;
@@ -732,20 +598,20 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 }
 
 .detail-info__label {
-  font-family: var(--f-inter);
+  font-family: 'Inter', sans-serif;
   font-weight: 500;
   font-size: clamp(1rem, 1.2vw, 1.5rem);
   line-height: 1.4;
-  color: #000;
+  color: #3C3C3C;
   margin: 0;
 }
 
 .detail-info__value {
-  font-family: var(--f-inter);
+  font-family: 'Inter', sans-serif;
   font-weight: 400;
   font-size: clamp(1rem, 1.1vw, 1.5rem);
   line-height: 1.4;
-  color: #000;
+  color: #706F6F;
   margin: 0;
 }
 
@@ -755,27 +621,20 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   justify-content: center;
 }
 
-.detail-tel-link {
-  color: inherit;
-  text-decoration: none;
-}
-
+.detail-tel-link { color: inherit; text-decoration: none; }
 .detail-tel-link:hover,
-.detail-tel-link:focus {
-  text-decoration: underline;
-  color: var(--c-primary);
-}
+.detail-tel-link:focus { text-decoration: underline; color: #1E4620; }
 
-/* ── Button ── */
+/* ── Buttons ── */
 .btn {
   display: inline-flex;
   justify-content: center;
   align-items: center;
   padding: 16px;
-  min-width: 104px;
+  width: 104px;
   height: 54px;
   border-radius: 8px;
-  font-family: var(--f-noto);
+  font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
   font-size: 1.125rem;
   text-decoration: none;
@@ -786,14 +645,14 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 }
 
 .btn:hover         { opacity: 0.82; transform: translateY(-1px); }
-.btn:focus-visible { outline: 3px solid var(--c-primary); outline-offset: 2px; }
-.btn--gray         { background-color: var(--c-gray-4); color: var(--c-gray-0); }
+.btn:focus-visible { outline: 3px solid #1E4620; outline-offset: 2px; }
 
-/* ──────────────────────────────────────────
-   RWD：詳情模式 detail-body 換行
-   ────────────────────────────────────────── */
+.btn--primary {
+  background-color: #1E4620;
+  color: #FFFFFF;
+}
 
-/* ≤ 768px：圖片 + 右欄改為垂直排列 */
+/* ── RWD ≤ 768px ── */
 @media (max-width: 768px) {
   .detail-body {
     flex-direction: column;
@@ -816,24 +675,18 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   .detail-right {
     flex: 1 1 auto;
     align-self: stretch;
+    gap: 24px;
   }
+
+  .detail-info { gap: 24px; }
 }
 
-/* ≤ 576px：detail padding 縮小 */
+/* ── ≤ 576px ── */
 @media (max-width: 576px) {
-  .location-card__detail {
-    padding: 16px 16px 24px;
-  }
+  .location-card__detail  { padding: 16px 16px 24px; }
+  .location-card__summary { padding: 16px; gap: 16px; }
 
-  .location-card__summary {
-    padding: 16px;
-    gap: 16px;
-  }
-
-  .tag-group {
-    gap: 8px;
-    padding-block: 24px;
-  }
+  .tag-group { gap: 8px; padding-block: 24px; }
 
   .tag {
     padding: 8px 12px;
@@ -841,38 +694,34 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
     min-width: 80px;
     font-size: 0.875rem;
   }
+
+  .detail-right { gap: 16px; }
+  .detail-info  { gap: 16px; }
+  .locations-list { gap: 16px; padding-bottom: 24px; }
 }
 
-/* ──────────────────────────────────────────
-   Swiper（< 576px 全部模式）
-   ────────────────────────────────────────── */
+/* ── Swiper（< 576px）── */
 .locations-swiper {
   width: 100%;
-  padding-bottom: 40px !important; /* 讓分頁點有空間 */
+  padding-bottom: 40px !important;
 }
 
-.locations-swiper .swiper-slide {
-  height: auto;
-}
+.locations-swiper .swiper-slide { height: auto; }
 
-/* Swiper pagination dots 樣式 */
-.locations-swiper :deep(.swiper-pagination) {
-  bottom: 8px;
-}
+.locations-swiper :deep(.swiper-pagination) { bottom: 8px; }
 
 .locations-swiper :deep(.swiper-pagination-bullet) {
   width: 10px;
   height: 10px;
-  background-color: var(--c-gray-2);
+  background-color: #B1B0B0;
   opacity: 1;
   transition: background-color 0.18s;
 }
 
 .locations-swiper :deep(.swiper-pagination-bullet-active) {
-  background-color: var(--c-gray-5);
+  background-color: #3C3C3C;
 }
 
-/* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .btn, .tag { transition: none; }
 }
