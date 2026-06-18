@@ -1,7 +1,9 @@
 <script setup>
 import { computed } from "vue";
 import { useRouter } from "vue-router";
-import testImg from "@/assets/img/首頁/首頁測試圖片.png"
+import testImg from "@/assets/img/home/hero圖片1920.png"
+import bannerImg from "@/assets/img/home/banner圖片.webp"
+import locationImg from "@/assets/img/home/服務據點hero.png"
 import newsList from "@/data/news.js";
 import Text from "@/components/Text.vue";
 import HomeNewsCard from "@/components/HomeNewsCard.vue";
@@ -76,8 +78,8 @@ const vReveal = {
       <div class="hero-right">
         <div class="text-content">
           <div class="title">
-            <Text>臺中市</Text>
-            <Text>北屯社區大學</Text>
+            <Text color="primary-d-g" weight="f-500">臺中市</Text>
+            <Text color="primary-d-g" weight="f-500">北屯社區大學</Text>
           </div>
           <Text size="text-48" color="gray">落實終身學習、發揚北屯特色、致力在地公共事務、推動社會關懷</Text>
           <RouterLink to="/courses" class="courses-btn">查看最新課程 →</RouterLink>
@@ -86,18 +88,19 @@ const vReveal = {
     </div>
 
     <div class="banner container-full" v-reveal>
-      <img class="banner-img" src="https://picsum.photos/1905/400" alt="">
+      <img class="banner-img" :src="bannerImg" alt="照護人員與長輩交談的情景">
       <div class="banner-overlay"></div>
       <div class="banner-text-container">
-        <Text size="text-48">深耕北屯、永續學習</Text>
+        <Text size="text-48" color="primary-d-o" weight="f-500">深耕北屯、永續學習</Text>
         <Text size="text-36"
           color="gray">現今的世代快速變化，從社會各個層級到個人，都面臨著快速且急劇的轉變；環境的變動、社會基本價值快速演變，和人們對於新知和技能的需求，都讓我們進入一個終身學習的世代。</Text>
       </div>
     </div>
 
     <div class="news container-normal" id="latest-news">
-      <div class="news-title-row">
-        <Text size="text-48">最新消息</Text>
+      <div class="news-title-row" @click="router.push('/news')">
+        <Text size="text-48" color="deep-gray" weight="f-500">最新消息</Text>
+        <RightCircleOutlined class="news-icon" />
       </div>
       <div class="card-container">
         <HomeNewsCard v-for="(news, index) in latestNews" :key="news.id" v-reveal="{ index }"
@@ -114,24 +117,22 @@ const vReveal = {
         </Swiper>
       </div>
 
-      <RouterLink to="/news" class="news-more-btn">查看更多 →</RouterLink>
     </div>
 
     <div class="location container-normal" v-reveal @click="router.push('/locations')">
       <div class="location-left">
         <div class="location-text-container">
           <div class="location-title">
-            <Text size="text-48">服務據點</Text>
+            <Text size="text-48" weight="f-500">服務據點</Text>
             <RightCircleOutlined class="location-icon" />
           </div>
-          <Text size="text-32" color="gray"
+          <Text size="text-36" color="gray"
             class="location-desc">臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多人次。臺中市政府自開辦社大以來，由四家開放至六家承辦單位，台中YMCA憑藉良好辦學經驗及成果，至今通過市府多次招標審核、獲選承辦大墩社大。於市政府每年定期之社大評鑑中，皆獲評審委員一致肯定，並連續多年獲得教育部肯定為辦學績優單位。</Text>
         </div>
       </div>
       <div class="location-right">
         <div class="img-wrapper">
-          <img class="location-img" src="https://picsum.photos/650/525" alt="">
-          <div class="location-overlay"></div>
+          <img class="location-img" :src="locationImg" alt="服務據點">
         </div>
       </div>
     </div>
@@ -141,7 +142,6 @@ const vReveal = {
 <style scoped>
 .container-full {
   width: 100%;
-  margin: auto;
 }
 
 .container-normal {
@@ -156,10 +156,10 @@ const vReveal = {
 }
 
 .hero-area {
-  /* background-color: black; */
   display: flex;
   gap: 0 75px;
   overflow: hidden;
+  min-height: 500px;
 }
 
 @keyframes slide-in-left {
@@ -188,9 +188,9 @@ image {
   height: 100%;
 }
 
+
 .hero-right {
   flex-grow: 1;
-  /* background-color: beige; */
   display: flex;
   align-items: center;
   animation: slide-in-right 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s both;
@@ -199,8 +199,6 @@ image {
 .text-content {
   width: 100%;
   max-width: 750px;
-  /* height: 300px; */
-  /* background-color: brown; */
   display: flex;
   flex-direction: column;
   gap: 32px 0;
@@ -241,12 +239,22 @@ image {
   inset: 0;
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0%, black 25%, black 75%, transparent 100%);
+  mask-image: linear-gradient(to bottom,
+      transparent 0%, black 25%, black 75%, transparent 100%);
 }
 
 .banner-overlay {
   position: absolute;
   inset: 0;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.65);
+  -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0%, black 25%, black 75%, transparent 100%);
+  mask-image: linear-gradient(to bottom,
+      transparent 0%, black 25%, black 75%, transparent 100%);
 }
 
 .banner-text-container {
@@ -260,12 +268,10 @@ image {
 }
 
 .news {
-  /* height: 670px; */
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 74px 0;
-  /* background-color: lightgray; */
 }
 
 .news.container-normal {
@@ -278,28 +284,20 @@ image {
 .news-title-row {
   width: 100%;
   display: flex;
-  flex-direction: column;
-  gap: 12px 0;
+  align-items: center;
+  gap: 0 16px;
   border-bottom: 2px solid black;
   padding-bottom: 2px;
+  cursor: pointer;
 }
 
-.news-more-btn {
-  display: inline-block;
-  align-self: flex-end;
-  padding: 10px 20px;
-  border-radius: 6px;
-  background-color: #1e4620;
-  color: #f0e9e3;
-  text-decoration: none;
-  font-size: 1rem;
-  white-space: nowrap;
-  /* margin-top: -32px; */
+.news-icon {
+  font-size: 3rem;
+  color: #7D7D7D;
+  background-color: #FFFFFF;
+  border-radius: 50%;
 }
 
-.news-more-btn:hover {
-  opacity: 0.85;
-}
 
 .card-container :deep(.card) {
   cursor: pointer;
@@ -315,31 +313,38 @@ image {
   display: none;
 }
 
+.location.container-normal {
+  width: 100%;
+  max-width: 1300px;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .location {
   display: flex;
   align-items: center;
-  position: relative;
+  gap: 0 40px;
   cursor: pointer;
   margin-bottom: 80px;
   min-height: 510px;
 }
 
 .location-left {
-  width: calc(50% + 110px);
-  flex-shrink: 0;
-  z-index: 1;
+  flex: 1;
 }
 
 .location-text-container {
   display: flex;
   flex-direction: column;
   gap: 32px 0;
+  max-width: 622px;
 }
 
 .location-title {
   display: flex;
   align-items: center;
-  gap: 0 10px;
+  gap: 0 16px;
   border-bottom: 2px solid black;
   padding-bottom: 2px;
 }
@@ -347,21 +352,21 @@ image {
 .location-icon {
   font-size: 3rem;
   color: #7D7D7D;
+  background-color: #FFFFFF;
+  border-radius: 50%;
 }
 
 .location-desc {
   text-align: justify;
   display: -webkit-box;
-  -webkit-line-clamp: 7;
-  line-clamp: 7;
+  -webkit-line-clamp: 9;
+  line-clamp: 9;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
 .location-right {
-  width: 50%;
-  flex-shrink: 0;
-  margin-left: -110px;
+  flex: 1;
 }
 
 .img-wrapper {
@@ -374,23 +379,24 @@ image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 20px;
 }
 
-.location-overlay {
-  position: absolute;
-  inset: 0;
-  background-color: rgba(255, 255, 255, 0.5);
-}
-
-@media (min-width: 1300px) {
-  .news-more-btn {
-    margin-top: -42px;
-  }
-}
 
 @media (max-width: 1750px) {
   .hero-right {
-    padding-right: 5%;
+    padding-right: 40px;
+  }
+}
+
+@media (max-width: 1600px) {
+  .hero-left {
+    width: 60%;
+  }
+
+  .location-desc {
+    -webkit-line-clamp: 7;
+    line-clamp: 7;
   }
 }
 
@@ -398,15 +404,17 @@ image {
   .news.container-normal {
     padding: 0 80px;
   }
-}
 
-@media (max-width: 1100px) {
-  .news.container-normal {
-    padding: 0 40px;
+  .location.container-normal {
+    padding: 0 80px;
   }
 }
 
 @media (max-width: 1300px) {
+  .hero-left {
+    width: 100%;
+  }
+
   .news {
     gap: 32px 0;
   }
@@ -425,18 +433,25 @@ image {
     width: 100%;
   }
 
-  .location-icon {
+  .location-icon,
+  .news-icon {
     font-size: 2.625rem;
+  }
+}
+
+@media (max-width: 1100px) {
+  .news.container-normal {
+    padding: 0 40px;
+  }
+
+  .location.container-normal {
+    padding: 0 40px;
   }
 }
 
 @media (max-width: 1024px) {
   .hero-area {
     gap: 0 40px;
-  }
-
-  .hero-left {
-    width: 60%;
   }
 
   .banner-text-container {
@@ -455,6 +470,10 @@ image {
     width: 100%;
   }
 
+  .location-text-container {
+    max-width: unset;
+  }
+
   .location-desc {
     -webkit-line-clamp: unset;
     line-clamp: unset;
@@ -463,7 +482,8 @@ image {
 }
 
 @media (max-width: 950px) {
-  .location-icon {
+  .location-icon,
+  .news-icon {
     font-size: 2.375rem;
   }
 }
@@ -493,14 +513,22 @@ image {
     gap: 16px 0;
   }
 
-.location.container-normal {
-    width: 100%;
-    padding: 0 10%;
-    box-sizing: border-box;
+  .card-container {
+    gap: 16px;
   }
 
-  .location-icon {
+.location.container-normal {
+    padding: 0 20px;
+  }
+
+  .location-icon,
+  .news-icon {
     font-size: 2.25rem;
+  }
+
+  .location-title,
+  .news-title-row {
+    gap: 0 8px;
   }
 
 }
@@ -537,13 +565,11 @@ image {
     padding: 0 6%;
   }
 
-  .location.container-normal {
-    padding: 0 6%;
-  }
 }
 
 @media (max-width: 390px) {
-  .location-icon {
+  .location-icon,
+  .news-icon {
     font-size: 2rem;
   }
 }

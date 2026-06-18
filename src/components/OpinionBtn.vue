@@ -1,12 +1,42 @@
 <script setup>
-import { reactive, ref } from "vue";
+import { reactive, ref, onMounted, onUnmounted } from "vue";
 
 const isOpen = ref(false);
+const bottomOffset = ref(40);
 
 const form = reactive({
     name: "",
     email: "",
     message: "",
+});
+
+function getDefaultBottom() {
+    if (window.innerWidth <= 768) return 20;
+    if (window.innerWidth <= 1024) return 30;
+    return 40;
+}
+
+function updateBottom() {
+    const footer = document.querySelector("footer");
+    const base = getDefaultBottom();
+    if (!footer) { bottomOffset.value = base; return; }
+    const overlap = window.innerHeight - footer.getBoundingClientRect().top;
+    bottomOffset.value = overlap > 0 ? overlap + base : base;
+}
+
+onMounted(() => {
+    window.addEventListener("scroll", updateBottom, { passive: true });
+    window.addEventListener("resize", updateBottom, { passive: true });
+    if (document.readyState === "complete") {
+        updateBottom();
+    } else {
+        window.addEventListener("load", updateBottom, { once: true });
+    }
+});
+
+onUnmounted(() => {
+    window.removeEventListener("scroll", updateBottom);
+    window.removeEventListener("resize", updateBottom);
 });
 
 function openModal() {
@@ -31,7 +61,7 @@ function submitForm() {
 </script>
 
 <template>
-    <button class="opinion-btn" @click="openModal">
+    <button class="opinion-btn" :style="{ bottom: bottomOffset + 'px' }" @click="openModal">
         意見<br />
         回饋
     </button>
@@ -68,14 +98,15 @@ function submitForm() {
 <style scoped>
 .opinion-btn {
     position: fixed;
-    right: 32px;
-    bottom: 32px;
+    right: 40px;
+    bottom: 40px; /* JS 動態覆蓋 bottom，此為初始值 */
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background-color: #3c3c3c;
+    background-color: #D96B27;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     color: #f0e9e3;
-    border: 4px solid #f0e9e3;
+    border: 2px solid #F9F6F0;
     font-size: 1.25rem;
     font-weight: 700;
     cursor: pointer;
@@ -154,5 +185,17 @@ textarea {
     color: white;
     font-size: 16px;
     cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+    .opinion-btn {
+        right: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .opinion-btn {
+        right: 20px;
+    }
 }
 </style>
