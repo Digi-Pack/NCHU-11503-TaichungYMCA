@@ -9,7 +9,7 @@ import PageHero from '@/components/PageHero.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import { aboutCards } from '@/data/aboutData.js'
 import aboutImage from '@/assets/img/about/about.png'
-import aboutBanner from '@/assets/img/about/banner-about.png'
+import aboutBanner from '@/assets/img/locations/banner-location.png'
 
 const BreadcrumbItems = [
   { text: '首頁', to: '/' },
@@ -293,7 +293,7 @@ const swiperModules = [Pagination]
 
 .card-img {
   width: 100%;
-  aspect-ratio: 765 / 546;
+  aspect-ratio: 976 / 743;
   overflow: hidden;
 }
 
