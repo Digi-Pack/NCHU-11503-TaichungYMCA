@@ -1,19 +1,20 @@
+<script setup>
+import footerImg from "@/assets/img/footer/footer圖片.jpg";
+</script>
+
 <template>
   <footer class="footer">
     <div class="footer-shape">
-      <svg viewBox="0 0 1920 515" preserveAspectRatio="none">
+      <svg class="clip-def" width="0" height="0" aria-hidden="true" focusable="false">
         <defs>
-          <pattern id="footerPattern" patternUnits="userSpaceOnUse" width="1920" height="515">
-            <image
-              href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJjc5HYDDPSlfz0Yolwc9TTfd6Ww5KG7l2lrhFUrLa86ySGS3anRUE1CQ&s=10"
-              width="1920" height="515" preserveAspectRatio="xMidYMid slice" />
-          </pattern>
+          <clipPath id="footer-clip" clipPathUnits="objectBoundingBox">
+            <path
+              d="M0 0.99959V0.1326C0.19115 -0.00235 0.42083 0.01124 0.50703 0.00347C0.70516 -0.01983 0.91806 0.07985 0.99974 0.1326V0.99959H0Z" />
+          </clipPath>
         </defs>
-        <!-- 弧形的圖片改上面的網址 -->
-        <path
-          d="M0 514.788V68.2881C367 -1.2119 808 5.7881 973.5 1.7881C1353.9 -10.2119 1762.67 41.1214 1919.5 68.2881V514.788H0Z"
-          fill="url(#footerPattern)" />
       </svg>
+
+      <img class="footer-bg" :src="footerImg" alt="" />
 
       <div class="footer-main">
         <div class="footer-logo">
@@ -47,6 +48,7 @@
 <style scoped>
   .footer {
     width: 100%;
+    background-color: #F0E9E3;
   }
 
   .footer-shape {
@@ -55,13 +57,23 @@
     overflow: hidden;
   }
 
-  .footer-shape svg {
+  .clip-def {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
+  .footer-bg {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    object-position: center;
     z-index: 0;
     opacity: 0.6;
+    clip-path: url(#footer-clip);
   }
 
 .footer-main {

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
-import { FacebookFilled, InstagramOutlined } from "@ant-design/icons-vue";
+import { FacebookFilled, InstagramOutlined, MenuOutlined, CloseOutlined } from "@ant-design/icons-vue";
 
 const navbarBg = ref("rgba(255,255,255,0.95)");
 const isMenuOpen = ref(false);
@@ -36,10 +36,9 @@ onUnmounted(() => {
       <img src="/img/logo.png" alt="北屯社區大學" />
     </RouterLink>
 
-    <button class="hamburger" @click="toggleMenu" aria-label="開啟選單">
-      <span></span>
-      <span></span>
-      <span></span>
+    <button class="hamburger" @click="toggleMenu" :aria-label="isMenuOpen ? '關閉選單' : '開啟選單'">
+      <CloseOutlined v-if="isMenuOpen" class="hamburger-icon" />
+      <MenuOutlined v-else class="hamburger-icon" />
     </button>
 
     <div class="nav-right" :class="{ active: isMenuOpen }">
@@ -198,9 +197,6 @@ onUnmounted(() => {
   }
 
   .hamburger {
-    width: 40px;
-    height: 40px;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -212,11 +208,9 @@ onUnmounted(() => {
     cursor: pointer;
   }
 
-  .hamburger span {
-    width: 26px;
-    height: 2px;
-    background: #1e4620;
-    border-radius: 999px;
+  .hamburger-icon {
+    font-size: 2rem;
+    color: #1e4620;
   }
 
   .nav-right {

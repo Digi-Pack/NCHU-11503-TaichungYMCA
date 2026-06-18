@@ -27,7 +27,11 @@ function updateBottom() {
 onMounted(() => {
     window.addEventListener("scroll", updateBottom, { passive: true });
     window.addEventListener("resize", updateBottom, { passive: true });
-    updateBottom();
+    if (document.readyState === "complete") {
+        updateBottom();
+    } else {
+        window.addEventListener("load", updateBottom, { once: true });
+    }
 });
 
 onUnmounted(() => {
