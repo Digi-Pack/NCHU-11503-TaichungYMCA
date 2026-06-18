@@ -8,8 +8,7 @@ import footerImg from "@/assets/img/footer/footer圖片.jpg";
       <svg class="clip-def" width="0" height="0" aria-hidden="true" focusable="false">
         <defs>
           <clipPath id="footer-clip" clipPathUnits="objectBoundingBox">
-            <path
-              d="M0 0.99959V0.1326C0.19115 -0.00235 0.42083 0.01124 0.50703 0.00347C0.70516 -0.01983 0.91806 0.07985 0.99974 0.1326V0.99959H0Z" />
+            <path d="M0 0.99959V0.1326C0.25 -0.03957 0.75 -0.03957 1 0.1326V0.99959H0Z" />
           </clipPath>
         </defs>
       </svg>
@@ -46,71 +45,70 @@ import footerImg from "@/assets/img/footer/footer圖片.jpg";
 </template>
 
 <style scoped>
-  .footer {
-    width: 100%;
-    background-color: #F0E9E3;
-  }
+.footer {
+  width: 100%;
+  background-color: #F0E9E3;
+}
 
-  .footer-shape {
-    position: relative;
-    height: 514px;
-    overflow: hidden;
-  }
+.footer-shape {
+  position: relative;
+  min-height: 360px;
+  overflow: hidden;
+}
 
-  .clip-def {
-    position: absolute;
-    width: 0;
-    height: 0;
-    overflow: hidden;
-  }
+.clip-def {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
 
-  .footer-bg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    z-index: 0;
-    opacity: 0.6;
-    clip-path: url(#footer-clip);
-  }
+.footer-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+  opacity: 0.3;
+  clip-path: url(#footer-clip);
+}
 
 .footer-main {
   position: relative;
   z-index: 1;
-  min-height: 515px;
+  min-height: 360px;
   box-sizing: border-box;
 
-  width: min(85%, 1440px);
-  margin: 0 auto;
+  max-width: 1800px;
+  margin: auto;
 
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
 
-  gap: clamp(32px, 4vw, 80px);
+  padding-top: 40px;
 
-  padding-top: 190px;
-  padding-bottom: 80px;
+  gap: 40px;
 }
 
 .footer-logo {
-  width: clamp(220px, 22vw, 400px);
+  width: clamp(300px, 22vw, 400px);
   height: auto;
   flex-shrink: 1;
 }
+
 .footer-logo img {
   width: 100%;
   display: block;
 }
 
-
 .footer-right {
   display: flex;
   align-items: flex-start;
 
-  gap: clamp(32px, 4vw, 80px);
+  gap: 40px;
 
   min-width: 0;
 }
@@ -118,25 +116,32 @@ import footerImg from "@/assets/img/footer/footer圖片.jpg";
 .footer-contact {
   width: clamp(280px, 28vw, 420px);
   flex-shrink: 1;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
 }
 
-  .footer-contact .footer-title {
-    font-size: 24px;
-    font-weight: 700;
-    margin: 0 0 20px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #000;
-    color: #474135;
-  }
+.footer-contact .footer-title {
+  font-size: 2.25rem;
+  font-weight: 500;
+  margin: 0 0 20px;
+  padding-bottom: 8px;
+  border-bottom: 3px solid #1E4620;
+  color: #3C3C3C;
+  flex-shrink: 0;
+}
 
-  .footer-contact p {
-    margin: 0 0 10px;
-    font-size: 1.5rem;
-    color: #2d2d2d;
-  }
+.footer-contact p:not(.footer-title) {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #3C3C3C;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
 
- .footer-map {
-  width: clamp(280px, 28vw, 392px);
+.footer-map {
+  width: clamp(280px, 28vw, 500px);
   height: 265px;
   flex-shrink: 1;
 }
@@ -148,30 +153,40 @@ import footerImg from "@/assets/img/footer/footer圖片.jpg";
   display: block;
 }
 
-  .footer-bottom {
-    background: #3c3c3c;
-    height: 54px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.footer-bottom {
+  background: #3c3c3c;
+  height: 54px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-bottom p {
+  margin: 0;
+  color: #f9f6f0;
+  font-size: 1.125rem;
+  text-align: center;
+}
+
+/* 1300 */
+@media (max-width: 1300px) {
+  .footer-contact .footer-title {
+    font-size: 2rem;
   }
 
-  .footer-bottom p {
-    margin: 0;
-    color: #f9f6f0;
-    font-size: 1.125rem;
-    text-align: center;
+  .footer-contact p:not(.footer-title) {
+    font-size: 1.25rem;
   }
+}
 
-
-/* =====================================
-   Tablet Landscape 1024px
+/* Tablet Landscape 1024p */
 /* 1024 */
 @media (max-width: 1024px) {
   .footer-main {
     width: 100%;
-    padding: 140px 48px 80px;
-    gap: 40px;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px 0;
   }
 
   .footer-logo {
@@ -179,11 +194,15 @@ import footerImg from "@/assets/img/footer/footer圖片.jpg";
   }
 
   .footer-right {
-    gap: 32px;
+    gap: clamp(50px, 10vw, 100px);
   }
 
   .footer-contact {
     width: 300px;
+  }
+
+  .footer-contact .footer-title {
+    margin: 0;
   }
 
   .footer-contact p {
@@ -192,7 +211,7 @@ import footerImg from "@/assets/img/footer/footer圖片.jpg";
   }
 
   .footer-map {
-    width: 300px;
+    width: clamp(300px, calc(78.125vw - 300px), 500px);
     height: 220px;
   }
 }
@@ -200,17 +219,10 @@ import footerImg from "@/assets/img/footer/footer圖片.jpg";
 
 /* 768 */
 @media (max-width: 768px) {
-  .footer-shape {
-    height: auto;
-    min-height: 620px;
-  }
-
   .footer-main {
     width: 100%;
     flex-direction: column;
     align-items: center;
-    padding: 90px 40px 60px;
-    gap: 36px;
   }
 
   .footer-logo {
@@ -219,9 +231,8 @@ import footerImg from "@/assets/img/footer/footer圖片.jpg";
 
   .footer-right {
     width: 100%;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 28px;
+    justify-content: center;
+    gap: 32px;
   }
 
   .footer-contact {
@@ -229,7 +240,7 @@ import footerImg from "@/assets/img/footer/footer圖片.jpg";
   }
 
   .footer-map {
-    width: 56%;
+    width: 50%;
     height: 240px;
   }
 
@@ -243,46 +254,46 @@ import footerImg from "@/assets/img/footer/footer圖片.jpg";
   }
 }
 
-
-/* 432 */
-@media (max-width: 432px) {
-  .footer-shape {
-    min-height: 760px;
-  }
-
+/* 550 */
+@media (max-width: 550px) {
   .footer-main {
-    padding: 90px 24px 60px;
-    gap: 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "contact logo"
+      "map     map";
+    align-items: start;
+    padding: 70px 16px 10px;
+    gap: 10px 0;
   }
 
   .footer-logo {
-    width: 180px;
+    grid-area: logo;
+    width: 100%;
+    align-self: center;
   }
 
   .footer-right {
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-    gap: 28px;
+    display: contents;
   }
 
   .footer-contact {
+    grid-area: contact;
     width: 100%;
     text-align: left;
   }
 
   .footer-contact .footer-title {
     font-size: 1.25rem;
-    margin-bottom: 14px;
+    margin-bottom: 7px;
   }
 
-  .footer-contact p {
+  .footer-contact p:not(.footer-title) {
     font-size: 1rem;
-    line-height: 1.7;
-    margin-bottom: 6px;
   }
 
   .footer-map {
+    grid-area: map;
     width: 100%;
     height: 220px;
   }

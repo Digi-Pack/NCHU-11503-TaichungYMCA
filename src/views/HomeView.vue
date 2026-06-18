@@ -222,7 +222,7 @@ image {
 }
 
 .courses-btn:hover {
-  opacity: 0.85;
+  background-color: #938d6b;
 }
 
 .banner {
