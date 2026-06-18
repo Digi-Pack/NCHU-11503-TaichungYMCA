@@ -14,12 +14,12 @@ const BreadcrumbItems = [
 // ── 特定 alias 對應徽章顏色（已移除東山高中顏色）──
 const aliasBadgeColors = {
   '東光活動中心': { bg: '#E8F4FD', text: '#1565C0', border: '#90CAF9' },
-  '大德國中':     { bg: '#FFF3E0', text: '#E65100', border: '#FFCC80' },
-  '陳平國小':     { bg: '#F3E5F5', text: '#6A1B9A', border: '#CE93D8' },
-  '文昌國小':     { bg: '#E8F5E9', text: '#2E7D32', border: '#A5D6A7' },
-  '北屯會館':     { bg: '#FCE4EC', text: '#880E4F', border: '#F48FB1' },
-  '松竹國小':     { bg: '#E0F7FA', text: '#00695C', border: '#80DEEA' },
-  '仁美國小':     { bg: '#FFFDE7', text: '#F57F17', border: '#FFF176' },
+  '大德國中': { bg: '#FFF3E0', text: '#E65100', border: '#FFCC80' },
+  '陳平國小': { bg: '#F3E5F5', text: '#6A1B9A', border: '#CE93D8' },
+  '文昌國小': { bg: '#E8F5E9', text: '#2E7D32', border: '#A5D6A7' },
+  '北屯會館': { bg: '#FCE4EC', text: '#880E4F', border: '#F48FB1' },
+  '松竹國小': { bg: '#E0F7FA', text: '#00695C', border: '#80DEEA' },
+  '仁美國小': { bg: '#FFFDE7', text: '#F57F17', border: '#FFF176' },
 }
 
 function getBadgeStyle(alias) {
@@ -33,7 +33,7 @@ function getBadgeStyle(alias) {
 }
 
 const tags = [
-  { label: '全部',    value: 'all'    },
+  { label: '全部', value: 'all' },
   { label: '北屯本部', value: '北屯本部' },
   { label: '松竹分部', value: '松竹分部' },
   { label: '東山分部', value: '東山分部' },
@@ -79,9 +79,9 @@ const filteredLocations = computed(() =>
         <!-- Section heading -->
         <header class="section-header">
           <!-- <div class="section-header__title-row"> -->
-            <div class="section-header__title-group">
-              <h1 id="locations-title" class="section-header__h1">服務據點</h1>
-              <!-- <div class="section-header__underline" aria-hidden="true"></div>
+          <div class="section-header__title-group">
+            <h1 id="locations-title" class="section-header__h1">服務據點</h1>
+            <!-- <div class="section-header__underline" aria-hidden="true"></div>
             </div> -->
           </div>
           <!-- 介紹文字：只有「全部」顯示 -->
@@ -92,47 +92,24 @@ const filteredLocations = computed(() =>
 
         <!-- Filter tags -->
         <div class="tag-group" role="group" aria-label="篩選服務據點分類">
-          <button
-            v-for="tag in tags"
-            :key="tag.value"
-            class="tag"
-            :class="{ 'tag--active': activeTag === tag.value }"
-            :aria-pressed="activeTag === tag.value"
-            @click="setActiveTag(tag.value)"
-          >
+          <button v-for="tag in tags" :key="tag.value" class="tag" :class="{ 'tag--active': activeTag === tag.value }"
+            :aria-pressed="activeTag === tag.value" @click="setActiveTag(tag.value)">
             {{ tag.label }}
           </button>
         </div>
 
         <!-- Locations list -->
         <div class="locations-list" role="list" aria-label="服務據點清單">
-          <article
-            v-for="location in filteredLocations"
-            :key="location.id"
-            class="location-card"
-            role="listitem"
-          >
+          <article v-for="location in filteredLocations" :key="location.id" class="location-card" role="listitem">
             <!-- ── 摘要列（永遠顯示；全部模式下可點擊跳分部）── -->
-            <div
-              class="location-card__summary"
-              :class="{ 'location-card__summary--clickable': !showDetail }"
-              :role="!showDetail ? 'button' : undefined"
-              :tabindex="!showDetail ? 0 : undefined"
-              :aria-label="!showDetail ? `前往 ${location.name} 詳細資訊` : undefined"
-              @click="goToRegion(location.region)"
-              @keydown.enter.prevent="goToRegion(location.region)"
-              @keydown.space.prevent="goToRegion(location.region)"
-            >
+            <div class="location-card__summary" :class="{ 'location-card__summary--clickable': !showDetail }"
+              :role="!showDetail ? 'button' : undefined" :tabindex="!showDetail ? 0 : undefined"
+              :aria-label="!showDetail ? `前往 ${location.name} 詳細資訊` : undefined" @click="goToRegion(location.region)"
+              @keydown.enter.prevent="goToRegion(location.region)" @keydown.space.prevent="goToRegion(location.region)">
               <!-- Image -->
-              <div class="location-card__img-wrap">
-                <img
-                  :src="location.image"
-                  :alt="`${location.name}${location.alias ? ' ' + location.alias : ''}`"
-                  class="location-card__img"
-                  loading="lazy"
-                  width="207"
-                  height="207"
-                />
+              <div class="location-card__img-wrap" v-if="!showDetail">
+                <img :src="location.image" :alt="`${location.name}${location.alias ? ' ' + location.alias : ''}`"
+                  class="location-card__img" loading="lazy" width="207" height="207" />
               </div>
 
               <!-- Title + badge -->
@@ -155,25 +132,25 @@ const filteredLocations = computed(() =>
             </div>
 
             <!-- ── 詳情區塊：切換到特定分部才顯示 ── -->
-            <div
-              v-if="showDetail"
-              :id="`detail-${location.id}`"
-              class="location-card__detail"
-              role="region"
-              :aria-label="`${location.name} 詳細資訊`"
-            >
+            <div v-if="showDetail" :id="`detail-${location.id}`" class="location-card__detail" role="region"
+              :aria-label="`${location.name} 詳細資訊`">
               <!-- Alert：若 location.alert 有值才顯示 -->
-              <div
-                v-if="location.alert"
-                class="detail-alert"
-                role="alert"
-                aria-live="polite"
-              >
+              <div v-if="location.alert" class="detail-alert" role="alert" aria-live="polite">
                 <span class="detail-alert__icon" aria-hidden="true">⚠</span>
                 <p class="detail-alert__text">{{ location.alert }}</p>
               </div>
 
               <div class="detail-body">
+                <div class="detail-body__left">
+                  <img :src="location.image" class="detail-body__img" />
+                  <!-- 查看地圖按鈕 -->
+                  <div class="detail-cta">
+                    <a :href="location.mapUrl" target="_blank" rel="noopener noreferrer" class="btn btn--gray"
+                      :aria-label="`查看 ${location.name} 地圖位置（開啟新視窗）`">
+                      查看地圖
+                    </a>
+                  </div>
+                </div>
                 <div class="detail-info">
 
                   <div class="detail-info__block">
@@ -189,11 +166,8 @@ const filteredLocations = computed(() =>
                   <div class="detail-info__block">
                     <p class="detail-info__label">電話</p>
                     <p class="detail-info__value">
-                      <a
-                        :href="`tel:${location.tel}`"
-                        class="detail-tel-link"
-                        :aria-label="`撥打電話 ${location.tel}`"
-                      >{{ location.tel }}</a>
+                      <a :href="`tel:${location.tel}`" class="detail-tel-link" :aria-label="`撥打電話 ${location.tel}`">{{
+                        location.tel }}</a>
                     </p>
                   </div>
 
@@ -211,18 +185,7 @@ const filteredLocations = computed(() =>
 
                 </div>
 
-                <!-- 查看地圖按鈕 -->
-                <div class="detail-cta">
-                  <a
-                    :href="location.mapUrl"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="btn btn--gray"
-                    :aria-label="`查看 ${location.name} 地圖位置（開啟新視窗）`"
-                  >
-                    查看地圖
-                  </a>
-                </div>
+
               </div>
             </div>
 
@@ -237,17 +200,17 @@ const filteredLocations = computed(() =>
 <style scoped>
 /* ── CSS custom properties ── */
 .locations-page {
-  --c-primary:    #1E4620;
+  --c-primary: #1E4620;
   --c-primary-bg: #F0E9E3;
-  --c-gray-0:     #F9F6F0;
-  --c-gray-2:     #B1B0B0;
-  --c-gray-3:     #7D7D7D;
-  --c-gray-4:     #706F6F;
-  --c-gray-5:     #3C3C3C;
-  --c-white:      #FFFFFF;
-  --c-border:     #000000;
+  --c-gray-0: #F9F6F0;
+  --c-gray-2: #B1B0B0;
+  --c-gray-3: #7D7D7D;
+  --c-gray-4: #706F6F;
+  --c-gray-5: #3C3C3C;
+  --c-white: #FFFFFF;
+  --c-border: #000000;
   --c-tag-border: #938D6B;
-  --f-noto:  'Noto Sans TC', sans-serif;
+  --f-noto: 'Noto Sans TC', sans-serif;
   --f-inter: 'Inter', sans-serif;
 
   display: flex;
@@ -270,7 +233,7 @@ const filteredLocations = computed(() =>
   width: 100%;
   max-width: 1300px;
   margin-inline: auto;
-  padding-inline: clamp(16px, 4vw, 40px);
+
 }
 
 /* ── Locations section ── */
@@ -515,10 +478,47 @@ const filteredLocations = computed(() =>
 .detail-body {
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: stretch;
   justify-content: space-between;
   gap: 40px;
   flex-wrap: wrap;
+}
+
+/* 詳情內圖片的容器設定 */
+.detail-body__left {
+  flex: 0 0 207px;
+  /* 固定寬度，與上方摘要一致 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 24px;
+
+}
+
+
+.detail-body__img {
+  width: 207px;
+  height: 207px;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+
+}
+
+.detail-cta {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  /* 讓按鈕水平置中 */
+}
+
+/* 調整 info 的寬度佔比 */
+.detail-info {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 
 .detail-info {
@@ -528,6 +528,7 @@ const filteredLocations = computed(() =>
   gap: 40px;
   min-width: 0;
 }
+
 
 .detail-info__block {
   display: flex;
@@ -553,10 +554,6 @@ const filteredLocations = computed(() =>
   margin: 0;
 }
 
-.detail-cta {
-  flex: 0 0 auto;
-  align-self: flex-end;
-}
 
 .detail-tel-link {
   color: inherit;
@@ -605,6 +602,7 @@ const filteredLocations = computed(() =>
 
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
+
   .btn,
   .tag {
     transition: none;
