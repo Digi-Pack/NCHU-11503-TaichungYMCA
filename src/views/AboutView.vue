@@ -8,7 +8,7 @@ import 'swiper/css/pagination'
 import PageHero from '@/components/PageHero.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import { aboutCards } from '@/data/aboutData.js'
-import aboutImage from '@/assets/img/關於我們/about.png'
+import aboutImage from '@/assets/img/about/about.png'
 
 const BreadcrumbItems = [
   { text: '首頁', to: '/' },
