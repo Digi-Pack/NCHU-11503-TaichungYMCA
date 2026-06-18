@@ -1,12 +1,12 @@
 // src/data/locations.js
-import img1 from '@/assets/img/服務據點/location-1.jpg'
-import img2 from '@/assets/img/服務據點/location-2.jpg'
-import img3 from '@/assets/img/服務據點/location-3.jpg'
-import img4 from '@/assets/img/服務據點/location-4.jpg'
-import img5 from '@/assets/img/服務據點/location-5.jpg'
-import img6 from '@/assets/img/服務據點/location-6.jpg'
-import img7 from '@/assets/img/服務據點/location-7.jpg'
-import img8 from '@/assets/img/服務據點/location-8.jpg'
+import img1 from '@/assets/img/locations/location-1.jpg'
+import img2 from '@/assets/img/locations/location-2.jpg'
+import img3 from '@/assets/img/locations/location-3.jpg'
+import img4 from '@/assets/img/locations/location-4.jpg'
+import img5 from '@/assets/img/locations/location-5.jpg'
+import img6 from '@/assets/img/locations/location-6.jpg'
+import img7 from '@/assets/img/locations/location-7.jpg'
+import img8 from '@/assets/img/locations/location-8.jpg'
 
 export const allLocations = [
 {

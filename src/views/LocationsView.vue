@@ -135,18 +135,16 @@ const filteredLocations = computed(() =>
               </div>
 
               <div class="detail-body">
-                <!-- 左側區塊：包含圖片與按鈕 -->
                 <div class="detail-body__left">
                   <img :src="location.image" class="detail-body__img" />
-
-                  <!-- 查看地圖按鈕移到這裡 -->
+                  <!-- 查看地圖按鈕 -->
                   <div class="detail-cta">
-                    <a :href="location.mapUrl" target="_blank" rel="noopener noreferrer" class="btn btn--gray">
+                    <a :href="location.mapUrl" target="_blank" rel="noopener noreferrer" class="btn btn--gray"
+                      :aria-label="`查看 ${location.name} 地圖位置（開啟新視窗）`">
                       查看地圖
                     </a>
                   </div>
                 </div>
-                
                 <div class="detail-info">
                   <div class="detail-info__block">
                     <p class="detail-info__label">營業時間</p>
@@ -228,6 +226,7 @@ const filteredLocations = computed(() =>
   width: 100%;
   max-width: 1300px;
   margin-inline: auto;
+
 }
 
 /* ── Locations section ── */
@@ -473,23 +472,23 @@ const filteredLocations = computed(() =>
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  justify-content: center;
+  justify-content: space-between;
   gap: 40px;
   flex-wrap: wrap;
 }
 
+/* 詳情內圖片的容器設定 */
 .detail-body__left {
   flex: 0 0 207px;
-  /* 固定寬度 */
+  /* 固定寬度，與上方摘要一致 */
   display: flex;
-  flex-direction: column;
-  /* 改為垂直排列 */
-  align-items: center;
-  /* 水平置中圖片與按鈕 */
   justify-content: center;
-  /* 讓整體內容在左側區塊垂直居中 */
+  align-items: center;
+  flex-direction: column;
   gap: 24px;
+
 }
+
 
 .detail-body__img {
   width: 207px;
@@ -497,8 +496,23 @@ const filteredLocations = computed(() =>
   object-fit: cover;
   border-radius: 10px;
   display: block;
+
 }
 
+.detail-cta {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  /* 讓按鈕水平置中 */
+}
+
+/* 調整 info 的寬度佔比 */
+.detail-info {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
 
 .detail-info {
   flex: 1 1 320px;
@@ -507,6 +521,7 @@ const filteredLocations = computed(() =>
   gap: 40px;
   min-width: 0;
 }
+
 
 .detail-info__block {
   display: flex;
@@ -532,12 +547,6 @@ const filteredLocations = computed(() =>
   margin: 0;
 }
 
-.detail-cta {
-  flex: 0 0 auto;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
 
 .detail-tel-link {
   color: inherit;
