@@ -360,9 +360,17 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
                       <p class="detail-info__value">日月停車場 Eclipse Parking：臺中市北屯區松茂里柳陽西街188-1號旁（步行約10分鐘）</p>
                     </div>
                   </div>
+
+                  <div class="detail-info__block">
+                    <p class="detail-info__label">附近停車資訊</p>
+                    <p class="detail-info__value">北屯停車場：臺中市北屯區平德里河北路二段3號旁（步行約10分鐘）</p>
+                    <p class="detail-info__value">日月停車場 Eclipse Parking：臺中市北屯區松茂里柳陽西街188-1號旁（步行約10分鐘）</p>
+                  </div>
+
                 </div>
               </div>
             </div>
+
           </article>
         </div>
 
@@ -447,6 +455,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   color: var(--c-gray-5);
   margin: 0;
 }
+
+
 
 .section-header__subtitle {
   font-family: var(--f-inter);
