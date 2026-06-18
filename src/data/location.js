@@ -11,12 +11,12 @@ import img8 from '@/assets/img/locations/location-8.jpg'
 export const allLocations = [
 {
     id: 1,
-    name: "北屯本部",
+    name: "校本部",
     alias: "",
     description: "臺中市北區錦祥里北屯路10號5樓",
     tel: "04-2232-8823",
     image: img1,
-    region: "北屯本部",
+    region: "校本部",
     date: "2026-06-16",
     mapUrl:"https://www.google.com/maps/search/?api=1&query=臺中市北區錦祥里北屯路10號5樓"
   },
