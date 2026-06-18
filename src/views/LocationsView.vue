@@ -16,29 +16,27 @@ const BreadcrumbItems = [
   { text: '服務據點' },
 ]
 
-// ── 特定 alias 對應徽章顏色（已移除東山高中顏色）──
-const aliasBadgeColors = {
-  '東光活動中心': { bg: '#E8F4FD', text: '#1565C0', border: '#90CAF9' },
-  '大德國中': { bg: '#FFF3E0', text: '#E65100', border: '#FFCC80' },
-  '陳平國小': { bg: '#F3E5F5', text: '#6A1B9A', border: '#CE93D8' },
-  '文昌國小': { bg: '#E8F5E9', text: '#2E7D32', border: '#A5D6A7' },
-  '北屯會館': { bg: '#FCE4EC', text: '#880E4F', border: '#F48FB1' },
-  '松竹國小': { bg: '#E0F7FA', text: '#00695C', border: '#80DEEA' },
-  '仁美國小': { bg: '#FFFDE7', text: '#F57F17', border: '#FFF176' },
-}
+// ── 特定 alias 對應徽章顏色 ──
+// const aliasBadgeColors = {
+//   '大德國中':     { bg: '#FFF3E0', text: '#E65100', border: '#FFCC80' },
+//   '陳平國小':     { bg: '#F3E5F5', text: '#6A1B9A', border: '#CE93D8' },
+//   '北屯會館':     { bg: '#FCE4EC', text: '#880E4F', border: '#F48FB1' },
+//   '松竹國小':     { bg: '#E0F7FA', text: '#00695C', border: '#80DEEA' },
+//   '仁美國小':     { bg: '#FFFDE7', text: '#F57F17', border: '#FFF176' },
+// }
 
-function getBadgeStyle(alias) {
-  const c = aliasBadgeColors[alias]
-  if (!c) return null
-  return {
-    backgroundColor: c.bg,
-    color: c.text,
-    border: `1px solid ${c.border}`,
-  }
-}
+// function getBadgeStyle(alias) {
+//   const c = aliasBadgeColors[alias]
+//   if (!c) return null
+//   return {
+//     backgroundColor: c.bg,
+//     color: c.text,
+//     border: `1px solid ${c.border}`,
+//   }
+// }
 
 const tags = [
-  { label: '全部', value: 'all' },
+  { label: '全部',   value: 'all' },
   { label: '北屯本部', value: '北屯本部' },
   { label: '松竹分部', value: '松竹分部' },
   { label: '東山分部', value: '東山分部' },
@@ -134,11 +132,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 
         <!-- Section heading -->
         <header class="section-header">
-          <!-- <div class="section-header__title-row"> -->
           <div class="section-header__title-group">
             <h1 id="locations-title" class="section-header__h1">服務據點</h1>
-            <!-- <div class="section-header__underline" aria-hidden="true"></div>
-            </div> -->
           </div>
           <p v-if="!showDetail" class="section-header__subtitle">
             臺中市北屯（原大墩）社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多人次。臺中市政府自開辦社大以來，由四家開放至六家承辦單位，台中YMCA憑藉良好辦學經驗及成果，至今通過市府多次招標審核、獲選承辦大墩社大。
@@ -147,38 +142,116 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 
         <!-- Filter tags -->
         <div class="tag-group" role="group" aria-label="篩選服務據點分類">
-          <button v-for="tag in tags" :key="tag.value" class="tag" :class="{ 'tag--active': activeTag === tag.value }"
-            :aria-pressed="activeTag === tag.value" @click="setActiveTag(tag.value)">
+          <button
+            v-for="tag in tags"
+            :key="tag.value"
+            class="tag"
+            :class="{ 'tag--active': activeTag === tag.value }"
+            :aria-pressed="activeTag === tag.value"
+            @click="setActiveTag(tag.value)"
+          >
             {{ tag.label }}
           </button>
         </div>
 
-        <!-- Locations list -->
-        <div class="locations-list" role="list" aria-label="服務據點清單">
-          <article v-for="location in filteredLocations" :key="location.id" class="location-card" role="listitem">
-            <!-- ── 摘要列（永遠顯示；全部模式下可點擊跳分部）── -->
-            <div class="location-card__summary" :class="{ 'location-card__summary--clickable': !showDetail }"
-              :role="!showDetail ? 'button' : undefined" :tabindex="!showDetail ? 0 : undefined"
-              :aria-label="!showDetail ? `前往 ${location.name} 詳細資訊` : undefined" @click="goToRegion(location.region)"
-              @keydown.enter.prevent="goToRegion(location.region)" @keydown.space.prevent="goToRegion(location.region)">
-              <!-- Image -->
-              <div class="location-card__img-wrap" v-if="!showDetail">
-                <img :src="location.image" :alt="`${location.name}${location.alias ? ' ' + location.alias : ''}`"
-                  class="location-card__img" loading="lazy" width="207" height="207" />
+        <!-- ── 全部模式：桌機列表 / 手機 Swiper ── -->
+        <template v-if="!showDetail">
+
+          <!-- 桌機：一般列表（≥ 576px） -->
+          <div
+            v-if="!isMobile"
+            class="locations-list"
+            role="list"
+            aria-label="服務據點清單"
+          >
+            <article
+              v-for="location in filteredLocations"
+              :key="location.id"
+              class="location-card"
+              role="listitem"
+            >
+              <div
+                class="location-card__summary location-card__summary--clickable"
+                role="button"
+                tabindex="0"
+                :aria-label="`前往 ${location.name} 詳細資訊`"
+                @click="goToRegion(location.region)"
+                @keydown.enter.prevent="goToRegion(location.region)"
+                @keydown.space.prevent="goToRegion(location.region)"
+              >
+                <div class="location-card__img-wrap">
+                  <img
+                    :src="location.image"
+                    :alt="`${location.name}${location.alias ? ' ' + location.alias : ''}`"
+                    class="location-card__img"
+                    loading="lazy"
+                    width="207"
+                    height="207"
+                  />
+                </div>
+                <div class="location-card__title-group">
+                  <div class="location-card__name-row">
+                    <h2 class="location-card__name">{{ location.name }}</h2>
+                    <!-- <span
+                      v-if="location.alias && getBadgeStyle(location.alias)"
+                      class="location-card__badge"
+                      :style="getBadgeStyle(location.alias)"
+                      :aria-label="`場地：${location.alias}`"
+                    >{{ location.alias }}</span>
+                    <span v-else-if="location.alias" class="location-card__alias">{{ location.alias }}</span> -->
+                  </div>
+                  <div class="location-card__title-line" aria-hidden="true"></div>
+                </div>
               </div>
             </article>
           </div>
 
-
-              <!-- Title + badge -->
-              <div class="location-card__title-group">
-                <div class="location-card__name-row">
-                  <h2 class="location-card__name">{{ location.name }}</h2>
-                  <span v-if="location.alias && getBadgeStyle(location.alias)" class=""
-                    :style="getBadgeStyle(location.alias)" :aria-label="`場地：${location.alias}`"></span>
-                  <span v-else-if="location.alias" class="location-card__alias">{{ location.alias }}</span>
-                </div>
-                <div class="location-card__title-line" aria-hidden="true"></div>
+          <!-- 手機：Swiper（< 576px） -->
+          <div v-else class="swiper locations-swiper" aria-label="服務據點清單">
+            <div class="swiper-wrapper">
+              <div
+                v-for="location in filteredLocations"
+                :key="location.id"
+                class="swiper-slide"
+              >
+                <article
+                  class="location-card"
+                  role="listitem"
+                >
+                  <div
+                    class="location-card__summary location-card__summary--clickable"
+                    role="button"
+                    tabindex="0"
+                    :aria-label="`前往 ${location.name} 詳細資訊`"
+                    @click="goToRegion(location.region)"
+                    @keydown.enter.prevent="goToRegion(location.region)"
+                    @keydown.space.prevent="goToRegion(location.region)"
+                  >
+                    <div class="location-card__img-wrap">
+                      <img
+                        :src="location.image"
+                        :alt="`${location.name}${location.alias ? ' ' + location.alias : ''}`"
+                        class="location-card__img"
+                        loading="lazy"
+                        width="207"
+                        height="207"
+                      />
+                    </div>
+                    <div class="location-card__title-group">
+                      <div class="location-card__name-row">
+                        <h2 class="location-card__name">{{ location.name }}</h2>
+                        <span
+                          v-if="location.alias && getBadgeStyle(location.alias)"
+                          class="location-card__badge"
+                          :style="getBadgeStyle(location.alias)"
+                          :aria-label="`場地：${location.alias}`"
+                        >{{ location.alias }}</span>
+                        <span v-else-if="location.alias" class="location-card__alias">{{ location.alias }}</span>
+                      </div>
+                      <div class="location-card__title-line" aria-hidden="true"></div>
+                    </div>
+                  </div>
+                </article>
               </div>
             </div>
             <!-- Swiper pagination dots -->
@@ -187,30 +260,44 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 
         </template>
 
-            <!-- ── 詳情區塊：切換到特定分部才顯示 ── -->
-            <div v-if="showDetail" :id="`detail-${location.id}`" class="location-card__detail" role="region"
-              :aria-label="`${location.name} 詳細資訊`">
-              <!-- Alert：若 location.alert 有值才顯示 -->
-              <div v-if="location.alert" class="detail-alert" role="alert" aria-live="polite">
-                <span class="detail-alert__icon" aria-hidden="true">⚠</span>
-                <p class="detail-alert__text">{{ location.alert }}</p>
-              </div>
-
+        <!-- ── 詳情模式 ── -->
+        <div
+          v-else
+          class="locations-list"
+          role="list"
+          aria-label="服務據點清單"
+        >
+          <article
+            v-for="location in filteredLocations"
+            :key="location.id"
+            class="location-card"
+            role="listitem"
+          >
+            <!-- 詳情區塊：整張卡片內容 -->
+            <div
+              :id="`detail-${location.id}`"
+              class="location-card__detail"
+              role="region"
+              :aria-label="`${location.name} 詳細資訊`"
+            >
+              <!-- Body：左側圖片 + 右側（標題+線+警語+資訊） -->
               <div class="detail-body">
+                <!-- 左：圖片 + 地圖按鈕，垂直置中 -->
                 <div class="detail-body__left">
-                  <img :src="location.image" class="detail-body__img" />
-                  <!-- 查看地圖按鈕 -->
+                  <img
+                    :src="location.image"
+                    :alt="`${location.name} 場地照片`"
+                    class="detail-body__img"
+                  />
                   <div class="detail-cta">
-                    <a :href="location.mapUrl" target="_blank" rel="noopener noreferrer" class="btn btn--gray"
-                      :aria-label="`查看 ${location.name} 地圖位置（開啟新視窗）`">
+                    <a
+                      :href="location.mapUrl"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="btn btn--gray"
+                    >
                       查看地圖
                     </a>
-                  </div>
-                </div>
-                <div class="detail-info">
-                  <div class="detail-info__block">
-                    <p class="detail-info__label">營業時間</p>
-                    <p class="detail-info__value">週一至週五 14:00 - 21:00，週六日公休</p>
                   </div>
                 </div>
 
@@ -222,12 +309,9 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
                     <div class="detail-right__line" aria-hidden="true"></div>
                   </div>
 
-                  <div class="detail-info__block">
-                    <p class="detail-info__label">電話</p>
-                    <p class="detail-info__value">
-                      <a :href="`tel:${location.tel}`" class="detail-tel-link" :aria-label="`撥打電話 ${location.tel}`">{{
-                        location.tel }}</a>
-                    </p>
+                  <!-- 固定警語 -->
+                  <div class="detail-alert detail-alert--fixed" role="note">
+                    <p class="detail-alert__text">本分部僅提供行政諮詢與報名繳費服務。各課程之實際授課地點，請以課程總表或開課通知簡訊為準。</p>
                   </div>
 
                   <!-- 動態 Alert（location.alert 有值才顯示） -->
@@ -276,10 +360,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
                       <p class="detail-info__value">日月停車場 Eclipse Parking：臺中市北屯區松茂里柳陽西街188-1號旁（步行約10分鐘）</p>
                     </div>
                   </div>
-
                 </div>
-
-
               </div>
             </div>
           </article>
@@ -293,18 +374,18 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 <style scoped>
 /* ── CSS custom properties ── */
 .locations-page {
-  --c-primary: #1E4620;
+  --c-primary:    #1E4620;
   --c-primary-bg: #F0E9E3;
-  --c-gray-0: #F9F6F0;
-  --c-gray-2: #B1B0B0;
-  --c-gray-3: #7D7D7D;
-  --c-gray-4: #706F6F;
-  --c-gray-5: #3C3C3C;
-  --c-white: #FFFFFF;
-  --c-border: #000000;
+  --c-gray-0:     #F9F6F0;
+  --c-gray-2:     #B1B0B0;
+  --c-gray-3:     #7D7D7D;
+  --c-gray-4:     #706F6F;
+  --c-gray-5:     #3C3C3C;
+  --c-white:      #FFFFFF;
+  --c-border:     #000000;
   --c-tag-border: #938D6B;
-  --f-noto: 'Noto Sans TC', sans-serif;
-  --f-inter: 'Inter', sans-serif;
+  --f-noto:       'Noto Sans TC', sans-serif;
+  --f-inter:      'Inter', sans-serif;
 
   display: flex;
   flex-direction: column;
@@ -326,7 +407,17 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   width: 100%;
   max-width: 1300px;
   margin-inline: auto;
+  /* 預設 > 1400px：無 padding，靠 max-width + margin auto 置中 */
+}
 
+@media (max-width: 1400px) {
+  .container { padding-inline: 80px; }
+}
+@media (max-width: 1100px) {
+  .container { padding-inline: 40px; }
+}
+@media (max-width: 768px) {
+  .container { padding-inline: 20px; }
 }
 
 /* ── Locations section ── */
@@ -561,25 +652,19 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .detail-body {
   display: flex;
   flex-direction: row;
-  align-items: stretch;
-  justify-content: space-between;
-  gap: 40px;
-  min-width: 0;
-  align-self: stretch;   /* 右欄撐滿高度，讓左欄能置中 */
+  align-items: center;   /* 左側圖片與右側內容垂直置中對齊 */
+  gap: 40px;             /* 圖片與文字之間 40px */
 }
 
-/* 詳情內圖片的容器設定 */
+/* 左：圖片 + 查看地圖按鈕，垂直置中 */
 .detail-body__left {
   flex: 0 0 207px;
-  /* 固定寬度，與上方摘要一致 */
+  align-self: center;    /* 確保左欄垂直置中 */
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
   gap: 24px;
-
 }
-
 
 .detail-body__img {
   width: 207px;
@@ -587,31 +672,48 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   object-fit: cover;
   border-radius: 10px;
   display: block;
-
 }
 
-.detail-cta {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  /* 讓按鈕水平置中 */
-}
-
-/* 調整 info 的寬度佔比 */
-.detail-info {
-  flex: 1 1 300px;
+/* 右：標題 + 線 + 警語 + 資訊，全部左對齊 */
+.detail-right {
+  flex: 1 1 320px;
   display: flex;
   flex-direction: column;
   gap: 40px;
+  min-width: 0;
+  align-self: stretch;   /* 右欄撐滿高度，讓左欄能置中 */
 }
 
+/* 右欄：標題 + 線 */
+.detail-right__title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-right__name {
+  font-family: var(--f-noto);
+  font-weight: 500;
+  font-size: clamp(1.25rem, 2vw, 2.25rem);
+  line-height: 1.2;
+  color: var(--c-gray-5);
+  margin: 0;
+}
+
+.detail-right__line {
+  width: 100%;
+  height: 3px;
+  background-color: var(--c-primary);
+  border-radius: 2px;
+}
+
+/* 右欄：資訊區塊 */
 .detail-info {
   display: flex;
   flex-direction: column;
   gap: 40px;
   min-width: 0;
 }
-
 
 .detail-info__block {
   display: flex;
@@ -637,6 +739,11 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   margin: 0;
 }
 
+.detail-cta {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 
 .detail-tel-link {
   color: inherit;
@@ -757,10 +864,6 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
-
-  .btn,
-  .tag {
-    transition: none;
-  }
+  .btn, .tag { transition: none; }
 }
 </style>
