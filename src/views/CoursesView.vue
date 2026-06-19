@@ -1,4 +1,5 @@
 <script setup>
+import PageHero from '@/components/PageHero.vue'
 import { ref, computed, watch } from 'vue'
 import courses from '@/data/course.json'
 
@@ -117,7 +118,7 @@ watch(current, () => {
 <template>
   <main>
     <Breadcrumb :items="breadcrumbItems" />
-
+    <PageHero :image="'https://www.shutterstock.com/image-illustration/watercolor-handprinted-banner-amethyst-crystals-260nw-1424370284.jpg'" />
     <section class="course-page">
       <section class="section-block">
         <Text>熱門課程</Text>
@@ -354,7 +355,7 @@ watch(current, () => {
   color: white;
 }
 
-.display-toggle {
+.view-switch {
   display: flex;
   flex-shrink: 0;
 }

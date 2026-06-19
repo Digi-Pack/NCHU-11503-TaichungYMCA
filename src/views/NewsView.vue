@@ -2,7 +2,7 @@
 import { ref, computed, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import PageHero from "@/components/PageHero.vue";
-import newsHeroImg from "@/assets/img/news/最新消息測試圖.png";
+import newsHeroImg from "@/assets/img/news/newsHeroImg.png";
 import Text from "@/components/Text.vue";
 import HomeNewsCard from "@/components/HomeNewsCard.vue";
 import NewsList from "@/components/NewsList.vue";
