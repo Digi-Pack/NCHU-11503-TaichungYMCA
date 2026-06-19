@@ -81,7 +81,7 @@ const vReveal = {
             <Text color="primary-d-g" weight="f-500">臺中市</Text>
             <Text color="primary-d-g" weight="f-500">北屯社區大學</Text>
           </div>
-          <Text size="text-48" color="gray">落實終身學習、發揚北屯特色、致力在地公共事務、推動社會關懷</Text>
+          <Text size="text-48" color="gray" class="sub-title">落實終身學習、發揚北屯特色、致力在地公共事務、推動社會關懷</Text>
           <RouterLink to="/courses" class="courses-btn">查看最新課程 →</RouterLink>
         </div>
       </div>
@@ -92,7 +92,7 @@ const vReveal = {
       <div class="banner-overlay"></div>
       <div class="banner-text-container">
         <Text size="text-48" color="primary-d-o" weight="f-500">深耕北屯、永續學習</Text>
-        <Text size="text-36"
+        <Text size="text-36" class="banner-text"
           color="gray">現今的世代快速變化，從社會各個層級到個人，都面臨著快速且急劇的轉變；環境的變動、社會基本價值快速演變，和人們對於新知和技能的需求，都讓我們進入一個終身學習的世代。</Text>
       </div>
     </div>
@@ -142,11 +142,6 @@ const vReveal = {
 <style scoped>
 .container-full {
   width: 100%;
-}
-
-.container-normal {
-  width: calc(70% - 33.5px);
-  margin: auto;
 }
 
 .home {
@@ -210,6 +205,10 @@ image {
   gap: 12px 0;
 }
 
+.sub-title{
+  text-align: justify;
+}
+
 .courses-btn {
   display: inline-block;
   padding: 14px 28px;
@@ -265,6 +264,10 @@ image {
   flex-direction: column;
   align-items: center;
   gap: 32px 0;
+}
+
+.banner-text{
+  text-align: justify;
 }
 
 .news {
@@ -494,16 +497,8 @@ image {
     gap: 40px 0;
   }
 
-  .hero-left {
-    width: 100%;
-  }
-
   .hero-right {
     width: 100%;
-    padding: 0 10%;
-  }
-
-.banner-text-container {
     padding: 0 10%;
   }
 

@@ -8,7 +8,7 @@ import HomeNewsCard from "@/components/HomeNewsCard.vue";
 import NewsList from "@/components/NewsList.vue";
 import Breadcrumb from "@/components/Breadcrumb.vue";
 import newsList from "@/data/news.js";
-import { BarChartOutlined, TableOutlined } from "@ant-design/icons-vue";
+import { BarChartOutlined, TableOutlined, SearchOutlined } from "@ant-design/icons-vue";
 
 const route = useRoute();
 
@@ -91,7 +91,7 @@ watch(viewMode, (view) => {
 
     <div class="container-normal main-section">
 
-      <div class="newsTitle" ref="newsTitleRef" id="news-title">
+      <div class="newsTitle" ref="newsTitleRef">
         <Text weight="f-500" color="deep-gray">最新消息</Text>
       </div>
 
@@ -109,19 +109,29 @@ watch(viewMode, (view) => {
       <div class="search-area">
         <input v-model="keywordInput" type="text" class="search-input" placeholder="請輸入標題或內文關鍵字"
           @keyup.enter="searchNews" />
-        <button class="search-btn" @click="searchNews">搜尋</button>
-        <button v-if="keyword" class="clear-btn" @click="clearSearch">清除</button>
+        <button class="search-btn" @click="searchNews">
+          <SearchOutlined />
+          搜尋
+        </button>
       </div>
 
-      <div class="cards-area" v-show="viewMode === 'card'">
-        <HomeNewsCard v-for="news in cardNews" :key="news.id" :outPicture="news.outPicture" :title="news.title"
-          :desc="news.desc" :date="news.date" @click="goToDetail(news.id)"></HomeNewsCard>
+      <button v-if="keyword" class="clear-btn" @click="clearSearch">清除搜尋</button>
+
+      <div v-if="cardNews.length === 0" class="empty-text">
+        找不到符合條件的消息
       </div>
 
-      <div class="lists-area" v-show="viewMode === 'list'">
-        <NewsList v-for="news in cardNews" :key="news.id" :title="news.title" :date="news.date"
-          :content="previewContent(news.content)" @click="goToDetail(news.id)"></NewsList>
-      </div>
+      <template v-else>
+        <div class="cards-area" v-show="viewMode === 'card'">
+          <HomeNewsCard v-for="news in cardNews" :key="news.id" :outPicture="news.outPicture" :title="news.title"
+            :desc="news.desc" :date="news.date" @click="goToDetail(news.id)"></HomeNewsCard>
+        </div>
+
+        <div class="lists-area" v-show="viewMode === 'list'">
+          <NewsList v-for="news in cardNews" :key="news.id" :title="news.title" :date="news.date"
+            :content="previewContent(news.content)" @click="goToDetail(news.id)"></NewsList>
+        </div>
+      </template>
 
       <div class="page-area">
         <a-pagination v-model:current="current" :total="filteredNews.length" :page-size="pageSize" />
@@ -140,8 +150,6 @@ watch(viewMode, (view) => {
 }
 
 .main-section {
-  /* height: 1410px; */
-  /* background-color: lightcoral; */
   display: flex;
   flex-direction: column;
   gap: 40px 0;
@@ -163,48 +171,60 @@ watch(viewMode, (view) => {
 }
 
 .search-area {
+  position: relative;
   display: flex;
-  gap: 12px;
+  align-items: center;
+  height: 62px;
+  border: 1px solid #b1b0b0;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
 }
 
 .search-input {
   flex: 1;
-  height: 52px;
-  padding: 0 20px;
-  border: 1px solid #cfcfcf;
-  border-radius: 999px;
-  font-size: 1rem;
+  height: 100%;
+  padding: 0 120px 0 12px;
+  border: none;
   outline: none;
-}
-
-.search-input:focus {
-  border-color: #3c3c3c;
-}
-
-.search-btn,
-.clear-btn {
-  min-width: 88px;
-  height: 52px;
-  padding: 0 20px;
-  border-radius: 999px;
-  border: 1px solid #3c3c3c;
-  cursor: pointer;
+  font-size: 1rem;
 }
 
 .search-btn {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  bottom: 3px;
+  width: 93px;
+  border: none;
+  border-radius: 4px;
   background-color: #3c3c3c;
-  color: #f0e9e3;
+  color: #f9f6f0;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .search-btn:hover {
-  background-color: #938d6b;
-  border-color: #938d6b;
-  color: #f0e9e3;
+  background-color: #2d2d2d;
+}
+
+.search-btn :deep(svg) {
+  font-size: 20px;
 }
 
 .clear-btn {
-  background-color: white;
+  height: 40px;
+  padding: 0 20px;
+  border: 1px solid #3c3c3c;
+  border-radius: 8px;
+  background: white;
   color: #3c3c3c;
+  cursor: pointer;
+  align-self: start;
 }
 
 .clear-btn:hover {
@@ -284,7 +304,6 @@ watch(viewMode, (view) => {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 74px 64px;
-  /* background-color: lightskyblue; */
 }
 
 .cards-area :deep(.card) {
@@ -292,9 +311,15 @@ watch(viewMode, (view) => {
   cursor: pointer;
 }
 
+.empty-text {
+  padding: 80px 0;
+  text-align: center;
+  color: #757575;
+  font-size: 1.2rem;
+}
+
 .lists-area {
   width: 100%;
-  /* background-color: lightblue; */
 }
 
 .lists-area :deep(.list) {
@@ -417,19 +442,25 @@ watch(viewMode, (view) => {
   .category-btn {
     width: 100%;
   }
+
+  .clear-btn{
+    align-self: stretch;
+  }
 }
 
 @media (max-width: 440px) {
   .button-area {
     grid-template-columns: repeat(2, 1fr);
   }
+}
 
-  .search-area{
-    gap: 0 6px;
+@media (max-width: 432px) {
+  .search-area {
+    height: 52px;
   }
 
-  .search-btn{
-    min-width: 60px;
+  .search-btn {
+    width: 84px;
   }
 }
 
