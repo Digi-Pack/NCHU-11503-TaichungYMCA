@@ -1,14 +1,26 @@
 <script setup>
-defineProps({
+import { computed } from 'vue'
+
+const props = defineProps({
   course: {
     type: Object,
     required: true,
   },
 })
+
+const previewContent = computed(() => {
+  if (!props.course.content) return ''
+
+  const text = Array.isArray(props.course.content)
+    ? props.course.content.join('')
+    : props.course.content
+
+  return text.length > 50 ? text.slice(0, 50) + '...' : text
+})
 </script>
 
 <template>
-  <div class="course-card">
+  <RouterLink class="course-card" :to="`/courses/${course.id}`">
     <div class="card-image">
       <img
         :src="course.thumbnail || 'https://placehold.co/401x240'"
@@ -17,166 +29,177 @@ defineProps({
     </div>
 
     <div class="card-content">
-      <div class="category-tag">
-        {{ course.category }}
-      </div>
-
       <h3 class="course-title">
         {{ course.title }}
       </h3>
 
-      <p class="teacher">
-        {{ course.teacher }}
+      <p class="course-desc">
+        {{ previewContent }}
       </p>
 
-      <p class="datetime">
-        {{ course.period }} ｜ {{ course.time }}
+      <p class="course-date">
+        {{ course.period }}
       </p>
-
-      <RouterLink
-        :to="`/courses/${course.id}`"
-        class="detail-btn"
-      >
-        查看更多 ＞
-      </RouterLink>
     </div>
-  </div>
+  </RouterLink>
 </template>
 
 <style scoped>
+
+.course-card,
+.course-card:visited,
+.course-card:hover,
+.course-card:active {
+  text-decoration: none;
+  color: inherit;
+}
+
 .course-card {
   width: 401px;
   height: 423px;
-  background: white;
+
+  background: #fff;
+
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
 }
 
 .card-image {
   width: 401px;
   height: 240px;
+
   overflow: hidden;
+
   background: #ddd;
 }
 
 .card-image img {
   width: 100%;
   height: 100%;
+
   object-fit: cover;
+
   display: block;
 }
 
-/* ========================= */
-
 .card-content {
   height: 183px;
-  padding: 14px 18px;
+
+  padding: 20px;
+
   box-sizing: border-box;
 
   display: flex;
   flex-direction: column;
 }
 
-.category-tag {
-  width: fit-content;
-
-  padding: 4px 10px;
-
-  background: #f4eee9;
-
-  border-radius: 999px;
-
-  font-size: 13px;
-
-  color: #3c3c3c;
-
-  margin-bottom: 10px;
-}
-
 /* ========================= */
-/* 課程名稱固定一行 */
+/* 課程名稱 */
 /* ========================= */
 
 .course-title {
-  margin: 0;
+  margin: 0 0 16px;
 
-  font-size: 1.8rem;
-
-  font-weight: 700;
-
+  font-size: 1.875rem; /* 30px */
+  font-weight: 500;
   line-height: 1.2;
 
+  color: #000;
+
   white-space: nowrap;
-
   overflow: hidden;
-
   text-overflow: ellipsis;
-
-  margin-bottom: 8px;
 }
 
 /* ========================= */
-/* 老師固定一行 */
+/* 課程簡介 */
 /* ========================= */
 
-.teacher {
-  margin: 0;
+.course-desc {
+  margin: 0 0 20px;
 
-  font-size: 0.95rem;
+  font-size: 1.25rem; /* 20px */
+  line-height: 1.4;
 
   color: #757575;
 
-  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 
   overflow: hidden;
-
-  text-overflow: ellipsis;
-
-  margin-bottom: 8px;
 }
 
 /* ========================= */
-/* 日期時間固定一行 */
+/* 上課期間 */
 /* ========================= */
 
-.datetime {
+.course-date {
   margin: 0;
 
-  font-size: 0.9rem;
+  font-size: 1.25rem; /* 20px */
+  line-height: 1.2;
 
   color: #757575;
-
-  white-space: nowrap;
-
-  overflow: hidden;
-
-  text-overflow: ellipsis;
 }
 
 /* ========================= */
+/* 1024 */
+/* ========================= */
 
-.detail-btn {
-  margin-top: auto;
+@media (max-width: 1024px) {
+  .course-title {
+    font-size: 1.75rem; /* 28px */
+  }
 
-  width: fit-content;
-
-  padding: 8px 16px;
-
-  background: #7d7d7d;
-
-  color: white;
-
-  text-decoration: none;
-
-  border-radius: 6px;
-
-  font-size: 14px;
-
-  transition: 0.2s;
+  .course-desc,
+  .course-date {
+    font-size: 1.125rem; /* 18px */
+  }
 }
 
-.detail-btn:hover {
-  background: #5f5f5f;
+/* ========================= */
+/* 768 */
+/* ========================= */
+
+@media (max-width: 768px) {
+  .course-card {
+    width: 100%;
+    height: auto;
+  }
+
+  .card-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 401 / 240;
+  }
+
+  .course-title {
+    font-size: 1.5rem; /* 24px */
+  }
+
+  .course-desc,
+  .course-date {
+    font-size: 1rem; /* 16px */
+  }
+}
+
+/* ========================= */
+/* 432 */
+/* ========================= */
+
+@media (max-width: 432px) {
+  .card-content {
+    padding: 16px;
+  }
+
+  .course-title {
+    font-size: 1.25rem; /* 20px */
+  }
+
+  .course-desc,
+  .course-date {
+    font-size: 0.875rem; /* 14px */
+  }
 }
 </style>

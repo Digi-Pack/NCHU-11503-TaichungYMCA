@@ -1,31 +1,40 @@
 <script setup>
-defineProps({
+import { computed } from "vue";
+
+const props = defineProps({
   course: {
     type: Object,
     required: true,
   },
-})
+});
+
+const previewContent = computed(() => {
+  if (!props.course.content) return "";
+
+  const text = Array.isArray(props.course.content)
+    ? props.course.content.join("")
+    : props.course.content;
+
+  return text.length > 60 ? text.slice(0, 60) + "..." : text;
+});
 </script>
 
 <template>
-  <RouterLink class="hot-card" :to="`/courses/${course.code}`">
-    <img
-      class="hot-image"
-      :src="course.thumbnail || '/img/courses/default-thumb.jpg'"
-      :alt="course.title"
-    />
+  <RouterLink class="hot-card" :to="`/courses/${course.id}`">
+    <div class="hot-image">
+      <img
+        :src="course.thumbnail || 'https://placehold.co/401x240'"
+        :alt="course.title"
+      />
+    </div>
 
     <div class="hot-content">
-      <p class="hot-category">
-        {{ course.category }}
-      </p>
-
       <h3 class="hot-title">
         {{ course.title }}
       </h3>
 
       <p class="hot-desc">
-        {{ course.content }}
+        {{ previewContent }}
       </p>
 
       <p class="hot-date">
@@ -41,50 +50,118 @@ defineProps({
   width: 100%;
   color: inherit;
   text-decoration: none;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
 }
 
 .hot-image {
   width: 100%;
-  aspect-ratio: 4 / 3;
-  display: block;
+  aspect-ratio: 401 / 240;
+  overflow: hidden;
+  background: #ddd;
+  border-radius: 16px 16px 0px 0px;
+}
+
+.hot-image img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border-radius: 10px;
-  background-color: #f0f0f0;
+  display: block;
 }
 
 .hot-content {
-  padding-top: 12px;
-}
-
-.hot-category {
-  margin: 0 0 6px;
-  font-size: 0.9rem;
-  color: #757575;
+  padding: 19.64px;
 }
 
 .hot-title {
-  margin: 0 0 8px;
-  font-size: 1.2rem;
+  margin: 0 0 16px;
+  font-size: 1.875rem;
   font-weight: 500;
+  line-height: 1.2;
   color: #000;
-  line-height: 1.4;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .hot-desc {
-  margin: 0 0 8px;
+  margin: 0 0 20px;
+  font-size: 1.25rem;
+  line-height: 1.4;
   color: #757575;
-  font-size: 0.95rem;
-  line-height: 1.5;
+
   display: -webkit-box;
   -webkit-line-clamp: 2;
-  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
 .hot-date {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 1.25rem;
+  line-height: 1.2;
   color: #757575;
+}
+
+/* ===================== */
+/* 1024 */
+/* ===================== */
+
+@media (max-width: 1024px) {
+  .hot-title {
+    font-size: 1.75rem; /* 28px */
+  }
+
+  .hot-desc {
+    font-size: 1.125rem; /* 18px */
+  }
+
+  .hot-date {
+    font-size: 1.125rem; /* 18px */
+  }
+}
+
+/* ===================== */
+/* 768 */
+/* ===================== */
+
+@media (max-width: 768px) {
+  .hot-content {
+    padding: 12px 4px 0;
+  }
+
+  .hot-title {
+    font-size: 1.5rem; /* 24px */
+  }
+
+  .hot-desc {
+    font-size: 1rem; /* 16px */
+  }
+
+  .hot-date {
+    font-size: 1rem; /* 16px */
+  }
+}
+
+/* ===================== */
+/* 432 */
+/* ===================== */
+
+@media (max-width: 432px) {
+  .hot-title {
+    font-size: 1.25rem; /* 20px */
+  }
+
+  .hot-desc {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.5;
+  }
+
+  .hot-date {
+    font-size: 0.875rem; /* 14px */
+  }
 }
 </style>

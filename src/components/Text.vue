@@ -100,6 +100,11 @@ const props = defineProps({
     .text-36 {
         font-size: 1.75rem;
     }
+    
+    .text-30{
+        font-size:1.85rem; 
+    }
+/* 課程大標示29.5 */
 
     .text-32 {
         font-size: 1.5rem;
