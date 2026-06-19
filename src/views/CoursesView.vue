@@ -11,8 +11,8 @@ import HotCourseCard from '@/components/HotCourseCard.vue'
 import HotCourseListItem from '@/components/HotCourseListItem.vue'
 
 import {
-  BarsOutlined,
-  AppstoreOutlined,
+  TableOutlined,
+  BarChartOutlined,
   SearchOutlined,
 } from '@ant-design/icons-vue'
 
@@ -257,6 +257,18 @@ watch(current, () => {
 </template>
 
 <style scoped>
+
+.icon {
+  width: 50px;
+  height: 51px;
+  border: 1px solid #3c3c3c;
+  background-color: white;
+  color: #3c3c3c;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 14px;
+}
+
 .course-page {
   width: min(1300px, calc(100% - 80px));
   margin: 0 auto;
@@ -570,9 +582,8 @@ watch(current, () => {
     flex-direction: column;
   }
 
-  .view-switch {
-    align-self: flex-end;
-  }
+.display-toggle {
+  align-self: flex-end;}
 
   .search-area {
     margin: 32px 0;
