@@ -21,7 +21,7 @@ const props = defineProps({
 <template>
     <div class="list">
         <div class="title-date">
-            <Text size="text-36">{{ props.title }}</Text>
+            <Text size="text-36" color="deep-gray" weight="f-500">{{ props.title }}</Text>
             <Text size="text-24" color="gray">{{ props.date }}</Text>
         </div>
         <div class="content-check">
@@ -78,16 +78,16 @@ const props = defineProps({
 .more-btn {
     width: 132px;
     height: 56px;
-    background-color: #706F6F;
-    color: #F9F6F0;
-    border-color: #706F6F;
+    background-color: #1e4620;
+    color: #F0E9E3;
+    border-color: #1e4620;
     font-size: 1.125rem;
 }
 
 .more-btn:hover {
-    background-color: #A0522D;
-    border-color: #A0522D;
-    color: #FFFFFF;
+    background-color: #938d6b;
+    border-color: #938d6b;
+    color: #F0E9E3;
 }
 
 @media (max-width: 768px) {

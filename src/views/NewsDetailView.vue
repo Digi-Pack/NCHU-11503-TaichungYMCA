@@ -20,7 +20,7 @@ function goBack() {
   if (route.query.from === "home") {
     router.push({ name: "home", hash: "#latest-news" });
   } else {
-    router.push({ name: "news", query: { page: route.query.page, view: route.query.view, category: route.query.category }, hash: "#news-title" });
+    router.push({ name: "news", query: { page: route.query.page, view: route.query.view, category: route.query.category } });
   }
 }
 </script>
@@ -37,7 +37,7 @@ function goBack() {
 
             <div class="title-section container-normal">
                 <div class="title-date">
-                    <Text size="text-48">{{ currentNews?.title }}</Text>
+                    <Text size="text-48" color="deep-gray" weight="f-500">{{ currentNews?.title }}</Text>
                     <div class="date">
                         <Text size="text-24" color="gray">{{ currentNews?.date }}</Text>
                     </div>
@@ -63,7 +63,7 @@ function goBack() {
             </div>
 
             <div class="content-text container-normal">
-                <Text size="text-36" class="brief-section">活動簡介</Text>
+                <Text size="text-36" weight="f-500" color="deep-gray" class="brief-section">活動簡介</Text>
                 <Text v-for="(paragraph, index) in currentNews.content" :key="index" class="news-content" size="text-24" color="gray">{{ paragraph }}</Text>
             </div>
         </div>
@@ -79,8 +79,10 @@ function goBack() {
 }
 
 .container-normal {
-  width: calc(70% - 33.5px);
-  margin: auto;
+  width: 100%;
+  max-width: 1300px;
+  box-sizing: border-box;
+  margin: 0 auto;
 }
 
 .content-container{
@@ -128,7 +130,7 @@ function goBack() {
     height: 51px;
     border: 1px solid #938D6B;
     border-radius: 20px;
-    background-color: #3C3C3C;
+    background-color: #1E4620;
     color: white;
     font-size: 1rem;
     text-align: center;
@@ -149,8 +151,8 @@ function goBack() {
 }
 
 .back-btn:hover {
-    background-color: #3C3C3C;
-    border-color: #3C3C3C;
+    background-color: #938d6b;
+    border-color: #938d6b;
     color: #F0E9E3;
 }
 
@@ -162,6 +164,7 @@ function goBack() {
 .image-section img {
     width: 100%;
     height: 100%;
+    border-radius: 20px;
     /* display: block; */
 }
 
@@ -194,6 +197,33 @@ function goBack() {
     flex-direction: column;
     gap: 36px 0;
     margin-bottom: 80px;
+}
+
+@media (max-width: 1400px) {
+  .container-normal {
+    padding: 0 80px;
+  }
+
+  .content-container{
+    gap: 40px 0;
+  }
+
+  .content-text{
+    margin-bottom: 40px;
+    gap: 28px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .container-normal {
+    padding: 0 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container-normal {
+    padding: 0 20px;
+  }
 }
 
 @media (max-width: 1200px) {
@@ -237,12 +267,11 @@ function goBack() {
     .tag {
         width: fit-content;
         height: 26px;
-        line-height: 26px;
+        line-height: 22px;
         font-size: 0.75rem;
         padding: 0 10px;
     }
 }
-
 
 .brief-section{
     width: 252px;
@@ -254,9 +283,5 @@ function goBack() {
     white-space: pre-line;
     line-height: 1.5;
     text-align: justify;
-}
-
-.content-text{
-    margin-bottom: 40px;
 }
 </style>

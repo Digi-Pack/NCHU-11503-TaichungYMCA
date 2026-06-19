@@ -66,8 +66,10 @@ function previewContent(content) {
 const router = useRouter();
 
 function goToDetail(id) {
+  sessionStorage.setItem('newsScrollY', String(window.scrollY));
   router.push({ name: "news-detail", params: { id }, query: { from: "news", page: current.value, view: viewMode.value, category: selectedCategory.value } });
 }
+
 
 const newsTitleRef = ref(null);
 
@@ -90,7 +92,7 @@ watch(viewMode, (view) => {
     <div class="container-normal main-section">
 
       <div class="newsTitle" ref="newsTitleRef" id="news-title">
-        <Text>最新消息</Text>
+        <Text weight="f-500" color="deep-gray">最新消息</Text>
       </div>
 
       <div class="checkable-area">
@@ -105,13 +107,8 @@ watch(viewMode, (view) => {
       </div>
 
       <div class="search-area">
-        <input
-          v-model="keywordInput"
-          type="text"
-          class="search-input"
-          placeholder="請輸入標題或內文關鍵字"
-          @keyup.enter="searchNews"
-        />
+        <input v-model="keywordInput" type="text" class="search-input" placeholder="請輸入標題或內文關鍵字"
+          @keyup.enter="searchNews" />
         <button class="search-btn" @click="searchNews">搜尋</button>
         <button v-if="keyword" class="clear-btn" @click="clearSearch">清除</button>
       </div>
@@ -152,7 +149,7 @@ watch(viewMode, (view) => {
 }
 
 .newsTitle {
-  border-bottom: 2px solid black;
+  border-bottom: 3px solid #3C3C3C;
   padding-bottom: 2px;
 }
 
@@ -199,9 +196,21 @@ watch(viewMode, (view) => {
   color: #f0e9e3;
 }
 
+.search-btn:hover {
+  background-color: #938d6b;
+  border-color: #938d6b;
+  color: #f0e9e3;
+}
+
 .clear-btn {
   background-color: white;
   color: #3c3c3c;
+}
+
+.clear-btn:hover {
+  background-color: #938d6b;
+  border-color: #938d6b;
+  color: #f0e9e3;
 }
 
 .button-area {
@@ -220,8 +229,15 @@ watch(viewMode, (view) => {
   cursor: pointer;
 }
 
+.icon:hover {
+  background-color: #938d6b;
+  border-color: #938d6b;
+  color: #F0E9E3;
+}
+
 .icon.active {
-  background-color: #3C3C3C;
+  background-color: #1e4620;
+  border-color: #1e4620;
   color: #F0E9E3;
 }
 
@@ -242,25 +258,29 @@ watch(viewMode, (view) => {
   height: 51px;
   border-radius: 20px;
   background-color: #FFFFFF;
-  border-color: #3C3C3C;
-  color: #3C3C3C;
+  border-color: #3c3c3c;
+  color: #3c3c3c;
   font-size: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.category-btn:hover,
+.category-btn:hover {
+  background-color: #938d6b;
+  border-color: #938d6b;
+  color: #F0E9E3;
+}
+
 .category-btn.active {
-  background-color: #3C3C3C;
-  border-color: #3C3C3C;
+  background-color: #1e4620;
+  border-color: #1e4620;
   color: #F0E9E3;
 }
 
 .cards-area {
   width: 100%;
   flex: 1;
-  padding-right: 10px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 74px 64px;
@@ -274,7 +294,6 @@ watch(viewMode, (view) => {
 
 .lists-area {
   width: 100%;
-  padding-right: 10px;
   /* background-color: lightblue; */
 }
 
@@ -299,15 +318,25 @@ watch(viewMode, (view) => {
   line-height: 45px;
   border-radius: 50%;
   border-color: #3C3C3C;
+  background-color: white;
 }
 
 .page-area :deep(.ant-pagination-item a) {
   color: #3C3C3C;
 }
 
+.page-area :deep(.ant-pagination-item:hover) {
+  background-color: #938d6b;
+  border-color: #938d6b;
+}
+
+.page-area :deep(.ant-pagination-item:hover a) {
+  color: #F0E9E3;
+}
+
 .page-area :deep(.ant-pagination-item-active) {
-  background-color: #7D7D7D;
-  border-color: #3C3C3C;
+  background-color: #1e4620;
+  border-color: #1e4620;
 }
 
 .page-area :deep(.ant-pagination-item-active a) {
@@ -323,6 +352,12 @@ watch(viewMode, (view) => {
 @media (max-width: 1400px) {
   .container-normal {
     padding: 0 80px;
+  }
+
+  .page-area {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
   }
 }
 
@@ -345,28 +380,24 @@ watch(viewMode, (view) => {
 
   .cards-area {
     grid-template-columns: repeat(2, 1fr);
-    gap: 40px 40px;
+    gap: 20px;
   }
 }
 
-
-@media (max-width: 400px) {
-  .page-area {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
+@media(max-width:1024px) {
+  .main-section {
+    gap: 20px 0;
   }
 }
-
 
 @media (max-width: 768px) {
   .container-normal {
-    padding: 0 20px;
+    padding: 0 16px;
   }
 
   .cards-area {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 16px;
   }
 
   .checkable-area {
@@ -393,4 +424,5 @@ watch(viewMode, (view) => {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
 </style>

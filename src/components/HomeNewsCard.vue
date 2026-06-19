@@ -59,7 +59,7 @@ const props = defineProps({
 
 .card-top {
     width: 100%;
-    height: 302px;
+    height: 248px;
     overflow: hidden;
 }
 
@@ -97,8 +97,8 @@ img {
 
 .fixed-height{
     line-height: 1.2;
-    height: 3.6em;
+    /* height: 3.6em;
     -webkit-line-clamp: 3;
-    line-clamp: 3;
+    line-clamp: 3; */
 }
 </style>
