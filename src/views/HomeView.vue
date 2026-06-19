@@ -1,9 +1,9 @@
 <script setup>
 import { computed } from "vue";
 import { useRouter } from "vue-router";
-import testImg from "@/assets/img/home/hero圖片1920.png"
-import bannerImg from "@/assets/img/home/banner圖片.webp"
-import locationImg from "@/assets/img/home/服務據點hero.png"
+import heroImg from "@/assets/img/home/heroImg.png"
+import bannerImg from "@/assets/img/home/bannerImg.webp"
+import locationImg from "@/assets/img/home/locationImg.png"
 import newsList from "@/data/news.js";
 import Text from "@/components/Text.vue";
 import HomeNewsCard from "@/components/HomeNewsCard.vue";
@@ -72,7 +72,7 @@ const vReveal = {
         preserveAspectRatio="xMidYMid slice"：圖片等比例縮放並裁切以填滿區域，不拉伸變形
       -->
           <!-- 要換圖的話，更換image的href即可 -->
-          <image :href="testImg" x="0" y="0" preserveAspectRatio="xMidYMid slice" clip-path="url(#shape-clip)" />
+          <image :href="heroImg" x="0" y="0" preserveAspectRatio="xMidYMid slice" clip-path="url(#shape-clip)" />
         </svg>
       </div>
       <div class="hero-right">
