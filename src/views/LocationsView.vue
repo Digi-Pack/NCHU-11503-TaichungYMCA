@@ -662,9 +662,9 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   }
 
   .detail-body__img {
-    width: min(207px, 100%);
+    width: 100%;
     height: auto;
-    aspect-ratio: 1;
+    aspect-ratio: 16/9;
   }
 
   .detail-right {
