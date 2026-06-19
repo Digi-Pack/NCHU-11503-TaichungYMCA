@@ -110,7 +110,7 @@ defineProps({
           {{ item.text }}
         </RouterLink>
 
-        <span v-else class="breadcrumb-item">
+        <span v-else class="breadcrumb-item breadcrumb-current">
           {{ item.text }}
         </span>
       </a-breadcrumb-item>
@@ -131,9 +131,14 @@ defineProps({
 }
 
 .breadcrumb-item {
-  color: #1e4620;
+  color: #7d7d7d;
   font-size: 1rem;
   text-decoration: none;
+}
+
+.breadcrumb-current {
+  color: #1e4620;
+  font-weight: 500;
 }
 
 .breadcrumb :deep(.ant-breadcrumb-separator) {

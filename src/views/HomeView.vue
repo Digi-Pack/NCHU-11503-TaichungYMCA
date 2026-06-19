@@ -123,7 +123,7 @@ const vReveal = {
       <div class="location-left">
         <div class="location-text-container">
           <div class="location-title">
-            <Text size="text-48" weight="f-500">服務據點</Text>
+            <Text size="text-48" weight="f-500" color="deep-gray">服務據點</Text>
             <RightCircleOutlined class="location-icon" />
           </div>
           <Text size="text-36" color="gray"
@@ -286,7 +286,7 @@ image {
   display: flex;
   align-items: center;
   gap: 0 16px;
-  border-bottom: 2px solid black;
+  border-bottom: 3px solid #3C3C3C;
   padding-bottom: 2px;
   cursor: pointer;
 }
@@ -345,7 +345,7 @@ image {
   display: flex;
   align-items: center;
   gap: 0 16px;
-  border-bottom: 2px solid black;
+  border-bottom: 3px solid #3C3C3C;
   padding-bottom: 2px;
 }
 
