@@ -160,14 +160,7 @@ watch(current, () => {
     :course="course"
   />
 </div>
-          <button
-            class="arrow-btn next-btn"
-            :class="{ disabled: hotStartIndex >= hotCourses.length - 3 }"
-            :disabled="hotStartIndex >= hotCourses.length - 3"
-            @click="nextHotCourse"
-          >
-            ›
-          </button>
+          
       
       </section>
 
@@ -197,22 +190,9 @@ watch(current, () => {
             </button>
           </div>
 
-          <div class="view-switch">
-            <button
-              class="switch-btn"
-              :class="{ active: viewMode === 'list' }"
-              @click="setViewMode('list')"
-            >
-              <BarsOutlined />
-            </button>
-
-            <button
-              class="switch-btn"
-              :class="{ active: viewMode === 'card' }"
-              @click="setViewMode('card')"
-            >
-              <AppstoreOutlined />
-            </button>
+          <div class="display-toggle">    <BarChartOutlined class="icon chart" :class="{ active: viewMode === 'list' }" @click="setViewMode('list')" />
+            <TableOutlined class="icon table" :class="{ active: viewMode === 'card' }" @click="setViewMode('card')" />
+        
           </div>
         </div>
 
@@ -398,10 +378,25 @@ watch(current, () => {
   border-radius: 0 8px 8px 0;
 }
 
-.switch-btn.active,
-.switch-btn:hover {
-  background-color: #3c3c3c;
-  color: white;
+.icon:hover {
+  background-color: #938d6b;
+  border-color: #938d6b;
+  color: #F0E9E3;
+}
+
+.icon.active {
+  background-color: #1e4620;
+  border-color: #1e4620;
+  color: #F0E9E3;
+}
+
+.table {
+  border-radius: 0 10px 10px 0;
+}
+
+.chart {
+  border-radius: 10px 0 0 10px;
+  border-right: none;
 }
 
 /* 搜尋 */
