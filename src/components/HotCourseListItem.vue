@@ -20,24 +20,24 @@ const previewContent = computed(() => {
 </script>
 
 <template>
-  <RouterLink class="course-list-item" :to="`/courses/${course.id}`">
-    <div class="course-main">
-      <div class="course-top">
-        <h3 class="course-title">
+  <RouterLink class="hot-list-item" :to="`/courses/${course.id}`">
+    <div class="hot-main">
+      <div class="hot-top">
+        <h3 class="hot-title">
           {{ course.title }}
         </h3>
 
-        <p class="course-period">
+        <p class="hot-date">
           {{ course.period }}
         </p>
       </div>
 
-      <p class="course-desc">
+      <p class="hot-desc">
         {{ previewContent }}
       </p>
     </div>
 
-    <div class="course-btn">
+    <div class="hot-btn">
       查看更多
       <span>›</span>
     </div>
@@ -45,7 +45,7 @@ const previewContent = computed(() => {
 </template>
 
 <style scoped>
-.course-list-item {
+.hot-list-item {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -58,19 +58,19 @@ const previewContent = computed(() => {
   text-decoration: none;
 }
 
-.course-main {
+.hot-main {
   flex: 1;
   min-width: 0;
 }
 
-.course-top {
+.hot-top {
   display: flex;
   justify-content: space-between;
   gap: 24px;
   margin-bottom: 16px;
 }
 
-.course-title {
+.hot-title {
   margin: 0;
   font-size: 1.875rem;
   font-weight: 500;
@@ -81,14 +81,14 @@ const previewContent = computed(() => {
   text-overflow: ellipsis;
 }
 
-.course-period {
+.hot-date {
   margin: 0;
   font-size: 1.25rem;
   color: #757575;
   white-space: nowrap;
 }
 
-.course-desc {
+.hot-desc {
   margin: 0;
   font-size: 1.25rem;
   line-height: 1.5;
@@ -101,7 +101,7 @@ const previewContent = computed(() => {
   overflow: hidden;
 }
 
-.course-btn {
+.hot-btn {
   flex-shrink: 0;
   width: 132px;
   height: 56px;
@@ -119,38 +119,38 @@ const previewContent = computed(() => {
   font-size: 1rem;
 }
 
-.course-btn span {
+.hot-btn span {
   font-size: 1.5rem;
   line-height: 1;
 }
 
-.course-list-item:hover .course-btn {
+.hot-list-item:hover .hot-btn {
   background: #3c3c3c;
 }
 
 @media (max-width: 768px) {
-  .course-list-item {
+  .hot-list-item {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
   }
 
-  .course-top {
+  .hot-top {
     width: 100%;
     flex-direction: column;
     gap: 8px;
   }
 
-  .course-title {
+  .hot-title {
     font-size: 1.5rem;
   }
 
-  .course-desc,
-  .course-period {
+  .hot-desc,
+  .hot-date {
     font-size: 1rem;
   }
 
-  .course-btn {
+  .hot-btn {
     margin-top: 0;
     align-self: flex-end;
   }

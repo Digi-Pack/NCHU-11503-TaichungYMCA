@@ -8,8 +8,13 @@ import Text from '@/components/Text.vue'
 import CourseCard from '@/components/CourseCard.vue'
 import CourseListItem from '@/components/CourseListItem.vue'
 import HotCourseCard from '@/components/HotCourseCard.vue'
+import HotCourseListItem from '@/components/HotCourseListItem.vue'
 
-import { TableOutlined, BarChartOutlined } from '@ant-design/icons-vue'
+import {
+  BarsOutlined,
+  AppstoreOutlined,
+  SearchOutlined,
+} from '@ant-design/icons-vue'
 
 const breadcrumbItems = [{ text: '首頁', to: '/' }, { text: '課程查詢' }]
 
@@ -40,15 +45,11 @@ const visibleHotCourses = computed(() => {
 })
 
 function prevHotCourse() {
-  if (hotStartIndex.value > 0) {
-    hotStartIndex.value--
-  }
+  if (hotStartIndex.value > 0) hotStartIndex.value--
 }
 
 function nextHotCourse() {
-  if (hotStartIndex.value < hotCourses.value.length - 3) {
-    hotStartIndex.value++
-  }
+  if (hotStartIndex.value < hotCourses.value.length - 3) hotStartIndex.value++
 }
 
 const filteredCourses = computed(() => {
@@ -75,7 +76,9 @@ const pageCourses = computed(() => {
   return filteredCourses.value.slice(start, start + pageSize.value)
 })
 
-const totalPages = computed(() => Math.ceil(filteredCourses.value.length / pageSize.value))
+const totalPages = computed(() =>
+  Math.ceil(filteredCourses.value.length / pageSize.value)
+)
 
 function searchCourses() {
   keyword.value = keywordInput.value
@@ -90,11 +93,15 @@ function clearSearch() {
 
 function selectCategory(cat) {
   selectedCategory.value = selectedCategory.value === cat ? null : cat
+  keywordInput.value = ''
+  keyword.value = ''
   current.value = 1
 }
 
 function showAllCategory() {
   selectedCategory.value = null
+  keywordInput.value = ''
+  keyword.value = ''
   current.value = 1
 }
 
@@ -115,26 +122,43 @@ watch(current, () => {
       <section class="section-block">
         <Text>熱門課程</Text>
 
-        <div class="hot-area">
-          <button
-            class="arrow-btn prev-btn"
-            :class="{ disabled: hotStartIndex === 0 }"
-            :disabled="hotStartIndex === 0"
-            @click="prevHotCourse"
-          >
-            ‹
-          </button>
+<div v-if="viewMode === 'card'" class="hot-area">
+  <button
+    class="arrow-btn prev-btn"
+    :class="{ disabled: hotStartIndex === 0 }"
+    :disabled="hotStartIndex === 0"
+    @click="prevHotCourse"
+  >
+    ‹
+  </button>
 
-          <div class="hot-window">
-            <div class="hot-track">
-              <HotCourseCard
-                v-for="course in visibleHotCourses"
-                :key="course.id"
-                :course="course"
-              />
-            </div>
-          </div>
+  <div class="hot-window">
+    <div class="hot-track">
+      <HotCourseCard
+        v-for="course in visibleHotCourses"
+        :key="course.id"
+        :course="course"
+      />
+    </div>
+  </div>
 
+  <button
+    class="arrow-btn next-btn"
+    :class="{ disabled: hotStartIndex >= hotCourses.length - 3 }"
+    :disabled="hotStartIndex >= hotCourses.length - 3"
+    @click="nextHotCourse"
+  >
+    ›
+  </button>
+</div>
+
+<div v-else class="hot-list-area">
+  <HotCourseListItem
+    v-for="course in hotCourses.slice(0, 3)"
+    :key="course.id"
+    :course="course"
+  />
+</div>
           <button
             class="arrow-btn next-btn"
             :class="{ disabled: hotStartIndex >= hotCourses.length - 3 }"
@@ -143,28 +167,12 @@ watch(current, () => {
           >
             ›
           </button>
-        </div>
+      
       </section>
 
       <section class="section-block">
         <div ref="courseTitleRef">
           <Text>所有課程</Text>
-        </div>
-
-        <div class="search-area">
-          <input
-            v-model="keywordInput"
-            type="text"
-            class="search-input"
-            placeholder="請輸入課程名稱、老師、分類或據點"
-            @keyup.enter="searchCourses"
-          />
-
-          <button class="search-btn" @click="searchCourses">搜尋</button>
-
-          <button v-if="keyword" class="clear-btn" @click="clearSearch">
-            清除
-          </button>
         </div>
 
         <div class="toolbar">
@@ -193,6 +201,25 @@ watch(current, () => {
             <BarChartOutlined class="icon chart" :class="{ active: viewMode === 'list' }" @click="setViewMode('list')" />
           </div>
         </div>
+
+        <div class="search-area">
+          <input
+            v-model="keywordInput"
+            type="text"
+            class="search-input"
+            placeholder="輸入關鍵字"
+            @keyup.enter="searchCourses"
+          />
+
+          <button class="search-btn" @click="searchCourses">
+            <SearchOutlined />
+            搜尋
+          </button>
+        </div>
+
+        <button v-if="keyword" class="clear-btn" @click="clearSearch">
+          清除搜尋
+        </button>
 
         <div v-if="pageCourses.length === 0" class="empty-text">
           找不到符合條件的課程
@@ -231,8 +258,8 @@ watch(current, () => {
 
 <style scoped>
 .course-page {
-  padding-left: 300px;
-  padding-right: 300px;
+  width: min(1300px, calc(100% - 80px));
+  margin: 0 auto;
   padding-top: 80px;
 }
 
@@ -241,6 +268,12 @@ watch(current, () => {
 }
 
 /* 熱門課程 */
+.hot-list-area{
+  margin-top:40px;
+  border-top: 1px solid #b1b0b0;
+
+}
+
 .hot-area {
   position: relative;
   width: 100%;
@@ -253,7 +286,7 @@ watch(current, () => {
 
 .hot-track {
   display: grid;
-  grid-template-columns: repeat(3, 401px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 47px;
 }
 
@@ -261,16 +294,12 @@ watch(current, () => {
   position: absolute;
   top: 120px;
   z-index: 5;
-
   width: 38px;
   height: 38px;
-
   border: none;
   border-radius: 50%;
-
   background-color: #7d7d7d;
   color: white;
-
   font-size: 28px;
   cursor: pointer;
 }
@@ -288,54 +317,13 @@ watch(current, () => {
   cursor: not-allowed;
 }
 
-/* 搜尋 */
-.search-area {
-  display: flex;
-  gap: 12px;
-  margin: 24px 0;
-}
-
-.search-input {
-  flex: 1;
-  height: 52px;
-  padding: 0 20px;
-  border: 1px solid #cfcfcf;
-  border-radius: 999px;
-  font-size: 1rem;
-  outline: none;
-}
-
-.search-input:focus {
-  border-color: #3c3c3c;
-}
-
-.search-btn,
-.clear-btn {
-  min-width: 88px;
-  height: 52px;
-  padding: 0 20px;
-  border-radius: 999px;
-  border: 1px solid #3c3c3c;
-  cursor: pointer;
-}
-
-.search-btn {
-  background-color: #3c3c3c;
-  color: #f0e9e3;
-}
-
-.clear-btn {
-  background-color: white;
-  color: #3c3c3c;
-}
-
 /* 分類與切換 */
 .toolbar {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 24px;
-  margin-bottom: 32px;
+  margin: 32px 0 24px;
 }
 
 .category-area {
@@ -366,13 +354,22 @@ watch(current, () => {
   flex-shrink: 0;
 }
 
-.icon {
-  font-size: 28px;
-  background-color: #F9F6F0;
-  color: #1e4620;
-  border: 2px solid #1e4620;
-  padding: 10px;
+.switch-btn {
+  width: 50px;
+  height: 51px;
+  border: 1px solid #3c3c3c;
+  background-color: white;
+  color: #3c3c3c;
   cursor: pointer;
+  font-size: 20px;
+}
+
+.switch-btn:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+.switch-btn:last-child {
+  border-radius: 0 8px 8px 0;
 }
 
 .icon:hover {
@@ -399,10 +396,82 @@ watch(current, () => {
   border-left: none;
 }
 
+/* 搜尋 */
+.search-area {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  height: 62px;
+  margin: 40px 0;
+
+  border: 1px solid #b1b0b0;
+  border-radius: 8px;
+
+  background: #fff;
+  overflow: hidden;
+}
+
+.search-input {
+  flex: 1;
+  height: 100%;
+
+  padding: 0 120px 0 12px;
+
+  border: none;
+  outline: none;
+
+  font-size: 1rem;
+}
+
+.search-btn {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  bottom: 3px;
+
+  width: 93px;
+
+  border: none;
+  border-radius: 4px;
+
+  background-color: #3c3c3c;
+  color: #f9f6f0;
+
+  cursor: pointer;
+
+  font-size: 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.search-btn:hover {
+  background-color: #2d2d2d;
+}
+
+.search-btn :deep(svg) {
+  font-size: 20px;
+} 
+
+
+.clear-btn {
+  height: 40px;
+  padding: 0 20px;
+  margin-bottom: 32px;
+  border: 1px solid #3c3c3c;
+  border-radius: 8px;
+  background: white;
+  color: #3c3c3c;
+  cursor: pointer;
+}
+
 /* 所有課程卡片 */
 .cards-area {
   display: grid;
-  grid-template-columns: repeat(3, 401px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 47px;
 }
 
@@ -422,7 +491,7 @@ watch(current, () => {
   margin-top: 48px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: end;
 }
 
 .page-text {
@@ -431,16 +500,34 @@ watch(current, () => {
 }
 
 .page-area :deep(.ant-pagination-item) {
+  width: 45px;
+  height: 45px;
+  line-height: 45px;
   border-radius: 50%;
+  border-color: #3c3c3c;
+  background-color: white;
+}
+
+.page-area :deep(.ant-pagination-item a) {
+  color: #3c3c3c;
+}
+
+.page-area :deep(.ant-pagination-item:hover) {
+  background-color: #938d6b;
+  border-color: #938d6b;
+}
+
+.page-area :deep(.ant-pagination-item:hover a) {
+  color: #f0e9e3;
 }
 
 .page-area :deep(.ant-pagination-item-active) {
-  background-color: #7d7d7d;
-  border-color: #3c3c3c;
+  background-color: #1e4620;
+  border-color: #1e4620;
 }
 
 .page-area :deep(.ant-pagination-item-active a) {
-  color: white;
+  color: #f0e9e3;
 }
 
 .page-area :deep(.ant-pagination-prev),
@@ -448,24 +535,22 @@ watch(current, () => {
   display: none;
 }
 
-/* RWD 暫時保留，之後再細修 */
+/* 1440 */
 @media (max-width: 1440px) {
   .course-page {
-    padding-left: 160px;
-    padding-right: 160px;
+    width: calc(100% - 160px);
   }
 
   .cards-area,
   .hot-track {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 32px;
   }
 }
 
+/* 1024 */
 @media (max-width: 1024px) {
   .course-page {
-    padding-left: 80px;
-    padding-right: 80px;
+    width: calc(100% - 80px);
   }
 
   .cards-area,
@@ -474,19 +559,23 @@ watch(current, () => {
   }
 }
 
+/* 768 */
 @media (max-width: 768px) {
   .course-page {
-    padding-left: 32px;
-    padding-right: 32px;
+    width: calc(100% - 64px);
     padding-top: 40px;
-  }
-
-  .search-area {
-    flex-direction: column;
   }
 
   .toolbar {
     flex-direction: column;
+  }
+
+  .view-switch {
+    align-self: flex-end;
+  }
+
+  .search-area {
+    margin: 32px 0;
   }
 
   .cards-area,
@@ -506,10 +595,26 @@ watch(current, () => {
   }
 }
 
-@media (max-width: 390px) {
+/* 432 */
+@media (max-width: 432px) {
   .course-page {
-    padding-left: 20px;
-    padding-right: 20px;
+    width: calc(100% - 40px);
+  }
+
+  .category-btn {
+    width: auto;
+    min-width: 100px;
+    height: 44px;
+    padding: 0 16px;
+  }
+
+  .search-input {
+    height: 52px;
+  }
+
+  .search-btn {
+    width: 84px;
+    height: 52px;
   }
 }
 </style>
