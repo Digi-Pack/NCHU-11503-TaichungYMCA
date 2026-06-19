@@ -1,5 +1,8 @@
 <script setup>
 import { computed } from "vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
 
 const props = defineProps({
   course: {
@@ -20,7 +23,13 @@ const previewContent = computed(() => {
 </script>
 
 <template>
-  <RouterLink class="course-list-item" :to="`/courses/${course.id}`">
+  <RouterLink
+    class="course-list-item"
+    :to="{
+      path: `/courses/${course.id}`,
+      query: route.query,
+    }"
+  >
     <div class="course-main">
       <div class="course-top">
         <h3 class="course-title">
@@ -45,6 +54,19 @@ const previewContent = computed(() => {
 </template>
 
 <style scoped>
+.course-list-item,
+.course-list-item:link,
+.course-list-item:visited,
+.course-list-item:hover,
+.course-list-item:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+.course-list-item * {
+  text-decoration: none;
+}
+
 .course-list-item {
   display: flex;
   align-items: flex-start;
@@ -55,7 +77,6 @@ const previewContent = computed(() => {
   border-bottom: 1px solid #b1b0b0;
 
   color: inherit;
-  text-decoration: none;
 }
 
 .course-main {

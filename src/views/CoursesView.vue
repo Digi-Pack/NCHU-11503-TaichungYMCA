@@ -1,8 +1,8 @@
 <script setup>
 import PageHero from '@/components/PageHero.vue'
 import { ref, computed, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import courses from '@/data/course.json'
-
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import Text from '@/components/Text.vue'
 
@@ -11,11 +11,7 @@ import CourseListItem from '@/components/CourseListItem.vue'
 import HotCourseCard from '@/components/HotCourseCard.vue'
 import HotCourseListItem from '@/components/HotCourseListItem.vue'
 
-import {
-  TableOutlined,
-  BarChartOutlined,
-  SearchOutlined,
-} from '@ant-design/icons-vue'
+import { TableOutlined, BarChartOutlined, SearchOutlined } from '@ant-design/icons-vue'
 
 const breadcrumbItems = [{ text: '首頁', to: '/' }, { text: '課程查詢' }]
 
@@ -29,10 +25,14 @@ const categories = [
   '藝術手作',
 ]
 
-const current = ref(1)
+const route = useRoute()
+const router = useRouter()
+
+const current = ref(Number(route.query.page) || 1)
+
 const pageSize = ref(6)
 const selectedCategory = ref(null)
-const viewMode = ref('card')
+const viewMode = ref(route.query.view || 'card')
 const courseTitleRef = ref(null)
 
 const keywordInput = ref('')
@@ -57,8 +57,7 @@ const filteredCourses = computed(() => {
   const searchText = keyword.value.trim().toLowerCase()
 
   return courses.filter((course) => {
-    const matchCategory =
-      !selectedCategory.value || course.category === selectedCategory.value
+    const matchCategory = !selectedCategory.value || course.category === selectedCategory.value
 
     const matchKeyword =
       !searchText ||
@@ -77,9 +76,7 @@ const pageCourses = computed(() => {
   return filteredCourses.value.slice(start, start + pageSize.value)
 })
 
-const totalPages = computed(() =>
-  Math.ceil(filteredCourses.value.length / pageSize.value)
-)
+const totalPages = computed(() => Math.ceil(filteredCourses.value.length / pageSize.value))
 
 function searchCourses() {
   keyword.value = keywordInput.value
@@ -110,58 +107,74 @@ function setViewMode(mode) {
   viewMode.value = mode
 }
 
-watch(current, () => {
-  courseTitleRef.value?.scrollIntoView({ behavior: 'smooth' })
+watch([current, viewMode], ([page, view]) => {
+  router.replace({
+    query: {
+      ...route.query,
+      page,
+      view,
+    },
+  })
+
+  courseTitleRef.value?.scrollIntoView({
+    behavior: 'smooth',
+  })
 })
+
+watch(
+  () => route.query.page,
+  (newPage) => {
+    current.value = Number(newPage) || 1
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
   <main>
     <Breadcrumb :items="breadcrumbItems" />
-    <PageHero :image="'https://www.shutterstock.com/image-illustration/watercolor-handprinted-banner-amethyst-crystals-260nw-1424370284.jpg'" />
+    <PageHero :image="'https://placehold.co/1920x336'" />
     <section class="course-page">
       <section class="section-block">
         <Text>熱門課程</Text>
 
-<div v-if="viewMode === 'card'" class="hot-area">
-  <button
-    class="arrow-btn prev-btn"
-    :class="{ disabled: hotStartIndex === 0 }"
-    :disabled="hotStartIndex === 0"
-    @click="prevHotCourse"
-  >
-    ‹
-  </button>
+        <div v-if="viewMode === 'card'" class="hot-area">
+          <button
+            class="arrow-btn prev-btn"
+            :class="{ disabled: hotStartIndex === 0 }"
+            :disabled="hotStartIndex === 0"
+            @click="prevHotCourse"
+          >
+            ‹
+          </button>
 
-  <div class="hot-window">
-    <div class="hot-track">
-      <HotCourseCard
-        v-for="course in visibleHotCourses"
-        :key="course.id"
-        :course="course"
-      />
-    </div>
-  </div>
+          <div class="hot-window">
+            <div class="hot-track">
+              <HotCourseCard
+                v-for="course in visibleHotCourses"
+                :key="course.id"
+                :course="course"
+              />
+            </div>
+          </div>
 
-  <button
-    class="arrow-btn next-btn"
-    :class="{ disabled: hotStartIndex >= hotCourses.length - 3 }"
-    :disabled="hotStartIndex >= hotCourses.length - 3"
-    @click="nextHotCourse"
-  >
-    ›
-  </button>
-</div>
+          <button
+            class="arrow-btn next-btn"
+            :class="{ disabled: hotStartIndex >= hotCourses.length - 3 }"
+            :disabled="hotStartIndex >= hotCourses.length - 3"
+            @click="nextHotCourse"
+          >
+            ›
+          </button>
+        </div>
 
-<div v-else class="hot-list-area">
-  <HotCourseListItem
-    v-for="course in hotCourses.slice(0, 3)"
-    :key="course.id"
-    :course="course"
-  />
-</div>
-          
-      
+        <div v-else class="hot-list-area">
+          <HotCourseListItem
+            v-for="course in hotCourses.slice(0, 3)"
+            :key="course.id"
+            :course="course"
+          />
+        </div>
       </section>
 
       <section class="section-block">
@@ -190,9 +203,17 @@ watch(current, () => {
             </button>
           </div>
 
-          <div class="display-toggle">    <BarChartOutlined class="icon chart" :class="{ active: viewMode === 'list' }" @click="setViewMode('list')" />
-            <TableOutlined class="icon table" :class="{ active: viewMode === 'card' }" @click="setViewMode('card')" />
-        
+          <div class="display-toggle">
+            <BarChartOutlined
+              class="icon chart"
+              :class="{ active: viewMode === 'list' }"
+              @click="setViewMode('list')"
+            />
+            <TableOutlined
+              class="icon table"
+              :class="{ active: viewMode === 'card' }"
+              @click="setViewMode('card')"
+            />
           </div>
         </div>
 
@@ -211,28 +232,16 @@ watch(current, () => {
           </button>
         </div>
 
-        <button v-if="keyword" class="clear-btn" @click="clearSearch">
-          清除搜尋
-        </button>
+        <button v-if="keyword" class="clear-btn" @click="clearSearch">清除搜尋</button>
 
-        <div v-if="pageCourses.length === 0" class="empty-text">
-          找不到符合條件的課程
-        </div>
+        <div v-if="pageCourses.length === 0" class="empty-text">找不到符合條件的課程</div>
 
         <div v-else-if="viewMode === 'card'" class="cards-area">
-          <CourseCard
-            v-for="course in pageCourses"
-            :key="course.id"
-            :course="course"
-          />
+          <CourseCard v-for="course in pageCourses" :key="course.id" :course="course" />
         </div>
 
         <div v-else class="lists-area">
-          <CourseListItem
-            v-for="course in pageCourses"
-            :key="course.id"
-            :course="course"
-          />
+          <CourseListItem v-for="course in pageCourses" :key="course.id" :course="course" />
         </div>
 
         <div class="page-area">
@@ -242,7 +251,6 @@ watch(current, () => {
             :page-size="pageSize"
             :show-size-changer="false"
           />
-
           <p class="page-text">Page {{ current }} of {{ totalPages }}</p>
         </div>
       </section>
@@ -251,7 +259,6 @@ watch(current, () => {
 </template>
 
 <style scoped>
-
 .icon {
   width: 50px;
   height: 51px;
@@ -274,10 +281,9 @@ watch(current, () => {
 }
 
 /* 熱門課程 */
-.hot-list-area{
-  margin-top:40px;
+.hot-list-area {
+  margin-top: 40px;
   border-top: 1px solid #b1b0b0;
-
 }
 
 .hot-area {
@@ -381,13 +387,13 @@ watch(current, () => {
 .icon:hover {
   background-color: #938d6b;
   border-color: #938d6b;
-  color: #F0E9E3;
+  color: #f0e9e3;
 }
 
 .icon.active {
   background-color: #1e4620;
   border-color: #1e4620;
-  color: #F0E9E3;
+  color: #f0e9e3;
 }
 
 .table {
@@ -457,8 +463,7 @@ watch(current, () => {
 
 .search-btn :deep(svg) {
   font-size: 20px;
-} 
-
+}
 
 .clear-btn {
   height: 40px;
@@ -573,8 +578,9 @@ watch(current, () => {
     flex-direction: column;
   }
 
-.display-toggle {
-  align-self: flex-end;}
+  .display-toggle {
+    align-self: flex-end;
+  }
 
   .search-area {
     margin: 32px 0;

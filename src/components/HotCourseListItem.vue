@@ -20,7 +20,9 @@ const previewContent = computed(() => {
 </script>
 
 <template>
-  <RouterLink class="hot-list-item" :to="`/courses/${course.id}`">
+<RouterLink class="hot-list-item"
+  :to="`/courses/${course.id}`"
+>
     <div class="hot-main">
       <div class="hot-top">
         <h3 class="hot-title">
