@@ -18,7 +18,7 @@ const BreadcrumbItems = [
 ]
 
 const tags = [
-  { label: '全部', value: 'all' },
+  { label: '全部據點', value: 'all' },
   { label: '校本部', value: '校本部' },
   { label: '松竹分部', value: '松竹分部' },
   { label: '東山分部', value: '東山分部' },
@@ -139,6 +139,23 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
                 <div class="location-card__content">
                   <h2 class="location-card__name">{{ location.name }}</h2>
                   <div class="location-card__title-line" aria-hidden="true"></div>
+
+
+                  <div class="location-card__info">
+                    <div class="location-card__info-block">
+                      <p class="location-card__info-label">營業時間</p>
+                      <p class="location-card__info-value">週一至週五 14:00 - 21:00，週六日公休</p>
+                    </div>
+                    <div class="location-card__info-block">
+                      <p class="location-card__info-label">電話</p>
+                      <p class="location-card__info-value">
+                        <a :href="`tel:${location.tel}`" class="detail-tel-link">{{ location.tel }}</a>
+                      </p>
+                    </div>
+                  </div>
+
+
+
                   <div class="location-card__bottom">
                     <div class="location-card__more">
                       <button class="btn btn--primary" @click.stop="goToRegion(location.region)"
@@ -163,6 +180,22 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
                     <div class="location-card__content">
                       <h2 class="location-card__name">{{ location.name }}</h2>
                       <div class="location-card__title-line" aria-hidden="true"></div>
+
+
+                      <div class="location-card__info">
+                        <div class="location-card__info-block">
+                          <p class="location-card__info-label">營業時間</p>
+                          <p class="location-card__info-value">週一至週五 14:00 - 21:00，週六日公休</p>
+                        </div>
+                        <div class="location-card__info-block">
+                          <p class="location-card__info-label">電話</p>
+                          <p class="location-card__info-value">
+                            <a :href="`tel:${location.tel}`" class="detail-tel-link">{{ location.tel }}</a>
+                          </p>
+                        </div>
+                      </div>
+
+
                       <div class="location-card__bottom">
                         <div class="location-card__more">
                           <button class="btn btn--primary" @click.stop="goToRegion(location.region)"
@@ -318,23 +351,55 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   font-weight: 500;
   font-size: clamp(2rem, 4vw, 4rem);
   line-height: 1.2;
-  color: #3C3C3C;
+  color: #1E4620;
   margin: 0;
 }
 
 .section-header__title-line {
   width: 100%;
   height: 3px;
-  background-color: #3C3C3C;
+  background-color: #1E4620;
   border-radius: 2px;
+
 }
 
 .section-header__subtitle {
-  font-family:'Noto Sans TC', sans-serif;
+  font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
   font-size: clamp(1rem, 1.4vw, 1.5rem);
   line-height: 1.7;
   color: #000000;
+  margin: 0;
+}
+
+.location-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 40px; /* 40px */
+  margin-top: 8px;
+}
+
+.location-card__info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* 10px */
+}
+
+.location-card__info-label {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: 500;
+  font-size: 1.5rem; /* 24px */
+  line-height: 1.4;
+  color: #3C3C3C;
+  margin: 0;
+}
+
+.location-card__info-value {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: 400;
+  font-size: 1.5rem; /* 24px */
+  line-height: 1.4;
+  color: #706F6F;
   margin: 0;
 }
 
@@ -445,7 +510,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   font-weight: 500;
   font-size: clamp(1.25rem, 2vw, 2.25rem);
   line-height: 1.2;
-  color: #3C3C3C;
+  color: #1E4620;
   margin: 0;
 }
 
@@ -464,10 +529,11 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   width: 100%;
   /* 往右延伸到框線，補回右側 padding */
   height: 3px;
-  background-color: #3C3C3C;
+  background-color: #1E4620;
   border-radius: 2px;
   margin-right: -24px;
   /* 突破 content 右邊界，貼到框線 */
+  margin-bottom: 40px;
 }
 
 .location-card__more {
@@ -740,6 +806,49 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .locations-swiper :deep(.swiper-pagination-bullet-active) {
   background-color: #3C3C3C;
 }
+
+
+.location-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem; /* 40px */
+  margin-top: 8px;
+}
+
+.location-card__info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem; /* 10px */
+}
+
+.location-card__info-label {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: 500;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  line-height: 1.4;
+  color: #3C3C3C;
+  margin: 0;
+}
+
+.location-card__info-value {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: 400;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  line-height: 1.4;
+  color: #706F6F;
+  margin: 0;
+}
+
+@media (max-width: 576px) {
+  .btn {
+    /* 手機版縮小一點 */
+    width: 88px;
+    height: 44px;
+    font-size: 1rem;
+    padding: 8px;
+  }
+}
+
 
 @media (prefers-reduced-motion: reduce) {
 
