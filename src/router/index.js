@@ -22,12 +22,11 @@ const router = createRouter({
     if (to.path === from.path) {
       return false;
     }
-    if (to.name === 'news') {
-      const savedY = sessionStorage.getItem('newsScrollY');
-      if (savedY !== null) {
-        sessionStorage.removeItem('newsScrollY');
-        return { top: Number(savedY) };
-      }
+    const key = `scrollY_${to.name}`;
+    const savedY = sessionStorage.getItem(key);
+    if (savedY !== null) {
+      sessionStorage.removeItem(key);
+      return { top: Number(savedY) };
     }
     return { top: 0 };
   },

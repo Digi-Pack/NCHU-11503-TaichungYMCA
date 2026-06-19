@@ -66,7 +66,7 @@ function previewContent(content) {
 const router = useRouter();
 
 function goToDetail(id) {
-  sessionStorage.setItem('newsScrollY', String(window.scrollY));
+  sessionStorage.setItem('scrollY_news', String(window.scrollY));
   router.push({ name: "news-detail", params: { id }, query: { from: "news", page: current.value, view: viewMode.value, category: selectedCategory.value } });
 }
 
