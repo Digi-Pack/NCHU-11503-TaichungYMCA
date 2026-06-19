@@ -159,14 +159,7 @@ watch(current, () => {
     :course="course"
   />
 </div>
-          <button
-            class="arrow-btn next-btn"
-            :class="{ disabled: hotStartIndex >= hotCourses.length - 3 }"
-            :disabled="hotStartIndex >= hotCourses.length - 3"
-            @click="nextHotCourse"
-          >
-            ›
-          </button>
+          
       
       </section>
 
@@ -196,9 +189,9 @@ watch(current, () => {
             </button>
           </div>
 
-          <div class="display-toggle">
+          <div class="display-toggle">    <BarChartOutlined class="icon chart" :class="{ active: viewMode === 'list' }" @click="setViewMode('list')" />
             <TableOutlined class="icon table" :class="{ active: viewMode === 'card' }" @click="setViewMode('card')" />
-            <BarChartOutlined class="icon chart" :class="{ active: viewMode === 'list' }" @click="setViewMode('list')" />
+        
           </div>
         </div>
 
@@ -397,15 +390,12 @@ watch(current, () => {
 }
 
 .table {
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-  border-right: none;
+  border-radius: 0 10px 10px 0;
 }
 
 .chart {
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-  border-left: none;
+  border-radius: 10px 0 0 10px;
+  border-right: none;
 }
 
 /* 搜尋 */
