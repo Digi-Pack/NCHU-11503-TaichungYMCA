@@ -196,9 +196,22 @@ watch(current, () => {
             </button>
           </div>
 
-          <div class="display-toggle">
-            <TableOutlined class="icon table" :class="{ active: viewMode === 'card' }" @click="setViewMode('card')" />
-            <BarChartOutlined class="icon chart" :class="{ active: viewMode === 'list' }" @click="setViewMode('list')" />
+          <div class="view-switch">
+            <button
+              class="switch-btn"
+              :class="{ active: viewMode === 'list' }"
+              @click="setViewMode('list')"
+            >
+              <BarsOutlined />
+            </button>
+
+            <button
+              class="switch-btn"
+              :class="{ active: viewMode === 'card' }"
+              @click="setViewMode('card')"
+            >
+              <AppstoreOutlined />
+            </button>
           </div>
         </div>
 
@@ -349,7 +362,7 @@ watch(current, () => {
   color: white;
 }
 
-.display-toggle {
+.view-switch {
   display: flex;
   flex-shrink: 0;
 }
@@ -372,28 +385,10 @@ watch(current, () => {
   border-radius: 0 8px 8px 0;
 }
 
-.icon:hover {
-  background-color: #938d6b;
-  border-color: #938d6b;
-  color: #F0E9E3;
-}
-
-.icon.active {
-  background-color: #1e4620;
-  border-color: #1e4620;
-  color: #F0E9E3;
-}
-
-.table {
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-  border-right: none;
-}
-
-.chart {
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-  border-left: none;
+.switch-btn.active,
+.switch-btn:hover {
+  background-color: #3c3c3c;
+  color: white;
 }
 
 /* 搜尋 */
