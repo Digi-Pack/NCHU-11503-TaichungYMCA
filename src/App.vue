@@ -34,4 +34,6 @@ import OpinionBtn from "./components/OpinionBtn.vue";
   background-color: #f0e9e3;
 }
 
+
+
 </style>

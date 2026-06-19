@@ -18,8 +18,8 @@ const BreadcrumbItems = [
 ]
 
 const tags = [
-  { label: '全部',     value: 'all' },
-  { label: '校本部',   value: '校本部' },
+  { label: '全部', value: 'all' },
+  { label: '校本部', value: '校本部' },
   { label: '松竹分部', value: '松竹分部' },
   { label: '東山分部', value: '東山分部' },
   { label: '大德分部', value: '大德分部' },
@@ -119,14 +119,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 
         <!-- Filter tags -->
         <div class="tag-group" role="group" aria-label="篩選服務據點分類">
-          <button
-            v-for="tag in tags"
-            :key="tag.value"
-            class="tag"
-            :class="{ 'tag--active': activeTag === tag.value }"
-            :aria-pressed="activeTag === tag.value"
-            @click="setActiveTag(tag.value)"
-          >
+          <button v-for="tag in tags" :key="tag.value" class="tag" :class="{ 'tag--active': activeTag === tag.value }"
+            :aria-pressed="activeTag === tag.value" @click="setActiveTag(tag.value)">
             {{ tag.label }}
           </button>
         </div>
@@ -136,35 +130,19 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 
           <!-- 桌機（≥ 576px） -->
           <div v-if="!isMobile" class="locations-list" role="list" aria-label="服務據點清單">
-            <article
-              v-for="location in filteredLocations"
-              :key="location.id"
-              class="location-card"
-              role="listitem"
-            >
+            <article v-for="location in filteredLocations" :key="location.id" class="location-card" role="listitem">
               <div class="location-card__summary">
-                <!-- 左：圖片 -->
                 <div class="location-card__img-wrap">
-                  <img
-                    :src="location.image"
-                    :alt="location.name"
-                    class="location-card__img"
-                    loading="lazy"
-                    width="207"
-                    height="207"
-                  />
+                  <img :src="location.image" :alt="location.name" class="location-card__img" loading="lazy" width="207"
+                    height="207" />
                 </div>
-                <!-- 右：名稱 + 線對齊按鈕 -->
                 <div class="location-card__content">
                   <h2 class="location-card__name">{{ location.name }}</h2>
+                  <div class="location-card__title-line" aria-hidden="true"></div>
                   <div class="location-card__bottom">
-                    <div class="location-card__title-line" aria-hidden="true"></div>
                     <div class="location-card__more">
-                      <button
-                        class="btn btn--primary"
-                        @click.stop="goToRegion(location.region)"
-                        :aria-label="`查看 ${location.name} 更多資訊`"
-                      >更多資訊</button>
+                      <button class="btn btn--primary" @click.stop="goToRegion(location.region)"
+                        :aria-label="`查看 ${location.name} 更多資訊`">更多資訊</button>
                     </div>
                   </div>
                 </div>
@@ -175,33 +153,20 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
           <!-- 手機 Swiper（< 576px） -->
           <div v-else class="swiper locations-swiper" aria-label="服務據點清單">
             <div class="swiper-wrapper">
-              <div
-                v-for="location in filteredLocations"
-                :key="location.id"
-                class="swiper-slide"
-              >
+              <div v-for="location in filteredLocations" :key="location.id" class="swiper-slide">
                 <article class="location-card" role="listitem">
                   <div class="location-card__summary">
                     <div class="location-card__img-wrap">
-                      <img
-                        :src="location.image"
-                        :alt="location.name"
-                        class="location-card__img"
-                        loading="lazy"
-                        width="207"
-                        height="207"
-                      />
+                      <img :src="location.image" :alt="location.name" class="location-card__img" loading="lazy"
+                        width="207" height="207" />
                     </div>
                     <div class="location-card__content">
                       <h2 class="location-card__name">{{ location.name }}</h2>
+                      <div class="location-card__title-line" aria-hidden="true"></div>
                       <div class="location-card__bottom">
-                        <div class="location-card__title-line" aria-hidden="true"></div>
                         <div class="location-card__more">
-                          <button
-                            class="btn btn--primary"
-                            @click.stop="goToRegion(location.region)"
-                            :aria-label="`查看 ${location.name} 更多資訊`"
-                          >更多資訊</button>
+                          <button class="btn btn--primary" @click.stop="goToRegion(location.region)"
+                            :aria-label="`查看 ${location.name} 更多資訊`">更多資訊</button>
                         </div>
                       </div>
                     </div>
@@ -216,37 +181,19 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 
         <!-- ── 詳情模式 ── -->
         <div v-else class="locations-list" role="list" aria-label="服務據點清單">
-          <article
-            v-for="location in filteredLocations"
-            :key="location.id"
-            class="location-card"
-            role="listitem"
-          >
-            <div
-              :id="`detail-${location.id}`"
-              class="location-card__detail"
-              role="region"
-              :aria-label="`${location.name} 詳細資訊`"
-            >
+          <article v-for="location in filteredLocations" :key="location.id" class="location-card" role="listitem">
+            <div :id="`detail-${location.id}`" class="location-card__detail" role="region"
+              :aria-label="`${location.name} 詳細資訊`">
               <div class="detail-body">
-                <!-- 左：圖片 + 開啟地圖 -->
                 <div class="detail-body__left">
-                  <img
-                    :src="location.image"
-                    :alt="`${location.name} 場地照片`"
-                    class="detail-body__img"
-                  />
+                  <img :src="location.image" :alt="`${location.name} 場地照片`" class="detail-body__img" />
                   <div class="detail-cta">
-                    <a
-                      :href="location.mapUrl"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="btn btn--primary"
-                    >開啟地圖</a>
+
+                    <a :href="location.mapUrl" target="_blank" rel="noopener noreferrer" class="btn btn--primary">開啟地圖
+                    </a>
                   </div>
                 </div>
 
-                <!-- 右：標題 + 線 + 警語 + 資訊 -->
                 <div class="detail-right">
                   <div class="detail-right__title-group">
                     <h2 class="detail-right__name">
@@ -276,7 +223,9 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
                     <div class="detail-info__block">
                       <p class="detail-info__label">電話</p>
                       <p class="detail-info__value">
-                        <a :href="`tel:${location.tel}`" class="detail-tel-link" :aria-label="`撥打電話 ${location.tel}`">{{ location.tel }}</a>
+
+                        <a :href="`tel:${location.tel}`" class="detail-tel-link" :aria-label="`撥打電話 ${location.tel}`">{{
+                          location.tel }}</a>
                       </p>
                     </div>
                     <div class="detail-info__block">
@@ -326,9 +275,23 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   margin-inline: auto;
 }
 
-@media (max-width: 1400px) { .container { padding-inline: 80px; } }
-@media (max-width: 1100px) { .container { padding-inline: 40px; } }
-@media (max-width: 768px)  { .container { padding-inline: 20px; } }
+@media (max-width: 1400px) {
+  .container {
+    padding-inline: 80px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .container {
+    padding-inline: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-inline: 20px;
+  }
+}
 
 /* ── Locations section ── */
 .locations-section {
@@ -402,9 +365,22 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   transition: background-color 0.18s, color 0.18s, border-color 0.18s;
 }
 
-.tag:hover        { background-color: #3C3C3C; color: #F0E9E3; border-color: #938D6B; }
-.tag:focus-visible { outline: 3px solid #1E4620; outline-offset: 2px; }
-.tag--active      { background-color: #3C3C3C; border-color: #938D6B; color: #F0E9E3; }
+.tag:hover {
+  background-color: #3C3C3C;
+  color: #F0E9E3;
+  border-color: #938D6B;
+}
+
+.tag:focus-visible {
+  outline: 3px solid #1E4620;
+  outline-offset: 2px;
+}
+
+.tag--active {
+  background-color: #3C3C3C;
+  border-color: #938D6B;
+  color: #F0E9E3;
+}
 
 /* ── Location list ── */
 .locations-list {
@@ -427,10 +403,13 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .location-card__summary {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: stretch;
+  /* 改為 stretch，讓右側內容撐滿高度 */
   gap: 40px;
   padding: 24px;
   flex-wrap: nowrap;
+  min-height: 207px;
+  /* 至少與圖片等高 */
 }
 
 /* Image */
@@ -455,10 +434,10 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: 8px;
+  /* 名稱和底線之間 8px */
+  justify-content: flex-start;
   min-width: 0;
-  height: 100%;
 }
 
 .location-card__name {
@@ -472,21 +451,23 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 
 /* 線 + 按鈕 同一行 */
 .location-card__bottom {
- display: flex;
-  flex-direction: column;
-  justify-content: flex-end; /* 將內容推向右側 */
-  gap: 16px;
-  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  /* 按鈕靠右 */
+  margin-top: auto;
+  /* 推到最底部 */
+  padding-top: 16px;
 }
 
 /* 線撐滿剩餘空間，按鈕固定右側 */
 .location-card__title-line {
-  /* flex: 1 1 auto; */
   width: 100%;
+  /* 往右延伸到框線，補回右側 padding */
   height: 3px;
   background-color: #3C3C3C;
   border-radius: 2px;
-  
+  margin-right: -24px;
+  /* 突破 content 右邊界，貼到框線 */
 }
 
 .location-card__more {
@@ -621,9 +602,16 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   justify-content: center;
 }
 
-.detail-tel-link { color: inherit; text-decoration: none; }
+.detail-tel-link {
+  color: inherit;
+  text-decoration: none;
+}
+
 .detail-tel-link:hover,
-.detail-tel-link:focus { text-decoration: underline; color: #1E4620; }
+.detail-tel-link:focus {
+  text-decoration: underline;
+  color: #1E4620;
+}
 
 /* ── Buttons ── */
 .btn {
@@ -644,8 +632,15 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   white-space: nowrap;
 }
 
-.btn:hover         { opacity: 0.82; transform: translateY(-1px); }
-.btn:focus-visible { outline: 3px solid #1E4620; outline-offset: 2px; }
+.btn:hover {
+  opacity: 0.82;
+  transform: translateY(-1px);
+}
+
+.btn:focus-visible {
+  outline: 3px solid #1E4620;
+  outline-offset: 2px;
+}
 
 .btn--primary {
   background-color: #1E4620;
@@ -678,15 +673,26 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
     gap: 24px;
   }
 
-  .detail-info { gap: 24px; }
+  .detail-info {
+    gap: 24px;
+  }
 }
 
 /* ── ≤ 576px ── */
 @media (max-width: 576px) {
-  .location-card__detail  { padding: 16px 16px 24px; }
-  .location-card__summary { padding: 16px; gap: 16px; }
+  .location-card__detail {
+    padding: 16px 16px 24px;
+  }
 
-  .tag-group { gap: 8px; padding-block: 24px; }
+  .location-card__summary {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .tag-group {
+    gap: 8px;
+    padding-block: 24px;
+  }
 
   .tag {
     padding: 8px 12px;
@@ -695,9 +701,18 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
     font-size: 0.875rem;
   }
 
-  .detail-right { gap: 16px; }
-  .detail-info  { gap: 16px; }
-  .locations-list { gap: 16px; padding-bottom: 24px; }
+  .detail-right {
+    gap: 16px;
+  }
+
+  .detail-info {
+    gap: 16px;
+  }
+
+  .locations-list {
+    gap: 16px;
+    padding-bottom: 24px;
+  }
 }
 
 /* ── Swiper（< 576px）── */
@@ -706,9 +721,13 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   padding-bottom: 40px !important;
 }
 
-.locations-swiper .swiper-slide { height: auto; }
+.locations-swiper .swiper-slide {
+  height: auto;
+}
 
-.locations-swiper :deep(.swiper-pagination) { bottom: 8px; }
+.locations-swiper :deep(.swiper-pagination) {
+  bottom: 8px;
+}
 
 .locations-swiper :deep(.swiper-pagination-bullet) {
   width: 10px;
@@ -723,6 +742,10 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .btn, .tag { transition: none; }
+
+  .btn,
+  .tag {
+    transition: none;
+  }
 }
 </style>
