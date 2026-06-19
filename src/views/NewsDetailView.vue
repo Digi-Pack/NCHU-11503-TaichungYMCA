@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import newsDetailHero from "@/assets/img/news/newsDetailHero.png"
 import newsList from "@/data/news.js";
 import Text from "@/components/Text.vue";
 import Breadcrumb from "@/components/Breadcrumb.vue";
@@ -17,11 +18,11 @@ const breadcrumbItems = computed(() => [
 ]);
 
 function goBack() {
-  if (route.query.from === "home") {
-    router.push({ name: "home", hash: "#latest-news" });
-  } else {
-    router.push({ name: "news", query: { page: route.query.page, view: route.query.view, category: route.query.category } });
-  }
+    if (route.query.from === "home") {
+        router.push({ name: "home", hash: "#latest-news" });
+    } else {
+        router.push({ name: "news", query: { page: route.query.page, view: route.query.view, category: route.query.category } });
+    }
 }
 </script>
 
@@ -32,7 +33,7 @@ function goBack() {
         <div class="content-container">
 
             <div class="hero container-full">
-                <img src="https://picsum.photos/1905/336" alt="這是一張圖片">
+                <img :src="newsDetailHero" alt="這是一張圖片">
             </div>
 
             <div class="title-section container-normal">
@@ -64,7 +65,8 @@ function goBack() {
 
             <div class="content-text container-normal">
                 <Text size="text-36" weight="f-500" color="deep-gray" class="brief-section">活動簡介</Text>
-                <Text v-for="(paragraph, index) in currentNews.content" :key="index" class="news-content" size="text-24" color="gray">{{ paragraph }}</Text>
+                <Text v-for="(paragraph, index) in currentNews.content" :key="index" class="news-content" size="text-24"
+                    color="gray">{{ paragraph }}</Text>
             </div>
         </div>
 
@@ -79,13 +81,13 @@ function goBack() {
 }
 
 .container-normal {
-  width: 100%;
-  max-width: 1300px;
-  box-sizing: border-box;
-  margin: 0 auto;
+    width: 100%;
+    max-width: 1300px;
+    box-sizing: border-box;
+    margin: 0 auto;
 }
 
-.content-container{
+.content-container {
     display: flex;
     flex-direction: column;
     gap: 80px 0;
@@ -100,14 +102,13 @@ function goBack() {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center 70%;
 }
 
 .title-section {
-    /* height: 300px; */
     display: flex;
     flex-direction: column;
     gap: 16px;
-    /* background-color: aquamarine; */
 }
 
 .title-date {
@@ -120,7 +121,7 @@ function goBack() {
     align-items: center;
 }
 
-.tag-backbtn{
+.tag-backbtn {
     display: flex;
     justify-content: space-between;
 }
@@ -165,7 +166,6 @@ function goBack() {
     width: 100%;
     height: 100%;
     border-radius: 20px;
-    /* display: block; */
 }
 
 .video-section {
@@ -192,50 +192,53 @@ function goBack() {
     border-radius: 12px;
 }
 
-.content-text{
+.content-text {
     display: flex;
     flex-direction: column;
     gap: 36px 0;
     margin-bottom: 80px;
 }
 
+.brief-section {
+    width: 252px;
+    border-bottom: 3px solid #1E4620;
+}
+
+.news-content {
+    white-space: pre-line;
+    line-height: 1.5;
+    text-align: justify;
+}
+
 @media (max-width: 1400px) {
-  .container-normal {
-    padding: 0 80px;
-  }
+    .container-normal {
+        padding: 0 80px;
+    }
 
-  .content-container{
-    gap: 40px 0;
-  }
-
-  .content-text{
-    margin-bottom: 40px;
-    gap: 28px;
-  }
-}
-
-@media (max-width: 1100px) {
-  .container-normal {
-    padding: 0 40px;
-  }
-}
-
-@media (max-width: 768px) {
-  .container-normal {
-    padding: 0 20px;
-  }
-}
-
-@media (max-width: 1200px) {
     .content-container {
         gap: 40px 0;
+    }
+
+    .content-text {
+        margin-bottom: 40px;
+        gap: 28px;
     }
 }
 
 @media (max-width: 1100px) {
+    .container-normal {
+        padding: 0 40px;
+    }
+
     .title-date {
         flex-direction: column;
         gap: 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container-normal {
+        padding: 0 20px;
     }
 }
 
@@ -252,11 +255,17 @@ function goBack() {
             "tag";
     }
 
-    .title-date { grid-area: titledate; }
+    .title-date {
+        grid-area: titledate;
+    }
 
-    .tag-backbtn { display: contents; }
+    .tag-backbtn {
+        display: contents;
+    }
 
-    .tag { grid-area: tag; }
+    .tag {
+        grid-area: tag;
+    }
 
     .back-btn {
         grid-area: backbtn;
@@ -271,17 +280,5 @@ function goBack() {
         font-size: 0.75rem;
         padding: 0 10px;
     }
-}
-
-.brief-section{
-    width: 252px;
-    /* background-color: aquamarine; */
-    border-bottom: 3px solid #1E4620;
-}
-
-.news-content {
-    white-space: pre-line;
-    line-height: 1.5;
-    text-align: justify;
 }
 </style>
