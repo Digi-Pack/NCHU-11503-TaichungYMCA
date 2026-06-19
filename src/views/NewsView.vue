@@ -222,9 +222,9 @@ watch(viewMode, (view) => {
 
 .icon {
   font-size: 28px;
-  background-color: #FFFFFF;
-  color: #3C3C3C;
-  border: 2px solid #3C3C3C;
+  background-color: #F9F6F0;
+  color: #1e4620;
+  border: 2px solid #1e4620;
   padding: 10px;
   cursor: pointer;
 }
@@ -257,9 +257,9 @@ watch(viewMode, (view) => {
   width: calc(800px / 6 - 16px);
   height: 51px;
   border-radius: 20px;
-  background-color: #FFFFFF;
-  border-color: #3c3c3c;
-  color: #3c3c3c;
+  background-color: #F9F6F0;
+  border-color: #1e4620;
+  color: #1e4620;
   font-size: 1rem;
   display: flex;
   justify-content: center;
@@ -422,6 +422,14 @@ watch(viewMode, (view) => {
 @media (max-width: 440px) {
   .button-area {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .search-area{
+    gap: 0 6px;
+  }
+
+  .search-btn{
+    min-width: 60px;
   }
 }
 

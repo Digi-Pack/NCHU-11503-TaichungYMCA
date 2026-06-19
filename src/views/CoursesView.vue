@@ -9,7 +9,7 @@ import CourseCard from '@/components/CourseCard.vue'
 import CourseListItem from '@/components/CourseListItem.vue'
 import HotCourseCard from '@/components/HotCourseCard.vue'
 
-import { BarsOutlined, AppstoreOutlined } from '@ant-design/icons-vue'
+import { TableOutlined, BarChartOutlined } from '@ant-design/icons-vue'
 
 const breadcrumbItems = [{ text: '首頁', to: '/' }, { text: '課程查詢' }]
 
@@ -188,22 +188,9 @@ watch(current, () => {
             </button>
           </div>
 
-          <div class="view-switch">
-            <button
-              class="switch-btn"
-              :class="{ active: viewMode === 'list' }"
-              @click="setViewMode('list')"
-            >
-              <BarsOutlined />
-            </button>
-
-            <button
-              class="switch-btn"
-              :class="{ active: viewMode === 'card' }"
-              @click="setViewMode('card')"
-            >
-              <AppstoreOutlined />
-            </button>
+          <div class="display-toggle">
+            <TableOutlined class="icon table" :class="{ active: viewMode === 'card' }" @click="setViewMode('card')" />
+            <BarChartOutlined class="icon chart" :class="{ active: viewMode === 'list' }" @click="setViewMode('list')" />
           </div>
         </div>
 
@@ -374,25 +361,42 @@ watch(current, () => {
   color: white;
 }
 
-.view-switch {
+.display-toggle {
   display: flex;
-  gap: 8px;
   flex-shrink: 0;
 }
 
-.switch-btn {
-  width: 40px;
-  height: 36px;
-  border: 1px solid #3c3c3c;
-  background-color: white;
-  color: #3c3c3c;
+.icon {
+  font-size: 28px;
+  background-color: #F9F6F0;
+  color: #1e4620;
+  border: 2px solid #1e4620;
+  padding: 10px;
   cursor: pointer;
 }
 
-.switch-btn.active,
-.switch-btn:hover {
-  background-color: #3c3c3c;
-  color: white;
+.icon:hover {
+  background-color: #938d6b;
+  border-color: #938d6b;
+  color: #F0E9E3;
+}
+
+.icon.active {
+  background-color: #1e4620;
+  border-color: #1e4620;
+  color: #F0E9E3;
+}
+
+.table {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-right: none;
+}
+
+.chart {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-left: none;
 }
 
 /* 所有課程卡片 */
