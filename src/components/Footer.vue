@@ -1,5 +1,5 @@
 <script setup>
-import footerImg from "@/assets/img/footer/footer圖片.jpg";
+import footerImg from "@/assets/img/footer/footerImg.jpg";
 </script>
 
 <template>
