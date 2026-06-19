@@ -330,7 +330,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 }
 
 .section-header__subtitle {
-  font-family: 'Inter', sans-serif;
+  font-family:'Noto Sans TC', sans-serif;
   font-weight: 400;
   font-size: clamp(1rem, 1.4vw, 1.5rem);
   line-height: 1.7;

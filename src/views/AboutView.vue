@@ -104,6 +104,15 @@ const swiperModules = [Pagination]
   display: flex;
   flex-direction: column;
   padding-bottom: 80px;
+  font-family: 'Noto Sans TC', sans-serif;  /* ← 加在這裡，底下全部繼承 */
+}
+
+.about-page {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 80px;
 }
 
 .banner-section {
@@ -166,7 +175,7 @@ const swiperModules = [Pagination]
 }
 
 .title-main {
-  font-size: 4rem;
+  font-size: 3rem;
   color: #3C3C3C;
   margin: 8px 0;
 }
@@ -186,21 +195,21 @@ const swiperModules = [Pagination]
 }
 
 .intro-tagline {
-  font-size: 1.5rem;
+  font-size: 2.25rem;
   color: #1E4620;
   font-weight: 500;
 }
 
 .intro-desc {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   color: #706F6F;
   margin: 0;
 }
 
 .intro-image {
   align-self: center;
-  width: 100%;
-  max-width: calc(100% - 324px);
+  width: 976px;
+  max-width: 100%;
   border-radius: 20px;
   overflow: hidden;
 }
@@ -231,7 +240,7 @@ const swiperModules = [Pagination]
 .card-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 40px;
+  gap: 64px;
   width: 100%;
   padding: 0;
   margin: 0;
@@ -293,7 +302,7 @@ const swiperModules = [Pagination]
 
 .card-img {
   width: 100%;
-  aspect-ratio: 976 / 743;
+  aspect-ratio: 618 / 434;
   overflow: hidden;
 }
 
@@ -318,7 +327,7 @@ const swiperModules = [Pagination]
 }
 
 .card-desc {
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #706F6F;
   margin: 0;
 }
