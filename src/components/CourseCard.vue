@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { categoryImages } from '@/data/categoryImages.js'
 const getThumbnail = (category) => {
-  return categoryImages[category]?.thumbnail 
+  return categoryImages[category]?.thumbnail
 }
 const route = useRoute()
 
@@ -35,7 +35,7 @@ const previewContent = computed(() => {
   >
     <div class="card-image">
       <img :src="categoryImages[course.category]?.thumbnail" :alt="course.title" />
-    </div>  
+    </div>
 
     <div class="card-content">
       <h3 class="course-title">
@@ -63,136 +63,102 @@ const previewContent = computed(() => {
 }
 
 .course-card {
-  width: 401px;
+  width: 100%;
+  max-width: 401px;
   height: 425px;
   background: #fff;
   border-radius: 16px;
   overflow: hidden;
+  justify-self: center;
 }
 
 .card-image {
-  width: 401px;
+  width: 100%;
   height: 240px;
-
   overflow: hidden;
-
   background: #ddd;
 }
 
 .card-image img {
   width: 100%;
   height: 100%;
-
   object-fit: cover;
-
   display: block;
 }
 
 .card-content {
   height: 183px;
-
   padding: 18px;
-
   box-sizing: border-box;
-
   display: flex;
   flex-direction: column;
 }
 
-/* ========================= */
-/* 課程名稱 */
-/* ========================= */
-
 .course-title {
   margin: 0 0 16px;
-
-  font-size: 1.875rem; /* 30px */
+  font-size: 1.875rem;
   font-weight: 500;
   line-height: 1.2;
-
   color: #000;
-
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* ========================= */
-/* 課程簡介 */
-/* ========================= */
-
 .course-desc {
   margin: 0 0 20px;
-
-  font-size: 1.25rem; /* 20px */
+  font-size: 1.25rem;
   line-height: 1.4;
-
   color: #757575;
-
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-
   overflow: hidden;
 }
 
-/* ========================= */
-/* 上課期間 */
-/* ========================= */
-
 .course-date {
   margin: 0;
-
-  font-size: 1.25rem; /* 20px */
+  font-size: 1.25rem;
   line-height: 1.2;
-
   color: #757575;
 }
 
-/* ========================= */
-/* 1024 */
-/* ========================= */
-
 @media (max-width: 1024px) {
   .course-title {
-    font-size: 1.75rem; /* 28px */
+    font-size: 1.75rem;
   }
 
   .course-desc,
   .course-date {
-    font-size: 1.125rem; /* 18px */
+    font-size: 1.125rem;
   }
 }
 
-/* ========================= */
-/* 768 */
-/* ========================= */
-
 @media (max-width: 768px) {
   .course-card {
-    width: 100%;
+    max-width: 401px;
     height: auto;
   }
 
   .card-image {
-    width: 100%;
     height: auto;
     aspect-ratio: 401 / 240;
   }
 
+  .card-content {
+    height: auto;
+    min-height: 183px;
+  }
+
   .course-title {
-    font-size: 1.5rem; /* 24px */
+    font-size: 1.5rem;
   }
 
   .course-desc,
   .course-date {
-    font-size: 1rem; /* 16px */
+    font-size: 1rem;
   }
 }
-
-/* ========================= */
-/* 432 */
-/* ========================= */
 
 @media (max-width: 432px) {
   .card-content {
@@ -200,12 +166,12 @@ const previewContent = computed(() => {
   }
 
   .course-title {
-    font-size: 1.25rem; /* 20px */
+    font-size: 1.25rem;
   }
 
   .course-desc,
   .course-date {
-    font-size: 0.875rem; /* 14px */
+    font-size: 0.875rem;
   }
 }
 </style>

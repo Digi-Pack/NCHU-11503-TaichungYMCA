@@ -297,7 +297,7 @@ watch(
 
 .course-page {
   width: 100%;
-  max-width: 1300px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 80px 40px 0;
   box-sizing: border-box;
@@ -433,6 +433,7 @@ watch(
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+  min-width: 0;
 }
 
 .category-btn {
@@ -504,6 +505,11 @@ watch(
   gap: 47px;
 }
 
+.cards-area > *,
+.hot-track > * {
+  min-width: 0;
+}
+
 .lists-area {
   width: 100%;
 }
@@ -520,12 +526,25 @@ watch(
   display: flex;
   justify-content: space-between;
   align-items: end;
+  gap: 16px;
+  flex-wrap: wrap;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .page-text {
   margin: 0;
   color: #3c3c3c;
+  white-space: nowrap;
 }
+
+.page-area :deep(.ant-pagination) {
+  max-width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 
 .page-area :deep(.ant-pagination-item) {
   width: 45px;
@@ -600,11 +619,15 @@ watch(
     padding: 40px 32px 0;
   }
 
-  .toolbar {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 40px;
+  max-width: 100%;
+  min-width: 0;
+}
   .display-toggle {
     align-self: flex-end;
   }
