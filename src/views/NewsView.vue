@@ -208,7 +208,7 @@ watch(viewMode, (view) => {
 }
 
 .search-btn:hover {
-  background-color: #2d2d2d;
+  background-color: #938d6b;
 }
 
 .search-btn :deep(svg) {

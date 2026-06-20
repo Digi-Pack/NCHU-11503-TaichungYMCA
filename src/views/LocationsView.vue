@@ -392,8 +392,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   transition: background-color 0.18s, color 0.18s, border-color 0.18s;
 }
 
-.tag:hover {
-  background-color: #1E4620;
+.tag:not(.tag--active):hover {
+  background-color: #938D6B;
   color: #F0E9E3;
   border-color: #938D6B;
 }
@@ -700,6 +700,11 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .btn--primary {
   background-color: #1E4620;
   color: #F9F6F0;
+}
+
+.btn--primary:hover {
+  background-color: #938D6B;
+  opacity: 1;
 }
 
 /* ── Swiper ── */
