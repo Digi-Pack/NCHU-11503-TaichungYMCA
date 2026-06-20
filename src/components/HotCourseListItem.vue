@@ -112,22 +112,25 @@ const previewContent = computed(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
 
-  background: #706f6f;
-  color: #fff;
+  background: #1e4620;
+  color: #f9f6f0;
   border-radius: 8px;
 
   font-size: 1rem;
+  font-weight: 500;
+
+  transition: 0.3s ease;
 }
 
 .hot-btn span {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   line-height: 1;
 }
 
 .hot-list-item:hover .hot-btn {
-  background: #3c3c3c;
+  background: #938d6b;
 }
 
 @media (max-width: 768px) {
