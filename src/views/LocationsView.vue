@@ -468,7 +468,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .location-card__name {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
-  font-size: clamp(1.25rem, 2vw, 2.25rem);
+  font-size: clamp(2rem, 2vw, 2.25rem);
   line-height: 1.2;
   color: #1E4620;
   margin: 0;
