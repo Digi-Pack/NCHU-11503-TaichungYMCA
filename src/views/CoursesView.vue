@@ -297,7 +297,7 @@ watch(
 
 .course-page {
   width: 100%;
-  max-width: 1300px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 80px 40px 0;
   box-sizing: border-box;
