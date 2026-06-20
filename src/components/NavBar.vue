@@ -164,10 +164,6 @@ onUnmounted(() => {
     padding: 0 32px;
   }
 
-  .logo img {
-    width: 120px;
-  }
-
   .nav-right {
     gap: 5px;
   }
@@ -189,10 +185,6 @@ onUnmounted(() => {
   .navbar {
     height: 72px;
     padding: 0 24px;
-  }
-
-  .logo img {
-    width: 120px;
   }
 
   .hamburger {
@@ -271,9 +263,6 @@ onUnmounted(() => {
     padding: 0 20px;
   }
 
-  .logo img {
-    width: 110px;
-  }
 
   .nav-right {
     padding-top: 40px;
