@@ -509,7 +509,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .location-card__info-label {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
-  font-size: clamp(0.875rem, 1.2vw, 1.5rem);
+  font-size: clamp(1.25rem, 1.2vw, 1.5rem);
   line-height: 1.4;
   color: #3C3C3C;
   margin: 0;
@@ -518,7 +518,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .location-card__info-value {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
-  font-size: clamp(0.875rem, 1.1vw, 1.5rem);
+  font-size: clamp(1.25rem, 1.2vw, 1.5rem);
   line-height: 1.4;
   color: #706F6F;
   margin: 0;
