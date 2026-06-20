@@ -1,45 +1,41 @@
 <script setup>
-import { computed } from "vue";
+import { computed } from 'vue'
+import { categoryImages } from '@/data/categoryImages.js'
 
 const props = defineProps({
   course: {
     type: Object,
     required: true,
   },
-});
+})
+
+const thumbnail = computed(() => {
+  return categoryImages[props.course.category]?.thumbnail || 'https://placehold.co/401x240'
+})
 
 const previewContent = computed(() => {
-  if (!props.course.content) return "";
+  if (!props.course.content) return ''
 
   const text = Array.isArray(props.course.content)
-    ? props.course.content.join("")
-    : props.course.content;
+    ? props.course.content.join('')
+    : props.course.content
 
-  return text.length > 60 ? text.slice(0, 60) + "..." : text;
-});
+  return text.length > 60 ? text.slice(0, 60) + '...' : text
+})
 </script>
 
 <template>
   <RouterLink class="hot-card" :to="`/courses/${course.id}`">
     <div class="hot-image">
-      <img
-        :src="course.thumbnail || 'https://placehold.co/401x240'"
-        :alt="course.title"
-      />
+      <img :src="thumbnail" :alt="course.title" />
     </div>
 
     <div class="hot-content">
-      <h3 class="hot-title">
-        {{ course.title }}
-      </h3>
+      <h3 class="hot-title">{{ course.title }}</h3>
 
-      <p class="hot-desc">
-        {{ previewContent }}
-      </p>
+      <p class="hot-desc">{{ previewContent }}</p>
 
-      <p class="hot-date">
-        {{ course.period }}
-      </p>
+      <p class="hot-date">{{ course.period }}</p>
     </div>
   </RouterLink>
 </template>

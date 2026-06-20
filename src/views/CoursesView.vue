@@ -1,17 +1,23 @@
 <script setup>
-import PageHero from '@/components/PageHero.vue'
+
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import courses from '@/data/course.json'
+
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import Text from '@/components/Text.vue'
-
 import CourseCard from '@/components/CourseCard.vue'
 import CourseListItem from '@/components/CourseListItem.vue'
 import HotCourseCard from '@/components/HotCourseCard.vue'
 import HotCourseListItem from '@/components/HotCourseListItem.vue'
+import PageHero from '@/components/PageHero.vue'
+import courseBanner from '@/assets/img/course/Course_Banner.jpg'
 
-import { TableOutlined, BarChartOutlined, SearchOutlined } from '@ant-design/icons-vue'
+import {
+  TableOutlined,
+  BarChartOutlined,
+  SearchOutlined,
+} from '@ant-design/icons-vue'
 
 const breadcrumbItems = [{ text: '首頁', to: '/' }, { text: '課程查詢' }]
 
@@ -29,7 +35,6 @@ const route = useRoute()
 const router = useRouter()
 
 const current = ref(Number(route.query.page) || 1)
-
 const pageSize = ref(6)
 const selectedCategory = ref(null)
 const viewMode = ref(route.query.view || 'card')
@@ -57,7 +62,8 @@ const filteredCourses = computed(() => {
   const searchText = keyword.value.trim().toLowerCase()
 
   return courses.filter((course) => {
-    const matchCategory = !selectedCategory.value || course.category === selectedCategory.value
+    const matchCategory =
+      !selectedCategory.value || course.category === selectedCategory.value
 
     const matchKeyword =
       !searchText ||
@@ -76,7 +82,9 @@ const pageCourses = computed(() => {
   return filteredCourses.value.slice(start, start + pageSize.value)
 })
 
-const totalPages = computed(() => Math.ceil(filteredCourses.value.length / pageSize.value))
+const totalPages = computed(() =>
+  Math.ceil(filteredCourses.value.length / pageSize.value),
+)
 
 function searchCourses() {
   keyword.value = keywordInput.value
@@ -133,7 +141,8 @@ watch(
 <template>
   <main>
     <Breadcrumb :items="breadcrumbItems" />
-    <PageHero :image="'https://placehold.co/1920x336'" />
+    <PageHero :image="courseBanner" />
+
     <section class="course-page">
       <section class="section-block">
         <Text>熱門課程</Text>
@@ -232,16 +241,28 @@ watch(
           </button>
         </div>
 
-        <button v-if="keyword" class="clear-btn" @click="clearSearch">清除搜尋</button>
+        <button v-if="keyword" class="clear-btn" @click="clearSearch">
+          清除搜尋
+        </button>
 
-        <div v-if="pageCourses.length === 0" class="empty-text">找不到符合條件的課程</div>
+        <div v-if="pageCourses.length === 0" class="empty-text">
+          找不到符合條件的課程
+        </div>
 
         <div v-else-if="viewMode === 'card'" class="cards-area">
-          <CourseCard v-for="course in pageCourses" :key="course.id" :course="course" />
+          <CourseCard
+            v-for="course in pageCourses"
+            :key="course.id"
+            :course="course"
+          />
         </div>
 
         <div v-else class="lists-area">
-          <CourseListItem v-for="course in pageCourses" :key="course.id" :course="course" />
+          <CourseListItem
+            v-for="course in pageCourses"
+            :key="course.id"
+            :course="course"
+          />
         </div>
 
         <div class="page-area">
@@ -251,6 +272,7 @@ watch(
             :page-size="pageSize"
             :show-size-changer="false"
           />
+
           <p class="page-text">Page {{ current }} of {{ totalPages }}</p>
         </div>
       </section>
@@ -280,7 +302,6 @@ watch(
   margin-bottom: 80px;
 }
 
-/* 熱門課程 */
 .hot-list-area {
   margin-top: 40px;
   border-top: 1px solid #b1b0b0;
@@ -329,7 +350,6 @@ watch(
   cursor: not-allowed;
 }
 
-/* 分類與切換 */
 .toolbar {
   display: flex;
   justify-content: space-between;
@@ -361,27 +381,9 @@ watch(
   color: white;
 }
 
-.view-switch {
+.display-toggle {
   display: flex;
   flex-shrink: 0;
-}
-
-.switch-btn {
-  width: 50px;
-  height: 51px;
-  border: 1px solid #3c3c3c;
-  background-color: white;
-  color: #3c3c3c;
-  cursor: pointer;
-  font-size: 20px;
-}
-
-.switch-btn:first-child {
-  border-radius: 8px 0 0 8px;
-}
-
-.switch-btn:last-child {
-  border-radius: 0 8px 8px 0;
 }
 
 .icon:hover {
@@ -405,18 +407,14 @@ watch(
   border-right: none;
 }
 
-/* 搜尋 */
 .search-area {
   position: relative;
   display: flex;
   align-items: center;
-
   height: 62px;
   margin: 40px 0;
-
   border: 1px solid #b1b0b0;
   border-radius: 8px;
-
   background: #fff;
   overflow: hidden;
 }
@@ -424,12 +422,9 @@ watch(
 .search-input {
   flex: 1;
   height: 100%;
-
   padding: 0 120px 0 12px;
-
   border: none;
   outline: none;
-
   font-size: 1rem;
 }
 
@@ -438,19 +433,13 @@ watch(
   top: 3px;
   right: 3px;
   bottom: 3px;
-
   width: 93px;
-
   border: none;
   border-radius: 4px;
-
   background-color: #3c3c3c;
   color: #f9f6f0;
-
   cursor: pointer;
-
   font-size: 1rem;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -476,7 +465,6 @@ watch(
   cursor: pointer;
 }
 
-/* 所有課程卡片 */
 .cards-area {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -494,7 +482,6 @@ watch(
   font-size: 1.2rem;
 }
 
-/* 分頁 */
 .page-area {
   margin-top: 48px;
   display: flex;
@@ -543,7 +530,6 @@ watch(
   display: none;
 }
 
-/* 1440 */
 @media (max-width: 1440px) {
   .course-page {
     width: calc(100% - 160px);
@@ -555,7 +541,6 @@ watch(
   }
 }
 
-/* 1024 */
 @media (max-width: 1024px) {
   .course-page {
     width: calc(100% - 80px);
@@ -567,7 +552,6 @@ watch(
   }
 }
 
-/* 768 */
 @media (max-width: 768px) {
   .course-page {
     width: calc(100% - 64px);
@@ -603,7 +587,6 @@ watch(
   }
 }
 
-/* 432 */
 @media (max-width: 432px) {
   .course-page {
     width: calc(100% - 40px);

@@ -4,7 +4,7 @@ import { useRoute, RouterLink } from 'vue-router'
 import courses from '@/data/course.json'
 
 import Breadcrumb from '@/components/Breadcrumb.vue'
-import PageHero from '@/components/PageHero.vue'
+import { categoryImages } from '@/data/categoryImages.js'
 
 import {
   UserOutlined,
@@ -18,9 +18,16 @@ import {
 
 const route = useRoute()
 
-const course = computed(() =>
-  courses.find((item) => String(item.id) === String(route.params.id))
-)
+const course = computed(() => courses.find((item) => String(item.id) === String(route.params.id)))
+
+const detailImages = computed(() => {
+  return (
+    categoryImages[course.value?.category]?.detailImages || [
+      'https://placehold.co/642x425',
+      'https://placehold.co/642x425',
+    ]
+  )
+})
 
 const breadcrumbItems = computed(() => [
   { text: '首頁', to: '/' },
@@ -32,15 +39,13 @@ const breadcrumbItems = computed(() => [
     },
   },
   {
-    text: course.value?.title,
+    text: course.value?.title || '找不到課程',
   },
 ])
 
 const mapEmbedUrl = computed(() => {
   if (!course.value?.location) return ''
-  return `https://www.google.com/maps?q=${encodeURIComponent(
-    course.value.location
-  )}&output=embed`
+  return `https://www.google.com/maps?q=${encodeURIComponent(course.value.location)}&output=embed`
 })
 
 const contentParagraphs = computed(() => {
@@ -58,12 +63,12 @@ const noteParagraphs = computed(() => {
   <main>
     <Breadcrumb :items="breadcrumbItems" />
 
-    <img :src="'https://placehold.co/1920x389'" />
+    <img src="/src/assets/img/course/CourseDetail_Banner.jpg" alt="banner">
 
     <section v-if="course" class="course-detail-container">
       <section class="course-top-section">
         <div class="course-title-area">
-          <div class="title-row"> 
+          <div class="title-row">
             <h1>{{ course.title }}</h1>
             <p>課程編號：{{ course.code }}</p>
           </div>
@@ -121,13 +126,10 @@ const noteParagraphs = computed(() => {
         <h2 class="section-title">課程內容</h2>
 
         <div class="image-group">
-          <img
-            :src="course.coverImage || 'https://placehold.co/642x425'"
-            :alt="course.title"
-          />
-          <img src="https://placehold.co/642x425" alt="課程圖片" />
-        </div>
+          <img :src="detailImages[0]" :alt="course.title" />
 
+          <img :src="detailImages[1]" :alt="course.title" />
+        </div>
         <div class="content-text">
           <p v-for="(text, index) in contentParagraphs" :key="index">
             {{ text }}
@@ -170,12 +172,7 @@ const noteParagraphs = computed(() => {
       </section>
 
       <div class="btn-center">
-        <a
-          class="signup-btn"
-          :href="course.signupUrl"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a class="signup-btn" :href="course.signupUrl" target="_blank" rel="noopener noreferrer">
           我要報名
         </a>
       </div>

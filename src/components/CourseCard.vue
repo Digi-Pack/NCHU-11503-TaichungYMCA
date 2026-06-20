@@ -1,7 +1,10 @@
 <script setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-
+import { categoryImages } from '@/data/categoryImages.js'
+const getThumbnail = (category) => {
+  return categoryImages[category]?.thumbnail 
+}
 const route = useRoute()
 
 const props = defineProps({
@@ -23,19 +26,16 @@ const previewContent = computed(() => {
 </script>
 
 <template>
- <RouterLink
-  class="course-card"
-  :to="{
-    path: `/courses/${course.id}`,
-    query: route.query,
-  }"
->
+  <RouterLink
+    class="course-card"
+    :to="{
+      path: `/courses/${course.id}`,
+      query: route.query,
+    }"
+  >
     <div class="card-image">
-      <img
-        :src="course.thumbnail || 'https://placehold.co/401x240'"
-        :alt="course.title"
-      />
-    </div>
+      <img :src="categoryImages[course.category]?.thumbnail" :alt="course.title" />
+    </div>  
 
     <div class="card-content">
       <h3 class="course-title">
@@ -54,7 +54,6 @@ const previewContent = computed(() => {
 </template>
 
 <style scoped>
-
 .course-card,
 .course-card:visited,
 .course-card:hover,
