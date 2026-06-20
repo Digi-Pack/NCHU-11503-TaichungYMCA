@@ -5,6 +5,7 @@ import newsDetailHero from "@/assets/img/news/newsDetailHero.png"
 import newsList from "@/data/news.js";
 import Text from "@/components/Text.vue";
 import Breadcrumb from "@/components/Breadcrumb.vue";
+import NotFoundView from "@/views/NotFoundView.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -27,7 +28,8 @@ function goBack() {
 </script>
 
 <template>
-    <main>
+    <NotFoundView v-if="!currentNews" />
+    <main v-else>
         <Breadcrumb :items="breadcrumbItems" />
 
         <div class="content-container">

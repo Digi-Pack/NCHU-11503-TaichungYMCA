@@ -110,8 +110,12 @@ watch(viewMode, (view) => {
             :class="{ active: selectedCategory === cat }" @click="selectCategory(cat)">{{ cat }}</a-button>
         </div>
         <div class="display-toggle">
-          <TableOutlined class="icon table" :class="{ active: viewMode === 'card' }" @click="setViewMode('card')" />
-          <BarChartOutlined class="icon chart" :class="{ active: viewMode === 'list' }" @click="setViewMode('list')" />
+          <a-tooltip title="卡片檢視">
+            <TableOutlined class="icon table" :class="{ active: viewMode === 'card' }" @click="setViewMode('card')" />
+          </a-tooltip>
+          <a-tooltip title="列表檢視">
+            <BarChartOutlined class="icon chart" :class="{ active: viewMode === 'list' }" @click="setViewMode('list')" />
+          </a-tooltip>
         </div>
       </div>
 
