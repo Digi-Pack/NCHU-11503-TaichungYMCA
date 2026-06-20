@@ -184,15 +184,22 @@ const noteParagraphs = computed(() => {
     </section>
   </main>
 </template>
-
 <style scoped>
 .course-detail-container {
+  width: 100%;
   max-width: 1300px;
   margin: 0 auto;
   padding: 80px 0;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 80px;
+}
+
+main > img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
 }
 
 .course-top-section {
@@ -232,6 +239,7 @@ const noteParagraphs = computed(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
 }
 
 .category-tag {
@@ -273,6 +281,7 @@ const noteParagraphs = computed(() => {
   padding: 40px;
   border: 1px solid #000;
   border-radius: 20px;
+  box-sizing: border-box;
 }
 
 .info-card p,
@@ -317,9 +326,13 @@ const noteParagraphs = computed(() => {
   text-decoration: none;
 }
 
+.signup-btn:hover {
+  background: #1e4620;
+}
+
 .image-group {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -357,9 +370,11 @@ const noteParagraphs = computed(() => {
 }
 
 .not-found {
+  width: 100%;
   max-width: 1300px;
   margin: 0 auto;
   padding: 120px 0;
+  box-sizing: border-box;
   text-align: center;
 }
 
@@ -368,11 +383,22 @@ const noteParagraphs = computed(() => {
   font-size: 40px;
 }
 
-/* 1024 */
-@media (max-width: 1024px) {
+/* 1440 */
+@media (max-width: 1440px) {
   .course-detail-container,
   .not-found {
-    max-width: calc(100% - 40px);
+    max-width: 1300px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+/* 1024 */
+@media (max-width: 1024px) {
+  .course-detail-container {
+    padding-top: 64px;
+    padding-bottom: 64px;
+    gap: 64px;
   }
 
   .title-row {
@@ -396,13 +422,33 @@ const noteParagraphs = computed(() => {
   .note-text {
     font-size: 20px;
   }
+
+  .info-card {
+    padding: 32px;
+  }
+
+  .map-frame {
+    height: 380px;
+  }
 }
 
 /* 768 */
 @media (max-width: 768px) {
+  .course-detail-container,
+  .not-found {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
   .course-detail-container {
-    padding: 48px 0;
+    padding-top: 48px;
+    padding-bottom: 48px;
     gap: 56px;
+  }
+
+  .course-top-section,
+  .section-block {
+    gap: 32px;
   }
 
   .title-row h1,
@@ -429,11 +475,23 @@ const noteParagraphs = computed(() => {
   }
 }
 
-/* 576 */
-@media (max-width: 576px) {
+/* 432 */
+@media (max-width: 432px) {
   .course-detail-container,
   .not-found {
-    max-width: calc(100% - 32px);
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .course-detail-container {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    gap: 48px;
+  }
+
+  .course-top-section,
+  .section-block {
+    gap: 24px;
   }
 
   .title-row h1,
@@ -453,13 +511,66 @@ const noteParagraphs = computed(() => {
   .category-tag {
     min-width: auto;
     height: 40px;
+    padding: 0 16px;
     border-radius: 16px;
+    font-size: 14px;
+  }
+
+  .info-card {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .info-card p,
+  .traffic-info p {
+    gap: 12px;
+  }
+
+  .info-card :deep(.anticon),
+  .traffic-info :deep(.anticon) {
+    font-size: 18px;
+    margin-top: 3px;
   }
 
   .signup-btn {
     width: 112px;
     height: 48px;
     font-size: 16px;
+  }
+
+  .map-frame {
+    height: 280px;
+    border-radius: 16px;
+  }
+
+  .image-group img {
+    border-radius: 16px;
+  }
+
+  .not-found h1 {
+    font-size: 28px;
+  }
+}
+
+/* 370 小手機保險 */
+@media (max-width: 390px) {
+  .course-detail-container,
+  .not-found {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .title-row h1,
+  .section-title {
+    font-size: 24px;
+  }
+
+  .info-card {
+    padding: 16px;
+  }
+
+  .map-frame {
+    height: 240px;
   }
 }
 </style>
