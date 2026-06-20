@@ -145,7 +145,7 @@ watch(
 
     <section class="course-page">
       <section class="section-block">
-        <Text>熱門課程</Text>
+        <Text class="green"">熱門課程</Text>
 
         <div v-if="viewMode === 'card'" class="hot-area">
           <button
@@ -188,7 +188,7 @@ watch(
 
       <section class="section-block">
         <div ref="courseTitleRef">
-          <Text>所有課程</Text>
+          <Text class="green">所有課程</Text>
         </div>
 
         <div class="toolbar">
@@ -322,6 +322,10 @@ watch(
   border-top: 1px solid #b1b0b0;
 }
 
+.green {
+  color:#1E4620;
+}
+
 .hot-area {
   position: relative;
   width: 100%;
@@ -343,34 +347,32 @@ watch(
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
-  width: 36px;
-  height: 36px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   border: 1px solid #b1b0b0;
-  background: #ffffff;
+  background: #F0E9E3;
   color: #7d7d7d;
-  font-size: 20px;
-  line-height: 1;
+  font-size: 48px;
+  line-height: 45PX;
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   cursor: pointer;
 }
 
 .prev-btn {
-  left: -18px;
+  left: 0;
 }
 
 .next-btn {
-  right: -18px;
+  right: 0;
 }
-
-.arrow-btn:hover {
+/* .arrow-btn:hover {
   background: #f5f5f5;
-}
+} */
 
 .arrow-btn.disabled {
-  opacity: 0.35;
   cursor: not-allowed;
 }
 
@@ -380,10 +382,11 @@ watch(
   display: flex;
   align-items: center;
   margin-bottom: 20px;
-  border: 1px solid #b1b0b0;
+  border: 2px solid #b1b0b0;
   border-radius: 16px;
   background: #fff;
   overflow: hidden;
+  transition: border-color 0.2s ease;
 }
 
 .search-input {
@@ -414,8 +417,13 @@ watch(
 }
 
 .search-btn:hover {
-  background-color: #938d6b;
+  border-color: #d96b27;
 }
+
+.search-area:focus-within {
+  border-color: #d96b27;
+}
+
 
 .search-btn :deep(svg) {
   font-size: 20px;
@@ -448,9 +456,14 @@ watch(
   font-size: 16px;
 }
 
-.category-btn.active,
-.category-btn:hover {
+.category-btn.active{
   background-color: #1e4620;
+  color: #f9f6f0;
+}
+
+
+.category-btn:hover {
+  background-color: #938d6b;
   color: #f9f6f0;
 }
 
@@ -537,8 +550,9 @@ watch(
 }
 
 .page-text {
+  font-size:1.5rem;
   margin: 0;
-  color: #3c3c3c;
+  color: #1e4620;
 }
 
 .page-area :deep(.ant-pagination-item) {
