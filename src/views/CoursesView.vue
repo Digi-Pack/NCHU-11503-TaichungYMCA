@@ -226,6 +226,11 @@ watch(
           </div>
         </div>
 
+
+
+        <div v-if="pageCourses.length === 0" class="empty-text">
+          找不到符合條件的課程
+        </div>
         <div class="search-area">
           <input
             v-model="keywordInput"
@@ -244,11 +249,6 @@ watch(
         <button v-if="keyword" class="clear-btn" @click="clearSearch">
           清除搜尋
         </button>
-
-        <div v-if="pageCourses.length === 0" class="empty-text">
-          找不到符合條件的課程
-        </div>
-
         <div v-else-if="viewMode === 'card'" class="cards-area">
           <CourseCard
             v-for="course in pageCourses"
@@ -282,26 +282,40 @@ watch(
 
 <style scoped>
 .icon {
-  width: 50px;
+  width: 51px;
   height: 51px;
-  border: 1px solid #3c3c3c;
-  background-color: white;
-  color: #3c3c3c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  background: #f9f6f0;
+  color: #1e4620;
+  border: none;
   cursor: pointer;
   font-size: 20px;
-  padding: 14px;
 }
 
 .course-page {
-  width: min(1300px, calc(100% - 80px));
+  width: 100%;
+  max-width: 1300px;
   margin: 0 auto;
-  padding-top: 80px;
+  padding: 80px 40px 0;
+  box-sizing: border-box;
 }
 
 .section-block {
-  margin-bottom: 80px;
+  margin-bottom: 64px;
 }
 
+/* 標題 + 底線 */
+.section-block > :first-child {
+  width: 100%;
+  padding-bottom: 8px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #1e4620;
+}
+
+/* 熱門課程區 */
 .hot-list-area {
   margin-top: 40px;
   border-top: 1px solid #b1b0b0;
@@ -325,24 +339,33 @@ watch(
 
 .arrow-btn {
   position: absolute;
-  top: 120px;
-  z-index: 5;
-  width: 38px;
-  height: 38px;
-  border: none;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background-color: #7d7d7d;
-  color: white;
-  font-size: 28px;
+  border: 1px solid #b1b0b0;
+  background: #ffffff;
+  color: #7d7d7d;
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
 }
 
 .prev-btn {
-  left: -56px;
+  left: -18px;
 }
 
 .next-btn {
-  right: -56px;
+  right: -18px;
+}
+
+.arrow-btn:hover {
+  background: #f5f5f5;
 }
 
 .arrow-btn.disabled {
@@ -350,12 +373,60 @@ watch(
   cursor: not-allowed;
 }
 
+/* 搜尋框 */
+.search-area {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  border: 1px solid #b1b0b0;
+  border-radius: 16px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.search-input {
+  flex: 1;
+  height: 62px;
+  padding: 0 120px 0 12px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+}
+
+.search-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 93px;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  background-color: #1e4620;
+  color: #f9f6f0;
+  cursor: pointer;
+  font-size: 1.125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.search-btn:hover {
+  background-color: #938d6b;
+}
+
+.search-btn :deep(svg) {
+  font-size: 20px;
+}
+
+/* 分類 + 檢視切換 */
 .toolbar {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: 24px;
-  margin: 32px 0 24px;
+  margin-bottom: 40px;
 }
 
 .category-area {
@@ -367,102 +438,64 @@ watch(
 .category-btn {
   width: 120px;
   height: 51px;
-  border-radius: 999px;
-  border: 1px solid #7d7d7d;
-  background-color: white;
-  color: #3c3c3c;
+  padding: 16px 12px;
+  border-radius: 20px;
+  border: 1px solid #1e4620;
+  background-color: #f9f6f0;
+  color: #1e4620;
   cursor: pointer;
   font-size: 16px;
 }
 
 .category-btn.active,
 .category-btn:hover {
-  background-color: #3c3c3c;
-  color: white;
+  background-color: #1e4620;
+  color: #f9f6f0;
 }
 
 .display-toggle {
   display: flex;
   flex-shrink: 0;
+  border: 1px solid #1e4620;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f9f6f0;
+}
+
+.chart {
+  border-right: 1px solid #1e4620;
+}
+
+.table,
+.chart {
+  border-radius: 0;
 }
 
 .icon:hover {
   background-color: #938d6b;
-  border-color: #938d6b;
   color: #f0e9e3;
 }
 
 .icon.active {
   background-color: #1e4620;
-  border-color: #1e4620;
   color: #f0e9e3;
-}
-
-.table {
-  border-radius: 0 10px 10px 0;
-}
-
-.chart {
-  border-radius: 10px 0 0 10px;
-  border-right: none;
-}
-
-.search-area {
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: 62px;
-  margin: 40px 0;
-  border: 1px solid #b1b0b0;
-  border-radius: 8px;
-  background: #fff;
-  overflow: hidden;
-}
-
-.search-input {
-  flex: 1;
-  height: 100%;
-  padding: 0 120px 0 12px;
-  border: none;
-  outline: none;
-  font-size: 1rem;
-}
-
-.search-btn {
-  position: absolute;
-  top: 3px;
-  right: 3px;
-  bottom: 3px;
-  width: 93px;
-  border: none;
-  border-radius: 4px;
-  background-color: #3c3c3c;
-  color: #f9f6f0;
-  cursor: pointer;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.search-btn:hover {
-  background-color: #2d2d2d;
-}
-
-.search-btn :deep(svg) {
-  font-size: 20px;
 }
 
 .clear-btn {
   height: 40px;
   padding: 0 20px;
   margin-bottom: 32px;
-  border: 1px solid #3c3c3c;
+  border: 1px solid #1e4620;
   border-radius: 8px;
-  background: white;
-  color: #3c3c3c;
+  background: #f9f6f0;
+  color: #1e4620;
   cursor: pointer;
+}
+
+.clear-btn:hover {
+  background-color: #938d6b;
+  border-color: #938d6b;
+  color: #f0e9e3;
 }
 
 .cards-area {
@@ -497,32 +530,39 @@ watch(
 .page-area :deep(.ant-pagination-item) {
   width: 45px;
   height: 45px;
-  line-height: 45px;
+  min-width: 45px;
+  line-height: 41px;
+
   border-radius: 50%;
-  border-color: #3c3c3c;
-  background-color: white;
+  border: 2px solid #1e4620;
+
+  background-color: #f9f6f0;
+
+  transition: all 0.2s ease;
 }
 
 .page-area :deep(.ant-pagination-item a) {
-  color: #3c3c3c;
+  color: #1e4620;
+  font-size: 18px;
+  font-weight: 400;
 }
 
 .page-area :deep(.ant-pagination-item:hover) {
-  background-color: #938d6b;
-  border-color: #938d6b;
+  background-color: #d1c8c1;
+  border-color: #1e4620;
 }
 
 .page-area :deep(.ant-pagination-item:hover a) {
-  color: #f0e9e3;
+  color: #1e4620;
 }
 
 .page-area :deep(.ant-pagination-item-active) {
-  background-color: #1e4620;
+  background-color: #d1c8c1;
   border-color: #1e4620;
 }
 
 .page-area :deep(.ant-pagination-item-active a) {
-  color: #f0e9e3;
+  color: #1e4620;
 }
 
 .page-area :deep(.ant-pagination-prev),
@@ -532,7 +572,9 @@ watch(
 
 @media (max-width: 1440px) {
   .course-page {
-    width: calc(100% - 160px);
+    max-width: 1300px;
+    padding-left: 40px;
+    padding-right: 40px;
   }
 
   .cards-area,
@@ -543,7 +585,8 @@ watch(
 
 @media (max-width: 1024px) {
   .course-page {
-    width: calc(100% - 80px);
+    padding-left: 40px;
+    padding-right: 40px;
   }
 
   .cards-area,
@@ -554,12 +597,12 @@ watch(
 
 @media (max-width: 768px) {
   .course-page {
-    width: calc(100% - 64px);
-    padding-top: 40px;
+    padding: 40px 32px 0;
   }
 
   .toolbar {
     flex-direction: column;
+    align-items: stretch;
   }
 
   .display-toggle {
@@ -567,7 +610,7 @@ watch(
   }
 
   .search-area {
-    margin: 32px 0;
+    margin-bottom: 20px;
   }
 
   .cards-area,
@@ -589,7 +632,8 @@ watch(
 
 @media (max-width: 432px) {
   .course-page {
-    width: calc(100% - 40px);
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   .category-btn {
@@ -601,11 +645,11 @@ watch(
 
   .search-input {
     height: 52px;
+    padding-right: 100px;
   }
 
   .search-btn {
     width: 84px;
-    height: 52px;
   }
 }
 </style>
