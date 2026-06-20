@@ -99,7 +99,7 @@ const vReveal = {
 
     <div class="news container-normal" id="latest-news">
       <div class="news-title-row" @click="router.push('/news')">
-        <Text size="text-48" color="deep-gray" weight="f-500">最新消息</Text>
+        <Text size="text-48" color="primary-d-g" weight="f-500">最新消息</Text>
         <RightCircleOutlined class="news-icon" />
       </div>
       <div class="card-container">
@@ -123,7 +123,7 @@ const vReveal = {
       <div class="location-left">
         <div class="location-text-container">
           <div class="location-title">
-            <Text size="text-48" weight="f-500" color="deep-gray">服務據點</Text>
+            <Text size="text-48" weight="f-500" color="primary-d-g">服務據點</Text>
             <RightCircleOutlined class="location-icon" />
           </div>
           <Text size="text-36" color="gray"
@@ -285,19 +285,20 @@ image {
 }
 
 .news-title-row {
-  width: 100%;
+  min-width: 324px;
+  align-self: flex-start;
   display: flex;
   align-items: center;
   gap: 0 16px;
-  border-bottom: 3px solid #3C3C3C;
+  border-bottom: 3px solid #1e4620;
   padding-bottom: 2px;
   cursor: pointer;
 }
 
 .news-icon {
   font-size: 3rem;
-  color: #7D7D7D;
-  background-color: #FFFFFF;
+  color: #1e4620;
+  background-color: #f0e9e3;
   border-radius: 50%;
 }
 
@@ -345,17 +346,19 @@ image {
 }
 
 .location-title {
+  min-width: 324px;
   display: flex;
   align-items: center;
+  align-self: flex-start;
   gap: 0 16px;
-  border-bottom: 3px solid #3C3C3C;
+  border-bottom: 3px solid #1e4620;
   padding-bottom: 2px;
 }
 
 .location-icon {
   font-size: 3rem;
-  color: #7D7D7D;
-  background-color: #FFFFFF;
+  color: #1e4620;
+  background-color: #f0e9e3;
   border-radius: 50%;
 }
 
@@ -552,6 +555,14 @@ image {
     display: block;
   }
 
+  .news-title-row{
+    width: 100%;
+  }
+
+.location-title{
+  width: 100%;
+}
+  
   .hero-right {
     padding: 0 6%;
   }
