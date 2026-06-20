@@ -282,7 +282,6 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .locations-page {
   display: flex;
   flex-direction: column;
-  background-color: #F9F6F0;
   width: 100%;
   height: auto;
 }
@@ -383,11 +382,11 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   height: 51px;
   min-width: 96px;
   background-color: #F9F6F0;
-  border: 1px solid #938D6B;
+  border: 1px solid #1E4620;
   border-radius: 20px;
   font-family: 'Noto Sans TC', sans-serif;
   font-size: 1rem;
-  color: #3C3C3C;
+  color: #1E4620;
   cursor: pointer;
   white-space: nowrap;
   transition: background-color 0.18s, color 0.18s, border-color 0.18s;
