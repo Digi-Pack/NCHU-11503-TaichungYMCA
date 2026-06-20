@@ -291,7 +291,7 @@ image {
   align-items: center;
   gap: 0 16px;
   border-bottom: 3px solid #1e4620;
-  padding-bottom: 2px;
+  padding-bottom: 8px;
   cursor: pointer;
 }
 
@@ -352,7 +352,7 @@ image {
   align-self: flex-start;
   gap: 0 16px;
   border-bottom: 3px solid #1e4620;
-  padding-bottom: 2px;
+  padding-bottom: 8px;
 }
 
 .location-icon {
