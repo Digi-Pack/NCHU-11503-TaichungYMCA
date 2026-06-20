@@ -38,7 +38,7 @@ function goBack() {
 
             <div class="title-section container-normal">
                 <div class="title-date">
-                    <Text size="text-48" color="deep-gray" weight="f-500">{{ currentNews?.title }}</Text>
+                    <Text size="text-48" color="black" weight="f-500">{{ currentNews?.title }}</Text>
                     <div class="date">
                         <Text size="text-24" color="gray">{{ currentNews?.date }}</Text>
                     </div>
@@ -64,7 +64,7 @@ function goBack() {
             </div>
 
             <div class="content-text container-normal">
-                <Text size="text-36" weight="f-500" color="deep-gray" class="brief-section">活動簡介</Text>
+                <Text size="text-36" weight="f-500" color="primary-d-g" class="brief-section">{{currentNews?.subTitle}}</Text>
                 <Text v-for="(paragraph, index) in currentNews.content" :key="index" class="news-content" size="text-24"
                     color="gray">{{ paragraph }}</Text>
             </div>
@@ -132,7 +132,7 @@ function goBack() {
     border: 1px solid #938D6B;
     border-radius: 20px;
     background-color: #1E4620;
-    color: white;
+    color: #f0e9e3;
     font-size: 1rem;
     text-align: center;
     line-height: 51px;
@@ -142,9 +142,9 @@ function goBack() {
     width: 120px;
     height: 51px;
     border-radius: 20px;
-    background-color: #FFFFFF;
-    border-color: #3C3C3C;
-    color: #3C3C3C;
+    background-color: #F9F6F0;
+    border-color: #1E4620;
+    color: #1E4620;
     font-size: 1rem;
     display: flex;
     justify-content: center;
@@ -200,8 +200,8 @@ function goBack() {
 }
 
 .brief-section {
-    width: 252px;
     border-bottom: 3px solid #1E4620;
+    padding-bottom:2px;
 }
 
 .news-content {

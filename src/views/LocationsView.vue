@@ -71,7 +71,7 @@ function destroySwiper() {
 
 const isMobile = ref(false)
 function checkMobile() {
-  isMobile.value = window.innerWidth < 576
+  isMobile.value = window.innerWidth < 768
 }
 
 onMounted(() => {
@@ -119,8 +119,14 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 
         <!-- Filter tags -->
         <div class="tag-group" role="group" aria-label="篩選服務據點分類">
-          <button v-for="tag in tags" :key="tag.value" class="tag" :class="{ 'tag--active': activeTag === tag.value }"
-            :aria-pressed="activeTag === tag.value" @click="setActiveTag(tag.value)">
+          <button
+            v-for="tag in tags"
+            :key="tag.value"
+            class="tag"
+            :class="{ 'tag--active': activeTag === tag.value }"
+            :aria-pressed="activeTag === tag.value"
+            @click="setActiveTag(tag.value)"
+          >
             {{ tag.label }}
           </button>
         </div>
@@ -133,35 +139,31 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
             <article v-for="location in filteredLocations" :key="location.id" class="location-card" role="listitem">
               <div class="location-card__summary">
                 <div class="location-card__img-wrap">
-                  <img :src="location.image" :alt="location.name" class="location-card__img" loading="lazy" width="207"
-                    height="207" />
+                  <img :src="location.image" :alt="location.name" class="location-card__img" loading="lazy" width="207" height="207" />
                 </div>
                 <div class="location-card__content">
                   <h2 class="location-card__name">{{ location.name }}</h2>
                   <div class="location-card__title-line" aria-hidden="true"></div>
 
-
-                  <div class="location-card__info">
-                    <div class="location-card__info-block">
-                      <p class="location-card__info-label">營業時間</p>
-                      <p class="location-card__info-value">週一至週五 14:00 - 21:00，週六日公休</p>
-                    </div>
-                    <div class="location-card__info-block">
-                      <p class="location-card__info-label">電話</p>
-                      <p class="location-card__info-value">
-                        <a :href="`tel:${location.tel}`" class="detail-tel-link">{{ location.tel }}</a>
-                      </p>
-                    </div>
-                  </div>
-
-
-
+                  <!-- ✅ 修正：電話與按鈕同一列 -->
                   <div class="location-card__bottom">
+                    <div class="location-card__info">
+                      <div class="location-card__info-block">
+                        <p class="location-card__info-label">營業時間</p>
+                        <p class="location-card__info-value">週一至週五 14:00 - 21:00，週六日公休</p>
+                      </div>
+                      <div class="location-card__info-block">
+                        <p class="location-card__info-label">電話</p>
+                        <p class="location-card__info-value">
+                          <a :href="`tel:${location.tel}`" class="detail-tel-link">{{ location.tel }}</a>
+                        </p>
+                      </div>
+                    </div>
                     <div class="location-card__more">
-                      <button class="btn btn--primary" @click.stop="goToRegion(location.region)"
-                        :aria-label="`查看 ${location.name} 更多資訊`">更多資訊</button>
+                      <button class="btn btn--primary" @click.stop="goToRegion(location.region)" :aria-label="`查看 ${location.name} 更多資訊`">更多資訊</button>
                     </div>
                   </div>
+
                 </div>
               </div>
             </article>
@@ -174,34 +176,31 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
                 <article class="location-card" role="listitem">
                   <div class="location-card__summary">
                     <div class="location-card__img-wrap">
-                      <img :src="location.image" :alt="location.name" class="location-card__img" loading="lazy"
-                        width="207" height="207" />
+                      <img :src="location.image" :alt="location.name" class="location-card__img" loading="lazy" width="207" height="207" />
                     </div>
                     <div class="location-card__content">
                       <h2 class="location-card__name">{{ location.name }}</h2>
                       <div class="location-card__title-line" aria-hidden="true"></div>
 
-
-                      <div class="location-card__info">
-                        <div class="location-card__info-block">
-                          <p class="location-card__info-label">營業時間</p>
-                          <p class="location-card__info-value">週一至週五 14:00 - 21:00，週六日公休</p>
-                        </div>
-                        <div class="location-card__info-block">
-                          <p class="location-card__info-label">電話</p>
-                          <p class="location-card__info-value">
-                            <a :href="`tel:${location.tel}`" class="detail-tel-link">{{ location.tel }}</a>
-                          </p>
-                        </div>
-                      </div>
-
-
+                      <!-- ✅ 修正：電話與按鈕同一列 -->
                       <div class="location-card__bottom">
+                        <div class="location-card__info">
+                          <div class="location-card__info-block">
+                            <p class="location-card__info-label">營業時間</p>
+                            <p class="location-card__info-value">週一至週五 14:00 - 21:00，週六日公休</p>
+                          </div>
+                          <div class="location-card__info-block">
+                            <p class="location-card__info-label">電話</p>
+                            <p class="location-card__info-value">
+                              <a :href="`tel:${location.tel}`" class="detail-tel-link">{{ location.tel }}</a>
+                            </p>
+                          </div>
+                        </div>
                         <div class="location-card__more">
-                          <button class="btn btn--primary" @click.stop="goToRegion(location.region)"
-                            :aria-label="`查看 ${location.name} 更多資訊`">更多資訊</button>
+                          <button class="btn btn--primary" @click.stop="goToRegion(location.region)" :aria-label="`查看 ${location.name} 更多資訊`">更多資訊</button>
                         </div>
                       </div>
+
                     </div>
                   </div>
                 </article>
@@ -215,15 +214,12 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
         <!-- ── 詳情模式 ── -->
         <div v-else class="locations-list" role="list" aria-label="服務據點清單">
           <article v-for="location in filteredLocations" :key="location.id" class="location-card" role="listitem">
-            <div :id="`detail-${location.id}`" class="location-card__detail" role="region"
-              :aria-label="`${location.name} 詳細資訊`">
+            <div :id="`detail-${location.id}`" class="location-card__detail" role="region" :aria-label="`${location.name} 詳細資訊`">
               <div class="detail-body">
                 <div class="detail-body__left">
                   <img :src="location.image" :alt="`${location.name} 場地照片`" class="detail-body__img" />
                   <div class="detail-cta">
-
-                    <a :href="location.mapUrl" target="_blank" rel="noopener noreferrer" class="btn btn--primary">開啟地圖
-                    </a>
+                    <a :href="location.mapUrl" target="_blank" rel="noopener noreferrer" class="btn btn--primary">開啟地圖</a>
                   </div>
                 </div>
 
@@ -256,9 +252,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
                     <div class="detail-info__block">
                       <p class="detail-info__label">電話</p>
                       <p class="detail-info__value">
-
-                        <a :href="`tel:${location.tel}`" class="detail-tel-link" :aria-label="`撥打電話 ${location.tel}`">{{
-                          location.tel }}</a>
+                        <a :href="`tel:${location.tel}`" class="detail-tel-link" :aria-label="`撥打電話 ${location.tel}`">{{ location.tel }}</a>
                       </p>
                     </div>
                     <div class="detail-info__block">
@@ -284,10 +278,10 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 </template>
 
 <style scoped>
+/* ── Page ── */
 .locations-page {
   display: flex;
   flex-direction: column;
-  background-color: #F9F6F0;
   width: 100%;
   height: auto;
 }
@@ -360,7 +354,6 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   height: 3px;
   background-color: #1E4620;
   border-radius: 2px;
-
 }
 
 .section-header__subtitle {
@@ -368,37 +361,6 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   font-weight: 400;
   font-size: clamp(1rem, 1.4vw, 1.5rem);
   line-height: 1.7;
-  color: #000000;
-  margin: 0;
-}
-
-.location-card__info {
-  display: flex;
-  flex-direction: column;
-  gap: 40px; /* 40px */
-  margin-top: 8px;
-}
-
-.location-card__info-block {
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* 10px */
-}
-
-.location-card__info-label {
-  font-family: 'Noto Sans TC', sans-serif;
-  font-weight: 500;
-  font-size: 1.5rem; /* 24px */
-  line-height: 1.4;
-  color: #3C3C3C;
-  margin: 0;
-}
-
-.location-card__info-value {
-  font-family: 'Noto Sans TC', sans-serif;
-  font-weight: 400;
-  font-size: 1.5rem; /* 24px */
-  line-height: 1.4;
   color: #706F6F;
   margin: 0;
 }
@@ -419,19 +381,19 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   padding: 10px 16px;
   height: 51px;
   min-width: 96px;
-  background-color: #FFFFFF;
-  border: 1px solid #3C3C3C;
+  background-color: #F9F6F0;
+  border: 1px solid #1E4620;
   border-radius: 20px;
   font-family: 'Noto Sans TC', sans-serif;
   font-size: 1rem;
-  color: #3C3C3C;
+  color: #1E4620;
   cursor: pointer;
   white-space: nowrap;
   transition: background-color 0.18s, color 0.18s, border-color 0.18s;
 }
 
 .tag:hover {
-  background-color: #3C3C3C;
+  background-color: #1E4620;
   color: #F0E9E3;
   border-color: #938D6B;
 }
@@ -442,7 +404,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 }
 
 .tag--active {
-  background-color: #3C3C3C;
+  background-color: #1E4620;
   border-color: #938D6B;
   color: #F0E9E3;
 }
@@ -457,7 +419,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 
 /* ── Location card ── */
 .location-card {
-  background-color: #FFFFFF;
+  background-color: #F9F6F0;
   border: 1px solid #000000;
   border-radius: 20px;
   box-sizing: border-box;
@@ -468,23 +430,22 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .location-card__summary {
   display: flex;
   flex-direction: row;
-  align-items: stretch;
-  /* 改為 stretch，讓右側內容撐滿高度 */
+  align-items: center;
   gap: 40px;
   padding: 24px;
   flex-wrap: nowrap;
   min-height: 207px;
-  /* 至少與圖片等高 */
 }
 
-/* Image */
+/* ── Image wrap ── */
 .location-card__img-wrap {
   flex: 0 0 auto;
-  width: clamp(100px, 14vw, 207px);
-  height: clamp(100px, 14vw, 207px);
+  width: 207px;
+  height: 207px;
   border-radius: 10px;
   overflow: hidden;
   background-color: #B1B0B0;
+  align-self: center;
 }
 
 .location-card__img {
@@ -494,13 +455,12 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   display: block;
 }
 
-/* 右側內容區：名稱 + 底部（線+按鈕） */
+/* ── Card content（右側） ── */
 .location-card__content {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  /* 名稱和底線之間 8px */
   justify-content: flex-start;
   min-width: 0;
 }
@@ -514,30 +474,59 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   margin: 0;
 }
 
-/* 線 + 按鈕 同一行 */
-.location-card__bottom {
-  display: flex;
-  justify-content: flex-end;
-  /* 按鈕靠右 */
-  margin-top: auto;
-  /* 推到最底部 */
-  padding-top: 16px;
-}
-
-/* 線撐滿剩餘空間，按鈕固定右側 */
 .location-card__title-line {
   width: 100%;
-  /* 往右延伸到框線，補回右側 padding */
   height: 3px;
   background-color: #1E4620;
   border-radius: 2px;
   margin-right: -24px;
-  /* 突破 content 右邊界，貼到框線 */
-  margin-bottom: 40px;
+  margin-bottom: 16px;
+}
+
+/* ── Card bottom（資訊 + 按鈕同列） ── */
+.location-card__bottom {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.location-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.location-card__info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.location-card__info-label {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: 500;
+  font-size: clamp(0.875rem, 1.2vw, 1.5rem);
+  line-height: 1.4;
+  color: #3C3C3C;
+  margin: 0;
+}
+
+.location-card__info-value {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: 400;
+  font-size: clamp(0.875rem, 1.1vw, 1.5rem);
+  line-height: 1.4;
+  color: #706F6F;
+  margin: 0;
 }
 
 .location-card__more {
   flex: 0 0 auto;
+  align-self: flex-end;
 }
 
 /* ── Detail panel ── */
@@ -556,7 +545,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   padding: 16px 12px;
   border: 2px solid #6155F5;
   border-radius: 8px;
-  background-color: #FFFFFF;
+  background-color: #F9F6F0;
 }
 
 .detail-alert__icon {
@@ -645,7 +634,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 }
 
 .detail-info__label {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
   font-size: clamp(1rem, 1.2vw, 1.5rem);
   line-height: 1.4;
@@ -654,7 +643,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 }
 
 .detail-info__value {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
   font-size: clamp(1rem, 1.1vw, 1.5rem);
   line-height: 1.4;
@@ -710,11 +699,65 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 
 .btn--primary {
   background-color: #1E4620;
-  color: #FFFFFF;
+  color: #F9F6F0;
+}
+
+/* ── Swiper ── */
+.locations-swiper {
+  width: 100%;
+  padding-bottom: 40px !important;
+}
+
+.locations-swiper .swiper-slide {
+  height: auto;
+}
+
+.locations-swiper :deep(.swiper-pagination) {
+  bottom: 8px;
+}
+
+.locations-swiper :deep(.swiper-pagination-bullet) {
+  width: 10px;
+  height: 10px;
+  background-color: #B1B0B0;
+  opacity: 1;
+  transition: background-color 0.18s;
+}
+
+.locations-swiper :deep(.swiper-pagination-bullet-active) {
+  background-color: #3C3C3C;
 }
 
 /* ── RWD ≤ 768px ── */
 @media (max-width: 768px) {
+  /* 卡片改為上下排列（圖片上、資訊下） */
+  .location-card__summary {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    min-height: unset;
+  }
+
+  /* 圖片撐滿寬度，16:9 比例 */
+  .location-card__img-wrap {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    align-self: stretch;
+  }
+
+  /* 底部維持電話與按鈕並排 */
+  .location-card__bottom {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .location-card__more {
+    align-self: flex-end;
+  }
+
+  /* 詳情頁改為上下排列 */
   .detail-body {
     flex-direction: column;
     align-items: stretch;
@@ -723,14 +766,14 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 
   .detail-body__left {
     flex: 0 0 auto;
-    align-self: center;
-    width: auto;
+    align-self: stretch;
+    width: 100%;
   }
 
   .detail-body__img {
     width: 100%;
     height: auto;
-    aspect-ratio: 16/9;
+    aspect-ratio: 16 / 9;
   }
 
   .detail-right {
@@ -744,7 +787,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   }
 }
 
-/* ── ≤ 576px ── */
+/* ── RWD ≤ 576px ── */
 @media (max-width: 576px) {
   .location-card__detail {
     padding: 16px 16px 24px;
@@ -752,7 +795,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 
   .location-card__summary {
     padding: 16px;
-    gap: 16px;
+    gap: 12px;
   }
 
   .tag-group {
@@ -779,79 +822,28 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
     gap: 16px;
     padding-bottom: 24px;
   }
-}
 
-/* ── Swiper（< 576px）── */
-.locations-swiper {
-  width: 100%;
-  padding-bottom: 40px !important;
-}
-
-.locations-swiper .swiper-slide {
-  height: auto;
-}
-
-.locations-swiper :deep(.swiper-pagination) {
-  bottom: 8px;
-}
-
-.locations-swiper :deep(.swiper-pagination-bullet) {
-  width: 10px;
-  height: 10px;
-  background-color: #B1B0B0;
-  opacity: 1;
-  transition: background-color 0.18s;
-}
-
-.locations-swiper :deep(.swiper-pagination-bullet-active) {
-  background-color: #3C3C3C;
-}
-
-
-.location-card__info {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem; /* 40px */
-  margin-top: 8px;
-}
-
-.location-card__info-block {
-  display: flex;
-  flex-direction: column;
-  gap: 0.625rem; /* 10px */
-}
-
-.location-card__info-label {
-  font-family: 'Noto Sans TC', sans-serif;
-  font-weight: 500;
-  font-size: clamp(1rem, 2vw, 1.5rem);
-  line-height: 1.4;
-  color: #3C3C3C;
-  margin: 0;
-}
-
-.location-card__info-value {
-  font-family: 'Noto Sans TC', sans-serif;
-  font-weight: 400;
-  font-size: clamp(1rem, 2vw, 1.5rem);
-  line-height: 1.4;
-  color: #706F6F;
-  margin: 0;
-}
-
-@media (max-width: 576px) {
   .btn {
-    /* 手機版縮小一點 */
     width: 88px;
     height: 44px;
     font-size: 1rem;
     padding: 8px;
   }
+
+  /* 576px 以下底部改為欄排，按鈕靠右 */
+  .location-card__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .location-card__more {
+    align-self: flex-end;
+  }
 }
 
-
+/* ── Accessibility ── */
 @media (prefers-reduced-motion: reduce) {
-
   .btn,
   .tag {
     transition: none;

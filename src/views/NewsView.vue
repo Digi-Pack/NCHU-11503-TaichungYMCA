@@ -92,7 +92,16 @@ watch(viewMode, (view) => {
     <div class="container-normal main-section">
 
       <div class="newsTitle" ref="newsTitleRef">
-        <Text weight="f-500" color="deep-gray">最新消息</Text>
+        <Text weight="f-500" color="primary-d-g">最新消息</Text>
+      </div>
+
+      <div class="search-area">
+        <input v-model="keywordInput" type="text" class="search-input" placeholder="請輸入標題或內文關鍵字"
+          @keyup.enter="searchNews" />
+        <button class="search-btn" @click="searchNews">
+          <SearchOutlined />
+          搜尋
+        </button>
       </div>
 
       <div class="checkable-area">
@@ -104,15 +113,6 @@ watch(viewMode, (view) => {
           <TableOutlined class="icon table" :class="{ active: viewMode === 'card' }" @click="setViewMode('card')" />
           <BarChartOutlined class="icon chart" :class="{ active: viewMode === 'list' }" @click="setViewMode('list')" />
         </div>
-      </div>
-
-      <div class="search-area">
-        <input v-model="keywordInput" type="text" class="search-input" placeholder="請輸入標題或內文關鍵字"
-          @keyup.enter="searchNews" />
-        <button class="search-btn" @click="searchNews">
-          <SearchOutlined />
-          搜尋
-        </button>
       </div>
 
       <button v-if="keyword" class="clear-btn" @click="clearSearch">清除搜尋</button>
@@ -157,7 +157,7 @@ watch(viewMode, (view) => {
 }
 
 .newsTitle {
-  border-bottom: 3px solid #3C3C3C;
+  border-bottom: 3px solid #1e4620;
   padding-bottom: 2px;
 }
 
@@ -174,16 +174,15 @@ watch(viewMode, (view) => {
   position: relative;
   display: flex;
   align-items: center;
-  height: 62px;
   border: 1px solid #b1b0b0;
-  border-radius: 8px;
+  border-radius: 16px;
   background: #fff;
   overflow: hidden;
 }
 
 .search-input {
   flex: 1;
-  height: 100%;
+  height: 62px;
   padding: 0 120px 0 12px;
   border: none;
   outline: none;
@@ -192,16 +191,16 @@ watch(viewMode, (view) => {
 
 .search-btn {
   position: absolute;
-  top: 3px;
-  right: 3px;
-  bottom: 3px;
+  right: 0px;
+  top: 0;
+  bottom: 0;
   width: 93px;
   border: none;
-  border-radius: 4px;
-  background-color: #3c3c3c;
+  border-radius: 0 4px 4px 0;
+  background-color: #1e4620;
   color: #f9f6f0;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.125rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -219,10 +218,10 @@ watch(viewMode, (view) => {
 .clear-btn {
   height: 40px;
   padding: 0 20px;
-  border: 1px solid #3c3c3c;
+  border: 1px solid #1e4620;
   border-radius: 8px;
-  background: white;
-  color: #3c3c3c;
+  background: #f9f6f0 ;
+  color: #1e4620;
   cursor: pointer;
   align-self: start;
 }
@@ -294,7 +293,7 @@ watch(viewMode, (view) => {
 
 .category-btn.active {
   background-color: #1e4620;
-  border-color: #1e4620;
+  border-color: #938d6b;
   color: #F0E9E3;
 }
 
@@ -320,6 +319,9 @@ watch(viewMode, (view) => {
 
 .lists-area {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px 0;
 }
 
 .lists-area :deep(.list) {
@@ -342,30 +344,26 @@ watch(viewMode, (view) => {
   height: 45px;
   line-height: 45px;
   border-radius: 50%;
-  border-color: #3C3C3C;
-  background-color: white;
+  border: 2px solid #1e4620;
+  background-color: transparent;
 }
 
 .page-area :deep(.ant-pagination-item a) {
-  color: #3C3C3C;
+  color: #1e4620;
+  font-size: 1.125rem;
 }
 
 .page-area :deep(.ant-pagination-item:hover) {
-  background-color: #938d6b;
-  border-color: #938d6b;
-}
-
-.page-area :deep(.ant-pagination-item:hover a) {
-  color: #F0E9E3;
+  background-color: #d1c8c1;
 }
 
 .page-area :deep(.ant-pagination-item-active) {
-  background-color: #1e4620;
+  background-color: #d1c8c1;
   border-color: #1e4620;
 }
 
 .page-area :deep(.ant-pagination-item-active a) {
-  color: #F0E9E3;
+  color: #1e4620;
 }
 
 .page-area :deep(.ant-pagination-prev),
@@ -455,7 +453,7 @@ watch(viewMode, (view) => {
 }
 
 @media (max-width: 432px) {
-  .search-area {
+  .search-input {
     height: 52px;
   }
 

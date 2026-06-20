@@ -40,8 +40,10 @@ const props = defineProps({
     display: flex;
     flex-direction: column;
     gap: 16px;
-    border-bottom: 1px solid #B1B0B0;
-    padding: 16px 0;
+    border: 1px solid #B1B0B0;
+    padding: 16px;
+    border-radius: 16px;
+    background-color: #FFFFFF;
 }
 
 .title-date {

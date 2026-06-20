@@ -176,13 +176,13 @@ const swiperModules = [Pagination]
 
 .title-main {
   font-size: 3rem;
-  color: #3C3C3C;
+  color: #1E4620;
   margin: 8px 0;
 }
 
 .line {
   width: 100%;
-  border-top: 3px solid #3C3C3C;
+  border-top: 3px solid #1E4620;
 }
 
 /* ==================== Intro ==================== */
@@ -323,7 +323,7 @@ const swiperModules = [Pagination]
 .card-title {
   font-size: 2.25rem;
   margin: 0;
-  color: #1E4620;
+  color: #3C3C3C;
 }
 
 .card-desc {

@@ -22,7 +22,7 @@ import footerImg from "@/assets/img/footer/footerImg.jpg";
         <div class="footer-right">
           <div class="footer-contact">
             <p class="footer-title">聯絡我們</p>
-            <p>臺中市北屯社區大學</p>
+            <p class="sub-title">臺中市北屯社區大學</p>
             <p>電話：04-2232-8823</p>
             <p>傳真：04-2230-0386</p>
             <p>地址：台中市北屯路10號5樓</p>
@@ -127,7 +127,7 @@ import footerImg from "@/assets/img/footer/footerImg.jpg";
   margin: 0 0 20px;
   padding-bottom: 8px;
   border-bottom: 3px solid #1E4620;
-  color: #3C3C3C;
+  color: #1E4620;
   flex-shrink: 0;
 }
 
@@ -138,6 +138,11 @@ import footerImg from "@/assets/img/footer/footerImg.jpg";
   flex: 1;
   display: flex;
   align-items: center;
+  font-weight: 500;
+}
+
+.footer-contact p.sub-title {
+  color: #2D2D2D;
 }
 
 .footer-map {

@@ -150,7 +150,7 @@ const props = defineProps({
 }
 
 .black {
-    color: black;
+    color: #000000;
 }
 
 .f-500 {
