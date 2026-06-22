@@ -107,16 +107,17 @@ watch(viewMode, (view) => {
 
         <div class="checkable-area">
           <div class="button-area">
+            <a-button class="category-btn" :class="{ active: selectedCategory === null }" @click="selectCategory(null)">全部消息</a-button>
             <a-button v-for="cat in category" :key="cat" class="category-btn"
               :class="{ active: selectedCategory === cat }" @click="selectCategory(cat)">{{ cat }}</a-button>
           </div>
           <div class="display-toggle">
-            <a-tooltip title="卡片檢視">
-              <TableOutlined class="icon table" :class="{ active: viewMode === 'card' }" @click="setViewMode('card')" />
-            </a-tooltip>
             <a-tooltip title="列表檢視">
-              <BarChartOutlined class="icon chart" :class="{ active: viewMode === 'list' }"
+              <BarChartOutlined class="icon table" :class="{ active: viewMode === 'list' }"
                 @click="setViewMode('list')" />
+            </a-tooltip>
+            <a-tooltip title="卡片檢視">
+              <TableOutlined class="icon chart" :class="{ active: viewMode === 'card' }" @click="setViewMode('card')" />
             </a-tooltip>
           </div>
         </div>
@@ -183,6 +184,11 @@ watch(viewMode, (view) => {
 .checkable-area {
   display: flex;
   justify-content: space-between;
+}
+
+.display-toggle {
+  flex-shrink: 0;
+  margin-left: 16px;;
 }
 
 .search-area {
@@ -253,7 +259,7 @@ watch(viewMode, (view) => {
 }
 
 .button-area {
-  max-width: 950px;
+  /* max-width: 950px; */
   display: flex;
   flex-wrap: wrap;
   gap: 12px 16px;
@@ -299,8 +305,8 @@ watch(viewMode, (view) => {
 }
 
 .category-btn {
-  width: calc(950px / 6 - 16px);
-  height: 60px;
+  width: calc(1100px / 7 - 16px);
+  height: 51px;
   border-radius: 20px;
   background-color: #F9F6F0;
   border-color: #1e4620;
@@ -419,6 +425,10 @@ watch(viewMode, (view) => {
     flex-direction: column-reverse;
     align-items: flex-start;
     gap: 20px;
+  }
+
+  .display-toggle{
+    margin: 0;
   }
 }
 

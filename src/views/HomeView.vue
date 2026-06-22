@@ -197,6 +197,7 @@ image {
   display: flex;
   flex-direction: column;
   gap: 32px 0;
+  padding: 20px 20px 0 0;
 }
 
 .title {
@@ -217,7 +218,7 @@ image {
   background-color: #1e4620;
   color: #f0e9e3;
   text-decoration: none;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   align-self: flex-start;
 }
 
