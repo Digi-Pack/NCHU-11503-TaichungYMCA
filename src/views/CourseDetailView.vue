@@ -63,7 +63,11 @@ const noteParagraphs = computed(() => {
   <main>
     <Breadcrumb :items="breadcrumbItems" />
 
-    <img src="/src/assets/img/course/CourseDetail_Banner.jpg" alt="banner">
+    <img
+  class="course-banner"
+  src="/src/assets/img/course/CourseDetail_Banner.jpg"
+  alt="banner"
+/>
 
     <section v-if="course" class="course-detail-container">
       <section class="course-top-section">
@@ -208,6 +212,16 @@ main > img {
   gap: 40px;
 }
 
+.course-banner {
+  width: 100%;
+  height: 336px;
+
+  display: block;
+
+  object-fit: cover;
+  object-position: center;
+}
+
 .course-title-area {
   display: flex;
   flex-direction: column;
@@ -218,6 +232,7 @@ main > img {
   display: flex;
   align-items: center;
   gap: 16px;
+  color:#3C3C3C;
 }
 
 .title-row h1 {
@@ -271,17 +286,17 @@ main > img {
   margin: 0;
   padding-bottom: 12px;
   border-bottom: 3px solid #3c3c3c;
-  color: #3c3c3c;
-  font-size: 48px;
+  color: #1E4620;
+  font-size: 3rem;
   font-weight: 500;
   line-height: 1.2;
 }
 
 .info-card {
   padding: 40px;
-  border: 1px solid #000;
+  border: 1px solid #7D7D7D;
   border-radius: 20px;
-  box-sizing: border-box;
+  background-color: #F9F6F0;
 }
 
 .info-card p,
@@ -320,7 +335,7 @@ main > img {
   width: 120px;
   height: 54px;
   color: #f9f6f0;
-  background: #3c3c3c;
+  background: #1E4620;
   border-radius: 8px;
   font-size: 18px;
   text-decoration: none;
@@ -383,8 +398,15 @@ main > img {
   font-size: 40px;
 }
 
-/* 1440 */
-@media (max-width: 1440px) {
+/* ===================== */
+/* 1024 */
+/* ===================== */
+
+@media (max-width: 1024px) {
+  .course-banner {
+    height: 280px;
+  }
+
   .course-detail-container,
   .not-found {
     max-width: 1300px;
@@ -402,8 +424,8 @@ main > img {
   }
 
   .title-row {
-    align-items: flex-start;
     flex-direction: column;
+    align-items: flex-start;
   }
 
   .title-row h1,
@@ -432,12 +454,13 @@ main > img {
   }
 }
 
+/* ===================== */
 /* 768 */
+/* ===================== */
+
 @media (max-width: 768px) {
-  .course-detail-container,
-  .not-found {
-    padding-left: 32px;
-    padding-right: 32px;
+  .course-banner {
+    height: 220px;
   }
 
   .course-detail-container {
@@ -457,8 +480,8 @@ main > img {
   }
 
   .meta-row {
-    align-items: flex-start;
     flex-direction: column;
+    align-items: flex-start;
     gap: 16px;
   }
 
@@ -475,8 +498,15 @@ main > img {
   }
 }
 
-/* 432 */
-@media (max-width: 432px) {
+/* ===================== */
+/* 576 */
+/* ===================== */
+
+@media (max-width: 576px) {
+  .course-banner {
+    height: 180px;
+  }
+
   .course-detail-container,
   .not-found {
     padding-left: 20px;
@@ -511,53 +541,36 @@ main > img {
   .category-tag {
     min-width: auto;
     height: 40px;
-    padding: 0 16px;
+
     border-radius: 16px;
-    font-size: 14px;
-  }
 
-  .info-card {
-    padding: 20px;
-    border-radius: 16px;
-  }
-
-  .info-card p,
-  .traffic-info p {
-    gap: 12px;
-  }
-
-  .info-card :deep(.anticon),
-  .traffic-info :deep(.anticon) {
-    font-size: 18px;
-    margin-top: 3px;
+    background: #1e4620;
+    color: #f0e9e3;
   }
 
   .signup-btn {
     width: 112px;
     height: 48px;
+
     font-size: 16px;
   }
 
   .map-frame {
-    height: 280px;
-    border-radius: 16px;
-  }
-
-  .image-group img {
-    border-radius: 16px;
-  }
-
-  .not-found h1 {
-    font-size: 28px;
+    height: 240px;
   }
 }
 
-/* 370 小手機保險 */
-@media (max-width: 390px) {
-  .course-detail-container,
-  .not-found {
-    padding-left: 12px;
-    padding-right: 12px;
+/* ===================== */
+/* 432 */
+/* ===================== */
+
+@media (max-width: 432px) {
+  .course-banner {
+    height: 140px;
+  }
+
+  .course-detail-container {
+    gap: 40px;
   }
 
   .title-row h1,
@@ -569,8 +582,9 @@ main > img {
     padding: 16px;
   }
 
-  .map-frame {
-    height: 240px;
+  .info-card p,
+  .traffic-info p {
+    gap: 8px;
   }
 }
 </style>

@@ -23,7 +23,7 @@ export const allLocations = [
 
   {
     id: 2,
-    name: "松竹分部",
+    name: "松竹分部(松竹國小)",
     alias: "",
     description: "臺中市北屯區松和里昌平路二段12號",
     tel: "04-2232-8823",
@@ -35,7 +35,7 @@ export const allLocations = [
 
   {
     id: 3,
-    name: "東山分部",
+    name: "東山分部(東山高中)",
     alias: "",
     description: "臺中市北屯區水景里景賢六路200號",
     tel: "04-2232-8823",
@@ -47,7 +47,7 @@ export const allLocations = [
 
   {
     id: 4,
-    name: "大德分部",
+    name: "大德分部(大德國中)",
     alias: "",
     description: "臺中市北屯區陳平里雷中街2-23號",
     tel: "04-2232-8823",
@@ -59,7 +59,7 @@ export const allLocations = [
 
   {
     id: 5,
-    name: "陳平分部",
+    name: "陳平分部(陳平國小)",
     alias: "",
     description: "臺中市北屯區忠平里陳平路58號",
     tel: "04-2232-8823",
@@ -71,7 +71,7 @@ export const allLocations = [
 
   {
     id: 6,
-    name: "仁美分部",
+    name: "仁美分部(仁美國小)",
     alias: "",
     description: "臺中市北屯區仁美里崇德路三段568號",
     tel: "04-2232-8823",

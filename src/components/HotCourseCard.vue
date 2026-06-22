@@ -42,30 +42,77 @@ const previewContent = computed(() => {
 
 <style scoped>
 .hot-card {
+  position: relative;
+
   display: block;
   width: 100%;
+
   color: inherit;
   text-decoration: none;
+
   background: #fff;
   border-radius: 16px;
   overflow: hidden;
+
   cursor: pointer;
 }
+
+/* 整張卡片遮罩 */
+.hot-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.2);
+
+  opacity: 0;
+
+  transition: opacity 0.3s ease;
+
+  pointer-events: none;
+
+  border-radius: 16px;
+
+  z-index: 2;
+}
+
+.hot-card:hover::after {
+  opacity: 1;
+}
+
+/* ===================== */
+/* 圖片 */
+/* ===================== */
 
 .hot-image {
   width: 100%;
   aspect-ratio: 401 / 240;
+
   overflow: hidden;
+
   background: #ddd;
-  border-radius: 16px 16px 0px 0px;
+
+  border-radius: 16px 16px 0 0;
 }
 
 .hot-image img {
   width: 100%;
   height: 100%;
+
   object-fit: cover;
+
   display: block;
+
+  transition: transform 0.3s ease;
 }
+
+.hot-card:hover .hot-image img {
+  transform: scale(1.05);
+}
+
+/* ===================== */
+/* 文字內容 */
+/* ===================== */
 
 .hot-content {
   padding: 19.64px;
@@ -73,9 +120,11 @@ const previewContent = computed(() => {
 
 .hot-title {
   margin: 0 0 16px;
+
   font-size: 1.875rem;
   font-weight: 500;
   line-height: 1.2;
+
   color: #000;
 
   white-space: nowrap;
@@ -85,23 +134,27 @@ const previewContent = computed(() => {
 
 .hot-desc {
   margin: 0 0 20px;
+
   font-size: 1.25rem;
   line-height: 1.4;
+
   color: #757575;
 
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+
   overflow: hidden;
 }
 
 .hot-date {
   margin: 0;
+
   font-size: 1.25rem;
   line-height: 1.2;
+
   color: #757575;
 }
-
 /* ===================== */
 /* 1024 */
 /* ===================== */
