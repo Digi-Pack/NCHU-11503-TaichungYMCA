@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { categoryImages } from '@/data/categoryImages.js'
 const getThumbnail = (category) => {
-  return categoryImages[category]?.thumbnail 
+  return categoryImages[category]?.thumbnail
 }
 const route = useRoute()
 
@@ -35,7 +35,7 @@ const previewContent = computed(() => {
   >
     <div class="card-image">
       <img :src="categoryImages[course.category]?.thumbnail" :alt="course.title" />
-    </div>  
+    </div>
 
     <div class="card-content">
       <h3 class="course-title">
@@ -111,14 +111,12 @@ const previewContent = computed(() => {
   aspect-ratio: 401 / 240;
 
   overflow: hidden;
-
   background: #ddd;
 }
 
 .card-image img {
   width: 100%;
   height: 100%;
-
   object-fit: cover;
   display: block;
 
@@ -137,9 +135,7 @@ const previewContent = computed(() => {
   min-height: 183px;
 
   padding: 18px;
-
   box-sizing: border-box;
-
   display: flex;
   flex-direction: column;
 }
@@ -150,9 +146,7 @@ const previewContent = computed(() => {
   font-size: 1.875rem;
   font-weight: 500;
   line-height: 1.2;
-
   color: #000;
-
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -163,13 +157,10 @@ const previewContent = computed(() => {
 
   font-size: 1.25rem;
   line-height: 1.4;
-
   color: #757575;
-
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-
   overflow: hidden;
 }
 
@@ -178,7 +169,6 @@ const previewContent = computed(() => {
 
   font-size: 1.25rem;
   line-height: 1.2;
-
   color: #757575;
 }
 
