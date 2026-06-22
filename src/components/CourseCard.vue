@@ -163,7 +163,7 @@ const previewContent = computed(() => {
 .course-desc {
   margin: 0;
 
-  font-size: 1.5rem; /* 24px */
+  font-size:1.5rem;
   line-height: 1.5;
   color: #757575;
 
@@ -196,7 +196,7 @@ const previewContent = computed(() => {
 
   .course-desc,
   .course-date {
-    font-size: 1.25rem; /* 20px */
+    font-size: 1.5rem;
   }
 }
 
@@ -216,7 +216,7 @@ const previewContent = computed(() => {
 
   .course-desc,
   .course-date {
-    font-size: 1.25rem; /* 20px */
+    font-size: 1.5rem;
   }
 }
 
@@ -230,12 +230,46 @@ const previewContent = computed(() => {
   }
 
   .course-title {
-    font-size: 1.25rem; /* 20px */
+    font-size: 1.5rem;
   }
 
   .course-desc,
   .course-date {
-    font-size: 1rem; /* 16px */
+    font-size:1.5rem;
+  }
+}
+
+/* ========================= */
+/* Layout RWD */
+/* ========================= */
+
+@media (max-width: 1400px) {
+  .course-page {
+    padding: 80px 80px 0;
+  }
+}
+
+@media (max-width: 1100px) {
+  .course-page {
+    padding: 80px 40px 0;
+  }
+
+  .cards-area,
+  .hot-track {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .course-page {
+    padding: 40px 16px 0;
+  }
+
+  .cards-area,
+  .hot-track {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 }
 </style>
