@@ -350,7 +350,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .section-header__h1 {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
-  font-size: 4.25rem; /* text-64 */
+  font-size: 4rem; /* text-64 */
   line-height: 1.5;
   color: #1E4620;
   margin: 0;
@@ -733,13 +733,13 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .locations-swiper :deep(.swiper-pagination-bullet) {
   width: 10px;
   height: 10px;
-  background-color: #B1B0B0;
+  background-color: #D1C8C1;
   opacity: 1;
   transition: background-color 0.18s;
 }
 
 .locations-swiper :deep(.swiper-pagination-bullet-active) {
-  background-color: #3C3C3C;
+  background-color: #1E4620;
 }
 
 /* ════════════════════════════════════════
@@ -748,7 +748,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
    ════════════════════════════════════════ */
 
 @media (max-width: 1300px) {
-  .section-header__h1       { font-size: 3.75rem; }
+  .section-header__h1       { font-size: 3.5rem; }
   .section-header__subtitle { font-size: 1.75rem; }
   .location-card__name      { font-size: 2.25rem; }
   .location-card__info-label,
@@ -788,16 +788,16 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 }
 
 @media (max-width: 950px) {
-  .section-header__h1  { font-size: 3.5rem; } /* text-64 */
+  .section-header__h1  { font-size: 3.25rem; } /* text-64 */
 }
 
 @media (max-width: 768px) {
-  .section-header__h1       { font-size: 3.25rem; }
-  .section-header__subtitle { font-size: 2rem; }
-  .location-card__name      { font-size: 2rem; }
+  .section-header__h1       { font-size: 3rem; }
+  .section-header__subtitle { font-size: 1.75rem; }
+  .location-card__name      { font-size: 1.75rem; }
   .location-card__info-label,
   .location-card__info-value { font-size: 1.5rem; }
-  .detail-right__name       { font-size: 2rem; }
+  .detail-right__name       { font-size: 1.75rem; }
   .detail-info__label,
   .detail-info__value       { font-size: 1.5rem; }
 
@@ -924,7 +924,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 }
 
 @media (max-width: 390px) {
-  .section-header__h1  { font-size: 2.75rem; }
+  .section-header__h1  { font-size: 2.5rem; }
   .location-card__name { font-size: 1.75rem; }
   .detail-right__name  { font-size: 1.75rem; }
 

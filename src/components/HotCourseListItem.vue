@@ -70,6 +70,8 @@ const previewContent = computed(() => {
     box-shadow 0.3s ease;
 }
 
+  transition: 0.3s ease;
+}
 .hot-main {
   flex: 1;
   min-width: 0;
