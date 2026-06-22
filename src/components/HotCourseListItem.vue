@@ -160,4 +160,26 @@ const previewContent = computed(() => {
     align-self: flex-end;
   }
 }
+
+@media (max-width: 390px) {
+  .course-list-item,
+  .hot-list-item {
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .course-main,
+  .hot-main {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .course-btn,
+  .hot-btn {
+    width: 120px;
+    height: 48px;
+    font-size: 14px;
+  }
+}
 </style>

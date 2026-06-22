@@ -188,15 +188,22 @@ const noteParagraphs = computed(() => {
     </section>
   </main>
 </template>
-
 <style scoped>
 .course-detail-container {
+  width: 100%;
   max-width: 1300px;
   margin: 0 auto;
   padding: 80px 0;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 80px;
+}
+
+main > img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
 }
 
 .course-top-section {
@@ -247,6 +254,7 @@ const noteParagraphs = computed(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
 }
 
 .category-tag {
@@ -333,9 +341,13 @@ const noteParagraphs = computed(() => {
   text-decoration: none;
 }
 
+.signup-btn:hover {
+  background: #1e4620;
+}
+
 .image-group {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -373,9 +385,11 @@ const noteParagraphs = computed(() => {
 }
 
 .not-found {
+  width: 100%;
   max-width: 1300px;
   margin: 0 auto;
   padding: 120px 0;
+  box-sizing: border-box;
   text-align: center;
 }
 
@@ -395,7 +409,18 @@ const noteParagraphs = computed(() => {
 
   .course-detail-container,
   .not-found {
-    max-width: calc(100% - 40px);
+    max-width: 1300px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+/* 1024 */
+@media (max-width: 1024px) {
+  .course-detail-container {
+    padding-top: 64px;
+    padding-bottom: 64px;
+    gap: 64px;
   }
 
   .title-row {
@@ -419,6 +444,14 @@ const noteParagraphs = computed(() => {
   .note-text {
     font-size: 20px;
   }
+
+  .info-card {
+    padding: 32px;
+  }
+
+  .map-frame {
+    height: 380px;
+  }
 }
 
 /* ===================== */
@@ -431,8 +464,14 @@ const noteParagraphs = computed(() => {
   }
 
   .course-detail-container {
-    padding: 48px 0;
+    padding-top: 48px;
+    padding-bottom: 48px;
     gap: 56px;
+  }
+
+  .course-top-section,
+  .section-block {
+    gap: 32px;
   }
 
   .title-row h1,
@@ -470,7 +509,19 @@ const noteParagraphs = computed(() => {
 
   .course-detail-container,
   .not-found {
-    max-width: calc(100% - 32px);
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .course-detail-container {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    gap: 48px;
+  }
+
+  .course-top-section,
+  .section-block {
+    gap: 24px;
   }
 
   .title-row h1,

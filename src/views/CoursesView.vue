@@ -303,12 +303,10 @@ watch(
   padding: 80px 0 0;
 }
 
-
 .section-block {
   margin-bottom: 64px;
 }
 
-/* 標題 + 底線 */
 .section-block > :first-child {
   width: 100%;
   padding-bottom: 8px;
@@ -316,7 +314,7 @@ watch(
   border-bottom: 2px solid #1e4620;
 }
 
-/* 熱門課程區 */
+/* 熱門課程 */
 .hot-list-area {
   margin-top: 40px;
   border-top: 1px solid #b1b0b0;
@@ -336,10 +334,18 @@ watch(
   overflow: hidden;
 }
 
-.hot-track {
+.hot-track,
+.cards-area {
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 47px;
+  gap: 74px 64px;
+}
+
+.hot-track > *,
+.cards-area > * {
+  width: 100%;
+  min-width: 0;
 }
 
 .arrow-btn {
@@ -442,6 +448,7 @@ watch(
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+  min-width: 0;
 }
 
 .category-btn {
@@ -512,25 +519,6 @@ watch(
   color: #f0e9e3;
 }
 
-.cards-area {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 47px;
-}
-
-.cards-area,
-.hot-track {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 74px 64px;
-}
-
-.cards-area > *,
-.hot-track > * {
-  width: 100%;
-  min-width: 0;
-}
 .lists-area {
   width: 100%;
 }
@@ -547,6 +535,8 @@ watch(
   display: flex;
   justify-content: space-between;
   align-items: end;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .page-text {
@@ -555,17 +545,20 @@ watch(
   color: #1e4620;
 }
 
+.page-area :deep(.ant-pagination) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .page-area :deep(.ant-pagination-item) {
   width: 45px;
   height: 45px;
   min-width: 45px;
   line-height: 41px;
-
   border-radius: 50%;
   border: 2px solid #1e4620;
-
   background-color: #f9f6f0;
-
   transition: all 0.2s ease;
 }
 
@@ -575,20 +568,13 @@ watch(
   font-weight: 400;
 }
 
-.page-area :deep(.ant-pagination-item:hover) {
-  background-color: #d1c8c1;
-  border-color: #1e4620;
-}
-
-.page-area :deep(.ant-pagination-item:hover a) {
-  color: #1e4620;
-}
-
+.page-area :deep(.ant-pagination-item:hover),
 .page-area :deep(.ant-pagination-item-active) {
   background-color: #d1c8c1;
   border-color: #1e4620;
 }
 
+.page-area :deep(.ant-pagination-item:hover a),
 .page-area :deep(.ant-pagination-item-active a) {
   color: #1e4620;
 }
@@ -597,28 +583,163 @@ watch(
 .page-area :deep(.ant-pagination-next) {
   display: none;
 }
-@media (max-width: 1100px) {
+
+/* 1440 */
+@media (max-width: 1440px) {
   .course-page {
+    max-width: 1300px;
     padding: 80px 40px 0;
   }
 
-  .cards-area,
-  .hot-track {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+  .hot-track,
+  .cards-area {
+    gap: 48px 40px;
   }
 }
 
+/* 1024 */
+@media (max-width: 1024px) {
+  .course-page {
+    padding: 64px 40px 0;
+  }
+
+  .hot-track,
+  .cards-area {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+  }
+
+  .toolbar {
+    align-items: flex-start;
+  }
+}
+
+/* 768 */
 @media (max-width: 768px) {
   .course-page {
-    padding: 40px 16px 0;
+    padding: 48px 32px 0;
   }
 
-  .cards-area,
-  .hot-track {
+  .section-block {
+    margin-bottom: 48px;
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .display-toggle {
+    align-self: flex-end;
+  }
+
+  .hot-track,
+  .cards-area {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 32px;
+  }
+
+  .arrow-btn {
+    display: none;
+  }
+
+  .page-area {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 
+/* 432 */
+@media (max-width: 432px) {
+  .course-page {
+    padding: 40px 20px 0;
+  }
+
+  .category-area {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .category-btn {
+    width: 100%;
+    height: 44px;
+    padding: 0 12px;
+    font-size: 14px;
+  }
+
+  .search-input {
+    height: 52px;
+    padding-right: 100px;
+  }
+
+  .search-btn {
+    width: 84px;
+    font-size: 1rem;
+  }
+
+  .page-area :deep(.ant-pagination-item) {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    line-height: 32px;
+  }
+
+  .page-area :deep(.ant-pagination-item a) {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 390px) {
+  .course-page {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .category-area {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .category-btn {
+    min-width: 0;
+    font-size: 13px;
+  }
+
+  .display-toggle {
+    align-self: flex-end;
+  }
+
+  .search-input {
+    padding-left: 10px;
+    padding-right: 90px;
+  }
+
+  .search-btn {
+    width: 76px;
+    gap: 4px;
+    font-size: 14px;
+  }
+
+  .page-area {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .page-area :deep(.ant-pagination) {
+    max-width: 100%;
+    gap: 6px;
+  }
+
+  .page-area :deep(.ant-pagination-item) {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    line-height: 28px;
+  }
+
+  .page-area :deep(.ant-pagination-item a) {
+    font-size: 13px;
+  }
+}
 </style>
