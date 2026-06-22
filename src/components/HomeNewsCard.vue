@@ -96,7 +96,7 @@ img {
 }
 
 .fixed-height{
-    line-height: 1.2;
+    line-height: 1.5;
     /* height: 3.6em;
     -webkit-line-clamp: 3;
     line-clamp: 3; */
