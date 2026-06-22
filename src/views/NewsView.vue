@@ -272,8 +272,8 @@ watch(viewMode, (view) => {
   border: 2px solid #1e4620;
   padding: 10px;
   cursor: pointer;
-  width: 60px;
-  height: 60px;
+  width: 51px;
+  height: 51px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
