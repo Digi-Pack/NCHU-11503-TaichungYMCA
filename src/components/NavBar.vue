@@ -50,12 +50,12 @@ onUnmounted(() => {
       </nav>
 
       <div class="social-links">
-        <a href="#">
+        <a href="https://www.facebook.com/BEITUN.COMMUNITY" target="blank">
           <FacebookFilled class="social-icon" />
         </a>
-        <a href="#">
+        <!-- <a href="#">
           <InstagramOutlined class="social-icon" />
-        </a>
+        </a> -->
       </div>
     </div>
   </header>

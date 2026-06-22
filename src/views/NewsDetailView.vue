@@ -47,7 +47,7 @@ function goBack() {
                 </div>
                 <div class="tag-backbtn">
                     <div class="tag">{{ currentNews?.category }}</div>
-                    <a-button class="back-btn" @click="goBack">返回上一頁</a-button>
+                    <!-- <a-button class="back-btn" @click="goBack">返回上一頁</a-button> -->
                 </div>
             </div>
 
