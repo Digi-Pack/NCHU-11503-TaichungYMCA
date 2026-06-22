@@ -155,4 +155,15 @@ defineProps({
   margin-inline-start: 0;
   margin-inline-end: 0;
 }
+
+@media (max-width: 1024px) {
+  .breadcrumb-home,
+  .breadcrumb-item {
+    font-size: 1.25rem;
+  }
+
+  .breadcrumb :deep(.ant-breadcrumb-separator) {
+    font-size: 1.25rem;
+  }
+}
 </style>

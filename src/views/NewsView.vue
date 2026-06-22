@@ -174,7 +174,7 @@ watch(viewMode, (view) => {
   margin-bottom: 80px;
 }
 
-.search-checkable{
+.search-checkable {
   display: flex;
   flex-direction: column;
   gap: 20px 0;
@@ -243,6 +243,7 @@ watch(viewMode, (view) => {
   color: #1e4620;
   cursor: pointer;
   align-self: start;
+  font-size: 1.5rem;
 }
 
 .clear-btn:hover {
@@ -454,7 +455,7 @@ watch(viewMode, (view) => {
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 650px) {
   .button-area {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -471,19 +472,13 @@ watch(viewMode, (view) => {
   }
 }
 
-@media (max-width: 440px) {
+@media (max-width: 500px) {
   .button-area {
     grid-template-columns: repeat(2, 1fr);
   }
-}
 
-@media (max-width: 432px) {
-  .search-input {
-    height: 52px;
-  }
-
-  .search-btn {
-    width: 84px;
+  .category-btn {
+    font-size: 1.5rem;
   }
 }
 </style>
