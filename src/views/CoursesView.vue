@@ -217,7 +217,7 @@ watch(
           <a-pagination v-model:current="current" :total="filteredCourses.length" :page-size="pageSize"
             :show-size-changer="false" />
 
-          <p class="page-text">Page {{ current }} of {{ totalPages }}</p>
+          <p class="page-text">第 {{ current }} 頁， 共 {{ totalPages }} 頁</p>
         </div>
       </section>
     </section>
@@ -467,6 +467,7 @@ watch(
   background: #f9f6f0;
   color: #1e4620;
   cursor: pointer;
+  font-size:1.25rem;
 }
 
 .clear-btn:hover {
