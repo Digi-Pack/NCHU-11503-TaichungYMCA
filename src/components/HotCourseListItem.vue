@@ -74,7 +74,7 @@ const previewContent = computed(() => {
 
 .hot-title {
   margin: 0;
-  font-size: 1.875rem;
+  font-size: 2.25rem;
   font-weight: 500;
   color: #000;
 
@@ -85,14 +85,14 @@ const previewContent = computed(() => {
 
 .hot-date {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   color: #757575;
   white-space: nowrap;
 }
 
 .hot-desc {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   line-height: 1.5;
   color: #757575;
 
@@ -118,7 +118,7 @@ const previewContent = computed(() => {
   color: #f9f6f0;
   border-radius: 8px;
 
-  font-size: 1rem;
+  font-size: 1.125rem;
   font-weight: 500;
 
   transition: 0.3s ease;
@@ -147,11 +147,12 @@ const previewContent = computed(() => {
   }
 
   .hot-title {
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
 
   .hot-desc,
   .hot-date {
+
     font-size: 1rem;
   }
 

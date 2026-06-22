@@ -140,7 +140,7 @@ const previewContent = computed(() => {
   margin: 0 0 20px;
 
   font-size: 1.25rem;
-  line-height: 1.4;
+  line-height: 1.5;
 
   color: #757575;
 
