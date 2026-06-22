@@ -350,8 +350,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .section-header__h1 {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
-  font-size: clamp(2rem, 4vw, 4rem);
-  line-height: 1.2;
+  font-size: 4.25rem; /* text-64 */
+  line-height: 1.5;
   color: #1E4620;
   margin: 0;
 }
@@ -366,8 +366,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .section-header__subtitle {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
-  font-size: clamp(1rem, 1.4vw, 1.5rem);
-  line-height: 1.7;
+  font-size: 1.75rem; /* text-24 */
+  line-height: 1.5;
   color: #706F6F;
   margin: 0;
 }
@@ -375,7 +375,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 /* ── Tag group ── */
 .tag-group {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 16px;
   padding-block: 40px;
@@ -387,12 +387,13 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   align-items: center;
   padding: 10px 16px;
   height: 51px;
-  min-width: 96px;
+  flex: 1 1 0;
+  min-width: 0;
   background-color: #F9F6F0;
   border: 1px solid #1E4620;
   border-radius: 20px;
   font-family: 'Noto Sans TC', sans-serif;
-  font-size: 1rem;
+  font-size: 1.5rem; /* text-16 */
   color: #1E4620;
   cursor: pointer;
   white-space: nowrap;
@@ -475,8 +476,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .location-card__name {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
-  font-size: clamp(2rem, 2vw, 2.25rem);
-  line-height: 1.2;
+  font-size: 2.5rem; /* text-36 */
+  line-height: 1.5;
   color: #1E4620;
   margin: 0;
 }
@@ -516,8 +517,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .location-card__info-label {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
-  font-size: clamp(1.25rem, 1.2vw, 1.5rem);
-  line-height: 1.4;
+  font-size: 1.75rem; /* text-24 */
+  line-height: 1.5;
   color: #3C3C3C;
   margin: 0;
 }
@@ -525,8 +526,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .location-card__info-value {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
-  font-size: clamp(1.25rem, 1.2vw, 1.5rem);
-  line-height: 1.4;
+  font-size: 1.75rem; /* text-24 */
+  line-height: 1.5;
   color: #706F6F;
   margin: 0;
 }
@@ -556,7 +557,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 }
 
 .detail-alert__icon {
-  font-size: 1.125rem;
+  font-size: 1.375rem; /* text-18 */
   flex-shrink: 0;
   color: #3C3C3C;
 }
@@ -564,8 +565,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .detail-alert__text {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
-  font-size: 1.125rem;
-  line-height: 1.4;
+  font-size: 1.375rem; /* text-18 */
+  line-height: 1.5;
   color: #6155F5;
   margin: 0;
 }
@@ -603,7 +604,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   gap: 40px;
   min-width: 0;
   align-self: stretch;
-  max-width: 910px; 
+  max-width: 910px;
 }
 
 .detail-right__title-group {
@@ -615,8 +616,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .detail-right__name {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
-  font-size: clamp(1.25rem, 2vw, 2.25rem);
-  line-height: 1.2;
+  font-size: 2.5rem; /* text-36 */
+  line-height: 1.5;
   color: #1E4620;
   margin: 0;
 }
@@ -644,8 +645,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .detail-info__label {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
-  font-size: clamp(1rem, 1.2vw, 1.5rem);
-  line-height: 1.4;
+  font-size: 1.75rem; /* text-24 */
+  line-height: 1.5;
   color: #3C3C3C;
   margin: 0;
 }
@@ -653,8 +654,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .detail-info__value {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
-  font-size: clamp(1rem, 1.1vw, 1.5rem);
-  line-height: 1.4;
+  font-size: 1.75rem; /* text-24 */
+  line-height: 1.5;
   color: #706F6F;
   margin: 0;
 }
@@ -687,7 +688,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   border-radius: 8px;
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
-  font-size: 1.125rem;
+  font-size: 1.375rem; /* text-18 */
   text-decoration: none;
   cursor: pointer;
   border: none;
@@ -741,8 +742,73 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   background-color: #3C3C3C;
 }
 
-/* ── RWD ≤ 768px ── */
+/* ════════════════════════════════════════
+   RWD 斷點（對應 Text.vue）
+   1300px / 950px / 768px / 576px / 390px
+   ════════════════════════════════════════ */
+
+@media (max-width: 1300px) {
+  .section-header__h1       { font-size: 3.75rem; }
+  .section-header__subtitle { font-size: 1.75rem; }
+  .location-card__name      { font-size: 2.25rem; }
+  .location-card__info-label,
+  .location-card__info-value { font-size: 1.625rem; }
+  .detail-right__name       { font-size: 2.25rem; }
+  .detail-info__label,
+  .detail-info__value       { font-size: 1.625rem; }
+
+  /* tag：單排平均分配，字體縮小 */
+  .tag-group {
+    gap: 12px;
+  }
+
+  .tag {
+    font-size: 1.5rem;
+    height: 48px;
+    padding: 8px 12px;
+  }
+}
+
+/* ── Tag 兩排：1100px ── */
+@media (max-width: 1100px) {
+  /* tag 換為兩排，每排仍平均分配 */
+  .tag-group {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* 每個 tag 佔約一半寬度（兩欄均分），扣掉 gap */
+  .tag {
+    flex: 1 1 calc(50% - 5px);
+    max-width: calc(50% - 5px);
+    font-size: 1.5rem;
+    height: 48px;
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 950px) {
+  .section-header__h1  { font-size: 3.5rem; } /* text-64 */
+}
+
 @media (max-width: 768px) {
+  .section-header__h1       { font-size: 3.25rem; }
+  .section-header__subtitle { font-size: 2rem; }
+  .location-card__name      { font-size: 2rem; }
+  .location-card__info-label,
+  .location-card__info-value { font-size: 1.5rem; }
+  .detail-right__name       { font-size: 2rem; }
+  .detail-info__label,
+  .detail-info__value       { font-size: 1.5rem; }
+
+  /* tag 兩排，字體維持 24px */
+  .tag {
+    flex: 1 1 calc(50% - 5px);
+    max-width: calc(50% - 5px);
+    font-size: 1.5rem;
+    height: 48px;
+    padding: 8px 12px;
+  }
 
   /* 卡片改為上下排列（圖片上、資訊下） */
   .location-card__summary {
@@ -801,7 +867,6 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   }
 }
 
-/* ── RWD ≤ 576px ── */
 @media (max-width: 576px) {
   .location-card__detail {
     padding: 16px 16px 24px;
@@ -817,11 +882,13 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
     padding-block: 24px;
   }
 
+  /* tag 兩排，字體維持 24px */
   .tag {
+    flex: 1 1 calc(50% - 4px);
+    max-width: calc(50% - 4px);
+    font-size: 1.5rem;
+    height: 48px;
     padding: 8px 12px;
-    height: 40px;
-    min-width: 80px;
-    font-size: 0.875rem;
   }
 
   .detail-right {
@@ -840,7 +907,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   .btn {
     width: 88px;
     height: 44px;
-    font-size: 1rem;
+    font-size: 1.25rem; /* text-16 */
     padding: 8px;
   }
 
@@ -856,9 +923,27 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   }
 }
 
+@media (max-width: 390px) {
+  .section-header__h1  { font-size: 2.75rem; }
+  .location-card__name { font-size: 1.75rem; }
+  .detail-right__name  { font-size: 1.75rem; }
+
+  /* tag 兩排，最小字體 */
+  .tag-group {
+    gap: 6px;
+  }
+
+  .tag {
+    flex: 1 1 calc(50% - 3px);
+    max-width: calc(50% - 3px);
+    font-size: 1.5rem;
+    height: 48px;
+    padding: 8px 10px;
+  }
+}
+
 /* ── Accessibility ── */
 @media (prefers-reduced-motion: reduce) {
-
   .btn,
   .tag {
     transition: none;
