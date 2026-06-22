@@ -188,6 +188,7 @@ const noteParagraphs = computed(() => {
     </section>
   </main>
 </template>
+
 <style scoped>
 
 main {
@@ -321,7 +322,7 @@ main > img {
   margin: 0 0 16px;
   color: #010101;
   font-size: 24px;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 .info-card p:last-child,

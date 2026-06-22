@@ -147,124 +147,75 @@ watch(
       <section class="section-block">
         <Text class="green"">熱門課程</Text>
 
-        <div v-if="viewMode === 'card'" class="hot-area">
-          <button
-            class="arrow-btn prev-btn"
-            :class="{ disabled: hotStartIndex === 0 }"
-            :disabled="hotStartIndex === 0"
-            @click="prevHotCourse"
-          >
+        <div v-if="viewMode === 'card'" class=" hot-area">
+          <button class="arrow-btn prev-btn" :class="{ disabled: hotStartIndex === 0 }" :disabled="hotStartIndex === 0"
+            @click="prevHotCourse">
             ‹
           </button>
 
           <div class="hot-window">
             <div class="hot-track">
-              <HotCourseCard
-                v-for="course in visibleHotCourses"
-                :key="course.id"
-                :course="course"
-              />
+              <HotCourseCard v-for="course in visibleHotCourses" :key="course.id" :course="course" />
             </div>
           </div>
 
-          <button
-            class="arrow-btn next-btn"
-            :class="{ disabled: hotStartIndex >= hotCourses.length - 3 }"
-            :disabled="hotStartIndex >= hotCourses.length - 3"
-            @click="nextHotCourse"
-          >
+          <button class="arrow-btn next-btn" :class="{ disabled: hotStartIndex >= hotCourses.length - 3 }"
+            :disabled="hotStartIndex >= hotCourses.length - 3" @click="nextHotCourse">
             ›
           </button>
-        </div>
+          </div>
 
-        <div v-else class="hot-list-area">
-          <HotCourseListItem
-            v-for="course in hotCourses.slice(0, 3)"
-            :key="course.id"
-            :course="course"
-          />
-        </div>
+          <div v-else class="hot-list-area">
+            <HotCourseListItem v-for="course in hotCourses.slice(0, 3)" :key="course.id" :course="course" />
+          </div>
       </section>
 
       <section class="section-block">
         <div ref="courseTitleRef">
           <Text class="green">所有課程</Text>
         </div>
-<div class="search-area">
-  <input
-    v-model="keywordInput"
-    type="text"
-    class="search-input"
-    placeholder="輸入關鍵字"
-    @keyup.enter="searchCourses"
-  />
+        <div class="search-area">
+          <input v-model="keywordInput" type="text" class="search-input" placeholder="輸入關鍵字"
+            @keyup.enter="searchCourses" />
 
-  <button class="search-btn" @click="searchCourses">
-    <SearchOutlined />
-    搜尋
-  </button>
-</div>
+          <button class="search-btn" @click="searchCourses">
+            <SearchOutlined />
+            搜尋
+          </button>
+        </div>
 
-<div class="toolbar">
-  <div class="category-area">
-    <button
-      class="category-btn"
-      :class="{ active: !selectedCategory }"
-      @click="showAllCategory"
-    >
-      全部課程
-    </button>
+        <div class="toolbar">
+          <div class="category-area">
+            <button class="category-btn" :class="{ active: !selectedCategory }" @click="showAllCategory">
+              全部課程
+            </button>
 
-    <button
-      v-for="cat in categories"
-      :key="cat"
-      class="category-btn"
-      :class="{ active: selectedCategory === cat }"
-      @click="selectCategory(cat)"
-    >
-      {{ cat }}
-    </button>
-  </div>
+            <button v-for="cat in categories" :key="cat" class="category-btn"
+              :class="{ active: selectedCategory === cat }" @click="selectCategory(cat)">
+              {{ cat }}
+            </button>
+          </div>
 
-  <div class="display-toggle">
-    <BarChartOutlined
-      class="icon chart"
-      :class="{ active: viewMode === 'list' }"
-      @click="setViewMode('list')"
-    />
-    <TableOutlined
-      class="icon table"
-      :class="{ active: viewMode === 'card' }"
-      @click="setViewMode('card')"
-    />
-  </div>
-</div>
+          <div class="display-toggle">
+            <BarChartOutlined class="icon chart" :class="{ active: viewMode === 'list' }"
+              @click="setViewMode('list')" />
+            <TableOutlined class="icon table" :class="{ active: viewMode === 'card' }" @click="setViewMode('card')" />
+          </div>
+        </div>
         <button v-if="keyword" class="clear-btn" @click="clearSearch">
           清除搜尋
         </button>
         <div v-else-if="viewMode === 'card'" class="cards-area">
-          <CourseCard
-            v-for="course in pageCourses"
-            :key="course.id"
-            :course="course"
-          />
+          <CourseCard v-for="course in pageCourses" :key="course.id" :course="course" />
         </div>
 
         <div v-else class="lists-area">
-          <CourseListItem
-            v-for="course in pageCourses"
-            :key="course.id"
-            :course="course"
-          />
+          <CourseListItem v-for="course in pageCourses" :key="course.id" :course="course" />
         </div>
 
         <div class="page-area">
-          <a-pagination
-            v-model:current="current"
-            :total="filteredCourses.length"
-            :page-size="pageSize"
-            :show-size-changer="false"
-          />
+          <a-pagination v-model:current="current" :total="filteredCourses.length" :page-size="pageSize"
+            :show-size-changer="false" />
 
           <p class="page-text">Page {{ current }} of {{ totalPages }}</p>
         </div>
@@ -300,7 +251,7 @@ watch(
   margin-bottom: 64px;
 }
 
-.section-block > :first-child {
+.section-block> :first-child {
   width: 100%;
   padding-bottom: 8px;
   margin-bottom: 24px;
@@ -314,7 +265,7 @@ watch(
 }
 
 .green {
-  color:#1E4620;
+  color: #1E4620;
 }
 
 .hot-area {
@@ -335,8 +286,8 @@ watch(
   gap: 74px 64px;
 }
 
-.hot-track > *,
-.cards-area > * {
+.hot-track>*,
+.cards-area>* {
   width: 100%;
   min-width: 0;
 }
@@ -367,6 +318,7 @@ watch(
 .next-btn {
   right: 0;
 }
+
 /* .arrow-btn:hover {
   background: #f5f5f5;
 } */
@@ -394,7 +346,7 @@ watch(
   padding: 0 120px 0 12px;
   border: none;
   outline: none;
-  font-size: 1rem;
+  font-size: 1.5rem;
 }
 
 .search-btn {
@@ -456,7 +408,7 @@ watch(
   font-size: 16px;
 }
 
-.category-btn.active{
+.category-btn.active {
   background-color: #1e4620;
   color: #f9f6f0;
 }
@@ -533,7 +485,7 @@ watch(
 }
 
 .page-text {
-  font-size:1.5rem;
+  font-size: 1.5rem;
   margin: 0;
   color: #1e4620;
 }
@@ -582,6 +534,12 @@ watch(
 @media (max-width: 1100px) {
   .course-page {
     padding: 64px 40px 40px;
+  }
+
+  .category-btn {
+    font-size: 1.25rem;
+    height: 60px;
+    white-space: nowrap;
   }
 
   .toolbar {
@@ -638,6 +596,13 @@ watch(
     margin-bottom: 48px;
   }
 
+  .category-btn {
+    font-size: 1.25rem;
+    /* 20px */
+    height: 60px;
+    font-weight: 500;
+  }
+
   .toolbar {
     flex-direction: column;
     align-items: stretch;
@@ -678,9 +643,11 @@ watch(
 
   .category-btn {
     width: 100%;
-    height: 44px;
+    height: 60px;
     padding: 0 12px;
-    font-size: 14px;
+    font-size: 1.25rem;
+    /* 20px */
+    font-weight: 500;
   }
 
   .search-input {
@@ -690,7 +657,7 @@ watch(
 
   .search-btn {
     width: 84px;
-    font-size: 1rem;
+    font-size: 1.5rem;
   }
 
   .page-area :deep(.ant-pagination-item) {
@@ -705,6 +672,7 @@ watch(
   }
 }
 
+/* 390 */
 @media (max-width: 390px) {
   .course-page {
     padding-left: 12px;
@@ -717,7 +685,10 @@ watch(
 
   .category-btn {
     min-width: 0;
-    font-size: 13px;
+    height: 60px;
+    font-size: 1.25rem;
+    /* 20px */
+    font-weight: 500;
   }
 
   .display-toggle {

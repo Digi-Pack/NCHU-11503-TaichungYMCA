@@ -90,7 +90,7 @@ const previewContent = computed(() => {
 
 .course-title {
   margin: 0;
-  font-size: 1.875rem;
+  font-size: 2.25rem;
   font-weight: 500;
   color: #000;
 
@@ -101,14 +101,14 @@ const previewContent = computed(() => {
 
 .course-period {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   color: #757575;
   white-space: nowrap;
 }
 
 .course-desc {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   line-height: 1.5;
   color: #757575;
 
@@ -134,7 +134,7 @@ const previewContent = computed(() => {
   color: #f9f6f0;
   border-radius: 8px;
 
-  font-size: 1rem;
+  font-size: 1.125rem;
 }
 
 
