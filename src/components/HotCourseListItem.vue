@@ -156,7 +156,7 @@ const previewContent = computed(() => {
   }
 
   .hot-title {
-    font-size: 1rem;
+    font-size: 1.75rem;
   }
 
   .hot-desc,

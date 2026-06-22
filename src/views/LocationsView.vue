@@ -145,7 +145,7 @@ async function goToRegion(region, id) {
 
           <!-- 桌機（≥ 768px） -->
           <div v-if="!isMobile" class="locations-list" role="list" aria-label="服務據點清單">
-            <article v-for="location in filteredLocations" :key="location.id" class="location-card" role="listitem">
+            <article v-for="location in filteredLocations" :key="location.id" class="location-card location-card--clickable" role="listitem" @click="goToRegion(location.region, location.id)">
               <div class="location-card__summary">
                 <div class="location-card__img-wrap">
                   <img :src="location.image" :alt="location.name" class="location-card__img" loading="lazy" width="207"
@@ -164,7 +164,7 @@ async function goToRegion(region, id) {
                       <div class="location-card__info-block">
                         <p class="location-card__info-label">電話</p>
                         <p class="location-card__info-value">
-                          <a :href="`tel:${location.tel}`" class="detail-tel-link">{{ location.tel }}</a>
+                          <a :href="`tel:${location.tel}`" class="detail-tel-link" @click.stop>{{ location.tel }}</a>
                         </p>
                       </div>
                     </div>
@@ -184,7 +184,7 @@ async function goToRegion(region, id) {
           <div v-else class="swiper locations-swiper" aria-label="服務據點清單">
             <div class="swiper-wrapper">
               <div v-for="location in filteredLocations" :key="location.id" class="swiper-slide">
-                <article class="location-card" role="listitem">
+                <article class="location-card location-card--clickable" role="listitem" @click="goToRegion(location.region, location.id)">
                   <div class="location-card__summary">
                     <div class="location-card__img-wrap">
                       <img :src="location.image" :alt="location.name" class="location-card__img" loading="lazy"
@@ -203,7 +203,7 @@ async function goToRegion(region, id) {
                           <div class="location-card__info-block">
                             <p class="location-card__info-label">電話</p>
                             <p class="location-card__info-value">
-                              <a :href="`tel:${location.tel}`" class="detail-tel-link">{{ location.tel }}</a>
+                              <a :href="`tel:${location.tel}`" class="detail-tel-link" @click.stop>{{ location.tel }}</a>
                             </p>
                           </div>
                         </div>
@@ -436,6 +436,14 @@ async function goToRegion(region, id) {
 }
 
 /* ── Location card ── */
+.location-card--clickable {
+  cursor: pointer;
+}
+
+.location-card--clickable:hover {
+  box-shadow: 0 4px 16px rgba(30, 70, 32, 0.12);
+}
+
 .location-card {
   background-color: #F9F6F0;
   border: 1px solid #000000;

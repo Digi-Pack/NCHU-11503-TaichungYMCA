@@ -64,7 +64,7 @@ const props = defineProps({
 
 .content {
     max-width: 1420px;
-    line-height: 1.2;
+    line-height: 1.5;
     min-height: 3.6em;
     text-align: justify;
 }
