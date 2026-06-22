@@ -65,7 +65,6 @@ const swiperModules = [Pagination]
               <div class="card-body">
                 <h3 class="card-title">{{ item.title }}</h3>
                 <p class="card-desc">{{ item.summary }}</p>
-
               </div>
             </li>
           </ul>
@@ -81,7 +80,6 @@ const swiperModules = [Pagination]
                 <div class="card-body">
                   <h3 class="card-title">{{ item.title }}</h3>
                   <p class="card-desc">{{ item.summary }}</p>
-                  <!-- <time :datetime="item.date" class="card-date">{{ item.date }}</time> -->
                 </div>
               </div>
             </swiper-slide>
@@ -104,15 +102,7 @@ const swiperModules = [Pagination]
   display: flex;
   flex-direction: column;
   padding-bottom: 80px;
-  font-family: 'Noto Sans TC', sans-serif;  /* ← 加在這裡，底下全部繼承 */
-}
-
-.about-page {
-  width: 100%;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 80px;
+  font-family: 'Noto Sans TC', sans-serif;
 }
 
 .banner-section {
@@ -134,7 +124,6 @@ const swiperModules = [Pagination]
 }
 
 /* ==================== 內容區塊 ==================== */
-/* 圖片2：預設 >1400px，width 100%、max-width 1300px、margin: 0 auto、無 padding */
 .news-section {
   display: flex;
   flex-direction: column;
@@ -145,21 +134,18 @@ const swiperModules = [Pagination]
   gap: 80px;
 }
 
-/* 圖片2：≤1400px */
 @media (max-width: 1400px) {
   .news-section {
     padding: 0 80px;
   }
 }
 
-/* 圖片2：≤1100px */
 @media (max-width: 1100px) {
   .news-section {
     padding: 0 40px;
   }
 }
 
-/* 圖片2：≤768px */
 @media (max-width: 768px) {
   .news-section {
     padding: 0 20px;
@@ -174,10 +160,35 @@ const swiperModules = [Pagination]
   gap: 8px;
 }
 
+/* title-main：對應 text-48（3rem） */
 .title-main {
-  font-size: 3rem;
+  font-size: 4rem;
   color: #1E4620;
   margin: 8px 0;
+}
+
+@media (max-width: 1300px) {
+  .title-main {
+    font-size: 3.5rem; /* text-48 @1300px */
+  }
+}
+
+@media (max-width: 950px) {
+  .title-main {
+    font-size: 3.25rem; /* text-48 @950px */
+  }
+}
+
+@media (max-width: 768px) {
+  .title-main {
+    font-size: 3rem; /* text-48 @768px */
+  }
+}
+
+@media (max-width: 390px) {
+  .title-main {
+    font-size: 2.5rem; /* text-48 @390px */
+  }
 }
 
 .line {
@@ -194,12 +205,32 @@ const swiperModules = [Pagination]
   gap: 32px;
 }
 
+/* intro-tagline：對應 text-36（2.25rem） */
 .intro-tagline {
   font-size: 2.25rem;
   color: #1E4620;
   font-weight: 500;
 }
 
+@media (max-width: 1300px) {
+  .intro-tagline {
+    font-size: 2rem; /* text-36 @1300px */
+  }
+}
+
+@media (max-width: 768px) {
+  .intro-tagline {
+    font-size: 1.75rem; /* text-36 @768px */
+  }
+}
+
+@media (max-width: 390px) {
+  .intro-tagline {
+    font-size: 1.5rem; /* text-36 @390px */
+  }
+}
+
+/* intro-desc：對應 text-24（1.5rem），text.vue 無斷點定義，維持固定 */
 .intro-desc {
   font-size: 1.5rem;
   color: #706F6F;
@@ -236,7 +267,6 @@ const swiperModules = [Pagination]
   gap: 74px;
 }
 
-/* ✅ 預設：2×2 grid，四張卡片 */
 .card-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -247,21 +277,18 @@ const swiperModules = [Pagination]
   list-style: none;
 }
 
-/* ≤768px：維持 grid 2欄，gap 縮為 16px */
 @media (max-width: 768px) {
   .card-container {
     gap: 16px;
   }
 }
 
-/* ≤576px：card-container 隱藏，改 Swiper */
 @media (max-width: 576px) {
   .card-container {
     display: none;
   }
 }
 
-/* Swiper：預設隱藏，≤576px 顯示 */
 .card-swiper {
   display: none;
   width: 100%;
@@ -270,7 +297,7 @@ const swiperModules = [Pagination]
 @media (max-width: 576px) {
   .card-swiper {
     display: block;
-    padding-bottom: 40px;
+    padding-bottom: 20px;
   }
 }
 
@@ -284,7 +311,6 @@ const swiperModules = [Pagination]
   position: relative;
 }
 
-/* 遮罩 */
 .card-overlay {
   position: absolute;
   inset: 0;
@@ -314,25 +340,43 @@ const swiperModules = [Pagination]
 }
 
 .card-body {
-  padding: 24.95px 37.43px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 24.95px;
 }
 
+/* card-title：對應 text-36（2.25rem） */
 .card-title {
   font-size: 2.25rem;
   margin: 0;
   color: #3C3C3C;
 }
 
+@media (max-width: 1300px) {
+  .card-title {
+    font-size: 2rem; /* text-36 @1300px */
+  }
+}
+
+@media (max-width: 768px) {
+  .card-title {
+    font-size: 1.75rem; /* text-36 @768px */
+  }
+}
+
+@media (max-width: 390px) {
+  .card-title {
+    font-size: 1.5rem; /* text-36 @390px */
+  }
+}
+
+/* card-desc：對應 text-24（1.5rem），text.vue 無斷點定義，維持固定 */
 .card-desc {
   font-size: 1.5rem;
   color: #706F6F;
   margin: 0;
 }
-
-
 
 /* ==================== Swiper 圓點 ==================== */
 :deep(.swiper-pagination-bullet-active) {
