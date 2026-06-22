@@ -226,13 +226,13 @@ const swiperModules = [Pagination]
 
 @media (max-width: 390px) {
   .intro-tagline {
-    font-size: 1.5rem; /* text-36 @390px */
+    font-size: 1.75rem; /* text-36 @390px */
   }
 }
 
 /* intro-desc：對應 text-24（1.5rem），text.vue 無斷點定義，維持固定 */
 .intro-desc {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   color: #706F6F;
   margin: 0;
 }

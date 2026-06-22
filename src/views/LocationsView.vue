@@ -33,8 +33,6 @@ const tags = [
 const activeTag = ref('all')
 function setActiveTag(v) { activeTag.value = v }
 
-
-
 const showDetail = computed(() => activeTag.value !== 'all')
 
 const filteredLocations = computed(() =>
@@ -90,22 +88,22 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   }
 }, { immediate: true })
 
-// 在你的 <script setup> 中
+// ✅ 修正：補上 id 參數，並用 requestAnimationFrame 確保 DOM 完整渲染後再滾動
 async function goToRegion(region, id) {
   if (region) {
     activeTag.value = region
 
-    // 等待 Vue 完成渲染
     await nextTick()
 
-    // 尋找目標卡片並平滑滾動
-    const targetElement = document.getElementById(`detail-${id}`)
-    if (targetElement) {
-      targetElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      })
-    }
+    requestAnimationFrame(() => {
+      const targetElement = document.getElementById('locations-title')
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        })
+      }
+    })
   }
 }
 </script>
@@ -145,20 +143,18 @@ async function goToRegion(region, id) {
         <!-- ── 全部模式 ── -->
         <template v-if="!showDetail">
 
-          <!-- 桌機（≥ 576px） -->
+          <!-- 桌機（≥ 768px） -->
           <div v-if="!isMobile" class="locations-list" role="list" aria-label="服務據點清單">
             <article v-for="location in filteredLocations" :key="location.id" class="location-card" role="listitem">
               <div class="location-card__summary">
                 <div class="location-card__img-wrap">
                   <img :src="location.image" :alt="location.name" class="location-card__img" loading="lazy" width="207"
                     height="207" @error="(e) => e.target.src = lostImg" />
-
                 </div>
                 <div class="location-card__content">
                   <h2 class="location-card__name">{{ location.name }}</h2>
                   <div class="location-card__title-line" aria-hidden="true"></div>
 
-                  <!-- ✅ 修正：電話與按鈕同一列 -->
                   <div class="location-card__bottom">
                     <div class="location-card__info">
                       <div class="location-card__info-block">
@@ -173,7 +169,8 @@ async function goToRegion(region, id) {
                       </div>
                     </div>
                     <div class="location-card__more">
-                      <button class="btn btn--primary" @click.stop="goToRegion(location.region)"
+                      <!-- ✅ 修正：傳入 location.id -->
+                      <button class="btn btn--primary" @click.stop="goToRegion(location.region, location.id)"
                         :aria-label="`查看 ${location.name} 更多資訊`">更多資訊</button>
                     </div>
                   </div>
@@ -183,8 +180,7 @@ async function goToRegion(region, id) {
             </article>
           </div>
 
-
-          <!-- 手機 Swiper（< 576px） -->
+          <!-- 手機 Swiper（< 768px） -->
           <div v-else class="swiper locations-swiper" aria-label="服務據點清單">
             <div class="swiper-wrapper">
               <div v-for="location in filteredLocations" :key="location.id" class="swiper-slide">
@@ -198,7 +194,6 @@ async function goToRegion(region, id) {
                       <h2 class="location-card__name">{{ location.name }}</h2>
                       <div class="location-card__title-line" aria-hidden="true"></div>
 
-                      <!-- ✅ 修正：電話與按鈕同一列 -->
                       <div class="location-card__bottom">
                         <div class="location-card__info">
                           <div class="location-card__info-block">
@@ -213,7 +208,8 @@ async function goToRegion(region, id) {
                           </div>
                         </div>
                         <div class="location-card__more">
-                          <button class="btn btn--primary" @click.stop="goToRegion(location.region)"
+                          <!-- ✅ 修正：傳入 location.id -->
+                          <button class="btn btn--primary" @click.stop="goToRegion(location.region, location.id)"
                             :aria-label="`查看 ${location.name} 更多資訊`">更多資訊</button>
                         </div>
                       </div>
@@ -365,7 +361,6 @@ async function goToRegion(region, id) {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
   font-size: 4rem;
-  /* text-64 */
   line-height: 1.5;
   color: #1E4620;
   margin: 0;
@@ -382,7 +377,6 @@ async function goToRegion(region, id) {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
   font-size: 1.75rem;
-  /* text-24 */
   line-height: 1.5;
   color: #706F6F;
   margin: 0;
@@ -410,7 +404,6 @@ async function goToRegion(region, id) {
   border-radius: 20px;
   font-family: 'Noto Sans TC', sans-serif;
   font-size: 1.5rem;
-  /* text-16 */
   color: #1E4620;
   cursor: pointer;
   white-space: nowrap;
@@ -494,7 +487,6 @@ async function goToRegion(region, id) {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
   font-size: 2.5rem;
-  /* text-36 */
   line-height: 1.5;
   color: #1E4620;
   margin: 0;
@@ -536,7 +528,6 @@ async function goToRegion(region, id) {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
   font-size: 1.75rem;
-  /* text-24 */
   line-height: 1.5;
   color: #3C3C3C;
   margin: 0;
@@ -546,7 +537,6 @@ async function goToRegion(region, id) {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
   font-size: 1.75rem;
-  /* text-24 */
   line-height: 1.5;
   color: #706F6F;
   margin: 0;
@@ -578,7 +568,6 @@ async function goToRegion(region, id) {
 
 .detail-alert__icon {
   font-size: 1.375rem;
-  /* text-18 */
   flex-shrink: 0;
   color: #3C3C3C;
 }
@@ -587,7 +576,6 @@ async function goToRegion(region, id) {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
   font-size: 1.375rem;
-  /* text-18 */
   line-height: 1.5;
   color: #6155F5;
   margin: 0;
@@ -639,7 +627,6 @@ async function goToRegion(region, id) {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
   font-size: 2.5rem;
-  /* text-36 */
   line-height: 1.5;
   color: #1E4620;
   margin: 0;
@@ -669,7 +656,6 @@ async function goToRegion(region, id) {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
   font-size: 1.75rem;
-  /* text-24 */
   line-height: 1.5;
   color: #3C3C3C;
   margin: 0;
@@ -679,7 +665,6 @@ async function goToRegion(region, id) {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
   font-size: 1.75rem;
-  /* text-24 */
   line-height: 1.5;
   color: #706F6F;
   margin: 0;
@@ -708,13 +693,11 @@ async function goToRegion(region, id) {
   justify-content: center;
   align-items: center;
   padding: 16px 20px;
-  /* width: 104px; */
   height: 54px;
   border-radius: 8px;
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
   font-size: 1.375rem;
-  /* text-18 */
   text-decoration: none;
   cursor: pointer;
   border: none;
@@ -769,7 +752,7 @@ async function goToRegion(region, id) {
 }
 
 /* ════════════════════════════════════════
-   RWD 斷點（對應 Text.vue）
+   RWD 斷點
    1300px / 950px / 768px / 576px / 390px
    ════════════════════════════════════════ */
 
@@ -800,7 +783,6 @@ async function goToRegion(region, id) {
     font-size: 1.625rem;
   }
 
-  /* tag：單排平均分配，字體縮小 */
   .tag-group {
     gap: 12px;
   }
@@ -812,16 +794,12 @@ async function goToRegion(region, id) {
   }
 }
 
-/* ── Tag 兩排：1100px ── */
 @media (max-width: 1100px) {
-
-  /* tag 換為兩排，每排仍平均分配 */
   .tag-group {
     flex-wrap: wrap;
     gap: 10px;
   }
 
-  /* 每個 tag 佔約一半寬度（兩欄均分），扣掉 gap */
   .tag {
     flex: 1 1 calc(50% - 5px);
     max-width: calc(50% - 5px);
@@ -835,8 +813,6 @@ async function goToRegion(region, id) {
   .section-header__h1 {
     font-size: 3.25rem;
   }
-
-  /* text-64 */
 }
 
 @media (max-width: 768px) {
@@ -866,7 +842,6 @@ async function goToRegion(region, id) {
     font-size: 1.5rem;
   }
 
-  /* tag 兩排，字體維持 24px */
   .tag {
     flex: 1 1 calc(50% - 5px);
     max-width: calc(50% - 5px);
@@ -875,7 +850,6 @@ async function goToRegion(region, id) {
     padding: 8px 12px;
   }
 
-  /* 卡片改為上下排列（圖片上、資訊下） */
   .location-card__summary {
     flex-direction: column;
     align-items: stretch;
@@ -883,7 +857,6 @@ async function goToRegion(region, id) {
     min-height: unset;
   }
 
-  /* 圖片撐滿寬度，16:9 比例 */
   .location-card__img-wrap {
     width: 100%;
     height: auto;
@@ -891,7 +864,6 @@ async function goToRegion(region, id) {
     align-self: stretch;
   }
 
-  /* 底部維持電話與按鈕並排 */
   .location-card__bottom {
     flex-direction: row;
     align-items: flex-end;
@@ -902,7 +874,6 @@ async function goToRegion(region, id) {
     align-self: flex-end;
   }
 
-  /* 詳情頁改為上下排列 */
   .detail-body {
     flex-direction: column;
     align-items: stretch;
@@ -947,7 +918,6 @@ async function goToRegion(region, id) {
     padding-block: 24px;
   }
 
-  /* tag 兩排，字體維持 24px */
   .tag {
     flex: 1 1 calc(50% - 4px);
     max-width: calc(50% - 4px);
@@ -975,12 +945,10 @@ async function goToRegion(region, id) {
     padding: 16px 20px;
   }
 
-  /* 576px 以下底部改為欄排，按鈕靠右 */
   .location-card__bottom {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
-
   }
 
   .location-card__more {
@@ -1001,7 +969,6 @@ async function goToRegion(region, id) {
     font-size: 1.75rem;
   }
 
-  /* tag 兩排，最小字體 */
   .tag-group {
     gap: 6px;
   }
