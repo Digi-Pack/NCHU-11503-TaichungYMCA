@@ -30,16 +30,10 @@ const tags = [
   { label: '文昌分部', value: '文昌分部' },
 ]
 
-
-
 const activeTag = ref('all')
 function setActiveTag(v) { activeTag.value = v }
 
-function goToRegion(region) {
-  if (region) {
-    activeTag.value = region
-  }
-}
+
 
 const showDetail = computed(() => activeTag.value !== 'all')
 
@@ -95,6 +89,25 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
     destroySwiper()
   }
 }, { immediate: true })
+
+// 在你的 <script setup> 中
+async function goToRegion(region, id) {
+  if (region) {
+    activeTag.value = region
+
+    // 等待 Vue 完成渲染
+    await nextTick()
+
+    // 尋找目標卡片並平滑滾動
+    const targetElement = document.getElementById(`detail-${id}`)
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
+  }
+}
 </script>
 
 <template>
@@ -169,6 +182,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
               </div>
             </article>
           </div>
+
 
           <!-- 手機 Swiper（< 576px） -->
           <div v-else class="swiper locations-swiper" aria-label="服務據點清單">
@@ -350,7 +364,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .section-header__h1 {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
-  font-size: 4rem; /* text-64 */
+  font-size: 4rem;
+  /* text-64 */
   line-height: 1.5;
   color: #1E4620;
   margin: 0;
@@ -366,7 +381,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .section-header__subtitle {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
-  font-size: 1.75rem; /* text-24 */
+  font-size: 1.75rem;
+  /* text-24 */
   line-height: 1.5;
   color: #706F6F;
   margin: 0;
@@ -393,7 +409,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   border: 1px solid #1E4620;
   border-radius: 20px;
   font-family: 'Noto Sans TC', sans-serif;
-  font-size: 1.5rem; /* text-16 */
+  font-size: 1.5rem;
+  /* text-16 */
   color: #1E4620;
   cursor: pointer;
   white-space: nowrap;
@@ -476,7 +493,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .location-card__name {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
-  font-size: 2.5rem; /* text-36 */
+  font-size: 2.5rem;
+  /* text-36 */
   line-height: 1.5;
   color: #1E4620;
   margin: 0;
@@ -517,7 +535,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .location-card__info-label {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
-  font-size: 1.75rem; /* text-24 */
+  font-size: 1.75rem;
+  /* text-24 */
   line-height: 1.5;
   color: #3C3C3C;
   margin: 0;
@@ -526,7 +545,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .location-card__info-value {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
-  font-size: 1.75rem; /* text-24 */
+  font-size: 1.75rem;
+  /* text-24 */
   line-height: 1.5;
   color: #706F6F;
   margin: 0;
@@ -557,7 +577,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 }
 
 .detail-alert__icon {
-  font-size: 1.375rem; /* text-18 */
+  font-size: 1.375rem;
+  /* text-18 */
   flex-shrink: 0;
   color: #3C3C3C;
 }
@@ -565,7 +586,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .detail-alert__text {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
-  font-size: 1.375rem; /* text-18 */
+  font-size: 1.375rem;
+  /* text-18 */
   line-height: 1.5;
   color: #6155F5;
   margin: 0;
@@ -616,7 +638,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .detail-right__name {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
-  font-size: 2.5rem; /* text-36 */
+  font-size: 2.5rem;
+  /* text-36 */
   line-height: 1.5;
   color: #1E4620;
   margin: 0;
@@ -645,7 +668,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .detail-info__label {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
-  font-size: 1.75rem; /* text-24 */
+  font-size: 1.75rem;
+  /* text-24 */
   line-height: 1.5;
   color: #3C3C3C;
   margin: 0;
@@ -654,7 +678,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .detail-info__value {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
-  font-size: 1.75rem; /* text-24 */
+  font-size: 1.75rem;
+  /* text-24 */
   line-height: 1.5;
   color: #706F6F;
   margin: 0;
@@ -682,13 +707,14 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  padding: 16px;
-  width: 104px;
+  padding: 16px 20px;
+  /* width: 104px; */
   height: 54px;
   border-radius: 8px;
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
-  font-size: 1.375rem; /* text-18 */
+  font-size: 1.375rem;
+  /* text-18 */
   text-decoration: none;
   cursor: pointer;
   border: none;
@@ -748,14 +774,31 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
    ════════════════════════════════════════ */
 
 @media (max-width: 1300px) {
-  .section-header__h1       { font-size: 3.5rem; }
-  .section-header__subtitle { font-size: 1.75rem; }
-  .location-card__name      { font-size: 2.25rem; }
+  .section-header__h1 {
+    font-size: 3.5rem;
+  }
+
+  .section-header__subtitle {
+    font-size: 1.75rem;
+  }
+
+  .location-card__name {
+    font-size: 2.25rem;
+  }
+
   .location-card__info-label,
-  .location-card__info-value { font-size: 1.625rem; }
-  .detail-right__name       { font-size: 2.25rem; }
+  .location-card__info-value {
+    font-size: 1.625rem;
+  }
+
+  .detail-right__name {
+    font-size: 2.25rem;
+  }
+
   .detail-info__label,
-  .detail-info__value       { font-size: 1.625rem; }
+  .detail-info__value {
+    font-size: 1.625rem;
+  }
 
   /* tag：單排平均分配，字體縮小 */
   .tag-group {
@@ -771,6 +814,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 
 /* ── Tag 兩排：1100px ── */
 @media (max-width: 1100px) {
+
   /* tag 換為兩排，每排仍平均分配 */
   .tag-group {
     flex-wrap: wrap;
@@ -788,18 +832,39 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 }
 
 @media (max-width: 950px) {
-  .section-header__h1  { font-size: 3.25rem; } /* text-64 */
+  .section-header__h1 {
+    font-size: 3.25rem;
+  }
+
+  /* text-64 */
 }
 
 @media (max-width: 768px) {
-  .section-header__h1       { font-size: 3rem; }
-  .section-header__subtitle { font-size: 1.75rem; }
-  .location-card__name      { font-size: 1.75rem; }
+  .section-header__h1 {
+    font-size: 3rem;
+  }
+
+  .section-header__subtitle {
+    font-size: 1.75rem;
+  }
+
+  .location-card__name {
+    font-size: 1.75rem;
+  }
+
   .location-card__info-label,
-  .location-card__info-value { font-size: 1.5rem; }
-  .detail-right__name       { font-size: 1.75rem; }
+  .location-card__info-value {
+    font-size: 1.5rem;
+  }
+
+  .detail-right__name {
+    font-size: 1.75rem;
+  }
+
   .detail-info__label,
-  .detail-info__value       { font-size: 1.5rem; }
+  .detail-info__value {
+    font-size: 1.5rem;
+  }
 
   /* tag 兩排，字體維持 24px */
   .tag {
@@ -905,10 +970,9 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   }
 
   .btn {
-    width: 88px;
     height: 44px;
-    font-size: 1.25rem; /* text-16 */
-    padding: 8px;
+    font-size: 1.25rem;
+    padding: 16px 20px;
   }
 
   /* 576px 以下底部改為欄排，按鈕靠右 */
@@ -916,6 +980,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
+
   }
 
   .location-card__more {
@@ -924,9 +989,17 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 }
 
 @media (max-width: 390px) {
-  .section-header__h1  { font-size: 2.5rem; }
-  .location-card__name { font-size: 1.75rem; }
-  .detail-right__name  { font-size: 1.75rem; }
+  .section-header__h1 {
+    font-size: 2.5rem;
+  }
+
+  .location-card__name {
+    font-size: 1.75rem;
+  }
+
+  .detail-right__name {
+    font-size: 1.75rem;
+  }
 
   /* tag 兩排，最小字體 */
   .tag-group {
@@ -944,6 +1017,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 
 /* ── Accessibility ── */
 @media (prefers-reduced-motion: reduce) {
+
   .btn,
   .tag {
     transition: none;
