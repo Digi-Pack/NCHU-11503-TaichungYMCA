@@ -53,11 +53,21 @@ const previewContent = computed(() => {
   justify-content: space-between;
   gap: 32px;
 
-  padding: 16px;
-  border-bottom: 1px solid #b1b0b0;
+  padding: 24px;
+
+  background: #ffffff;
+  border-radius: 16px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 
   color: inherit;
   text-decoration: none;
+
+  margin-bottom: 16px;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .hot-main {
@@ -153,7 +163,7 @@ const previewContent = computed(() => {
   .hot-desc,
   .hot-date {
 
-    font-size: 1rem;
+    font-size: 1.5rem;
   }
 
   .hot-btn {

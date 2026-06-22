@@ -43,7 +43,7 @@ const courseTitleRef = ref(null)
 const keywordInput = ref('')
 const keyword = ref('')
 
-const hotCourses = computed(() => courses.slice(0, 4))
+const hotCourses = computed(() => courses.slice(0, 5))
 const hotStartIndex = ref(0)
 
 const visibleHotCourses = computed(() => {
@@ -244,30 +244,25 @@ watch(
   max-width: 1300px;
   box-sizing: border-box;
   margin: 0 auto;
-  padding: 80px 0 0;
+  padding: 80px 40px 0;
 }
 
 .section-block {
   margin-bottom: 64px;
 }
 
-.section-block> :first-child {
+.section-block > :first-child {
   width: 100%;
   padding-bottom: 8px;
   margin-bottom: 24px;
   border-bottom: 2px solid #1e4620;
 }
 
-/* 熱門課程 */
-.hot-list-area {
-  margin-top: 40px;
-  border-top: 1px solid #b1b0b0;
-}
-
 .green {
-  color: #1E4620;
+  color: #1e4620;
 }
 
+/* 熱門課程：桌機保留箭頭切換 */
 .hot-area {
   position: relative;
   width: 100%;
@@ -278,18 +273,35 @@ watch(
   overflow: hidden;
 }
 
-.hot-track,
+.hot-track {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 48px 40px;
+}
+
+.hot-track > * {
+  width: 100%;
+  min-width: 0;
+}
+
+/* 所有課程 */
 .cards-area {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 74px 64px;
+  gap: 48px 40px;
 }
 
-.hot-track>*,
-.cards-area>* {
+.cards-area > * {
   width: 100%;
   min-width: 0;
+}
+
+/* 熱門課程列表 */
+.hot-list-area {
+  margin-top: 40px;
+  border-top: 1px solid #b1b0b0;
 }
 
 .arrow-btn {
@@ -301,13 +313,12 @@ watch(
   height: 64px;
   border-radius: 50%;
   border: 1px solid #b1b0b0;
-  background: #F0E9E3;
+  background: #f0e9e3;
   color: #7d7d7d;
   font-size: 48px;
-  line-height: 45PX;
+  line-height: 45px;
   display: flex;
   justify-content: center;
-  /* align-items: center; */
   cursor: pointer;
 }
 
@@ -319,12 +330,9 @@ watch(
   right: 0;
 }
 
-/* .arrow-btn:hover {
-  background: #f5f5f5;
-} */
-
 .arrow-btn.disabled {
   cursor: not-allowed;
+  opacity: 0.45;
 }
 
 /* 搜尋框 */
@@ -367,14 +375,9 @@ watch(
   gap: 8px;
 }
 
-.search-btn:hover {
-  border-color: #d96b27;
-}
-
 .search-area:focus-within {
   border-color: #d96b27;
 }
-
 
 .search-btn :deep(svg) {
   font-size: 20px;
@@ -399,20 +402,28 @@ watch(
 .category-btn {
   width: 120px;
   height: 51px;
-  padding: 16px 12px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   border-radius: 20px;
   border: 1px solid #1e4620;
   background-color: #f9f6f0;
   color: #1e4620;
   cursor: pointer;
-  font-size: 16px;
+
+  font-size: 1.25rem;
+  white-space: nowrap;
+
+  padding: 0 12px;
 }
+
 
 .category-btn.active {
   background-color: #1e4620;
   color: #f9f6f0;
 }
-
 
 .category-btn:hover {
   background-color: #938d6b;
@@ -496,7 +507,6 @@ watch(
   gap: 8px;
 }
 
-
 .page-area :deep(.ant-pagination-item) {
   width: 45px;
   height: 45px;
@@ -505,13 +515,11 @@ watch(
   border-radius: 50%;
   border: 2px solid #1e4620;
   background-color: #f9f6f0;
-  transition: all 0.2s ease;
 }
 
 .page-area :deep(.ant-pagination-item a) {
   color: #1e4620;
   font-size: 18px;
-  font-weight: 400;
 }
 
 .page-area :deep(.ant-pagination-item:hover),
@@ -530,23 +538,16 @@ watch(
   display: none;
 }
 
-/* 1100：平板變版 */
+/* 1100 以下：熱門課程改成水平滑動 */
 @media (max-width: 1100px) {
   .course-page {
     padding: 64px 40px 40px;
-  }
-
-  .category-btn {
-    font-size: 1.25rem;
-    height: 60px;
-    white-space: nowrap;
   }
 
   .toolbar {
     flex-direction: column;
     align-items: flex-start;
     gap: 20px;
-    margin-bottom: 40px;
   }
 
   .display-toggle {
@@ -559,30 +560,49 @@ watch(
     width: 100%;
   }
 
-  .hot-track,
+  .category-btn {
+    font-size: 1.25rem;
+    height: 60px;
+    white-space: nowrap;
+  }
+
+  .arrow-btn {
+    display: flex;
+  }
+
+    .prev-btn {
+    left: 8px;
+  }
+
+  .next-btn {
+    right: 8px;
+  }
+
+  .hot-window {
+    overflow: visible;
+  }
+
+  .hot-track {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 16px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .hot-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hot-track > * {
+    flex: 0 0 calc(50% - 12px);
+    scroll-snap-align: start;
+  }
+
   .cards-area {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 32px;
-  }
-}
-
-/* 1440 */
-@media (max-width: 1440px) {
-  .course-page {
-    max-width: 1300px;
-    padding: 80px 40px 0;
-  }
-
-  .hot-track,
-  .cards-area {
-    gap: 48px 40px;
-  }
-}
-
-/* 1024 */
-@media (max-width: 1024px) {
-  .course-page {
-    padding: 64px 40px 40px;
   }
 }
 
@@ -590,17 +610,25 @@ watch(
 @media (max-width: 768px) {
   .course-page {
     padding: 48px 32px 0;
+  } 
+  .arrow-btn {
+    display: flex;
+    width: 48px;
+    height: 48px;
+    font-size: 36px;
+    line-height: 36px;
+  }
+
+   .prev-btn {
+    left: 8px;
+  }
+
+  .next-btn {
+    right: 8px;
   }
 
   .section-block {
     margin-bottom: 48px;
-  }
-
-  .category-btn {
-    font-size: 1.25rem;
-    /* 20px */
-    height: 60px;
-    font-weight: 500;
   }
 
   .toolbar {
@@ -613,14 +641,13 @@ watch(
     align-self: flex-end;
   }
 
-  .hot-track,
+  .hot-track > * {
+    flex: 0 0 100%;
+  }
+
   .cards-area {
     grid-template-columns: 1fr;
     gap: 32px;
-  }
-
-  .arrow-btn {
-    display: none;
   }
 
   .page-area {
@@ -646,8 +673,11 @@ watch(
     height: 60px;
     padding: 0 12px;
     font-size: 1.25rem;
-    /* 20px */
     font-weight: 500;
+  }
+
+  .hot-track > * {
+    flex: 0 0 88%;
   }
 
   .search-input {
@@ -657,7 +687,7 @@ watch(
 
   .search-btn {
     width: 84px;
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
 
   .page-area :deep(.ant-pagination-item) {
@@ -687,12 +717,15 @@ watch(
     min-width: 0;
     height: 60px;
     font-size: 1.25rem;
-    /* 20px */
     font-weight: 500;
   }
 
   .display-toggle {
     align-self: flex-end;
+  }
+
+  .hot-track > * {
+    flex: 0 0 90%;
   }
 
   .search-input {

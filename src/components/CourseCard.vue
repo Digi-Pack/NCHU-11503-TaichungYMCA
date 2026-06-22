@@ -155,7 +155,7 @@ const previewContent = computed(() => {
 .course-desc {
   margin: 0 0 20px;
 
-  font-size: 1.25rem;
+  font-size:1.5rem;
   line-height: 1.5;
   color: #757575;
   display: -webkit-box;
@@ -183,7 +183,7 @@ const previewContent = computed(() => {
 
   .course-desc,
   .course-date {
-    font-size: 1.125rem;
+    font-size: 1.5rem;
   }
 }
 
@@ -198,7 +198,7 @@ const previewContent = computed(() => {
 
   .course-desc,
   .course-date {
-    font-size: 1rem;
+    font-size: 1.5rem;
   }
 }
 
@@ -212,12 +212,12 @@ const previewContent = computed(() => {
   }
 
   .course-title {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
   }
 
   .course-desc,
   .course-date {
-    font-size: 0.875rem;
+    font-size:1.5rem;
   }
 }
 

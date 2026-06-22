@@ -139,7 +139,7 @@ const previewContent = computed(() => {
 .hot-desc {
   margin: 0 0 20px;
 
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   line-height: 1.5;
 
   color: #757575;
@@ -169,7 +169,7 @@ const previewContent = computed(() => {
   }
 
   .hot-desc {
-    font-size: 1.125rem; /* 18px */
+    font-size: 1.5rem; /* 18px */
   }
 
   .hot-date {
@@ -192,7 +192,7 @@ const previewContent = computed(() => {
 
   .hot-desc,
   .hot-date {
-    font-size: 1rem;
+    font-size: 1.5 rem;
   }
 }
 
@@ -206,7 +206,7 @@ const previewContent = computed(() => {
   }
 
   .hot-desc {
-    font-size: 0.875rem; /* 14px */
+    font-size: 1.5rem; /* 24px */
     line-height: 1.5;
   }
 
