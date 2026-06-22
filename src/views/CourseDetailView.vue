@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 import courses from '@/data/course.json'
 
@@ -57,6 +57,108 @@ const noteParagraphs = computed(() => {
   if (!course.value?.note) return []
   return course.value.note.split('\n').filter(Boolean)
 })
+const isSpeaking = ref(false)
+const isPaused = ref(false)
+const rate = ref(1)
+
+function cleanText(text) {
+  return text
+    .replace(/◆/g, '')
+    .replace(/★/g, '')
+    .replace(/※/g, '')
+    .replace(/~/g, '至')
+    .replace(/\[/g, '')
+    .replace(/\]/g, '')
+    .replace(/\n/g, ' ')
+}
+
+function getCourseText(course) {
+  return `
+    課程名稱：${course.title}
+    授課老師：${course.teacher}
+    上課日期：${course.period}
+    上課時間：${course.time}
+    上課地點：${course.place}
+    課程費用：${course.fee}
+    課程內容：${course.content}
+  `
+}
+
+function speakCourse(course) {
+  const text = cleanText(getCourseText(course))
+
+  const utterance = new SpeechSynthesisUtterance(text)
+
+  utterance.lang = 'zh-TW'
+  utterance.rate = rate.value
+  utterance.pitch = 1
+  utterance.volume = 1
+
+  utterance.onend = () => {
+    isSpeaking.value = false
+    isPaused.value = false
+  }
+
+  window.speechSynthesis.cancel()
+  isSpeaking.value = true
+  isPaused.value = false
+  window.speechSynthesis.speak(utterance)
+}
+
+function toggleSpeak(course) {
+  if (!isSpeaking.value) {
+    speakCourse(course)
+    return
+  }
+
+  if (isPaused.value) {
+    window.speechSynthesis.resume()
+    isPaused.value = false
+  } else {
+    window.speechSynthesis.pause()
+    isPaused.value = true
+  }
+}
+
+function stopSpeak() {
+  window.speechSynthesis.cancel()
+  isSpeaking.value = false
+  isPaused.value = false
+}
+
+function changeRate() {
+  if (rate.value === 1) {
+    rate.value = 1.25
+  } else if (rate.value === 1.25) {
+    rate.value = 0.8
+  } else {
+    rate.value = 1
+  }
+
+  if (isSpeaking.value) {
+    stopSpeak()
+  }
+}
+
+function increaseRate() {
+  if (rate.value < 1.5) {
+    rate.value = Number((rate.value + 0.25).toFixed(2))
+  }
+
+  if (isSpeaking.value) {
+    stopSpeak()
+  }
+}
+
+function decreaseRate() {
+  if (rate.value > 0.75) {
+    rate.value = Number((rate.value - 0.25).toFixed(2))
+  }
+
+  if (isSpeaking.value) {
+    stopSpeak()
+  }
+}
 </script>
 
 <template>
@@ -75,6 +177,41 @@ const noteParagraphs = computed(() => {
           <div class="title-row">
             <h1>{{ course.title }}</h1>
             <p>課程編號：{{ course.code }}</p>
+ <div class="voice-player">
+  <span class="headphone-icon">🎧</span>
+
+  <button
+    class="player-btn play-btn"
+    @click="toggleSpeak(course)"
+  >
+    {{ isSpeaking && !isPaused ? '⏸' : '▶' }}
+  </button>
+
+  <button
+    class="player-btn"
+    @click="decreaseRate"
+  >
+    −
+  </button>
+
+  <span class="rate-text">
+    x{{ rate }}
+  </span>
+
+  <button
+    class="player-btn"
+    @click="increaseRate"
+  >
+    ＋
+  </button>
+
+  <button
+    class="player-btn volume-btn"
+    @click="stopSpeak"
+  >
+    🔊
+  </button>
+</div>
           </div>
 
           <div class="meta-row">
@@ -194,6 +331,88 @@ const noteParagraphs = computed(() => {
 main {
   overflow-x: hidden;
 }
+
+.voice-player {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  height: 52px;
+  padding: 0 18px;
+
+  background: #efefef;
+  border-radius: 999px;
+}
+
+.headphone-icon {
+  font-size: 24px;
+  color: #666;
+}
+
+.player-btn {
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: none;
+  background: transparent;
+
+  cursor: pointer;
+
+  color: #666;
+  font-size: 16px;
+}
+
+.play-btn {
+  width: 36px;
+  height: 36px;
+
+  border-radius: 50%;
+
+  background: #5d5d5d;
+  color: white;
+}
+
+.play-btn:hover {
+  background: #1e4620;
+}
+
+.rate-text {
+  min-width: 40px;
+
+  text-align: center;
+
+  color: #757575;
+  font-size: 14px;
+}
+
+.volume-btn {
+  border-left: 1px solid #cfcfcf;
+  padding-left: 14px;
+  width: auto;
+}
+.main-btn {
+  background: #555;
+  color: #fff;
+}
+
+.main-btn:hover {
+  background: #1e4620;
+}
+
+.rate-text {
+  min-width: 36px;
+  text-align: center;
+
+  color: #757575;
+  font-size: 14px;
+}
+.rate-text {
+  font-size: 14px;
+  color: #757575;}
 
 .title-row {
   min-width: 0;
