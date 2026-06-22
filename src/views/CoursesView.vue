@@ -186,15 +186,15 @@ watch(
 </script>
 
 <template>
-  <main>
+  <div>
     <Breadcrumb :items="breadcrumbItems" />
     <PageHero :image="courseBanner" />
 
     <section class="course-page">
       <section class="section-block">
-        <Text class="green"">熱門課程</Text>
+        <Text class="green">熱門課程</Text>
 
-        <div v-if="viewMode === 'card'" class=" hot-area">
+        <div v-if="viewMode === 'card'" class="hot-area">
           <button class="arrow-btn prev-btn" :class="{ disabled: hotStartIndex === 0 }" :disabled="hotStartIndex === 0"
             @click="prevHotCourse">
             ‹
@@ -285,11 +285,11 @@ watch(
           <a-pagination v-model:current="current" :total="filteredCourses.length" :page-size="pageSize"
             :show-size-changer="false" />
 
-          <p class="page-text">第 {{ current }} 頁， 共 {{ totalPages }} 頁</p>
+          <Text size="text-24" color="deep-gray">第 {{ current }} 頁，共 {{ totalPages }} 頁</Text>
         </div>
       </section>
     </section>
-  </main>
+  </div>
 </template>
 
 <style scoped>
@@ -586,44 +586,37 @@ watch(
   display: flex;
   justify-content: space-between;
   align-items: end;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.page-text {
-  font-size: 1.5rem;
-  margin: 0;
-  color: #1e4620;
 }
 
 .page-area :deep(.ant-pagination) {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 8px 0;
 }
 
 .page-area :deep(.ant-pagination-item) {
   width: 45px;
   height: 45px;
-  min-width: 45px;
-  line-height: 41px;
+  line-height: 45px;
   border-radius: 50%;
   border: 2px solid #1e4620;
-  background-color: #f9f6f0;
+  background-color: transparent;
 }
 
 .page-area :deep(.ant-pagination-item a) {
   color: #1e4620;
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
-.page-area :deep(.ant-pagination-item:hover),
+.page-area :deep(.ant-pagination-item:hover) {
+  background-color: #d1c8c1;
+}
+
 .page-area :deep(.ant-pagination-item-active) {
   background-color: #d1c8c1;
   border-color: #1e4620;
 }
 
-.page-area :deep(.ant-pagination-item:hover a),
 .page-area :deep(.ant-pagination-item-active a) {
   color: #1e4620;
 }
@@ -657,7 +650,7 @@ watch(
 
   .category-btn {
     font-size: 1.25rem;
-    height: 60px;
+    height: 51px;
     white-space: nowrap;
   }
 
@@ -701,6 +694,13 @@ watch(
   }
 }
 
+/* 1024 */
+@media (max-width: 1024px) {
+  .page-area {
+    margin-top: 20px;
+  }
+}
+
 /* 768 */
 @media (max-width: 768px) {
   .course-page {
@@ -740,6 +740,20 @@ watch(
   .page-area {
     flex-direction: column;
     align-items: flex-start;
+    gap: 16px;
+  }
+}
+
+/* 650 */
+@media (max-width: 650px) {
+  .category-area {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .category-btn {
+    width: 100%;
   }
 }
 
@@ -757,7 +771,7 @@ watch(
 
   .category-btn {
     width: 100%;
-    height: 60px;
+    height: 51px;
     padding: 0 12px;
     font-size: 1.25rem;
     font-weight: 500;
@@ -777,23 +791,13 @@ watch(
     font-size: 1rem;
   }
 
-  .page-area :deep(.ant-pagination-item) {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    line-height: 32px;
-  }
-
-  .page-area :deep(.ant-pagination-item a) {
-    font-size: 14px;
-  }
 }
 
 /* 390 */
 @media (max-width: 390px) {
   .course-page {
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 
   .category-area {
@@ -802,7 +806,7 @@ watch(
 
   .category-btn {
     min-width: 0;
-    height: 60px;
+    height: 51px;
     font-size: 1.25rem;
     font-weight: 500;
   }
@@ -826,25 +830,11 @@ watch(
     font-size: 14px;
   }
 
-  .page-area {
-    width: 100%;
-    overflow: hidden;
-  }
-
-  .page-area :deep(.ant-pagination) {
-    max-width: 100%;
-    gap: 6px;
-  }
-
   .page-area :deep(.ant-pagination-item) {
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
-    line-height: 28px;
+    width: 44px;
+    height: 44px;
+    line-height: 44px;
   }
 
-  .page-area :deep(.ant-pagination-item a) {
-    font-size: 13px;
-  }
 }
 </style>

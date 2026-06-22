@@ -14,6 +14,7 @@ import {
   BankOutlined,
   CarOutlined,
   AimOutlined,
+  ReloadOutlined,
 } from '@ant-design/icons-vue'
 
 const route = useRoute()
@@ -61,6 +62,9 @@ const isSpeaking = ref(false)
 const isPaused = ref(false)
 const rate = ref(1)
 
+let speakTimeoutId = null
+let gapResumeCallback = null
+
 function cleanText(text) {
   return text
     .replace(/◆/g, '')
@@ -70,39 +74,58 @@ function cleanText(text) {
     .replace(/\[/g, '')
     .replace(/\]/g, '')
     .replace(/\n/g, ' ')
+    .replace(/(\d{4})\/(\d{1,2})\/(\d{1,2})/g, '$1年$2月$3日')
+    .replace(/(\d{1,2})\/(\d{1,2})/g, '$1月$2日')
 }
 
-function getCourseText(course) {
-  return `
-    課程名稱：${course.title}
-    授課老師：${course.teacher}
-    上課日期：${course.period}
-    上課時間：${course.time}
-    上課地點：${course.place}
-    課程費用：${course.fee}
-    課程內容：${course.content}
-  `
+function getCourseSegments(course) {
+  return [
+    `課程名稱：${course.title}`,
+    `授課老師：${course.teacher}`,
+    `上課日期：${course.period}`,
+    `上課時間：${course.time}`,
+    `上課地點：${course.place}`,
+    `課程費用：${course.fee}`,
+    `課程內容：${course.content}`,
+  ].map(cleanText)
 }
 
 function speakCourse(course) {
-  const text = cleanText(getCourseText(course))
-
-  const utterance = new SpeechSynthesisUtterance(text)
-
-  utterance.lang = 'zh-TW'
-  utterance.rate = rate.value
-  utterance.pitch = 1
-  utterance.volume = 1
-
-  utterance.onend = () => {
-    isSpeaking.value = false
-    isPaused.value = false
-  }
+  const segments = getCourseSegments(course)
+  let index = 0
 
   window.speechSynthesis.cancel()
+  clearTimeout(speakTimeoutId)
+  gapResumeCallback = null
   isSpeaking.value = true
   isPaused.value = false
-  window.speechSynthesis.speak(utterance)
+
+  function speakNext() {
+    if (index >= segments.length) {
+      isSpeaking.value = false
+      isPaused.value = false
+      return
+    }
+
+    const utterance = new SpeechSynthesisUtterance(segments[index++])
+    utterance.lang = 'zh-TW'
+    utterance.rate = rate.value
+    utterance.pitch = 1
+    utterance.volume = 1
+
+    utterance.onend = () => {
+      if (!isSpeaking.value) return
+      gapResumeCallback = speakNext
+      speakTimeoutId = setTimeout(() => {
+        gapResumeCallback = null
+        speakNext()
+      }, 300)
+    }
+
+    window.speechSynthesis.speak(utterance)
+  }
+
+  speakNext()
 }
 
 function toggleSpeak(course) {
@@ -112,9 +135,16 @@ function toggleSpeak(course) {
   }
 
   if (isPaused.value) {
-    window.speechSynthesis.resume()
     isPaused.value = false
+    if (gapResumeCallback) {
+      const fn = gapResumeCallback
+      gapResumeCallback = null
+      fn()
+    } else {
+      window.speechSynthesis.resume()
+    }
   } else {
+    clearTimeout(speakTimeoutId)
     window.speechSynthesis.pause()
     isPaused.value = true
   }
@@ -122,6 +152,8 @@ function toggleSpeak(course) {
 
 function stopSpeak() {
   window.speechSynthesis.cancel()
+  clearTimeout(speakTimeoutId)
+  gapResumeCallback = null
   isSpeaking.value = false
   isPaused.value = false
 }
@@ -165,11 +197,7 @@ function decreaseRate() {
   <main>
     <Breadcrumb :items="breadcrumbItems" />
 
-    <img
-  class="course-banner"
-  src="/src/assets/img/course/CourseDetail_Banner.jpg"
-  alt="banner"
-/>
+    <img class="course-banner" src="/src/assets/img/course/CourseDetail_Banner.jpg" alt="banner" />
 
     <section v-if="course" class="course-detail-container">
       <section class="course-top-section">
@@ -177,41 +205,29 @@ function decreaseRate() {
           <div class="title-row">
             <h1>{{ course.title }}</h1>
             <p>課程編號：{{ course.code }}</p>
- <div class="voice-player">
-  <span class="headphone-icon">🎧</span>
+            <div class="voice-player">
+              <span class="headphone-icon">🎧</span>
 
-  <button
-    class="player-btn play-btn"
-    @click="toggleSpeak(course)"
-  >
-    {{ isSpeaking && !isPaused ? '⏸' : '▶' }}
-  </button>
+              <button class="player-btn play-btn" @click="toggleSpeak(course)">
+                {{ isSpeaking && !isPaused ? '⏸' : '▶' }}
+              </button>
 
-  <button
-    class="player-btn"
-    @click="decreaseRate"
-  >
-    −
-  </button>
+              <button class="player-btn" @click="decreaseRate">
+                −
+              </button>
 
-  <span class="rate-text">
-    x{{ rate }}
-  </span>
+              <span class="rate-text">
+                x{{ rate }}
+              </span>
 
-  <button
-    class="player-btn"
-    @click="increaseRate"
-  >
-    ＋
-  </button>
+              <button class="player-btn" @click="increaseRate">
+                ＋
+              </button>
 
-  <button
-    class="player-btn volume-btn"
-    @click="stopSpeak"
-  >
-    🔊
-  </button>
-</div>
+              <button class="player-btn volume-btn" @click="stopSpeak">
+                <ReloadOutlined />
+              </button>
+            </div>
           </div>
 
           <div class="meta-row">
@@ -251,12 +267,7 @@ function decreaseRate() {
           </div>
 
           <div class="btn-center">
-            <a
-              class="signup-btn"
-              :href="course.signupUrl"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a class="signup-btn" :href="course.signupUrl" target="_blank" rel="noopener noreferrer">
               我要報名
             </a>
           </div>
@@ -281,13 +292,8 @@ function decreaseRate() {
       <section class="section-block">
         <h2 class="section-title">活動地圖</h2>
 
-        <iframe
-          class="map-frame"
-          :src="mapEmbedUrl"
-          loading="lazy"
-          allowfullscreen
-          referrerpolicy="no-referrer-when-downgrade"
-        ></iframe>
+        <iframe class="map-frame" :src="mapEmbedUrl" loading="lazy" allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
 
         <div class="traffic-info">
           <p>
@@ -327,7 +333,6 @@ function decreaseRate() {
 </template>
 
 <style scoped>
-
 main {
   overflow-x: hidden;
 }
@@ -345,7 +350,7 @@ main {
 }
 
 .headphone-icon {
-  font-size: 24px;
+  font-size: 1.5rem;
   color: #666;
 }
 
@@ -363,7 +368,7 @@ main {
   cursor: pointer;
 
   color: #666;
-  font-size: 16px;
+  font-size: 1.25rem;
 }
 
 .play-btn {
@@ -382,11 +387,9 @@ main {
 
 .rate-text {
   min-width: 40px;
-
   text-align: center;
-
   color: #757575;
-  font-size: 14px;
+  font-size: 1.25rem;
 }
 
 .volume-btn {
@@ -394,6 +397,7 @@ main {
   padding-left: 14px;
   width: auto;
 }
+
 .main-btn {
   background: #555;
   color: #fff;
@@ -402,17 +406,6 @@ main {
 .main-btn:hover {
   background: #1e4620;
 }
-
-.rate-text {
-  min-width: 36px;
-  text-align: center;
-
-  color: #757575;
-  font-size: 14px;
-}
-.rate-text {
-  font-size: 14px;
-  color: #757575;}
 
 .title-row {
   min-width: 0;
@@ -434,7 +427,7 @@ main {
   gap: 80px;
 }
 
-main > img {
+main>img {
   width: 100%;
   display: block;
   object-fit: cover;
@@ -466,7 +459,7 @@ main > img {
   display: flex;
   align-items: center;
   gap: 16px;
-  color:#3C3C3C;
+  color: #3C3C3C;
 }
 
 .title-row h1 {
