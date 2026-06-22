@@ -642,7 +642,7 @@ watch(
   }
 
   .display-toggle {
-    align-self: flex-end;
+    align-self: flex-start;
   }
 
   .hot-track > * {
@@ -725,7 +725,7 @@ watch(
   }
 
   .display-toggle {
-    align-self: flex-end;
+    align-self: flex-start;
   }
 
   .hot-track > * {
