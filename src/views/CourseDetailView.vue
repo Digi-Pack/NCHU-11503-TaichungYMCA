@@ -63,7 +63,11 @@ const noteParagraphs = computed(() => {
   <main>
     <Breadcrumb :items="breadcrumbItems" />
 
-    <img src="/src/assets/img/course/CourseDetail_Banner.jpg" alt="banner">
+    <img
+  class="course-banner"
+  src="/src/assets/img/course/CourseDetail_Banner.jpg"
+  alt="banner"
+/>
 
     <section v-if="course" class="course-detail-container">
       <section class="course-top-section">
@@ -201,6 +205,16 @@ const noteParagraphs = computed(() => {
   gap: 40px;
 }
 
+.course-banner {
+  width: 100%;
+  height: 336px;
+
+  display: block;
+
+  object-fit: cover;
+  object-position: center;
+}
+
 .course-title-area {
   display: flex;
   flex-direction: column;
@@ -211,6 +225,7 @@ const noteParagraphs = computed(() => {
   display: flex;
   align-items: center;
   gap: 16px;
+  color:#3C3C3C;
 }
 
 .title-row h1 {
@@ -263,16 +278,17 @@ const noteParagraphs = computed(() => {
   margin: 0;
   padding-bottom: 12px;
   border-bottom: 3px solid #3c3c3c;
-  color: #3c3c3c;
-  font-size: 48px;
+  color: #1E4620;
+  font-size: 3rem;
   font-weight: 500;
   line-height: 1.2;
 }
 
 .info-card {
   padding: 40px;
-  border: 1px solid #000;
+  border: 1px solid #7D7D7D;
   border-radius: 20px;
+  background-color: #F9F6F0;
 }
 
 .info-card p,
@@ -311,7 +327,7 @@ const noteParagraphs = computed(() => {
   width: 120px;
   height: 54px;
   color: #f9f6f0;
-  background: #3c3c3c;
+  background: #1E4620;
   border-radius: 8px;
   font-size: 18px;
   text-decoration: none;
@@ -368,16 +384,23 @@ const noteParagraphs = computed(() => {
   font-size: 40px;
 }
 
+/* ===================== */
 /* 1024 */
+/* ===================== */
+
 @media (max-width: 1024px) {
+  .course-banner {
+    height: 280px;
+  }
+
   .course-detail-container,
   .not-found {
     max-width: calc(100% - 40px);
   }
 
   .title-row {
-    align-items: flex-start;
     flex-direction: column;
+    align-items: flex-start;
   }
 
   .title-row h1,
@@ -398,8 +421,15 @@ const noteParagraphs = computed(() => {
   }
 }
 
+/* ===================== */
 /* 768 */
+/* ===================== */
+
 @media (max-width: 768px) {
+  .course-banner {
+    height: 220px;
+  }
+
   .course-detail-container {
     padding: 48px 0;
     gap: 56px;
@@ -411,8 +441,8 @@ const noteParagraphs = computed(() => {
   }
 
   .meta-row {
-    align-items: flex-start;
     flex-direction: column;
+    align-items: flex-start;
     gap: 16px;
   }
 
@@ -429,8 +459,15 @@ const noteParagraphs = computed(() => {
   }
 }
 
+/* ===================== */
 /* 576 */
+/* ===================== */
+
 @media (max-width: 576px) {
+  .course-banner {
+    height: 180px;
+  }
+
   .course-detail-container,
   .not-found {
     max-width: calc(100% - 32px);
@@ -453,13 +490,50 @@ const noteParagraphs = computed(() => {
   .category-tag {
     min-width: auto;
     height: 40px;
+
     border-radius: 16px;
+
+    background: #1e4620;
+    color: #f0e9e3;
   }
 
   .signup-btn {
     width: 112px;
     height: 48px;
+
     font-size: 16px;
+  }
+
+  .map-frame {
+    height: 240px;
+  }
+}
+
+/* ===================== */
+/* 432 */
+/* ===================== */
+
+@media (max-width: 432px) {
+  .course-banner {
+    height: 140px;
+  }
+
+  .course-detail-container {
+    gap: 40px;
+  }
+
+  .title-row h1,
+  .section-title {
+    font-size: 24px;
+  }
+
+  .info-card {
+    padding: 16px;
+  }
+
+  .info-card p,
+  .traffic-info p {
+    gap: 8px;
   }
 }
 </style>
