@@ -23,13 +23,10 @@ const previewContent = computed(() => {
 </script>
 
 <template>
-  <RouterLink
-    class="course-list-item"
-    :to="{
-      path: `/courses/${course.id}`,
-      query: route.query,
-    }"
-  >
+  <RouterLink class="course-list-item" :to="{
+    path: `/courses/${course.id}`,
+    query: route.query,
+  }">
     <div class="course-main">
       <div class="course-top">
         <h3 class="course-title">
@@ -177,7 +174,54 @@ const previewContent = computed(() => {
     align-self: flex-end;
   }
 }
+
+@media (max-width: 576px) {
+  .course-list-item {
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .course-main {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .course-top {
+    width: 100%;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .course-title {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    word-break: break-word;
+    font-size: 1.375rem;
+  }
+
+  .course-period {
+    white-space: normal;
+    font-size: 1rem;
+  }
+
+  .course-desc {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .course-btn {
+    width: 120px;
+    height: 48px;
+    margin-top: 0;
+    align-self: flex-end;
+    font-size: 14px;
+  }
+}
+
 @media (max-width: 390px) {
+
   .course-list-item,
   .hot-list-item {
     width: 100%;

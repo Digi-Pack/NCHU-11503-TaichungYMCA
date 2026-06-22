@@ -189,6 +189,20 @@ const noteParagraphs = computed(() => {
   </main>
 </template>
 <style scoped>
+
+main {
+  overflow-x: hidden;
+}
+
+.title-row {
+  min-width: 0;
+}
+
+.title-row h1 {
+  min-width: 0;
+  word-break: break-word;
+}
+
 .course-detail-container {
   width: 100%;
   max-width: 1300px;
@@ -402,7 +416,7 @@ main > img {
 /* 1024 */
 /* ===================== */
 
-@media (max-width: 1024px) {
+@media (max-width: 1300px) {
   .course-banner {
     height: 280px;
   }
