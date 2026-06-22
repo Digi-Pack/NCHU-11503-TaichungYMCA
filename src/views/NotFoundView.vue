@@ -29,7 +29,7 @@ function clearActive() {
         <img src="@/assets/img/notfound/notfound.png" alt="404 Illustration" class="notfound__image" />
       </div>
       <div class="notfound__content">
-        <p class="notfound__code">頁面建立中</p>
+        <p class="notfound__code">404</p>
         <h1 class="notfound__title">找不到這個頁面</h1>
         <p class="notfound__desc">
           您要前往的頁面可能已被移除、更名，或網址輸入有誤。
@@ -111,12 +111,12 @@ function clearActive() {
 .notfound__title {
   font-size: 2rem;
   font-weight: 700;
-  color: #222;
+  color: #1E4620;
   margin: 1rem 0 0.5rem;
 }
 
 .notfound__desc {
-  font-size: 1.5rem;
+  font-size: 2rem;
   line-height: 1.7;
   color: #555;
   max-width: 30rem;
@@ -134,7 +134,7 @@ function clearActive() {
 }
 
 .notfound__btn {
-  font-size: 1rem;
+  font-size: 2rem;
   font-weight: 600;
   min-height: 48px;
   padding: 0.75rem 2rem;
@@ -212,7 +212,7 @@ function clearActive() {
   }
 
   .notfound__title {
-    font-size: 1.75rem;
+    font-size: 2.5rem;
   }
 
   .notfound__actions {
