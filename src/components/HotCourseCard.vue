@@ -115,7 +115,11 @@ const previewContent = computed(() => {
 /* ===================== */
 
 .hot-content {
-  padding: 19.64px;
+  min-height: 183px;
+  padding: 18px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
 .hot-title {
@@ -179,19 +183,16 @@ const previewContent = computed(() => {
 
 @media (max-width: 768px) {
   .hot-content {
-    padding: 12px 4px 0;
+    padding: 16px;
   }
 
   .hot-title {
-    font-size: 1.5rem; /* 24px */
+    font-size: 1.5rem;
   }
 
-  .hot-desc {
-    font-size: 1rem; /* 16px */
-  }
-
+  .hot-desc,
   .hot-date {
-    font-size: 1rem; /* 16px */
+    font-size: 1rem;
   }
 }
 

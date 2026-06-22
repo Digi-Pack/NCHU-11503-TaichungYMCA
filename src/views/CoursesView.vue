@@ -190,62 +190,55 @@ watch(
         <div ref="courseTitleRef">
           <Text class="green">所有課程</Text>
         </div>
+<div class="search-area">
+  <input
+    v-model="keywordInput"
+    type="text"
+    class="search-input"
+    placeholder="輸入關鍵字"
+    @keyup.enter="searchCourses"
+  />
 
-        <div class="toolbar">
-          <div class="category-area">
-            <button
-              class="category-btn"
-              :class="{ active: !selectedCategory }"
-              @click="showAllCategory"
-            >
-              全部課程
-            </button>
+  <button class="search-btn" @click="searchCourses">
+    <SearchOutlined />
+    搜尋
+  </button>
+</div>
 
-            <button
-              v-for="cat in categories"
-              :key="cat"
-              class="category-btn"
-              :class="{ active: selectedCategory === cat }"
-              @click="selectCategory(cat)"
-            >
-              {{ cat }}
-            </button>
-          </div>
+<div class="toolbar">
+  <div class="category-area">
+    <button
+      class="category-btn"
+      :class="{ active: !selectedCategory }"
+      @click="showAllCategory"
+    >
+      全部課程
+    </button>
 
-          <div class="display-toggle">
-            <BarChartOutlined
-              class="icon chart"
-              :class="{ active: viewMode === 'list' }"
-              @click="setViewMode('list')"
-            />
-            <TableOutlined
-              class="icon table"
-              :class="{ active: viewMode === 'card' }"
-              @click="setViewMode('card')"
-            />
-          </div>
-        </div>
+    <button
+      v-for="cat in categories"
+      :key="cat"
+      class="category-btn"
+      :class="{ active: selectedCategory === cat }"
+      @click="selectCategory(cat)"
+    >
+      {{ cat }}
+    </button>
+  </div>
 
-
-
-        <div v-if="pageCourses.length === 0" class="empty-text">
-          找不到符合條件的課程
-        </div>
-        <div class="search-area">
-          <input
-            v-model="keywordInput"
-            type="text"
-            class="search-input"
-            placeholder="輸入關鍵字"
-            @keyup.enter="searchCourses"
-          />
-
-          <button class="search-btn" @click="searchCourses">
-            <SearchOutlined />
-            搜尋
-          </button>
-        </div>
-
+  <div class="display-toggle">
+    <BarChartOutlined
+      class="icon chart"
+      :class="{ active: viewMode === 'list' }"
+      @click="setViewMode('list')"
+    />
+    <TableOutlined
+      class="icon table"
+      :class="{ active: viewMode === 'card' }"
+      @click="setViewMode('card')"
+    />
+  </div>
+</div>
         <button v-if="keyword" class="clear-btn" @click="clearSearch">
           清除搜尋
         </button>
@@ -585,6 +578,36 @@ watch(
   display: none;
 }
 
+/* 1100：平板變版 */
+@media (max-width: 1100px) {
+  .course-page {
+    padding: 64px 40px 40px;
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+
+  .display-toggle {
+    order: 1;
+    align-self: flex-start;
+  }
+
+  .category-area {
+    order: 2;
+    width: 100%;
+  }
+
+  .hot-track,
+  .cards-area {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+  }
+}
+
 /* 1440 */
 @media (max-width: 1440px) {
   .course-page {
@@ -601,17 +624,7 @@ watch(
 /* 1024 */
 @media (max-width: 1024px) {
   .course-page {
-    padding: 64px 40px 0;
-  }
-
-  .hot-track,
-  .cards-area {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 32px;
-  }
-
-  .toolbar {
-    align-items: flex-start;
+    padding: 64px 40px 40px;
   }
 }
 
