@@ -262,7 +262,11 @@ watch(
 .hot-list-area {
   margin-top: 40px;
   border-top: 1px solid #b1b0b0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
+
 
 .green {
   color: #1E4620;
@@ -399,13 +403,21 @@ watch(
 .category-btn {
   width: 120px;
   height: 51px;
-  padding: 16px 12px;
+  padding: 0 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   border-radius: 20px;
   border: 1px solid #1e4620;
   background-color: #f9f6f0;
   color: #1e4620;
   cursor: pointer;
-  font-size: 16px;
+
+  font-size: 1.25rem;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
 .category-btn.active {
@@ -466,6 +478,9 @@ watch(
 
 .lists-area {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .empty-text {

@@ -132,58 +132,71 @@ const previewContent = computed(() => {
 /* ===================== */
 
 .card-content {
-  min-height: 183px;
+  min-height: 260px;
 
-  padding: 18px;
+  padding: 16px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  gap: 16px;
+
+  background-color: #fff;
 }
 
 .course-title {
-  margin: 0 0 16px;
+  margin: 0;
 
-  font-size: 1.875rem;
+  font-size: 2.25rem; /* 36px */
   font-weight: 500;
   line-height: 1.2;
-  color: #000;
-  white-space: nowrap;
+  color: #2d2d2d;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
+
+  min-height: 2.4em;
 }
 
 .course-desc {
-  margin: 0 0 20px;
+  margin: 0;
 
-  font-size: 1.25rem;
+  font-size: 1.5rem; /* 24px */
   line-height: 1.5;
   color: #757575;
+
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
 .course-date {
-  margin: 0;
+  margin: auto 0 0;
 
-  font-size: 1.25rem;
+  font-size: 1.5rem; /* 24px */
   line-height: 1.2;
   color: #757575;
 }
-
 /* ===================== */
 /* 1024 */
 /* ===================== */
 
 @media (max-width: 1024px) {
+  .card-content {
+    min-height: 230px;
+  }
+
   .course-title {
-    font-size: 1.75rem;
+    font-size: 1.875rem; /* 30px */
   }
 
   .course-desc,
   .course-date {
-    font-size: 1.125rem;
+    font-size: 1.25rem; /* 20px */
   }
 }
 
@@ -192,13 +205,18 @@ const previewContent = computed(() => {
 /* ===================== */
 
 @media (max-width: 768px) {
+  .card-content {
+    min-height: 210px;
+    padding: 16px;
+  }
+
   .course-title {
-    font-size: 1.5rem;
+    font-size: 1.5rem; /* 24px */
   }
 
   .course-desc,
   .course-date {
-    font-size: 1rem;
+    font-size: 1.25rem; /* 20px */
   }
 }
 
@@ -208,50 +226,16 @@ const previewContent = computed(() => {
 
 @media (max-width: 432px) {
   .card-content {
-    padding: 16px;
+    min-height: 180px;
   }
 
   .course-title {
-    font-size: 1.25rem;
+    font-size: 1.25rem; /* 20px */
   }
 
   .course-desc,
   .course-date {
-    font-size: 0.875rem;
-  }
-}
-
-/* ========================= */
-/* Layout RWD */
-/* ========================= */
-
-@media (max-width: 1400px) {
-  .course-page {
-    padding: 80px 80px 0;
-  }
-}
-
-@media (max-width: 1100px) {
-  .course-page {
-    padding: 80px 40px 0;
-  }
-
-  .cards-area,
-  .hot-track {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-}
-
-@media (max-width: 768px) {
-  .course-page {
-    padding: 40px 16px 0;
-  }
-
-  .cards-area,
-  .hot-track {
-    grid-template-columns: 1fr;
-    gap: 16px;
+    font-size: 1rem; /* 16px */
   }
 }
 </style>
