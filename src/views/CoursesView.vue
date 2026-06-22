@@ -1,6 +1,6 @@
 <script setup>
 
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import courses from '@/data/course.json'
 
@@ -11,6 +11,7 @@ import CourseListItem from '@/components/CourseListItem.vue'
 import HotCourseCard from '@/components/HotCourseCard.vue'
 import HotCourseListItem from '@/components/HotCourseListItem.vue'
 import PageHero from '@/components/PageHero.vue'
+import NotFoundBlock from '@/components/NotFoundBlock.vue'
 import courseBanner from '@/assets/img/course/Course_Banner.jpg'
 
 import {
@@ -45,10 +46,33 @@ const keyword = ref('')
 
 const hotCourses = computed(() => courses.slice(0, 5))
 const hotStartIndex = ref(0)
+const hotTrackRef = ref(null)
+const activeHotIndex = ref(0)
+const isMobileView = ref(false)
+let mediaQuery = null
+
+function onMediaChange(e) {
+  isMobileView.value = e.matches
+  activeHotIndex.value = 0
+}
+
+onMounted(() => {
+  mediaQuery = window.matchMedia('(max-width: 768px)')
+  isMobileView.value = mediaQuery.matches
+  mediaQuery.addEventListener('change', onMediaChange)
+})
+
+onUnmounted(() => {
+  mediaQuery?.removeEventListener('change', onMediaChange)
+})
 
 const visibleHotCourses = computed(() => {
   return hotCourses.value.slice(hotStartIndex.value, hotStartIndex.value + 3)
 })
+
+const displayedHotCourses = computed(() =>
+  isMobileView.value ? hotCourses.value : visibleHotCourses.value
+)
 
 function prevHotCourse() {
   if (hotStartIndex.value > 0) hotStartIndex.value--
@@ -56,6 +80,29 @@ function prevHotCourse() {
 
 function nextHotCourse() {
   if (hotStartIndex.value < hotCourses.value.length - 3) hotStartIndex.value++
+}
+
+function scrollToHot(index) {
+  if (!hotTrackRef.value) return
+  const cards = hotTrackRef.value.children
+  if (cards[index]) {
+    cards[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
+  }
+  activeHotIndex.value = index
+}
+
+function onHotScroll() {
+  if (!hotTrackRef.value) return
+  const track = hotTrackRef.value
+  const cards = Array.from(track.children)
+  const scrollLeft = track.scrollLeft
+  let closest = 0
+  let minDist = Infinity
+  cards.forEach((card, i) => {
+    const dist = Math.abs(card.offsetLeft - scrollLeft)
+    if (dist < minDist) { minDist = dist; closest = i }
+  })
+  activeHotIndex.value = closest
 }
 
 const filteredCourses = computed(() => {
@@ -154,8 +201,8 @@ watch(
           </button>
 
           <div class="hot-window">
-            <div class="hot-track">
-              <HotCourseCard v-for="course in visibleHotCourses" :key="course.id" :course="course" />
+            <div class="hot-track" ref="hotTrackRef" @scroll="onHotScroll">
+              <HotCourseCard v-for="course in displayedHotCourses" :key="course.id" :course="course" />
             </div>
           </div>
 
@@ -163,6 +210,16 @@ watch(
             :disabled="hotStartIndex >= hotCourses.length - 3" @click="nextHotCourse">
             ›
           </button>
+
+          <div class="hot-pagination">
+            <button
+              v-for="(_, i) in hotCourses"
+              :key="i"
+              class="hot-dot"
+              :class="{ active: activeHotIndex === i }"
+              @click="scrollToHot(i)"
+            />
+          </div>
           </div>
 
           <div v-else class="hot-list-area">
@@ -197,23 +254,34 @@ watch(
           </div>
 
           <div class="display-toggle">
-            <BarChartOutlined class="icon chart" :class="{ active: viewMode === 'list' }"
-              @click="setViewMode('list')" />
-            <TableOutlined class="icon table" :class="{ active: viewMode === 'card' }" @click="setViewMode('card')" />
+            <a-tooltip title="列表檢視">
+              <BarChartOutlined class="icon chart" :class="{ active: viewMode === 'list' }"
+                @click="setViewMode('list')" />
+            </a-tooltip>
+            <a-tooltip title="卡片檢視">
+              <TableOutlined class="icon table" :class="{ active: viewMode === 'card' }" @click="setViewMode('card')" />
+            </a-tooltip>
           </div>
         </div>
-        <button v-if="keyword" class="clear-btn" @click="clearSearch">
-          清除搜尋
-        </button>
-        <div v-else-if="viewMode === 'card'" class="cards-area">
-          <CourseCard v-for="course in pageCourses" :key="course.id" :course="course" />
-        </div>
+        <button v-if="keyword" class="clear-btn" @click="clearSearch">清除搜尋</button>
+        <NotFoundBlock
+          v-if="pageCourses.length === 0"
+          :show-code="false"
+          title="找不到符合條件的課程"
+          description="請嘗試其他關鍵字或分類"
+        />
 
-        <div v-else class="lists-area">
-          <CourseListItem v-for="course in pageCourses" :key="course.id" :course="course" />
-        </div>
+        <template v-else>
+          <div v-if="viewMode === 'card'" class="cards-area">
+            <CourseCard v-for="course in pageCourses" :key="course.id" :course="course" />
+          </div>
 
-        <div class="page-area">
+          <div v-else class="lists-area">
+            <CourseListItem v-for="course in pageCourses" :key="course.id" :course="course" />
+          </div>
+        </template>
+
+        <div v-if="filteredCourses.length > 0" class="page-area">
           <a-pagination v-model:current="current" :total="filteredCourses.length" :page-size="pageSize"
             :show-size-changer="false" />
 
@@ -226,17 +294,17 @@ watch(
 
 <style scoped>
 .icon {
+  font-size: 32px;
+  background-color: #f9f6f0;
+  color: #1e4620;
+  border: 2px solid #1e4620;
+  padding: 10px;
+  cursor: pointer;
   width: 51px;
   height: 51px;
-  display: flex;
-  justify-content: center;
+  display: inline-flex;
   align-items: center;
-  padding: 0;
-  background: #f9f6f0;
-  color: #1e4620;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
+  justify-content: center;
 }
 
 .course-page {
@@ -302,6 +370,28 @@ watch(
 .hot-list-area {
   margin-top: 40px;
   border-top: 1px solid #b1b0b0;
+}
+
+.hot-pagination {
+  display: none;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.hot-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background-color: #b1b0b0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.hot-dot.active {
+  background-color: #1e4620;
 }
 
 .arrow-btn {
@@ -433,28 +523,29 @@ watch(
 .display-toggle {
   display: flex;
   flex-shrink: 0;
-  border: 1px solid #1e4620;
-  border-radius: 8px;
-  overflow: hidden;
-  background-color: #f9f6f0;
 }
 
 .chart {
-  border-right: 1px solid #1e4620;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-right: none;
 }
 
-.table,
-.chart {
-  border-radius: 0;
+.table {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-left: none;
 }
 
 .icon:hover {
   background-color: #938d6b;
+  border-color: #938d6b;
   color: #f0e9e3;
 }
 
 .icon.active {
   background-color: #1e4620;
+  border-color: #1e4620;
   color: #f0e9e3;
 }
 
@@ -614,21 +705,13 @@ watch(
 @media (max-width: 768px) {
   .course-page {
     padding: 48px 32px 0;
-  } 
+  }
   .arrow-btn {
+    display: none;
+  }
+
+  .hot-pagination {
     display: flex;
-    width: 48px;
-    height: 48px;
-    font-size: 36px;
-    line-height: 36px;
-  }
-
-   .prev-btn {
-    left: 8px;
-  }
-
-  .next-btn {
-    right: 8px;
   }
 
   .section-block {

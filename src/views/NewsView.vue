@@ -9,6 +9,7 @@ import NewsList from "@/components/NewsList.vue";
 import Breadcrumb from "@/components/Breadcrumb.vue";
 import newsList from "@/data/news.js";
 import { BarChartOutlined, TableOutlined, SearchOutlined } from "@ant-design/icons-vue";
+import NotFoundBlock from "@/components/NotFoundBlock.vue";
 
 const route = useRoute();
 
@@ -127,9 +128,12 @@ watch(viewMode, (view) => {
 
 
 
-      <div v-if="cardNews.length === 0" class="empty-text">
-        找不到符合條件的消息
-      </div>
+      <NotFoundBlock
+        v-if="cardNews.length === 0"
+        :show-code="false"
+        title="找不到符合條件的消息"
+        description="請嘗試其他關鍵字或分類"
+      />
 
       <template v-else>
         <div class="cards-area" v-show="viewMode === 'card'">
@@ -143,7 +147,7 @@ watch(viewMode, (view) => {
         </div>
       </template>
 
-      <div class="page-area">
+      <div v-if="filteredNews.length > 0" class="page-area">
         <a-pagination v-model:current="current" :total="filteredNews.length" :page-size="pageSize" />
         <Text size="text-24" color="deep-gray">第 {{ current }} 頁，共 {{ totalPages }} 頁</Text>
       </div>
@@ -199,6 +203,11 @@ watch(viewMode, (view) => {
   border-radius: 16px;
   background: #fff;
   overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.search-area:focus-within {
+  border-color: #d96b27;
 }
 
 .search-input {
@@ -340,13 +349,6 @@ watch(viewMode, (view) => {
 .cards-area :deep(.card) {
   width: 100%;
   cursor: pointer;
-}
-
-.empty-text {
-  padding: 80px 0;
-  text-align: center;
-  color: #757575;
-  font-size: 1.2rem;
 }
 
 .lists-area {
