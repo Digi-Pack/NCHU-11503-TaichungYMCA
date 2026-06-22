@@ -144,7 +144,7 @@ watch(viewMode, (view) => {
 
       <div class="page-area">
         <a-pagination v-model:current="current" :total="filteredNews.length" :page-size="pageSize" />
-        <Text size="text-24" color="deep-gray">Page {{ current }} of {{ totalPages }}</Text>
+        <Text size="text-24" color="deep-gray">第 {{ current }} 頁，共 {{ totalPages }} 頁</Text>
       </div>
     </div>
   </main>
@@ -252,19 +252,24 @@ watch(viewMode, (view) => {
 }
 
 .button-area {
-  max-width: 800px;
+  max-width: 950px;
   display: flex;
   flex-wrap: wrap;
   gap: 12px 16px;
 }
 
 .icon {
-  font-size: 28px;
+  font-size: 32px;
   background-color: #F9F6F0;
   color: #1e4620;
   border: 2px solid #1e4620;
   padding: 10px;
   cursor: pointer;
+  width: 60px;
+  height: 60px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .icon:hover {
@@ -283,6 +288,7 @@ watch(viewMode, (view) => {
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   border-right: none;
+  /* line-height: 60px; */
 }
 
 .chart {
@@ -292,13 +298,13 @@ watch(viewMode, (view) => {
 }
 
 .category-btn {
-  width: calc(800px / 6 - 16px);
-  height: 51px;
+  width: calc(950px / 6 - 16px);
+  height: 60px;
   border-radius: 20px;
   background-color: #F9F6F0;
   border-color: #1e4620;
   color: #1e4620;
-  font-size: 1rem;
+  font-size: 1.25rem;
   display: flex;
   justify-content: center;
   align-items: center;

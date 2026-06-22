@@ -73,9 +73,6 @@ const props = defineProps({
         font-size: 1.75rem;
     }
 
-    .text-24 {
-        font-size: 1.375rem;
-    }
 }
 
 @media (max-width: 950px) {
@@ -108,10 +105,6 @@ const props = defineProps({
 
     .text-32 {
         font-size: 1.5rem;
-    }
-
-    .text-24 {
-        font-size: 1.25rem;
     }
 }
 

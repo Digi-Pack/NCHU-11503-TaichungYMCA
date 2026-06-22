@@ -39,7 +39,11 @@ import footerImg from "@/assets/img/footer/footerImg.jpg";
     </div>
 
     <div class="footer-bottom">
-      <p>© Copyright - Starfish Tech</p>
+      <p>© Copyright -臺中市北屯社區大學</p>
+      <div class="privacy">
+        <p class="p-c p-border">隱私權及安全政策宣示</p>
+        <p class="p-c">著作權聲明</p>
+      </div>
     </div>
   </footer>
 </template>
@@ -162,7 +166,8 @@ import footerImg from "@/assets/img/footer/footerImg.jpg";
   background: #3c3c3c;
   height: 54px;
   display: flex;
-  justify-content: center;
+  padding: 0 0 0 16px;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -171,6 +176,34 @@ import footerImg from "@/assets/img/footer/footerImg.jpg";
   color: #f9f6f0;
   font-size: 1.125rem;
   text-align: center;
+}
+
+.privacy {
+  display: flex;
+}
+
+.p-c {
+  padding: 16px;
+  cursor: pointer;
+}
+
+.p-c:hover {
+  color: #B1B0B0;
+}
+
+.p-border {
+  position: relative;
+}
+
+.p-border::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 50%;
+  width: 1px;
+  background-color: #f9f6f0;
 }
 
 /* 1300 */

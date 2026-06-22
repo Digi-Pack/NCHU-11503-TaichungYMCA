@@ -127,7 +127,7 @@ const vReveal = {
             <RightCircleOutlined class="location-icon" />
           </div>
           <Text size="text-36" color="gray"
-            class="location-desc">臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多人次。臺中市政府自開辦社大以來，由四家開放至六家承辦單位，台中YMCA憑藉良好辦學經驗及成果，至今通過市府多次招標審核、獲選承辦大墩社大。於市政府每年定期之社大評鑑中，皆獲評審委員一致肯定，並連續多年獲得教育部肯定為辦學績優單位。</Text>
+            class="location-desc">臺中市北屯（原大墩）社區大學自民國 91 年起由台中 YMCA 承辦，深耕終身教育，每年吸引逾萬人次學員修習。憑藉優異的辦學成果，不僅歷年均獲市府評鑑高度肯定，更連續多年榮獲教育部評選為「辦學績優單位」。</Text>
         </div>
       </div>
       <div class="location-right">
@@ -207,6 +207,7 @@ image {
 
 .sub-title{
   text-align: justify;
+  line-height: 1.5;
 }
 
 .courses-btn {
@@ -268,6 +269,7 @@ image {
 
 .banner-text{
   text-align: justify;
+  line-height: 1.5;
 }
 
 .news {
@@ -285,7 +287,7 @@ image {
 }
 
 .news-title-row {
-  min-width: 324px;
+  width: 100%;
   align-self: flex-start;
   display: flex;
   align-items: center;
@@ -346,7 +348,7 @@ image {
 }
 
 .location-title {
-  min-width: 324px;
+  width: 100%;
   display: flex;
   align-items: center;
   align-self: flex-start;
@@ -369,6 +371,7 @@ image {
   line-clamp: 9;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  line-height: 1.5;
 }
 
 .location-right {
@@ -466,10 +469,8 @@ image {
 
   .location {
     min-height: unset;
-  }
-
-  .location-right {
-    display: none;
+    flex-direction: column;
+    gap: 32px 0;
   }
 
   .location-left {
@@ -481,9 +482,17 @@ image {
   }
 
   .location-desc {
-    -webkit-line-clamp: unset;
-    line-clamp: unset;
-    overflow: visible;
+    display: none;
+  }
+
+  .location-right {
+    display: block;
+    width: 100%;
+  }
+
+  .img-wrapper {
+    height: 320px;
+    width: 100%;
   }
 }
 
@@ -517,6 +526,14 @@ image {
 
 .location.container-normal {
     padding: 0 20px;
+  }
+
+  .location {
+    gap: 16px 0;
+  }
+
+  .img-wrapper {
+    height: 260px;
   }
 
   .location-icon,
