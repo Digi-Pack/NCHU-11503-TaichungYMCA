@@ -95,31 +95,36 @@ watch(viewMode, (view) => {
         <Text weight="f-500" color="primary-d-g">最新消息</Text>
       </div>
 
-      <div class="search-area">
-        <input v-model="keywordInput" type="text" class="search-input" placeholder="請輸入標題或內文關鍵字"
-          @keyup.enter="searchNews" />
-        <button class="search-btn" @click="searchNews">
-          <SearchOutlined />
-          搜尋
-        </button>
+      <div class="search-checkable">
+        <div class="search-area">
+          <input v-model="keywordInput" type="text" class="search-input" placeholder="請輸入標題或內文關鍵字"
+            @keyup.enter="searchNews" />
+          <button class="search-btn" @click="searchNews">
+            <SearchOutlined />
+            搜尋
+          </button>
+        </div>
+
+        <div class="checkable-area">
+          <div class="button-area">
+            <a-button v-for="cat in category" :key="cat" class="category-btn"
+              :class="{ active: selectedCategory === cat }" @click="selectCategory(cat)">{{ cat }}</a-button>
+          </div>
+          <div class="display-toggle">
+            <a-tooltip title="卡片檢視">
+              <TableOutlined class="icon table" :class="{ active: viewMode === 'card' }" @click="setViewMode('card')" />
+            </a-tooltip>
+            <a-tooltip title="列表檢視">
+              <BarChartOutlined class="icon chart" :class="{ active: viewMode === 'list' }"
+                @click="setViewMode('list')" />
+            </a-tooltip>
+          </div>
+        </div>
+
+        <button v-if="keyword" class="clear-btn" @click="clearSearch">清除搜尋</button>
       </div>
 
-      <div class="checkable-area">
-        <div class="button-area">
-          <a-button v-for="cat in category" :key="cat" class="category-btn"
-            :class="{ active: selectedCategory === cat }" @click="selectCategory(cat)">{{ cat }}</a-button>
-        </div>
-        <div class="display-toggle">
-          <a-tooltip title="卡片檢視">
-            <TableOutlined class="icon table" :class="{ active: viewMode === 'card' }" @click="setViewMode('card')" />
-          </a-tooltip>
-          <a-tooltip title="列表檢視">
-            <BarChartOutlined class="icon chart" :class="{ active: viewMode === 'list' }" @click="setViewMode('list')" />
-          </a-tooltip>
-        </div>
-      </div>
 
-      <button v-if="keyword" class="clear-btn" @click="clearSearch">清除搜尋</button>
 
       <div v-if="cardNews.length === 0" class="empty-text">
         找不到符合條件的消息
@@ -167,6 +172,12 @@ watch(viewMode, (view) => {
 
 .hero {
   margin-bottom: 80px;
+}
+
+.search-checkable{
+  display: flex;
+  flex-direction: column;
+  gap: 20px 0;
 }
 
 .checkable-area {
@@ -224,7 +235,7 @@ watch(viewMode, (view) => {
   padding: 0 20px;
   border: 1px solid #1e4620;
   border-radius: 8px;
-  background: #f9f6f0 ;
+  background: #f9f6f0;
   color: #1e4620;
   cursor: pointer;
   align-self: start;
@@ -445,7 +456,7 @@ watch(viewMode, (view) => {
     width: 100%;
   }
 
-  .clear-btn{
+  .clear-btn {
     align-self: stretch;
   }
 }
@@ -465,5 +476,4 @@ watch(viewMode, (view) => {
     width: 84px;
   }
 }
-
 </style>

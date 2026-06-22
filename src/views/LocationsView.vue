@@ -4,6 +4,7 @@ import { allLocations } from '@/data/location.js'
 import PageHero from '@/components/PageHero.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 
+
 import Swiper from 'swiper'
 import { Pagination } from 'swiper/modules'
 import 'swiper/css'
@@ -11,6 +12,7 @@ import 'swiper/css/pagination'
 
 import locationHeroImgSrc from '@/assets/img/locations/banner-location.png'
 const locationHeroImg = ref(locationHeroImgSrc)
+import lostImg from '@/assets/img/locations/lost.jpg'
 
 const BreadcrumbItems = [
   { text: '首頁', to: '/' },
@@ -27,6 +29,8 @@ const tags = [
   { label: '仁美分部', value: '仁美分部' },
   { label: '文昌分部', value: '文昌分部' },
 ]
+
+
 
 const activeTag = ref('all')
 function setActiveTag(v) { activeTag.value = v }
@@ -113,20 +117,14 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
             <div class="section-header__title-line" aria-hidden="true"></div>
           </div>
           <p v-if="!showDetail" class="section-header__subtitle">
-            臺中市北屯（原大墩）社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多人次。臺中市政府自開辦社大以來，由四家開放至六家承辦單位，台中YMCA憑藉良好辦學經驗及成果，至今通過市府多次招標審核、獲選承辦大墩社大。
+            臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多人次。臺中市政府自開辦社大以來，由四家開放至六家承辦單位，台中YMCA憑藉良好辦學經驗及成果，至今通過市府多次招標審核、獲選承辦大墩社大。於市政府每年定期之社大評鑑中，皆獲評審委員一致肯定，並連續多年獲得教育部肯定為辦學績優單位。
           </p>
         </header>
 
         <!-- Filter tags -->
         <div class="tag-group" role="group" aria-label="篩選服務據點分類">
-          <button
-            v-for="tag in tags"
-            :key="tag.value"
-            class="tag"
-            :class="{ 'tag--active': activeTag === tag.value }"
-            :aria-pressed="activeTag === tag.value"
-            @click="setActiveTag(tag.value)"
-          >
+          <button v-for="tag in tags" :key="tag.value" class="tag" :class="{ 'tag--active': activeTag === tag.value }"
+            :aria-pressed="activeTag === tag.value" @click="setActiveTag(tag.value)">
             {{ tag.label }}
           </button>
         </div>
@@ -139,7 +137,9 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
             <article v-for="location in filteredLocations" :key="location.id" class="location-card" role="listitem">
               <div class="location-card__summary">
                 <div class="location-card__img-wrap">
-                  <img :src="location.image" :alt="location.name" class="location-card__img" loading="lazy" width="207" height="207" />
+                  <img :src="location.image" :alt="location.name" class="location-card__img" loading="lazy" width="207"
+                    height="207" @error="(e) => e.target.src = lostImg" />
+
                 </div>
                 <div class="location-card__content">
                   <h2 class="location-card__name">{{ location.name }}</h2>
@@ -160,7 +160,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
                       </div>
                     </div>
                     <div class="location-card__more">
-                      <button class="btn btn--primary" @click.stop="goToRegion(location.region)" :aria-label="`查看 ${location.name} 更多資訊`">更多資訊</button>
+                      <button class="btn btn--primary" @click.stop="goToRegion(location.region)"
+                        :aria-label="`查看 ${location.name} 更多資訊`">更多資訊</button>
                     </div>
                   </div>
 
@@ -176,7 +177,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
                 <article class="location-card" role="listitem">
                   <div class="location-card__summary">
                     <div class="location-card__img-wrap">
-                      <img :src="location.image" :alt="location.name" class="location-card__img" loading="lazy" width="207" height="207" />
+                      <img :src="location.image" :alt="location.name" class="location-card__img" loading="lazy"
+                        width="207" height="207" @error="(e) => e.target.src = lostImg" />
                     </div>
                     <div class="location-card__content">
                       <h2 class="location-card__name">{{ location.name }}</h2>
@@ -197,7 +199,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
                           </div>
                         </div>
                         <div class="location-card__more">
-                          <button class="btn btn--primary" @click.stop="goToRegion(location.region)" :aria-label="`查看 ${location.name} 更多資訊`">更多資訊</button>
+                          <button class="btn btn--primary" @click.stop="goToRegion(location.region)"
+                            :aria-label="`查看 ${location.name} 更多資訊`">更多資訊</button>
                         </div>
                       </div>
 
@@ -214,12 +217,15 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
         <!-- ── 詳情模式 ── -->
         <div v-else class="locations-list" role="list" aria-label="服務據點清單">
           <article v-for="location in filteredLocations" :key="location.id" class="location-card" role="listitem">
-            <div :id="`detail-${location.id}`" class="location-card__detail" role="region" :aria-label="`${location.name} 詳細資訊`">
+            <div :id="`detail-${location.id}`" class="location-card__detail" role="region"
+              :aria-label="`${location.name} 詳細資訊`">
               <div class="detail-body">
                 <div class="detail-body__left">
-                  <img :src="location.image" :alt="`${location.name} 場地照片`" class="detail-body__img" />
+                  <img :src="location.image" :alt="`${location.name} 場地照片`" class="detail-body__img"
+                    @error="(e) => e.target.src = lostImg" />
                   <div class="detail-cta">
-                    <a :href="location.mapUrl" target="_blank" rel="noopener noreferrer" class="btn btn--primary">開啟地圖</a>
+                    <a :href="location.mapUrl" target="_blank" rel="noopener noreferrer"
+                      class="btn btn--primary">開啟地圖</a>
                   </div>
                 </div>
 
@@ -252,7 +258,8 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
                     <div class="detail-info__block">
                       <p class="detail-info__label">電話</p>
                       <p class="detail-info__value">
-                        <a :href="`tel:${location.tel}`" class="detail-tel-link" :aria-label="`撥打電話 ${location.tel}`">{{ location.tel }}</a>
+                        <a :href="`tel:${location.tel}`" class="detail-tel-link" :aria-label="`撥打電話 ${location.tel}`">{{
+                          location.tel }}</a>
                       </p>
                     </div>
                     <div class="detail-info__block">
@@ -468,7 +475,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 .location-card__name {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
-  font-size: clamp(1.25rem, 2vw, 2.25rem);
+  font-size: clamp(2rem, 2vw, 2.25rem);
   line-height: 1.2;
   color: #1E4620;
   margin: 0;
@@ -596,6 +603,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   gap: 40px;
   min-width: 0;
   align-self: stretch;
+  max-width: 910px; 
 }
 
 .detail-right__title-group {
@@ -735,6 +743,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 
 /* ── RWD ≤ 768px ── */
 @media (max-width: 768px) {
+
   /* 卡片改為上下排列（圖片上、資訊下） */
   .location-card__summary {
     flex-direction: column;
@@ -849,6 +858,7 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
 
 /* ── Accessibility ── */
 @media (prefers-reduced-motion: reduce) {
+
   .btn,
   .tag {
     transition: none;

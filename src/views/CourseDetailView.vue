@@ -63,7 +63,11 @@ const noteParagraphs = computed(() => {
   <main>
     <Breadcrumb :items="breadcrumbItems" />
 
-    <img src="/src/assets/img/course/CourseDetail_Banner.jpg" alt="banner">
+    <img
+  class="course-banner"
+  src="/src/assets/img/course/CourseDetail_Banner.jpg"
+  alt="banner"
+/>
 
     <section v-if="course" class="course-detail-container">
       <section class="course-top-section">
@@ -184,21 +188,38 @@ const noteParagraphs = computed(() => {
     </section>
   </main>
 </template>
-
 <style scoped>
 .course-detail-container {
+  width: 100%;
   max-width: 1300px;
   margin: 0 auto;
   padding: 80px 0;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 80px;
+}
+
+main > img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
 }
 
 .course-top-section {
   display: flex;
   flex-direction: column;
   gap: 40px;
+}
+
+.course-banner {
+  width: 100%;
+  height: 336px;
+
+  display: block;
+
+  object-fit: cover;
+  object-position: center;
 }
 
 .course-title-area {
@@ -211,6 +232,7 @@ const noteParagraphs = computed(() => {
   display: flex;
   align-items: center;
   gap: 16px;
+  color:#3C3C3C;
 }
 
 .title-row h1 {
@@ -232,6 +254,7 @@ const noteParagraphs = computed(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
 }
 
 .category-tag {
@@ -263,16 +286,17 @@ const noteParagraphs = computed(() => {
   margin: 0;
   padding-bottom: 12px;
   border-bottom: 3px solid #3c3c3c;
-  color: #3c3c3c;
-  font-size: 48px;
+  color: #1E4620;
+  font-size: 3rem;
   font-weight: 500;
   line-height: 1.2;
 }
 
 .info-card {
   padding: 40px;
-  border: 1px solid #000;
+  border: 1px solid #7D7D7D;
   border-radius: 20px;
+  background-color: #F9F6F0;
 }
 
 .info-card p,
@@ -311,15 +335,19 @@ const noteParagraphs = computed(() => {
   width: 120px;
   height: 54px;
   color: #f9f6f0;
-  background: #3c3c3c;
+  background: #1E4620;
   border-radius: 8px;
   font-size: 18px;
   text-decoration: none;
 }
 
+.signup-btn:hover {
+  background: #1e4620;
+}
+
 .image-group {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -357,9 +385,11 @@ const noteParagraphs = computed(() => {
 }
 
 .not-found {
+  width: 100%;
   max-width: 1300px;
   margin: 0 auto;
   padding: 120px 0;
+  box-sizing: border-box;
   text-align: center;
 }
 
@@ -368,16 +398,34 @@ const noteParagraphs = computed(() => {
   font-size: 40px;
 }
 
+/* ===================== */
 /* 1024 */
+/* ===================== */
+
 @media (max-width: 1024px) {
+  .course-banner {
+    height: 280px;
+  }
+
   .course-detail-container,
   .not-found {
-    max-width: calc(100% - 40px);
+    max-width: 1300px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+/* 1024 */
+@media (max-width: 1024px) {
+  .course-detail-container {
+    padding-top: 64px;
+    padding-bottom: 64px;
+    gap: 64px;
   }
 
   .title-row {
-    align-items: flex-start;
     flex-direction: column;
+    align-items: flex-start;
   }
 
   .title-row h1,
@@ -396,13 +444,34 @@ const noteParagraphs = computed(() => {
   .note-text {
     font-size: 20px;
   }
+
+  .info-card {
+    padding: 32px;
+  }
+
+  .map-frame {
+    height: 380px;
+  }
 }
 
+/* ===================== */
 /* 768 */
+/* ===================== */
+
 @media (max-width: 768px) {
+  .course-banner {
+    height: 220px;
+  }
+
   .course-detail-container {
-    padding: 48px 0;
+    padding-top: 48px;
+    padding-bottom: 48px;
     gap: 56px;
+  }
+
+  .course-top-section,
+  .section-block {
+    gap: 32px;
   }
 
   .title-row h1,
@@ -411,8 +480,8 @@ const noteParagraphs = computed(() => {
   }
 
   .meta-row {
-    align-items: flex-start;
     flex-direction: column;
+    align-items: flex-start;
     gap: 16px;
   }
 
@@ -429,11 +498,30 @@ const noteParagraphs = computed(() => {
   }
 }
 
+/* ===================== */
 /* 576 */
+/* ===================== */
+
 @media (max-width: 576px) {
+  .course-banner {
+    height: 180px;
+  }
+
   .course-detail-container,
   .not-found {
-    max-width: calc(100% - 32px);
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .course-detail-container {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    gap: 48px;
+  }
+
+  .course-top-section,
+  .section-block {
+    gap: 24px;
   }
 
   .title-row h1,
@@ -453,13 +541,50 @@ const noteParagraphs = computed(() => {
   .category-tag {
     min-width: auto;
     height: 40px;
+
     border-radius: 16px;
+
+    background: #1e4620;
+    color: #f0e9e3;
   }
 
   .signup-btn {
     width: 112px;
     height: 48px;
+
     font-size: 16px;
+  }
+
+  .map-frame {
+    height: 240px;
+  }
+}
+
+/* ===================== */
+/* 432 */
+/* ===================== */
+
+@media (max-width: 432px) {
+  .course-banner {
+    height: 140px;
+  }
+
+  .course-detail-container {
+    gap: 40px;
+  }
+
+  .title-row h1,
+  .section-title {
+    font-size: 24px;
+  }
+
+  .info-card {
+    padding: 16px;
+  }
+
+  .info-card p,
+  .traffic-info p {
+    gap: 8px;
   }
 }
 </style>

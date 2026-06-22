@@ -131,14 +131,15 @@ const previewContent = computed(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
 
-  background: #706f6f;
-  color: #fff;
+  background: #1e4620;
+  color: #f9f6f0;
   border-radius: 8px;
 
   font-size: 1rem;
 }
+
 
 .course-btn span {
   font-size: 1.5rem;
@@ -146,7 +147,7 @@ const previewContent = computed(() => {
 }
 
 .course-list-item:hover .course-btn {
-  background: #3c3c3c;
+  background: #938d6b;
 }
 
 @media (max-width: 768px) {
@@ -174,6 +175,27 @@ const previewContent = computed(() => {
   .course-btn {
     margin-top: 0;
     align-self: flex-end;
+  }
+}
+@media (max-width: 390px) {
+  .course-list-item,
+  .hot-list-item {
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .course-main,
+  .hot-main {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .course-btn,
+  .hot-btn {
+    width: 120px;
+    height: 48px;
+    font-size: 14px;
   }
 }
 </style>

@@ -145,7 +145,7 @@ watch(
 
     <section class="course-page">
       <section class="section-block">
-        <Text>熱門課程</Text>
+        <Text class="green"">熱門課程</Text>
 
         <div v-if="viewMode === 'card'" class="hot-area">
           <button
@@ -188,7 +188,7 @@ watch(
 
       <section class="section-block">
         <div ref="courseTitleRef">
-          <Text>所有課程</Text>
+          <Text class="green">所有課程</Text>
         </div>
 
         <div class="toolbar">
@@ -297,17 +297,16 @@ watch(
 
 .course-page {
   width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 80px 40px 0;
+  max-width: 1300px;
   box-sizing: border-box;
+  margin: 0 auto;
+  padding: 80px 0 0;
 }
 
 .section-block {
   margin-bottom: 64px;
 }
 
-/* 標題 + 底線 */
 .section-block > :first-child {
   width: 100%;
   padding-bottom: 8px;
@@ -315,10 +314,14 @@ watch(
   border-bottom: 2px solid #1e4620;
 }
 
-/* 熱門課程區 */
+/* 熱門課程 */
 .hot-list-area {
   margin-top: 40px;
   border-top: 1px solid #b1b0b0;
+}
+
+.green {
+  color:#1E4620;
 }
 
 .hot-area {
@@ -331,10 +334,18 @@ watch(
   overflow: hidden;
 }
 
-.hot-track {
+.hot-track,
+.cards-area {
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 47px;
+  gap: 74px 64px;
+}
+
+.hot-track > *,
+.cards-area > * {
+  width: 100%;
+  min-width: 0;
 }
 
 .arrow-btn {
@@ -342,34 +353,32 @@ watch(
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
-  width: 36px;
-  height: 36px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   border: 1px solid #b1b0b0;
-  background: #ffffff;
+  background: #F0E9E3;
   color: #7d7d7d;
-  font-size: 20px;
-  line-height: 1;
+  font-size: 48px;
+  line-height: 45PX;
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   cursor: pointer;
 }
 
 .prev-btn {
-  left: -18px;
+  left: 0;
 }
 
 .next-btn {
-  right: -18px;
+  right: 0;
 }
-
-.arrow-btn:hover {
+/* .arrow-btn:hover {
   background: #f5f5f5;
-}
+} */
 
 .arrow-btn.disabled {
-  opacity: 0.35;
   cursor: not-allowed;
 }
 
@@ -379,10 +388,11 @@ watch(
   display: flex;
   align-items: center;
   margin-bottom: 20px;
-  border: 1px solid #b1b0b0;
+  border: 2px solid #b1b0b0;
   border-radius: 16px;
   background: #fff;
   overflow: hidden;
+  transition: border-color 0.2s ease;
 }
 
 .search-input {
@@ -413,8 +423,13 @@ watch(
 }
 
 .search-btn:hover {
-  background-color: #938d6b;
+  border-color: #d96b27;
 }
+
+.search-area:focus-within {
+  border-color: #d96b27;
+}
+
 
 .search-btn :deep(svg) {
   font-size: 20px;
@@ -448,9 +463,14 @@ watch(
   font-size: 16px;
 }
 
-.category-btn.active,
-.category-btn:hover {
+.category-btn.active{
   background-color: #1e4620;
+  color: #f9f6f0;
+}
+
+
+.category-btn:hover {
+  background-color: #938d6b;
   color: #f9f6f0;
 }
 
@@ -499,17 +519,6 @@ watch(
   color: #f0e9e3;
 }
 
-.cards-area {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 47px;
-}
-
-.cards-area > *,
-.hot-track > * {
-  min-width: 0;
-}
-
 .lists-area {
   width: 100%;
 }
@@ -528,18 +537,15 @@ watch(
   align-items: end;
   gap: 16px;
   flex-wrap: wrap;
-  max-width: 100%;
-  overflow: hidden;
 }
 
 .page-text {
+  font-size:1.5rem;
   margin: 0;
-  color: #3c3c3c;
-  white-space: nowrap;
+  color: #1e4620;
 }
 
 .page-area :deep(.ant-pagination) {
-  max-width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -551,12 +557,9 @@ watch(
   height: 45px;
   min-width: 45px;
   line-height: 41px;
-
   border-radius: 50%;
   border: 2px solid #1e4620;
-
   background-color: #f9f6f0;
-
   transition: all 0.2s ease;
 }
 
@@ -566,20 +569,13 @@ watch(
   font-weight: 400;
 }
 
-.page-area :deep(.ant-pagination-item:hover) {
-  background-color: #d1c8c1;
-  border-color: #1e4620;
-}
-
-.page-area :deep(.ant-pagination-item:hover a) {
-  color: #1e4620;
-}
-
+.page-area :deep(.ant-pagination-item:hover),
 .page-area :deep(.ant-pagination-item-active) {
   background-color: #d1c8c1;
   border-color: #1e4620;
 }
 
+.page-area :deep(.ant-pagination-item:hover a),
 .page-area :deep(.ant-pagination-item-active a) {
   color: #1e4620;
 }
@@ -589,55 +585,58 @@ watch(
   display: none;
 }
 
+/* 1440 */
 @media (max-width: 1440px) {
   .course-page {
     max-width: 1300px;
-    padding-left: 40px;
-    padding-right: 40px;
+    padding: 80px 40px 0;
   }
 
-  .cards-area,
-  .hot-track {
-    gap: 32px;
+  .hot-track,
+  .cards-area {
+    gap: 48px 40px;
   }
 }
 
+/* 1024 */
 @media (max-width: 1024px) {
   .course-page {
-    padding-left: 40px;
-    padding-right: 40px;
+    padding: 64px 40px 0;
   }
 
-  .cards-area,
-  .hot-track {
+  .hot-track,
+  .cards-area {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+  }
+
+  .toolbar {
+    align-items: flex-start;
   }
 }
 
+/* 768 */
 @media (max-width: 768px) {
   .course-page {
-    padding: 40px 32px 0;
+    padding: 48px 32px 0;
   }
 
-.toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 24px;
-  margin-bottom: 40px;
-  max-width: 100%;
-  min-width: 0;
-}
+  .section-block {
+    margin-bottom: 48px;
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
   .display-toggle {
     align-self: flex-end;
   }
 
-  .search-area {
-    margin-bottom: 20px;
-  }
-
-  .cards-area,
-  .hot-track {
+  .hot-track,
+  .cards-area {
     grid-template-columns: 1fr;
     gap: 32px;
   }
@@ -649,21 +648,26 @@ watch(
   .page-area {
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
   }
 }
 
+/* 432 */
 @media (max-width: 432px) {
   .course-page {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 40px 20px 0;
+  }
+
+  .category-area {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
 
   .category-btn {
-    width: auto;
-    min-width: 100px;
+    width: 100%;
     height: 44px;
-    padding: 0 16px;
+    padding: 0 12px;
+    font-size: 14px;
   }
 
   .search-input {
@@ -673,6 +677,70 @@ watch(
 
   .search-btn {
     width: 84px;
+    font-size: 1rem;
+  }
+
+  .page-area :deep(.ant-pagination-item) {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    line-height: 32px;
+  }
+
+  .page-area :deep(.ant-pagination-item a) {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 390px) {
+  .course-page {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .category-area {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .category-btn {
+    min-width: 0;
+    font-size: 13px;
+  }
+
+  .display-toggle {
+    align-self: flex-end;
+  }
+
+  .search-input {
+    padding-left: 10px;
+    padding-right: 90px;
+  }
+
+  .search-btn {
+    width: 76px;
+    gap: 4px;
+    font-size: 14px;
+  }
+
+  .page-area {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .page-area :deep(.ant-pagination) {
+    max-width: 100%;
+    gap: 6px;
+  }
+
+  .page-area :deep(.ant-pagination-item) {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    line-height: 28px;
+  }
+
+  .page-area :deep(.ant-pagination-item a) {
+    font-size: 13px;
   }
 }
 </style>
