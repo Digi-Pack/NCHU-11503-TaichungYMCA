@@ -253,7 +253,7 @@ main > img {
 .title-row h1 {
   flex: 1;
   margin: 0;
-  font-size: 48px;
+  font-size: 3rem;
   font-weight: 500;
   line-height: 1.2;
 }
@@ -261,7 +261,7 @@ main > img {
 .title-row p {
   margin: 0;
   color: #757575;
-  font-size: 32px;
+  font-size: 2rem;
   white-space: nowrap;
 }
 
@@ -288,7 +288,7 @@ main > img {
 
 .date-text {
   color: #757575;
-  font-size: 24px;
+  font-size: 1.5px;
 }
 
 .section-block {
@@ -321,7 +321,7 @@ main > img {
   gap: 16px;
   margin: 0 0 16px;
   color: #010101;
-  font-size: 24px;
+  font-size: 1.5rem;
   line-height: 1.5;
 }
 
@@ -335,7 +335,7 @@ main > img {
   flex-shrink: 0;
   margin-top: 5px;
   color: #7d7d7d;
-  font-size: 24px;
+  font-size: 1.5rem;
 }
 
 .btn-center {
@@ -376,7 +376,7 @@ main > img {
 .content-text,
 .note-text {
   color: #757575;
-  font-size: 24px;
+  font-size: 1.5rem;
   line-height: 1.5;
   white-space: pre-line;
 }
@@ -457,7 +457,7 @@ main > img {
   .traffic-info p,
   .content-text,
   .note-text {
-    font-size: 20px;
+    font-size: 1.5rem;
   }
 
   .info-card {
@@ -491,7 +491,7 @@ main > img {
 
   .title-row h1,
   .section-title {
-    font-size: 32px;
+    font-size: 2rem;
   }
 
   .meta-row {
@@ -541,7 +541,7 @@ main > img {
 
   .title-row h1,
   .section-title {
-    font-size: 28px;
+    font-size: 1.75rem;
   }
 
   .title-row p,
@@ -550,7 +550,7 @@ main > img {
   .traffic-info p,
   .content-text,
   .note-text {
-    font-size: 16px;
+    font-size: 1.5rem;
   }
 
   .category-tag {
@@ -567,7 +567,7 @@ main > img {
     width: 112px;
     height: 48px;
 
-    font-size: 16px;
+    font-size: 1rem;
   }
 
   .map-frame {
@@ -590,7 +590,7 @@ main > img {
 
   .title-row h1,
   .section-title {
-    font-size: 24px;
+    font-size: 1.5rem;
   }
 
   .info-card {

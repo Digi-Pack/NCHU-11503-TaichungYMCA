@@ -70,14 +70,14 @@ const previewContent = computed(() => {
   justify-content: space-between;
   gap: 32px;
 
-  padding: 16px 20px;
+  padding: 24px;
 
   background: #ffffff;
-  border-radius: 12px;
-
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border-radius: 16px;
 
   color: inherit;
+
+  margin-bottom: 16px;
 }
 
 .course-main {
@@ -170,7 +170,7 @@ const previewContent = computed(() => {
 
   .course-desc,
   .course-period {
-    font-size: 1rem;
+    font-size: 1.5rem;
   }
 
   .course-btn {
