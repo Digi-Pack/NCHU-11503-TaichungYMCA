@@ -204,6 +204,10 @@ watch(viewMode, (view) => {
   font-size: 1rem;
 }
 
+.search-input::placeholder {
+  font-size: 1.125rem;
+}
+
 .search-btn {
   position: absolute;
   right: 0px;
