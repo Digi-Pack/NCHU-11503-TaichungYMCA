@@ -51,7 +51,6 @@ function getNewsSegments(news) {
     return [
         `標題：${news.title}`,
         `日期：${news.date}`,
-        `分類：${news.category}`,
         news.subTitle ? `摘要：${news.subTitle}` : '',
         `內容：${Array.isArray(news.content) ? news.content.join('') : news.content}`,
     ].filter(Boolean).map(cleanText)
