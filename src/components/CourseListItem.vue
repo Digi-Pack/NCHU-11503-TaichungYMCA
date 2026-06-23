@@ -193,7 +193,7 @@ const previewContent = computed(() => {
 
   .course-period {
     white-space: normal;
-    font-size: 1rem;
+    /* font-size: 1rem; */
   }
 
   .course-desc {
@@ -204,7 +204,7 @@ const previewContent = computed(() => {
   .course-btn {
     width: 120px;
     height: 48px;
-    font-size: 14px;
+    /* font-size: 14px; */
   }
 }
 </style>

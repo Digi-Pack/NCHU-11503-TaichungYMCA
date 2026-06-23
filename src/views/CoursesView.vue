@@ -1,7 +1,7 @@
 <script setup>
 
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router'
 import courses from '@/data/course.json'
 
 import Breadcrumb from '@/components/Breadcrumb.vue'
@@ -37,7 +37,7 @@ const router = useRouter()
 
 const current = ref(Number(route.query.page) || 1)
 const pageSize = ref(6)
-const selectedCategory = ref(null)
+const selectedCategory = ref(route.query.category || null)
 const viewMode = ref(route.query.view || 'card')
 const courseTitleRef = ref(null)
 
@@ -45,6 +45,7 @@ const keywordInput = ref('')
 const keyword = ref('')
 
 const hotCourses = computed(() => courses.slice(0, 5))
+const hotListLimit = ref(3)
 const hotStartIndex = ref(0)
 const hotTrackRef = ref(null)
 const activeHotIndex = ref(0)
@@ -162,17 +163,40 @@ function setViewMode(mode) {
   viewMode.value = mode
 }
 
-watch([current, viewMode], ([page, view]) => {
+watch(current, (page) => {
   router.replace({
     query: {
       ...route.query,
       page,
-      view,
+      view: viewMode.value,
+      category: selectedCategory.value || undefined,
     },
   })
 
   courseTitleRef.value?.scrollIntoView({
     behavior: 'smooth',
+  })
+})
+
+watch(viewMode, (view) => {
+  router.replace({
+    query: {
+      ...route.query,
+      page: current.value,
+      view,
+      category: selectedCategory.value || undefined,
+    },
+  })
+})
+
+watch(selectedCategory, (category) => {
+  router.replace({
+    query: {
+      ...route.query,
+      page: current.value,
+      view: viewMode.value,
+      category: category || undefined,
+    },
   })
 })
 
@@ -183,6 +207,12 @@ watch(
   },
   { immediate: true },
 )
+
+onBeforeRouteLeave((to) => {
+  if (to.name === 'course-detail') {
+    sessionStorage.setItem('scrollY_courses', String(window.scrollY))
+  }
+})
 </script>
 
 <template>
@@ -223,7 +253,13 @@ watch(
           </div>
 
           <div v-else class="hot-list-area">
-            <HotCourseListItem v-for="course in hotCourses.slice(0, 3)" :key="course.id" :course="course" />
+            <HotCourseListItem v-for="course in hotCourses.slice(0, hotListLimit)" :key="course.id" :course="course" />
+            <button v-if="hotListLimit < hotCourses.length" class="show-more-btn" @click="hotListLimit = hotCourses.length">
+              顯示更多
+            </button>
+            <button v-else class="show-more-btn" @click="hotListLimit = 3">
+              顯示較少
+            </button>
           </div>
       </section>
 
@@ -312,11 +348,11 @@ watch(
   max-width: 1300px;
   box-sizing: border-box;
   margin: 0 auto;
-  padding: 80px 40px 0;
+  padding: 80px 0 0 0;
 }
 
 .section-block {
-  margin-bottom: 64px;
+  margin-bottom: 40px;
 }
 
 .section-block > :first-child {
@@ -369,7 +405,27 @@ watch(
 /* 熱門課程列表 */
 .hot-list-area {
   margin-top: 40px;
-  border-top: 1px solid #b1b0b0;
+  /* border-top: 1px solid #b1b0b0; */
+}
+
+.show-more-btn {
+  display: block;
+  margin: 8px auto 0;
+  padding: 0 24px;
+  height: 44px;
+  border: 1px solid #1e4620;
+  border-radius: 8px;
+  background: #f9f6f0;
+  color: #1e4620;
+  font-size: 1.125rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.show-more-btn:hover {
+  background-color: #938d6b;
+  border-color: #938d6b;
+  color: #f9f6f0;
 }
 
 .hot-pagination {
@@ -504,6 +560,7 @@ watch(
   cursor: pointer;
 
   font-size: 1.25rem;
+  font-weight: 500;
   white-space: nowrap;
 
   padding: 0 12px;
@@ -626,6 +683,14 @@ watch(
   display: none;
 }
 
+/* 1400 */
+@media (max-width: 1400px) {
+  .course-page {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+}
+
 /* 1100 以下：熱門課程改成水平滑動 */
 @media (max-width: 1100px) {
   .course-page {
@@ -694,6 +759,15 @@ watch(
   }
 }
 
+/* 1550 */
+@media (max-width: 1550px) {
+  .page-area {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
 /* 1024 */
 @media (max-width: 1024px) {
   .page-area {
@@ -704,7 +778,7 @@ watch(
 /* 768 */
 @media (max-width: 768px) {
   .course-page {
-    padding: 48px 32px 0;
+    padding: 48px 16px 0;
   }
   .arrow-btn {
     display: none;
@@ -737,11 +811,6 @@ watch(
     gap: 32px;
   }
 
-  .page-area {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
 }
 
 /* 650 */
@@ -759,10 +828,6 @@ watch(
 
 /* 432 */
 @media (max-width: 432px) {
-  .course-page {
-    padding: 40px 20px 0;
-  }
-
   .category-area {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -795,10 +860,6 @@ watch(
 
 /* 390 */
 @media (max-width: 390px) {
-  .course-page {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
 
   .category-area {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -835,6 +896,5 @@ watch(
     height: 44px;
     line-height: 44px;
   }
-
 }
 </style>

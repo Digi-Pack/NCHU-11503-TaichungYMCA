@@ -1,11 +1,12 @@
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import newsDetailHero from "@/assets/img/news/newsDetailHero.png"
 import newsList from "@/data/news.js";
 import Text from "@/components/Text.vue";
 import Breadcrumb from "@/components/Breadcrumb.vue";
 import NotFoundView from "@/views/NotFoundView.vue";
+import { ReloadOutlined, CaretRightOutlined, PauseOutlined } from "@ant-design/icons-vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -25,6 +26,118 @@ function goBack() {
         router.push({ name: "news", query: { page: route.query.page, view: route.query.view, category: route.query.category } });
     }
 }
+
+const isSpeaking = ref(false)
+const isPaused = ref(false)
+const rate = ref(1)
+
+let speakTimeoutId = null
+let gapResumeCallback = null
+
+function cleanText(text) {
+    return text
+        .replace(/◆/g, '')
+        .replace(/★/g, '')
+        .replace(/※/g, '')
+        .replace(/~/g, '至')
+        .replace(/\[/g, '')
+        .replace(/\]/g, '')
+        .replace(/\n/g, ' ')
+        .replace(/(\d{4})\/(\d{1,2})\/(\d{1,2})/g, '$1年$2月$3日')
+        .replace(/(\d{1,2})\/(\d{1,2})/g, '$1月$2日')
+}
+
+function getNewsSegments(news) {
+    return [
+        `標題：${news.title}`,
+        `日期：${news.date}`,
+        `分類：${news.category}`,
+        news.subTitle ? `摘要：${news.subTitle}` : '',
+        `內容：${Array.isArray(news.content) ? news.content.join('') : news.content}`,
+    ].filter(Boolean).map(cleanText)
+}
+
+function speakNews(news) {
+    const segments = getNewsSegments(news)
+    let index = 0
+
+    window.speechSynthesis.cancel()
+    clearTimeout(speakTimeoutId)
+    gapResumeCallback = null
+    isSpeaking.value = true
+    isPaused.value = false
+
+    function speakNext() {
+        if (index >= segments.length) {
+            isSpeaking.value = false
+            isPaused.value = false
+            return
+        }
+
+        const utterance = new SpeechSynthesisUtterance(segments[index++])
+        utterance.lang = 'zh-TW'
+        utterance.rate = rate.value
+        utterance.pitch = 1
+        utterance.volume = 1
+
+        utterance.onend = () => {
+            if (!isSpeaking.value) return
+            gapResumeCallback = speakNext
+            speakTimeoutId = setTimeout(() => {
+                gapResumeCallback = null
+                speakNext()
+            }, 300)
+        }
+
+        window.speechSynthesis.speak(utterance)
+    }
+
+    speakNext()
+}
+
+function toggleSpeak() {
+    if (!isSpeaking.value) {
+        speakNews(currentNews.value)
+        return
+    }
+
+    if (isPaused.value) {
+        isPaused.value = false
+        if (gapResumeCallback) {
+            const fn = gapResumeCallback
+            gapResumeCallback = null
+            fn()
+        } else {
+            window.speechSynthesis.resume()
+        }
+    } else {
+        clearTimeout(speakTimeoutId)
+        window.speechSynthesis.pause()
+        isPaused.value = true
+    }
+}
+
+function stopSpeak() {
+    window.speechSynthesis.cancel()
+    clearTimeout(speakTimeoutId)
+    gapResumeCallback = null
+    isSpeaking.value = false
+    isPaused.value = false
+}
+
+function increaseRate() {
+    if (rate.value < 1.5) {
+        rate.value = Number((rate.value + 0.25).toFixed(2))
+    }
+    if (isSpeaking.value) stopSpeak()
+}
+
+function decreaseRate() {
+    if (rate.value > 0.75) {
+        rate.value = Number((rate.value - 0.25).toFixed(2))
+    }
+    if (isSpeaking.value) stopSpeak()
+}
 </script>
 
 <template>
@@ -39,16 +152,30 @@ function goBack() {
             </div>
 
             <div class="title-section container-normal">
+                <div class="voice-backbtn-row">
+                    <div class="voice-player">
+                        <span class="headphone-icon">🎧</span>
+                        <button class="player-btn play-btn" @click="toggleSpeak">
+                            <PauseOutlined v-if="isSpeaking && !isPaused" />
+                            <CaretRightOutlined v-else />
+                        </button>
+                        <button class="player-btn" @click="decreaseRate">−</button>
+                        <span class="rate-text">x{{ rate }}</span>
+                        <button class="player-btn" @click="increaseRate">＋</button>
+                        <button class="player-btn volume-btn" @click="stopSpeak">
+                            <ReloadOutlined />
+                        </button>
+                    </div>
+                    <a-button class="back-btn" @click="goBack">返回上一頁</a-button>
+                </div>
+
                 <div class="title-date">
                     <Text size="text-48" color="black" weight="f-500">{{ currentNews?.title }}</Text>
                     <div class="date">
                         <Text size="text-24" color="gray">{{ currentNews?.date }}</Text>
                     </div>
                 </div>
-                <div class="tag-backbtn">
-                    <div class="tag">{{ currentNews?.category }}</div>
-                    <a-button class="back-btn" @click="goBack">返回上一頁</a-button>
-                </div>
+                <div class="tag">{{ currentNews?.category }}</div>
             </div>
 
             <div class="image-video-audio container-normal">
@@ -77,6 +204,61 @@ function goBack() {
 </template>
 
 <style scoped>
+.voice-player {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 52px;
+    width: fit-content;
+    padding: 0 18px;
+    background: #efefef;
+    border-radius: 999px;
+}
+
+.headphone-icon {
+    font-size: 1.5rem;
+    color: #666;
+}
+
+.player-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #666;
+    font-size: 1.25rem;
+}
+
+.play-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    line-height: 36px;
+    background: #5d5d5d;
+    color: white;
+}
+
+.play-btn:hover {
+    background: #1e4620;
+}
+
+.rate-text {
+    min-width: 40px;
+    text-align: center;
+    color: #757575;
+    font-size: 1.25rem;
+}
+
+.volume-btn {
+    border-left: 1px solid #cfcfcf;
+    padding-left: 14px;
+    width: auto;
+}
+
 .container-full {
     width: 100%;
     margin: auto;
@@ -123,9 +305,10 @@ function goBack() {
     align-items: center;
 }
 
-.tag-backbtn {
+.voice-backbtn-row {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .tag {
@@ -147,7 +330,7 @@ function goBack() {
     background-color: #F9F6F0;
     border-color: #1E4620;
     color: #1E4620;
-    font-size: 1rem;
+    font-size: 1.125rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -244,43 +427,25 @@ function goBack() {
     }
 }
 
+@media (max-width: 600px) {
+    .voice-backbtn-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .back-btn {
+        order: -1;
+    }
+}
+
 @media (max-width: 500px) {
     .content-container {
         gap: 20px 0;
     }
 
-    .title-section {
-        display: grid;
-        grid-template-areas:
-            "backbtn"
-            "titledate"
-            "tag";
-    }
-
-    .title-date {
-        grid-area: titledate;
-    }
-
-    .tag-backbtn {
-        display: contents;
-    }
-
     .tag {
-        grid-area: tag;
-    }
-
-    .back-btn {
-        grid-area: backbtn;
-        align-self: flex-start;
-        justify-self: flex-start;
-    }
-
-    .tag {
-        width: fit-content;
-        height: 26px;
-        line-height: 22px;
-        font-size: 0.75rem;
-        padding: 0 10px;
+        font-size: 1rem;
     }
 }
 </style>

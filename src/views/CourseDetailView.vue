@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { useRoute, RouterLink } from 'vue-router'
+import { useRoute, useRouter, RouterLink } from 'vue-router'
 import courses from '@/data/course.json'
 
 import Breadcrumb from '@/components/Breadcrumb.vue'
@@ -15,9 +15,16 @@ import {
   CarOutlined,
   AimOutlined,
   ReloadOutlined,
+  CaretRightOutlined,
+  PauseOutlined,
 } from '@ant-design/icons-vue'
 
 const route = useRoute()
+const router = useRouter()
+
+function goBack() {
+  router.push({ path: '/courses', query: route.query })
+}
 
 const course = computed(() => courses.find((item) => String(item.id) === String(route.params.id)))
 
@@ -202,14 +209,13 @@ function decreaseRate() {
     <section v-if="course" class="course-detail-container">
       <section class="course-top-section">
         <div class="course-title-area">
-          <div class="title-row">
-            <h1>{{ course.title }}</h1>
-            <p>課程編號：{{ course.code }}</p>
+          <div class="voice-backbtn-row">
             <div class="voice-player">
               <span class="headphone-icon">🎧</span>
 
               <button class="player-btn play-btn" @click="toggleSpeak(course)">
-                {{ isSpeaking && !isPaused ? '⏸' : '▶' }}
+                <PauseOutlined v-if="isSpeaking && !isPaused" />
+                <CaretRightOutlined v-else />
               </button>
 
               <button class="player-btn" @click="decreaseRate">
@@ -228,11 +234,19 @@ function decreaseRate() {
                 <ReloadOutlined />
               </button>
             </div>
+            <a-button class="back-btn" @click="goBack">返回上一頁</a-button>
+          </div>
+
+          <div class="title-row">
+            <h1>{{ course.title }}</h1>
+            <span class="date-text">課程編號：{{ course.code }}</span>
           </div>
 
           <div class="meta-row">
-            <span class="category-tag">{{ course.category }}</span>
-            <span class="date-text">公告時間：2026-06-11</span>
+            <div class="tag-code">
+              <span class="category-tag">{{ course.category }}</span>
+            </div>
+            <p class="release-time">公告時間: 2026-06-11</p>
           </div>
         </div>
 
@@ -337,12 +351,19 @@ main {
   overflow-x: hidden;
 }
 
+.voice-backbtn-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .voice-player {
   display: inline-flex;
   align-items: center;
   gap: 10px;
 
   height: 52px;
+  width: fit-content;
   padding: 0 18px;
 
   background: #efefef;
@@ -368,12 +389,13 @@ main {
   cursor: pointer;
 
   color: #666;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
 }
 
 .play-btn {
   width: 36px;
   height: 36px;
+  line-height: 36px;
 
   border-radius: 50%;
 
@@ -389,7 +411,7 @@ main {
   min-width: 40px;
   text-align: center;
   color: #757575;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
 }
 
 .volume-btn {
@@ -415,6 +437,8 @@ main {
   min-width: 0;
   word-break: break-word;
 }
+
+
 
 .course-detail-container {
   width: 100%;
@@ -470,10 +494,10 @@ main>img {
   line-height: 1.2;
 }
 
-.title-row p {
+.release-time {
   margin: 0;
   color: #757575;
-  font-size: 2rem;
+  font-size: 1.5rem;
   white-space: nowrap;
 }
 
@@ -482,6 +506,31 @@ main>img {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+}
+
+.tag-code {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.back-btn {
+  width: 120px;
+  height: 51px;
+  border-radius: 20px;
+  background-color: #f9f6f0;
+  border-color: #1e4620;
+  color: #1e4620;
+  font-size: 1.125rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.back-btn:hover {
+  background-color: #938d6b;
+  border-color: #938d6b;
+  color: #f0e9e3;
 }
 
 .category-tag {
@@ -495,12 +544,13 @@ main>img {
   background: #3c3c3c;
   border: 1px solid #1e4620;
   border-radius: 20px;
-  font-size: 16px;
+  font-size: 1.125rem;
 }
 
 .date-text {
   color: #757575;
-  font-size: 1.5px;
+  font-size: 1.5rem;
+  white-space: nowrap;
 }
 
 .section-block {
@@ -514,7 +564,7 @@ main>img {
   padding-bottom: 12px;
   border-bottom: 3px solid #3c3c3c;
   color: #1E4620;
-  font-size: 3rem;
+  font-size: 2.25rem;
   font-weight: 500;
   line-height: 1.2;
 }
@@ -524,6 +574,7 @@ main>img {
   border: 1px solid #7D7D7D;
   border-radius: 20px;
   background-color: #F9F6F0;
+  text-align: justify;
 }
 
 .info-card p,
@@ -596,6 +647,7 @@ main>img {
 .content-text p,
 .note-text p {
   margin: 0 0 8px;
+  text-align: justify;
 }
 
 .map-frame {
@@ -609,6 +661,7 @@ main>img {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  text-align: justify;
 }
 
 .not-found {
@@ -626,7 +679,19 @@ main>img {
 }
 
 /* ===================== */
-/* 1024 */
+/* 1400 */
+/* ===================== */
+
+@media (max-width: 1400px) {
+  .course-detail-container,
+  .not-found {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+}
+
+/* ===================== */
+/* 1300 */
 /* ===================== */
 
 @media (max-width: 1300px) {
@@ -634,11 +699,34 @@ main>img {
     height: 280px;
   }
 
+  .title-row h1 {
+    font-size: 2.625rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+}
+
+/* ===================== */
+/* 1100 */
+/* ===================== */
+
+@media (max-width: 1100px) {
   .course-detail-container,
   .not-found {
-    max-width: 1300px;
     padding-left: 40px;
     padding-right: 40px;
+  }
+}
+
+/* ===================== */
+/* 950 */
+/* ===================== */
+
+@media (max-width: 950px) {
+  .title-row h1 {
+    font-size: 2.375rem;
   }
 }
 
@@ -653,23 +741,6 @@ main>img {
   .title-row {
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  .title-row h1,
-  .section-title {
-    font-size: 40px;
-  }
-
-  .title-row p {
-    font-size: 24px;
-  }
-
-  .date-text,
-  .info-card p,
-  .traffic-info p,
-  .content-text,
-  .note-text {
-    font-size: 1.5rem;
   }
 
   .info-card {
@@ -690,6 +761,12 @@ main>img {
     height: 220px;
   }
 
+  .course-detail-container,
+  .not-found {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
   .course-detail-container {
     padding-top: 48px;
     padding-bottom: 48px;
@@ -701,9 +778,12 @@ main>img {
     gap: 32px;
   }
 
-  .title-row h1,
+  .title-row h1 {
+    font-size: 2.25rem;
+  }
+
   .section-title {
-    font-size: 2rem;
+    font-size: 1.75rem;
   }
 
   .meta-row {
@@ -726,18 +806,28 @@ main>img {
 }
 
 /* ===================== */
+/* 600 */
+/* ===================== */
+
+@media (max-width: 600px) {
+  .voice-backbtn-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .back-btn {
+    order: -1;
+  }
+}
+
+/* ===================== */
 /* 576 */
 /* ===================== */
 
 @media (max-width: 576px) {
   .course-banner {
     height: 180px;
-  }
-
-  .course-detail-container,
-  .not-found {
-    padding-left: 20px;
-    padding-right: 20px;
   }
 
   .course-detail-container {
@@ -749,20 +839,6 @@ main>img {
   .course-top-section,
   .section-block {
     gap: 24px;
-  }
-
-  .title-row h1,
-  .section-title {
-    font-size: 1.75rem;
-  }
-
-  .title-row p,
-  .date-text,
-  .info-card p,
-  .traffic-info p,
-  .content-text,
-  .note-text {
-    font-size: 1.5rem;
   }
 
   .category-tag {
@@ -788,6 +864,20 @@ main>img {
 }
 
 /* ===================== */
+/* 390 */
+/* ===================== */
+
+@media (max-width: 390px) {
+  .title-row h1 {
+    font-size: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* ===================== */
 /* 432 */
 /* ===================== */
 
@@ -798,11 +888,6 @@ main>img {
 
   .course-detail-container {
     gap: 40px;
-  }
-
-  .title-row h1,
-  .section-title {
-    font-size: 1.5rem;
   }
 
   .info-card {

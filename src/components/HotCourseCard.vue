@@ -142,14 +142,6 @@ const previewContent = computed(() => {
     min-height: 230px;
   }
 
-  .hot-desc {
-    font-size: 1.5rem; /* 18px */
-  }
-
-  .hot-desc,
-  .hot-date {
-    font-size: 1.25rem; /* 20px */
-  }
 }
 
 @media (max-width: 768px) {
@@ -159,7 +151,7 @@ const previewContent = computed(() => {
   }
 
   .hot-title {
-    font-size: 1.5rem; /* 24px */
+    font-size: 1.75rem; /* 24px */
   }
 
   .hot-desc,
@@ -174,13 +166,9 @@ const previewContent = computed(() => {
   }
 
   .hot-desc {
-    font-size: 1.5rem; /* 24px */
+    /* font-size: 1.5rem; 24px */
     line-height: 1.5;
   }
 
-  .hot-desc,
-  .hot-date {
-    font-size: 1rem; /* 16px */
-  }
 }
 </style>

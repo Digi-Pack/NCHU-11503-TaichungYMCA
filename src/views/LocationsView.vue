@@ -404,6 +404,7 @@ async function goToRegion(region, id) {
   border-radius: 20px;
   font-family: 'Noto Sans TC', sans-serif;
   font-size: 1.5rem;
+  font-weight: 500;
   color: #1E4620;
   cursor: pointer;
   white-space: nowrap;
