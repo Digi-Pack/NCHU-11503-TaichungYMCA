@@ -382,7 +382,7 @@ const swiperModules = [Pagination]
 /* ==================== Swiper 圓點 ==================== */
 :deep(.swiper-pagination) {
   position: relative;
-  margin-top: 32px;
+  margin-top: 10px;
   bottom: auto;
 }
 
