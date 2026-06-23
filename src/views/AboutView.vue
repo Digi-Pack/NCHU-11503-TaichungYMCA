@@ -210,6 +210,7 @@ const swiperModules = [Pagination]
   font-size: 2.25rem;
   color: #1E4620;
   font-weight: 500;
+  text-align: justify;
 }
 
 @media (max-width: 1300px) {
@@ -235,6 +236,7 @@ const swiperModules = [Pagination]
   font-size: 1.75rem;
   color: #706F6F;
   margin: 0;
+  text-align: justify;
 }
 
 .intro-image {
@@ -297,7 +299,6 @@ const swiperModules = [Pagination]
 @media (max-width: 576px) {
   .card-swiper {
     display: block;
-    padding-bottom: 20px;
   }
 }
 
@@ -379,6 +380,12 @@ const swiperModules = [Pagination]
 }
 
 /* ==================== Swiper 圓點 ==================== */
+:deep(.swiper-pagination) {
+  position: relative;
+  margin-top: 32px;
+  bottom: auto;
+}
+
 :deep(.swiper-pagination-bullet-active) {
   background: #1E4620;
 }
