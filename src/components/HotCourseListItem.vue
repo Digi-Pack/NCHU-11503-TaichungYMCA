@@ -20,65 +20,59 @@ const previewContent = computed(() => {
 </script>
 
 <template>
-<RouterLink class="hot-list-item"
-  :to="`/courses/${course.id}`"
->
-    <div class="hot-main">
-      <div class="hot-top">
-        <h3 class="hot-title">
-          {{ course.title }}
-        </h3>
-
-        <p class="hot-date">
-          {{ course.period }}
-        </p>
-      </div>
-
-      <p class="hot-desc">
-        {{ previewContent }}
-      </p>
+  <RouterLink class="hot-list-item" :to="`/courses/${course.id}`">
+    <div class="hot-top">
+      <h3 class="hot-title">{{ course.title }}</h3>
+      <p class="hot-date">{{ course.period }}</p>
     </div>
 
-    <div class="hot-btn">
-      查看更多
-      <span>›</span>
+    <div class="hot-bottom">
+      <p class="hot-desc">{{ previewContent }}</p>
+      <div class="hot-btn-wrapper">
+        <div class="hot-btn">查看更多<span>›</span></div>
+      </div>
     </div>
   </RouterLink>
 </template>
 
 <style scoped>
+.hot-list-item,
+.hot-list-item:link,
+.hot-list-item:visited,
+.hot-list-item:hover,
+.hot-list-item:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+.hot-list-item * {
+  text-decoration: none;
+}
+
 .hot-list-item {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 32px;
+  flex-direction: column;
+  gap: 16px;
 
   padding: 24px;
 
   background: #ffffff;
   border-radius: 16px;
 
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-
   color: inherit;
-  text-decoration: none;
 
   margin-bottom: 16px;
-
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: background-color 0.2s ease;
 }
-.hot-main {
-  flex: 1;
-  min-width: 0;
+
+.hot-list-item:hover {
+  background-color: #FFF8DC;
 }
 
 .hot-top {
   display: flex;
   justify-content: space-between;
   gap: 24px;
-  margin-bottom: 16px;
 }
 
 .hot-title {
@@ -99,11 +93,18 @@ const previewContent = computed(() => {
   white-space: nowrap;
 }
 
+.hot-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
 .hot-desc {
   margin: 0;
   font-size: 1.5rem;
   line-height: 1.5;
   color: #757575;
+  text-align: justify;
 
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -112,11 +113,15 @@ const previewContent = computed(() => {
   overflow: hidden;
 }
 
-.hot-btn {
+.hot-btn-wrapper {
+  display: flex;
+  align-items: flex-end;
   flex-shrink: 0;
+}
+
+.hot-btn {
   width: 132px;
   height: 56px;
-  margin-top: 60px;
 
   display: flex;
   justify-content: center;
@@ -128,31 +133,41 @@ const previewContent = computed(() => {
   border-radius: 8px;
 
   font-size: 1.125rem;
-  font-weight: 500;
-
-  transition: 0.3s ease;
 }
 
 .hot-btn span {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   line-height: 1;
 }
 
-.hot-list-item:hover .hot-btn {
+.hot-btn:hover {
   background: #938d6b;
+}
+
+@media (max-width: 1000px) {
+  .hot-top {
+    flex-direction: column;
+    gap: 8px;
+  }
 }
 
 @media (max-width: 768px) {
   .hot-list-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
+    gap: 8px;
   }
 
   .hot-top {
-    width: 100%;
     flex-direction: column;
     gap: 8px;
+  }
+
+  .hot-bottom {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .hot-btn-wrapper {
+    align-items: flex-start;
   }
 
   .hot-title {
@@ -161,31 +176,34 @@ const previewContent = computed(() => {
 
   .hot-desc,
   .hot-date {
-
     font-size: 1.5rem;
-  }
-
-  .hot-btn {
-    margin-top: 0;
-    align-self: flex-end;
   }
 }
 
-@media (max-width: 390px) {
-  .course-list-item,
+@media (max-width: 576px) {
   .hot-list-item {
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
   }
 
-  .course-main,
-  .hot-main {
-    width: 100%;
-    min-width: 0;
+  .hot-title {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    word-break: break-word;
   }
 
-  .course-btn,
+  .hot-date {
+    white-space: normal;
+    font-size: 1rem;
+  }
+
+  .hot-desc {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
   .hot-btn {
     width: 120px;
     height: 48px;
