@@ -98,7 +98,7 @@ watch(viewMode, (view) => {
 
       <div class="search-checkable">
         <div class="search-area">
-          <input v-model="keywordInput" type="text" class="search-input" placeholder="請輸入標題或內文關鍵字"
+          <input v-model="keywordInput" type="text" class="search-input" placeholder="輸入標題或內文關鍵字"
             @keyup.enter="searchNews" />
           <button class="search-btn" @click="searchNews">
             <SearchOutlined />
@@ -216,11 +216,7 @@ watch(viewMode, (view) => {
   padding: 0 120px 0 12px;
   border: none;
   outline: none;
-  font-size: 1rem;
-}
-
-.search-input::placeholder {
-  font-size: 1.125rem;
+  font-size: 1.25rem;
 }
 
 .search-btn {
@@ -234,7 +230,7 @@ watch(viewMode, (view) => {
   background-color: #1e4620;
   color: #f9f6f0;
   cursor: pointer;
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -246,7 +242,7 @@ watch(viewMode, (view) => {
 }
 
 .search-btn :deep(svg) {
-  font-size: 20px;
+  font-size: 22px;
 }
 
 .clear-btn {
@@ -344,7 +340,7 @@ watch(viewMode, (view) => {
   flex: 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 74px 64px;
+  gap: 74px 47px;
 }
 
 .cards-area :deep(.card) {
@@ -435,6 +431,10 @@ watch(viewMode, (view) => {
   .display-toggle{
     margin: 0;
   }
+
+  .main-section{
+    margin-bottom: 40px;
+  }
 }
 
 @media (max-width: 1100px) {
@@ -490,10 +490,6 @@ watch(viewMode, (view) => {
 @media (max-width: 500px) {
   .button-area {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  .category-btn {
-    font-size: 1.5rem;
   }
 }
 </style>

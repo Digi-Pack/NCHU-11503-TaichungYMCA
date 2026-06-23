@@ -3,6 +3,7 @@ import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { allLocations } from '@/data/location.js'
 import PageHero from '@/components/PageHero.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
+import { CarOutlined, AimOutlined, EnvironmentOutlined } from '@ant-design/icons-vue'
 
 
 import Swiper from 'swiper'
@@ -145,7 +146,9 @@ async function goToRegion(region, id) {
 
           <!-- 桌機（≥ 768px） -->
           <div v-if="!isMobile" class="locations-list" role="list" aria-label="服務據點清單">
-            <article v-for="location in filteredLocations" :key="location.id" class="location-card location-card--clickable" role="listitem" @click="goToRegion(location.region, location.id)">
+            <article v-for="location in filteredLocations" :key="location.id"
+              class="location-card location-card--clickable" role="listitem"
+              @click="goToRegion(location.region, location.id)">
               <div class="location-card__summary">
                 <div class="location-card__img-wrap">
                   <img :src="location.image" :alt="location.name" class="location-card__img" loading="lazy" width="207"
@@ -184,7 +187,8 @@ async function goToRegion(region, id) {
           <div v-else class="swiper locations-swiper" aria-label="服務據點清單">
             <div class="swiper-wrapper">
               <div v-for="location in filteredLocations" :key="location.id" class="swiper-slide">
-                <article class="location-card location-card--clickable" role="listitem" @click="goToRegion(location.region, location.id)">
+                <article class="location-card location-card--clickable" role="listitem"
+                  @click="goToRegion(location.region, location.id)">
                   <div class="location-card__summary">
                     <div class="location-card__img-wrap">
                       <img :src="location.image" :alt="location.name" class="location-card__img" loading="lazy"
@@ -203,7 +207,8 @@ async function goToRegion(region, id) {
                           <div class="location-card__info-block">
                             <p class="location-card__info-label">電話</p>
                             <p class="location-card__info-value">
-                              <a :href="`tel:${location.tel}`" class="detail-tel-link" @click.stop>{{ location.tel }}</a>
+                              <a :href="`tel:${location.tel}`" class="detail-tel-link" @click.stop>{{ location.tel
+                                }}</a>
                             </p>
                           </div>
                         </div>
@@ -274,13 +279,13 @@ async function goToRegion(region, id) {
                     </div>
                     <div class="detail-info__block">
                       <p class="detail-info__label">交通方式</p>
-                      <p class="detail-info__value">公車：可搭乘多路公車至「北屯國小」或「監理站」下車步行抵達</p>
-                      <p class="detail-info__value">捷運：搭乘台中捷運至「松竹站」或「太原站」下車，轉乘YouBike前往</p>
+                      <p class="detail-info__value detail-info__value--traffic"><CarOutlined /><span>公車：可搭乘多路公車至「北屯國小」或「監理站」下車步行抵達</span></p>
+                      <p class="detail-info__value detail-info__value--traffic"><AimOutlined /><span>捷運：搭乘台中捷運至「松竹站」或「太原站」下車，轉乘YouBike前往</span></p>
                     </div>
                     <div class="detail-info__block">
                       <p class="detail-info__label">附近停車資訊</p>
-                      <p class="detail-info__value">北屯停車場：臺中市北屯區平德里河北路二段3號旁（步行約10分鐘）</p>
-                      <p class="detail-info__value">日月停車場 Eclipse Parking：臺中市北屯區松茂里柳陽西街188-1號旁（步行約10分鐘）</p>
+                      <p class="detail-info__value detail-info__value--traffic"><EnvironmentOutlined /><span>北屯停車場：臺中市北屯區平德里河北路二段3號旁（步行約10分鐘）</span></p>
+                      <p class="detail-info__value detail-info__value--traffic"><EnvironmentOutlined /><span>日月停車場 Eclipse Parking：臺中市北屯區松茂里柳陽西街188-1號旁（步行約10分鐘）</span></p>
                     </div>
                   </div>
                 </div>
@@ -340,7 +345,13 @@ async function goToRegion(region, id) {
 /* ── Locations section ── */
 .locations-section {
   width: 100%;
-  padding-block: clamp(32px, 4vw, 80px);
+  padding: 80px 0;
+}
+
+@media (max-width: 1200px) {
+  .locations-section {
+    padding: 40px 0;
+  }
 }
 
 /* ── Section header ── */
@@ -376,10 +387,11 @@ async function goToRegion(region, id) {
 .section-header__subtitle {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   line-height: 1.5;
   color: #706F6F;
   margin: 0;
+  text-align: justify;
 }
 
 /* ── Tag group ── */
@@ -403,7 +415,7 @@ async function goToRegion(region, id) {
   border: 1px solid #1E4620;
   border-radius: 20px;
   font-family: 'Noto Sans TC', sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 500;
   color: #1E4620;
   cursor: pointer;
@@ -495,7 +507,7 @@ async function goToRegion(region, id) {
 .location-card__name {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
-  font-size: 2.5rem;
+  font-size: 2.25rem;
   line-height: 1.5;
   color: #1E4620;
   margin: 0;
@@ -536,7 +548,7 @@ async function goToRegion(region, id) {
 .location-card__info-label {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   line-height: 1.5;
   color: #3C3C3C;
   margin: 0;
@@ -545,10 +557,11 @@ async function goToRegion(region, id) {
 .location-card__info-value {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   line-height: 1.5;
   color: #706F6F;
   margin: 0;
+  text-align: justify;
 }
 
 .location-card__more {
@@ -576,7 +589,7 @@ async function goToRegion(region, id) {
 }
 
 .detail-alert__icon {
-  font-size: 1.375rem;
+  font-size: 1.5rem;
   flex-shrink: 0;
   color: #3C3C3C;
 }
@@ -584,10 +597,11 @@ async function goToRegion(region, id) {
 .detail-alert__text {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
-  font-size: 1.375rem;
+  font-size: 1.5rem;
   line-height: 1.5;
   color: #6155F5;
   margin: 0;
+  text-align: justify;
 }
 
 /* ── Detail body ── */
@@ -635,7 +649,7 @@ async function goToRegion(region, id) {
 .detail-right__name {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
-  font-size: 2.5rem;
+  font-size: 2.25rem;
   line-height: 1.5;
   color: #1E4620;
   margin: 0;
@@ -653,6 +667,7 @@ async function goToRegion(region, id) {
   flex-direction: column;
   gap: 40px;
   min-width: 0;
+  text-align: justify;
 }
 
 .detail-info__block {
@@ -664,7 +679,7 @@ async function goToRegion(region, id) {
 .detail-info__label {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 500;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   line-height: 1.5;
   color: #3C3C3C;
   margin: 0;
@@ -673,10 +688,23 @@ async function goToRegion(region, id) {
 .detail-info__value {
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   line-height: 1.5;
   color: #706F6F;
   margin: 0;
+}
+
+.detail-info__value--traffic {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.detail-info__value--traffic :deep(.anticon) {
+  flex-shrink: 0;
+  margin-top: 5px;
+  color: #7d7d7d;
+  font-size: 1.5rem;
 }
 
 .detail-cta {
@@ -706,7 +734,7 @@ async function goToRegion(region, id) {
   border-radius: 8px;
   font-family: 'Noto Sans TC', sans-serif;
   font-weight: 400;
-  font-size: 1.375rem;
+  font-size: 1.25rem;
   text-decoration: none;
   cursor: pointer;
   border: none;
@@ -770,26 +798,12 @@ async function goToRegion(region, id) {
     font-size: 3.5rem;
   }
 
-  .section-header__subtitle {
-    font-size: 1.75rem;
-  }
-
   .location-card__name {
-    font-size: 2.25rem;
-  }
-
-  .location-card__info-label,
-  .location-card__info-value {
-    font-size: 1.625rem;
+    font-size: 2rem;
   }
 
   .detail-right__name {
-    font-size: 2.25rem;
-  }
-
-  .detail-info__label,
-  .detail-info__value {
-    font-size: 1.625rem;
+    font-size: 2rem;
   }
 
   .tag-group {
@@ -797,7 +811,6 @@ async function goToRegion(region, id) {
   }
 
   .tag {
-    font-size: 1.5rem;
     height: 48px;
     padding: 8px 12px;
   }
@@ -812,7 +825,6 @@ async function goToRegion(region, id) {
   .tag {
     flex: 1 1 calc(50% - 5px);
     max-width: calc(50% - 5px);
-    font-size: 1.5rem;
     height: 48px;
     padding: 8px 12px;
   }
@@ -829,34 +841,12 @@ async function goToRegion(region, id) {
     font-size: 3rem;
   }
 
-  .section-header__subtitle {
-    font-size: 1.75rem;
-  }
-
   .location-card__name {
     font-size: 1.75rem;
   }
 
-  .location-card__info-label,
-  .location-card__info-value {
-    font-size: 1.5rem;
-  }
-
   .detail-right__name {
     font-size: 1.75rem;
-  }
-
-  .detail-info__label,
-  .detail-info__value {
-    font-size: 1.5rem;
-  }
-
-  .tag {
-    flex: 1 1 calc(50% - 5px);
-    max-width: calc(50% - 5px);
-    font-size: 1.5rem;
-    height: 48px;
-    padding: 8px 12px;
   }
 
   .location-card__summary {
@@ -930,7 +920,6 @@ async function goToRegion(region, id) {
   .tag {
     flex: 1 1 calc(50% - 4px);
     max-width: calc(50% - 4px);
-    font-size: 1.5rem;
     height: 48px;
     padding: 8px 12px;
   }
@@ -970,14 +959,6 @@ async function goToRegion(region, id) {
     font-size: 2.5rem;
   }
 
-  .location-card__name {
-    font-size: 1.75rem;
-  }
-
-  .detail-right__name {
-    font-size: 1.75rem;
-  }
-
   .tag-group {
     gap: 6px;
   }
@@ -985,7 +966,6 @@ async function goToRegion(region, id) {
   .tag {
     flex: 1 1 calc(50% - 3px);
     max-width: calc(50% - 3px);
-    font-size: 1.5rem;
     height: 48px;
     padding: 8px 10px;
   }

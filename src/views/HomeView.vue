@@ -218,8 +218,9 @@ image {
   background-color: #1e4620;
   color: #f0e9e3;
   text-decoration: none;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   align-self: flex-start;
+  font-weight: 500;
 }
 
 .courses-btn:hover {
