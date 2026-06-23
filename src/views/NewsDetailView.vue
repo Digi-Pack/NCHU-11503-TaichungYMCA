@@ -216,7 +216,7 @@ function decreaseRate() {
 }
 
 .headphone-icon {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     color: #666;
 }
 
@@ -312,25 +312,27 @@ function decreaseRate() {
 }
 
 .tag {
-    width: 120px;
+    width: fit-content;
     height: 51px;
     border: 1px solid #938D6B;
     border-radius: 20px;
     background-color: #1E4620;
     color: #f0e9e3;
-    font-size: 1rem;
-    text-align: center;
-    line-height: 51px;
+    font-size: 1.25rem;
+    padding: 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .back-btn {
-    width: 120px;
+    /* width: 120px; */
     height: 51px;
     border-radius: 20px;
     background-color: #F9F6F0;
     border-color: #1E4620;
     color: #1E4620;
-    font-size: 1.125rem;
+    font-size: 1.25rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -431,7 +433,7 @@ function decreaseRate() {
     .voice-backbtn-row {
         flex-direction: column;
         align-items: flex-start;
-        gap: 8px;
+        gap: 16px;
     }
 
     .back-btn {
@@ -442,10 +444,6 @@ function decreaseRate() {
 @media (max-width: 500px) {
     .content-container {
         gap: 20px 0;
-    }
-
-    .tag {
-        font-size: 1rem;
     }
 }
 </style>

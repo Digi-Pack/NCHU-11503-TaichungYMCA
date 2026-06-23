@@ -292,13 +292,27 @@ import footerImg from "@/assets/img/footer/footerImg.jpg";
   }
 }
 
+/* 700 */
+@media (max-width: 700px) {
+  .footer-bottom {
+    flex-direction: column;
+    height: auto;
+    padding: 12px 16px;
+    gap: 16px;
+  }
+
+  .p-c{
+    padding: 0 16px 0;
+  }
+}
+
 /* 550 */
 @media (max-width: 550px) {
   .footer-main {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
-      "contact logo"
+      "logo    contact"
       "map     map";
     align-items: start;
     padding: 70px 16px 10px;

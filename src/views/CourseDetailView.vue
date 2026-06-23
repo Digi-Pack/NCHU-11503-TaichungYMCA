@@ -371,7 +371,7 @@ main {
 }
 
 .headphone-icon {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   color: #666;
 }
 
@@ -515,13 +515,13 @@ main>img {
 }
 
 .back-btn {
-  width: 120px;
+  /* width: 120px; */
   height: 51px;
   border-radius: 20px;
   background-color: #f9f6f0;
   border-color: #1e4620;
   color: #1e4620;
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -540,11 +540,11 @@ main>img {
   min-width: 120px;
   height: 51px;
   padding: 0 12px;
-  color: #f9f6f0;
-  background: #3c3c3c;
-  border: 1px solid #1e4620;
+  color: #f0e9e3;
+  background: #1e4620;
+  border: 1px solid #938D6B;
   border-radius: 20px;
-  font-size: 1.125rem;
+  font-size: 1.25rem;
 }
 
 .date-text {
@@ -615,12 +615,12 @@ main>img {
   color: #f9f6f0;
   background: #1E4620;
   border-radius: 8px;
-  font-size: 18px;
+  font-size: 1.25rem;
   text-decoration: none;
 }
 
 .signup-btn:hover {
-  background: #1e4620;
+  background: #938d6b;
 }
 
 .image-group {
@@ -813,7 +813,7 @@ main>img {
   .voice-backbtn-row {
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
+    gap: 16px;
   }
 
   .back-btn {
@@ -840,7 +840,7 @@ main>img {
   .section-block {
     gap: 24px;
   }
-
+/* 
   .category-tag {
     min-width: auto;
     height: 40px;
@@ -849,14 +849,14 @@ main>img {
 
     background: #1e4620;
     color: #f0e9e3;
-  }
+  } */
 
-  .signup-btn {
+  /* .signup-btn {
     width: 112px;
     height: 48px;
 
     font-size: 1rem;
-  }
+  } */
 
   .map-frame {
     height: 240px;

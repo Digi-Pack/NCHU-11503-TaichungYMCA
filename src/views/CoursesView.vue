@@ -268,7 +268,7 @@ onBeforeRouteLeave((to) => {
           <Text class="green">所有課程</Text>
         </div>
         <div class="search-area">
-          <input v-model="keywordInput" type="text" class="search-input" placeholder="輸入關鍵字"
+          <input v-model="keywordInput" type="text" class="search-input" placeholder="輸入課名、老師、時間等"
             @keyup.enter="searchCourses" />
 
           <button class="search-btn" @click="searchCourses">
@@ -360,6 +360,7 @@ onBeforeRouteLeave((to) => {
   padding-bottom: 8px;
   margin-bottom: 24px;
   border-bottom: 2px solid #1e4620;
+  font-weight: 500;
 }
 
 .green {
@@ -500,7 +501,7 @@ onBeforeRouteLeave((to) => {
   padding: 0 120px 0 12px;
   border: none;
   outline: none;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 
 .search-btn {
@@ -514,7 +515,7 @@ onBeforeRouteLeave((to) => {
   background-color: #1e4620;
   color: #f9f6f0;
   cursor: pointer;
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -526,7 +527,7 @@ onBeforeRouteLeave((to) => {
 }
 
 .search-btn :deep(svg) {
-  font-size: 20px;
+  font-size: 22px;
 }
 
 /* 分類 + 檢視切換 */
@@ -846,16 +847,6 @@ onBeforeRouteLeave((to) => {
     flex: 0 0 88%;
   }
 
-  .search-input {
-    height: 52px;
-    padding-right: 100px;
-  }
-
-  .search-btn {
-    width: 84px;
-    font-size: 1rem;
-  }
-
 }
 
 /* 390 */
@@ -878,17 +869,6 @@ onBeforeRouteLeave((to) => {
 
   .hot-track > * {
     flex: 0 0 90%;
-  }
-
-  .search-input {
-    padding-left: 10px;
-    padding-right: 90px;
-  }
-
-  .search-btn {
-    width: 76px;
-    gap: 4px;
-    font-size: 14px;
   }
 
   .page-area :deep(.ant-pagination-item) {

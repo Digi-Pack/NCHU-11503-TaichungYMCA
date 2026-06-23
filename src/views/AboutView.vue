@@ -140,6 +140,20 @@ const swiperModules = [Pagination]
   }
 }
 
+@media (max-width: 1200px) {
+  .banner-section {
+    padding-bottom: 40px;
+  }
+
+  .about-page{
+    padding: 0 0 40px;
+  }
+
+  .news-section{
+    gap: 40px 0;
+  }
+}
+
 @media (max-width: 1100px) {
   .news-section {
     padding: 0 40px;
@@ -148,7 +162,7 @@ const swiperModules = [Pagination]
 
 @media (max-width: 768px) {
   .news-section {
-    padding: 0 20px;
+    padding: 0 16px;
   }
 }
 
@@ -160,7 +174,7 @@ const swiperModules = [Pagination]
   gap: 8px;
 }
 
-/* title-main：對應 text-48（3rem） */
+/* title-main：對應 text-64（4rem） */
 .title-main {
   font-size: 4rem;
   color: #1E4620;
@@ -169,25 +183,25 @@ const swiperModules = [Pagination]
 
 @media (max-width: 1300px) {
   .title-main {
-    font-size: 3.5rem; /* text-48 @1300px */
+    font-size: 3.5rem; /* text-64 @1300px */
   }
 }
 
 @media (max-width: 950px) {
   .title-main {
-    font-size: 3.25rem; /* text-48 @950px */
+    font-size: 3.25rem; /* text-64 @950px */
   }
 }
 
 @media (max-width: 768px) {
   .title-main {
-    font-size: 3rem; /* text-48 @768px */
+    font-size: 3rem; /* text-64 @768px */
   }
 }
 
 @media (max-width: 390px) {
   .title-main {
-    font-size: 2.5rem; /* text-48 @390px */
+    font-size: 2.5rem; /* text-64 @390px */
   }
 }
 
@@ -225,15 +239,9 @@ const swiperModules = [Pagination]
   }
 }
 
-@media (max-width: 390px) {
-  .intro-tagline {
-    font-size: 1.75rem; /* text-36 @390px */
-  }
-}
-
 /* intro-desc：對應 text-24（1.5rem），text.vue 無斷點定義，維持固定 */
 .intro-desc {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   color: #706F6F;
   margin: 0;
   text-align: justify;
@@ -279,13 +287,13 @@ const swiperModules = [Pagination]
   list-style: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .card-container {
-    gap: 16px;
+    gap: 20px;
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
   .card-container {
     display: none;
   }
@@ -296,7 +304,7 @@ const swiperModules = [Pagination]
   width: 100%;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
   .card-swiper {
     display: block;
   }
@@ -366,17 +374,12 @@ const swiperModules = [Pagination]
   }
 }
 
-@media (max-width: 390px) {
-  .card-title {
-    font-size: 1.5rem; /* text-36 @390px */
-  }
-}
-
 /* card-desc：對應 text-24（1.5rem），text.vue 無斷點定義，維持固定 */
 .card-desc {
   font-size: 1.5rem;
   color: #706F6F;
   margin: 0;
+  text-align: justify;
 }
 
 /* ==================== Swiper 圓點 ==================== */
