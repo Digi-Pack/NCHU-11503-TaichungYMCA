@@ -196,7 +196,7 @@ const previewContent = computed(() => {
 
   .hot-date {
     white-space: normal;
-    font-size: 1rem;
+    /* font-size: 1rem; */
   }
 
   .hot-desc {
@@ -207,7 +207,7 @@ const previewContent = computed(() => {
   .hot-btn {
     width: 120px;
     height: 48px;
-    font-size: 14px;
+    /* font-size: 14px; */
   }
 }
 </style>

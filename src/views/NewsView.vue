@@ -321,6 +321,7 @@ watch(viewMode, (view) => {
   border-color: #1e4620;
   color: #1e4620;
   font-size: 1.25rem;
+  font-weight: 500;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -406,15 +407,17 @@ watch(viewMode, (view) => {
 }
 
 
-@media (max-width: 1400px) {
-  .container-normal {
-    padding: 0 80px;
-  }
-
+@media (max-width: 1550px) {
   .page-area {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
+  }
+}
+
+@media (max-width: 1400px) {
+  .container-normal {
+    padding: 0 80px;
   }
 }
 

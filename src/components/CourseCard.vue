@@ -211,7 +211,7 @@ const previewContent = computed(() => {
   }
 
   .course-title {
-    font-size: 1.5rem; /* 24px */
+    font-size: 1.75rem; /* 28px */
   }
 
   .course-desc,
@@ -230,7 +230,7 @@ const previewContent = computed(() => {
   }
 
   .course-title {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
   }
 
   .course-desc,
