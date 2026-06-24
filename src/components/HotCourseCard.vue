@@ -147,7 +147,6 @@ const previewContent = computed(() => {
 @media (max-width: 768px) {
   .hot-content {
     min-height: 210px;
-    padding: 16px;
   }
 
   .hot-title {

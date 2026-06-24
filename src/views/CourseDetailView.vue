@@ -210,30 +210,6 @@ function decreaseRate() {
       <section class="course-top-section">
         <div class="course-title-area">
           <div class="voice-backbtn-row">
-            <div class="voice-player">
-              <span class="headphone-icon">🎧</span>
-
-              <button class="player-btn play-btn" @click="toggleSpeak(course)">
-                <PauseOutlined v-if="isSpeaking && !isPaused" />
-                <CaretRightOutlined v-else />
-              </button>
-
-              <button class="player-btn" @click="decreaseRate">
-                −
-              </button>
-
-              <span class="rate-text">
-                x{{ rate }}
-              </span>
-
-              <button class="player-btn" @click="increaseRate">
-                ＋
-              </button>
-
-              <button class="player-btn volume-btn" @click="stopSpeak">
-                <ReloadOutlined />
-              </button>
-            </div>
             <a-button class="back-btn" @click="goBack">返回上一頁</a-button>
           </div>
 
@@ -251,7 +227,22 @@ function decreaseRate() {
         </div>
 
         <section class="section-block">
-          <h2 class="section-title">課程簡介</h2>
+          <div class="section-title-voice-row">
+            <h2 class="section-title">課程簡介</h2>
+            <div class="voice-player">
+              <span class="headphone-icon">🎧</span>
+              <button class="player-btn play-btn" @click="toggleSpeak(course)">
+                <PauseOutlined v-if="isSpeaking && !isPaused" />
+                <CaretRightOutlined v-else />
+              </button>
+              <button class="player-btn" @click="decreaseRate">−</button>
+              <span class="rate-text">x{{ rate }}</span>
+              <button class="player-btn" @click="increaseRate">＋</button>
+              <button class="player-btn volume-btn" @click="stopSpeak">
+                <ReloadOutlined />
+              </button>
+            </div>
+          </div>
 
           <div class="info-card">
             <p>
@@ -281,6 +272,7 @@ function decreaseRate() {
           </div>
 
           <div class="btn-center">
+            <a-button class="back-btn back-btn-mobile" @click="goBack">返回上一頁</a-button>
             <a class="signup-btn" :href="course.signupUrl" target="_blank" rel="noopener noreferrer">
               我要報名
             </a>
@@ -333,6 +325,7 @@ function decreaseRate() {
       </section>
 
       <div class="btn-center">
+        <a-button class="back-btn back-btn-mobile" @click="goBack">返回上一頁</a-button>
         <a class="signup-btn" :href="course.signupUrl" target="_blank" rel="noopener noreferrer">
           我要報名
         </a>
@@ -569,6 +562,21 @@ main>img {
   line-height: 1.2;
 }
 
+.section-title-voice-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 3px solid #3c3c3c;
+  padding-bottom: 12px;
+}
+
+.section-title-voice-row .section-title {
+  border-bottom: none;
+  padding-bottom: 0;
+  flex: 1;
+}
+
 .info-card {
   padding: 40px;
   border: 1px solid #7D7D7D;
@@ -604,6 +612,11 @@ main>img {
 .btn-center {
   display: flex;
   justify-content: center;
+  gap: 16px;
+}
+
+.back-btn-mobile {
+  display: none;
 }
 
 .signup-btn {
@@ -688,6 +701,19 @@ main>img {
     padding-left: 80px;
     padding-right: 80px;
   }
+
+  .section-title-voice-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .section-title-voice-row .section-title {
+    width: 100%;
+  }
+
+  .voice-player {
+    order: -1;
+  }
 }
 
 /* ===================== */
@@ -750,6 +776,10 @@ main>img {
   .map-frame {
     height: 380px;
   }
+
+  .back-btn-mobile {
+    display: flex;
+  }
 }
 
 /* ===================== */
@@ -757,6 +787,15 @@ main>img {
 /* ===================== */
 
 @media (max-width: 768px) {
+  .btn-center {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .signup-btn {
+    order: -1;
+  }
+
   .course-banner {
     height: 220px;
   }

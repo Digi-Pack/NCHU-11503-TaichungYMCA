@@ -74,7 +74,7 @@ onUnmounted(() => {
   align-items: center;
   justify-content: space-between;
 
-  padding: 32px 48px;
+  padding: 20px 24px;
   box-sizing: border-box;
 
   backdrop-filter: blur(8px);
@@ -95,7 +95,7 @@ onUnmounted(() => {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 24px;
 }
 
 .nav-links a {
@@ -161,19 +161,15 @@ onUnmounted(() => {
 ========================= */
 @media (max-width: 1024px) {
   .navbar {
-    padding: 0 32px;
+    padding: 10px 24px;
   }
 
   .nav-right {
-    gap: 5px;
+    gap: 16px;
   }
 
   .nav-links {
-    gap: 5px;
-  }
-
-  .nav-links a {
-    font-size: 18px;
+    gap: 16px;
   }
 }
 
@@ -183,8 +179,7 @@ onUnmounted(() => {
 ========================= */
 @media (max-width: 768px) {
   .navbar {
-    height: 72px;
-    padding: 0 24px;
+    padding: 10px 24px;
   }
 
   .hamburger {
@@ -206,11 +201,11 @@ onUnmounted(() => {
 
   .nav-right {
     position: fixed;
-    top: 72px;
+    top: 92px;
     left: 0;
 
     width: 100%;
-    height: calc(100vh - 72px);
+    height: calc(100vh - 92px);
 
     display: none;
     flex-direction: column;
@@ -260,7 +255,7 @@ onUnmounted(() => {
 ========================= */
 @media (max-width: 432px) {
   .navbar {
-    padding: 0 20px;
+    padding: 10px 20px;
   }
 
 
@@ -269,7 +264,7 @@ onUnmounted(() => {
   }
 
   .nav-links {
-    gap: 22px;
+    gap: 24px;
   }
 
   .nav-links a {

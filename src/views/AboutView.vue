@@ -349,7 +349,7 @@ const swiperModules = [Pagination]
 }
 
 .card-body {
-  padding: 20px;
+  padding: 16px 24px 24px 24px;
   display: flex;
   flex-direction: column;
   gap: 24.95px;

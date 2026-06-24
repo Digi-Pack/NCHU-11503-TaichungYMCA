@@ -152,19 +152,6 @@ function decreaseRate() {
 
             <div class="title-section container-normal">
                 <div class="voice-backbtn-row">
-                    <div class="voice-player">
-                        <span class="headphone-icon">🎧</span>
-                        <button class="player-btn play-btn" @click="toggleSpeak">
-                            <PauseOutlined v-if="isSpeaking && !isPaused" />
-                            <CaretRightOutlined v-else />
-                        </button>
-                        <button class="player-btn" @click="decreaseRate">−</button>
-                        <span class="rate-text">x{{ rate }}</span>
-                        <button class="player-btn" @click="increaseRate">＋</button>
-                        <button class="player-btn volume-btn" @click="stopSpeak">
-                            <ReloadOutlined />
-                        </button>
-                    </div>
                     <a-button class="back-btn" @click="goBack">返回上一頁</a-button>
                 </div>
 
@@ -192,7 +179,22 @@ function decreaseRate() {
             </div>
 
             <div class="content-text container-normal">
-                <Text size="text-36" weight="f-500" color="primary-d-g" class="brief-section">{{currentNews?.subTitle}}</Text>
+                <div class="brief-voice-row">
+                    <Text size="text-36" weight="f-500" color="primary-d-g" class="brief-section">{{currentNews?.subTitle}}</Text>
+                    <div class="voice-player">
+                        <span class="headphone-icon">🎧</span>
+                        <button class="player-btn play-btn" @click="toggleSpeak">
+                            <PauseOutlined v-if="isSpeaking && !isPaused" />
+                            <CaretRightOutlined v-else />
+                        </button>
+                        <button class="player-btn" @click="decreaseRate">−</button>
+                        <span class="rate-text">x{{ rate }}</span>
+                        <button class="player-btn" @click="increaseRate">＋</button>
+                        <button class="player-btn volume-btn" @click="stopSpeak">
+                            <ReloadOutlined />
+                        </button>
+                    </div>
+                </div>
                 <Text v-for="(paragraph, index) in currentNews.content" :key="index" class="news-content" size="text-24"
                     color="gray">{{ paragraph }}</Text>
             </div>
@@ -385,9 +387,17 @@ function decreaseRate() {
     margin-bottom: 80px;
 }
 
-.brief-section {
+.brief-voice-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
     border-bottom: 3px solid #1E4620;
-    padding-bottom:2px;
+    padding-bottom: 2px;
+}
+
+.brief-section {
+    flex: 1;
 }
 
 .news-content {
@@ -408,6 +418,19 @@ function decreaseRate() {
     .content-text {
         margin-bottom: 40px;
         gap: 28px;
+    }
+
+    .brief-voice-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .brief-section {
+        width: 100%;
+    }
+
+    .voice-player {
+        order: -1;
     }
 }
 

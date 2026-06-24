@@ -207,7 +207,6 @@ const previewContent = computed(() => {
 @media (max-width: 768px) {
   .card-content {
     min-height: 210px;
-    padding: 16px;
   }
 
   .course-title {
