@@ -322,7 +322,7 @@ watch(viewMode, (view) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding:0px 2px;
+  padding:0px 20px;
 }
 
 .category-btn:hover {
