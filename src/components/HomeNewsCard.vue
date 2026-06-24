@@ -72,7 +72,7 @@ img {
 }
 
 .card-bot {
-    padding: 16px;
+    padding: 16px 24px 24px 24px ;
     display: flex;
     flex-direction: column;
     gap: 16px 0;
