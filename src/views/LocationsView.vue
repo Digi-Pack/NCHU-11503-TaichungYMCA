@@ -89,7 +89,6 @@ watch([isMobile, activeTag, filteredLocations], async ([mobile]) => {
   }
 }, { immediate: true })
 
-// ✅ 修正：補上 id 參數，並用 requestAnimationFrame 確保 DOM 完整渲染後再滾動
 async function goToRegion(region, id) {
   if (region) {
     activeTag.value = region
@@ -172,7 +171,6 @@ async function goToRegion(region, id) {
                       </div>
                     </div>
                     <div class="location-card__more">
-                      <!-- ✅ 修正：傳入 location.id -->
                       <button class="btn btn--primary" @click.stop="goToRegion(location.region, location.id)"
                         :aria-label="`查看 ${location.name} 更多資訊`">更多資訊</button>
                     </div>
@@ -213,7 +211,6 @@ async function goToRegion(region, id) {
                           </div>
                         </div>
                         <div class="location-card__more">
-                          <!-- ✅ 修正：傳入 location.id -->
                           <button class="btn btn--primary" @click.stop="goToRegion(location.region, location.id)"
                             :aria-label="`查看 ${location.name} 更多資訊`">更多資訊</button>
                         </div>
@@ -236,21 +233,25 @@ async function goToRegion(region, id) {
               :aria-label="`${location.name} 詳細資訊`">
               <div class="detail-body">
                 <div class="detail-body__left">
-                  <img :src="location.image" :alt="`${location.name} 場地照片`" class="detail-body__img"
-                    @error="(e) => e.target.src = lostImg" />
-                  <div class="detail-cta">
-                    <a :href="location.mapUrl" target="_blank" rel="noopener noreferrer"
-                      class="btn btn--primary">開啟地圖</a>
-                  </div>
-                </div>
 
-                <div class="detail-right">
-                  <div class="detail-right__title-group">
-                    <h2 class="detail-right__name">
-                      {{ location.region === '校本部' ? '校本部' : location.name }}
-                    </h2>
-                    <div class="detail-right__line" aria-hidden="true"></div>
+                  <div class="detail-right">
+                    <div class="detail-right__title-group">
+                      <h2 class="detail-right__name">
+                        {{ location.region === '校本部' ? '校本部' : location.name }}
+                      </h2>
+                      <div class="detail-right__line" aria-hidden="true"></div>
+                    </div>
+
+                    <div class="detail-right__img-wrapper">
+                      <img :src="location.image" :alt="`${location.name} 場地照片`" class="detail-body__img"
+                        @error="(e) => e.target.src = lostImg" />
+                      <div class="detail-cta">
+                        <a :href="location.mapUrl" target="_blank" rel="noopener noreferrer"
+                          class="btn btn--primary">開啟地圖</a>
+                      </div>
+                    </div>
                   </div>
+
 
                   <div class="detail-alert" role="note">
                     <p class="detail-alert__text">本分部僅提供行政諮詢與報名繳費服務。各課程之實際授課地點，請以課程總表或開課通知簡訊為準。</p>
@@ -279,13 +280,21 @@ async function goToRegion(region, id) {
                     </div>
                     <div class="detail-info__block">
                       <p class="detail-info__label">交通方式</p>
-                      <p class="detail-info__value detail-info__value--traffic"><CarOutlined /><span>公車：可搭乘多路公車至「北屯國小」或「監理站」下車步行抵達</span></p>
-                      <p class="detail-info__value detail-info__value--traffic"><AimOutlined /><span>捷運：搭乘台中捷運至「松竹站」或「太原站」下車，轉乘YouBike前往</span></p>
+                      <p class="detail-info__value detail-info__value--traffic">
+                        <CarOutlined /><span>公車：可搭乘多路公車至「北屯國小」或「監理站」下車步行抵達</span>
+                      </p>
+                      <p class="detail-info__value detail-info__value--traffic">
+                        <AimOutlined /><span>捷運：搭乘台中捷運至「松竹站」或「太原站」下車，轉乘YouBike前往</span>
+                      </p>
                     </div>
                     <div class="detail-info__block">
                       <p class="detail-info__label">附近停車資訊</p>
-                      <p class="detail-info__value detail-info__value--traffic"><EnvironmentOutlined /><span>北屯停車場：臺中市北屯區平德里河北路二段3號旁（步行約10分鐘）</span></p>
-                      <p class="detail-info__value detail-info__value--traffic"><EnvironmentOutlined /><span>日月停車場 Eclipse Parking：臺中市北屯區松茂里柳陽西街188-1號旁（步行約10分鐘）</span></p>
+                      <p class="detail-info__value detail-info__value--traffic">
+                        <EnvironmentOutlined /><span>北屯停車場：臺中市北屯區平德里河北路二段3號旁（步行約10分鐘）</span>
+                      </p>
+                      <p class="detail-info__value detail-info__value--traffic">
+                        <EnvironmentOutlined /><span>日月停車場 Eclipse Parking：臺中市北屯區松茂里柳陽西街188-1號旁（步行約10分鐘）</span>
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -318,16 +327,13 @@ async function goToRegion(region, id) {
 
 /* ── Container ── */
 .container {
-  box-sizing: border-box;
+  position: relative;
+  display: block;
   width: 100%;
   max-width: 1300px;
   margin-inline: auto;
-}
-
-@media (max-width: 1400px) {
-  .container {
-    padding-inline: 80px;
-  }
+  padding-inline: 40px;
+  box-sizing: border-box;
 }
 
 @media (max-width: 1100px) {
@@ -338,7 +344,13 @@ async function goToRegion(region, id) {
 
 @media (max-width: 768px) {
   .container {
-    padding-inline: 20px;
+    padding-inline: 24px;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding-inline: 16px;
   }
 }
 
@@ -362,9 +374,9 @@ async function goToRegion(region, id) {
 }
 
 .section-header__title-group {
-  display: inline-flex;
+  width: 100%;
+  display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: 8px;
 }
 
@@ -487,6 +499,13 @@ async function goToRegion(region, id) {
   align-self: center;
 }
 
+/* ── Detail image wrapper：始終保持 relative，確保 CTA 在各斷點都能絕對定位 ── */
+.detail-right__img-wrapper {
+  position: relative;
+  width: 100%;
+  display: block;
+}
+
 .location-card__img {
   width: 100%;
   height: 100%;
@@ -573,6 +592,7 @@ async function goToRegion(region, id) {
 .location-card__detail {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 24px;
   padding: 24px 24px 32px;
 }
@@ -607,10 +627,8 @@ async function goToRegion(region, id) {
 /* ── Detail body ── */
 .detail-body {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 40px;
-  width: 100%;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .detail-body__left {
@@ -618,29 +636,30 @@ async function goToRegion(region, id) {
   align-self: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
   gap: 24px;
 }
 
 .detail-body__img {
-  width: 207px;
-  height: 207px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 20px;
   display: block;
 }
 
 .detail-right {
-  flex: 1 1 0;
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   gap: 40px;
   min-width: 0;
-  align-self: stretch;
-  max-width: 910px;
+  width: 100%;
 }
 
 .detail-right__title-group {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -707,10 +726,12 @@ async function goToRegion(region, id) {
   font-size: 1.5rem;
 }
 
+/* ── CTA：始終絕對定位在圖片右下角，所有斷點通用 ── */
 .detail-cta {
-  width: 100%;
-  display: flex;
-  justify-content: center;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1;
 }
 
 .detail-tel-link {
@@ -860,7 +881,6 @@ async function goToRegion(region, id) {
     width: 100%;
     height: auto;
     aspect-ratio: 16 / 9;
-    align-self: stretch;
   }
 
   .location-card__bottom {
@@ -952,6 +972,18 @@ async function goToRegion(region, id) {
   .location-card__more {
     align-self: flex-end;
   }
+
+  /* 小螢幕下 CTA 縮小，確保不超出圖片邊界 */
+  .detail-cta {
+    bottom: 12px;
+    right: 12px;
+  }
+
+  .detail-cta .btn {
+    height: 38px;
+    font-size: 1rem;
+    padding: 10px 14px;
+  }
 }
 
 @media (max-width: 390px) {
@@ -968,6 +1000,18 @@ async function goToRegion(region, id) {
     max-width: calc(50% - 3px);
     height: 48px;
     padding: 8px 10px;
+  }
+
+  /* 超小螢幕再縮一點 */
+  .detail-cta {
+    bottom: 8px;
+    right: 8px;
+  }
+
+  .detail-cta .btn {
+    height: 34px;
+    font-size: 0.9rem;
+    padding: 8px 12px;
   }
 }
 
