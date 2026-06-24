@@ -28,10 +28,14 @@ import OpinionBtn from "./components/OpinionBtn.vue";
 
 .main-content {
   flex: 1;
-
-  /* /* 新增這行 *避免內容被蓋住/ */
-  padding-top: 72px;
+  padding-top: 112px;
   background-color: #f0e9e3;
+}
+
+@media (max-width: 1024px) {
+  .main-content {
+    padding-top: 92px;
+  }
 }
 
 

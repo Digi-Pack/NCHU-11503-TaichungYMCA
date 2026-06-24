@@ -224,7 +224,7 @@ watch(viewMode, (view) => {
   right: 0px;
   top: 0;
   bottom: 0;
-  width: 93px;
+  width: 100px;
   border: none;
   border-radius: 0 4px 4px 0;
   background-color: #1e4620;
@@ -234,7 +234,7 @@ watch(viewMode, (view) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 .search-btn:hover {
@@ -242,12 +242,12 @@ watch(viewMode, (view) => {
 }
 
 .search-btn :deep(svg) {
-  font-size: 22px;
+  font-size: 21px;
 }
 
 .clear-btn {
-  height: 40px;
-  padding: 0 20px;
+  /* height: 40px; */
+  padding: 10px 20px;
   border: 1px solid #1e4620;
   border-radius: 8px;
   background: #f9f6f0;
@@ -322,7 +322,7 @@ watch(viewMode, (view) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding:0px 2px;
+  padding:0px 16px;
 }
 
 .category-btn:hover {
@@ -437,6 +437,21 @@ watch(viewMode, (view) => {
   .main-section{
     margin-bottom: 40px;
   }
+
+    .button-area {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .category-btn {
+    width: 100%;
+  }
+
+  .clear-btn {
+    align-self: stretch;
+  }
 }
 
 @media (max-width: 1100px) {
@@ -473,23 +488,10 @@ watch(viewMode, (view) => {
 }
 
 @media (max-width: 650px) {
-  .button-area {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    width: 100%;
-    max-width: 100%;
-  }
 
-  .category-btn {
-    width: 100%;
-  }
-
-  .clear-btn {
-    align-self: stretch;
-  }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 550px) {
   .button-area {
     grid-template-columns: repeat(2, 1fr);
   }

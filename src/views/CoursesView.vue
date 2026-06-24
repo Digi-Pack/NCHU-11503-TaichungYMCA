@@ -278,28 +278,31 @@ onBeforeRouteLeave((to) => {
         </div>
 
         <div class="toolbar">
-          <div class="category-area">
-            <button class="category-btn" :class="{ active: !selectedCategory }" @click="showAllCategory">
-              全部課程
-            </button>
+          <div class="toolbar-row">
+            <div class="category-area">
+              <button class="category-btn" :class="{ active: !selectedCategory }" @click="showAllCategory">
+                全部課程
+              </button>
 
-            <button v-for="cat in categories" :key="cat" class="category-btn"
-              :class="{ active: selectedCategory === cat }" @click="selectCategory(cat)">
-              {{ cat }}
-            </button>
+              <button v-for="cat in categories" :key="cat" class="category-btn"
+                :class="{ active: selectedCategory === cat }" @click="selectCategory(cat)">
+                {{ cat }}
+              </button>
+            </div>
+
+            <div class="display-toggle">
+              <a-tooltip title="列表檢視">
+                <BarChartOutlined class="icon chart" :class="{ active: viewMode === 'list' }"
+                  @click="setViewMode('list')" />
+              </a-tooltip>
+              <a-tooltip title="卡片檢視">
+                <TableOutlined class="icon table" :class="{ active: viewMode === 'card' }" @click="setViewMode('card')" />
+              </a-tooltip>
+            </div>
           </div>
 
-          <div class="display-toggle">
-            <a-tooltip title="列表檢視">
-              <BarChartOutlined class="icon chart" :class="{ active: viewMode === 'list' }"
-                @click="setViewMode('list')" />
-            </a-tooltip>
-            <a-tooltip title="卡片檢視">
-              <TableOutlined class="icon table" :class="{ active: viewMode === 'card' }" @click="setViewMode('card')" />
-            </a-tooltip>
-          </div>
+          <button v-if="keyword" class="clear-btn" @click="clearSearch">清除搜尋</button>
         </div>
-        <button v-if="keyword" class="clear-btn" @click="clearSearch">清除搜尋</button>
         <NotFoundBlock
           v-if="pageCourses.length === 0"
           :show-code="false"
@@ -509,7 +512,7 @@ onBeforeRouteLeave((to) => {
   right: 0;
   top: 0;
   bottom: 0;
-  width: 93px;
+  width: 100px;
   border: none;
   border-radius: 0 4px 4px 0;
   background-color: #1e4620;
@@ -519,7 +522,7 @@ onBeforeRouteLeave((to) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 .search-area:focus-within {
@@ -527,22 +530,28 @@ onBeforeRouteLeave((to) => {
 }
 
 .search-btn :deep(svg) {
-  font-size: 22px;
+  font-size: 21px;
 }
 
 /* 分類 + 檢視切換 */
 .toolbar {
   display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.toolbar-row {
+  display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 24px;
-  margin-bottom: 40px;
 }
 
 .category-area {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 16px;
   min-width: 0;
 }
 
@@ -564,7 +573,7 @@ onBeforeRouteLeave((to) => {
   font-weight: 500;
   white-space: nowrap;
 
-  padding: 0 20px;
+  padding: 0 16px;
 }
 
 
@@ -608,9 +617,8 @@ onBeforeRouteLeave((to) => {
 }
 
 .clear-btn {
-  height: 40px;
-  padding: 0 20px;
-  margin-bottom: 32px;
+  /* height: 40px; */
+  padding: 10px 20px;
   border: 1px solid #1e4620;
   border-radius: 8px;
   background: #f9f6f0;
@@ -692,13 +700,9 @@ onBeforeRouteLeave((to) => {
   }
 }
 
-/* 1100 以下：熱門課程改成水平滑動 */
-@media (max-width: 1100px) {
-  .course-page {
-    padding: 64px 40px 40px;
-  }
-
-  .toolbar {
+/* 1200 以下：toolbar 全部變化 */
+@media (max-width: 1200px) {
+  .toolbar-row {
     flex-direction: column;
     align-items: flex-start;
     gap: 20px;
@@ -712,12 +716,24 @@ onBeforeRouteLeave((to) => {
   .category-area {
     order: 2;
     width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
   }
 
   .category-btn {
-    font-size: 1.25rem;
-    height: 51px;
-    white-space: nowrap;
+    width: 100%;
+  }
+
+  .clear-btn {
+    width: 100%;
+  }
+}
+
+/* 1100 以下：熱門課程改成水平滑動 */
+@media (max-width: 1100px) {
+  .course-page {
+    padding: 64px 40px 40px;
   }
 
   .arrow-btn {
@@ -793,16 +809,6 @@ onBeforeRouteLeave((to) => {
     margin-bottom: 48px;
   }
 
-  .toolbar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 20px;
-  }
-
-  .display-toggle {
-    align-self: flex-start;
-  }
-
   .hot-track > * {
     flex: 0 0 100%;
   }
@@ -816,15 +822,7 @@ onBeforeRouteLeave((to) => {
 
 /* 650 */
 @media (max-width: 650px) {
-  .category-area {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-  }
 
-  .category-btn {
-    width: 100%;
-  }
 }
 
 /* 432 */
@@ -861,10 +859,6 @@ onBeforeRouteLeave((to) => {
     height: 51px;
     font-size: 1.25rem;
     font-weight: 500;
-  }
-
-  .display-toggle {
-    align-self: flex-start;
   }
 
   .hot-track > * {

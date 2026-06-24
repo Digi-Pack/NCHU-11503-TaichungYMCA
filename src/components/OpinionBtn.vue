@@ -1,5 +1,6 @@
 <script setup>
 import { reactive, ref, onMounted, onUnmounted } from "vue";
+import Swal from "sweetalert2";
 
 const isOpen = ref(false);
 const bottomOffset = ref(40);
@@ -50,13 +51,18 @@ function closeModal() {
 function submitForm() {
     console.log("送出的資料：", form);
 
-    alert("感謝您的回饋！");
-
     form.name = "";
     form.email = "";
     form.message = "";
 
     closeModal();
+
+    Swal.fire({
+        title: "感謝您的回饋！",
+        icon: "success",
+        confirmButtonText: "確定",
+        confirmButtonColor: "#1e4620",
+    });
 }
 </script>
 
@@ -70,7 +76,7 @@ function submitForm() {
         <div class="modal">
             <button class="close-btn" @click="closeModal">×</button>
 
-            <p>意見回饋</p>
+            <p class="form-title">意見回饋</p>
 
             <form @submit.prevent="submitForm">
                 <label>
@@ -147,6 +153,7 @@ function submitForm() {
     color: #1e4620;
     text-align: center;
     font-weight: bold;
+    font-size: 2rem;
 }
 
 form {
@@ -160,7 +167,7 @@ label {
     flex-direction: column;
     gap: 8px;
     color: #3c3c3c;
-    font-size: 1.1.25rem;
+    font-size: 1.5rem;
 }
 
 input,
@@ -168,7 +175,6 @@ textarea {
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    font-size: 16px;
 }
 
 textarea {
