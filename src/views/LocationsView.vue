@@ -206,7 +206,7 @@ async function goToRegion(region, id) {
                             <p class="location-card__info-label">電話</p>
                             <p class="location-card__info-value">
                               <a :href="`tel:${location.tel}`" class="detail-tel-link" @click.stop>{{ location.tel
-                                }}</a>
+                              }}</a>
                             </p>
                           </div>
                         </div>
@@ -332,7 +332,6 @@ async function goToRegion(region, id) {
   width: 100%;
   max-width: 1300px;
   margin-inline: auto;
-  padding-inline: 40px;
   box-sizing: border-box;
 }
 
@@ -501,9 +500,8 @@ async function goToRegion(region, id) {
 
 /* ── Detail image wrapper：始終保持 relative，確保 CTA 在各斷點都能絕對定位 ── */
 .detail-right__img-wrapper {
-  position: relative;
+ position: relative;
   width: 100%;
-  display: block;
 }
 
 .location-card__img {
@@ -632,18 +630,22 @@ async function goToRegion(region, id) {
 }
 
 .detail-body__left {
-  flex: 0 0 207px;
-  align-self: center;
-  display: flex;
-  flex-direction: column;
+  flex: 0 0 auto;
+  align-self: stretch;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  /* detail-right / alert / 剩餘 detail-info */
   align-items: start;
   gap: 24px;
+  width: 100%;
 }
+
 
 .detail-body__img {
   width: 100%;
   height: auto;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 912 / 512;
+  max-height: 512px;
   object-fit: cover;
   border-radius: 20px;
   display: block;
@@ -653,7 +655,7 @@ async function goToRegion(region, id) {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 16px;
   min-width: 0;
   width: 100%;
 }
@@ -903,6 +905,9 @@ async function goToRegion(region, id) {
     flex: 0 0 auto;
     align-self: stretch;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    grid-template-rows: unset;
   }
 
   .detail-body__img {
