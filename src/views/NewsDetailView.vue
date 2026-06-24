@@ -279,7 +279,7 @@ function decreaseRate() {
 }
 
 .hero {
-    height: clamp(160px, 17.5vw, 336px);
+    height: clamp(160px, 20.85vw, 400px);
 }
 
 .hero img {
