@@ -134,7 +134,7 @@ const previewContent = computed(() => {
 .card-content {
   min-height: 260px;
 
-  padding: 16px;
+  padding: 16px 24px 24px 24px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;

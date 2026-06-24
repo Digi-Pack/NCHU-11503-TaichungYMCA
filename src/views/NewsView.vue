@@ -310,7 +310,8 @@ watch(viewMode, (view) => {
 }
 
 .category-btn {
-  width: calc(1100px / 7 - 16px);
+  /* width: calc(1100px / 7 - 16px); */
+  
   height: 51px;
   border-radius: 20px;
   background-color: #F9F6F0;
@@ -321,6 +322,7 @@ watch(viewMode, (view) => {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding:0px 2px;
 }
 
 .category-btn:hover {

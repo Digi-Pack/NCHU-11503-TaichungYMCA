@@ -547,7 +547,7 @@ onBeforeRouteLeave((to) => {
 }
 
 .category-btn {
-  width: 120px;
+  /* width: 120px; */
   height: 51px;
 
   display: flex;
@@ -564,7 +564,7 @@ onBeforeRouteLeave((to) => {
   font-weight: 500;
   white-space: nowrap;
 
-  padding: 0 12px;
+  padding: 0 20px;
 }
 
 

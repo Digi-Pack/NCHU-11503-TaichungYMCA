@@ -64,7 +64,7 @@ onUnmounted(() => {
 <style scoped>
 .navbar {
   width: 100%;
-  height: 72px;
+  /* height: 72px; */
   position: fixed;
   top: 0;
   left: 0;
@@ -74,7 +74,7 @@ onUnmounted(() => {
   align-items: center;
   justify-content: space-between;
 
-  padding: 0 48px;
+  padding: 32px 48px;
   box-sizing: border-box;
 
   backdrop-filter: blur(8px);
