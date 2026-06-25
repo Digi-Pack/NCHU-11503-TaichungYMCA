@@ -128,7 +128,7 @@ async function goToRegion(region, id) {
             <div class="section-header__title-line" aria-hidden="true"></div>
           </div>
           <p v-if="!showDetail" class="section-header__subtitle">
-            臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多人次。臺中市政府自開辦社大以來，由四家開放至六家承辦單位，台中YMCA憑藉良好辦學經驗及成果，至今通過市府多次招標審核、獲選承辦大墩社大。於市政府每年定期之社大評鑑中，皆獲評審委員一致肯定，並連續多年獲得教育部肯定為辦學績優單位。
+            臺中市北屯(原大墩)社區大學開辦於民國九十一年六月，近期每年修習學員人次皆超過一萬多人次。臺中市政府自開辦社大以來，由四家開放至六家承辦單位，臺中YMCA憑藉良好辦學經驗及成果，至今通過市府多次招標審核、獲選承辦大墩社大。於市政府每年定期之社大評鑑中，皆獲評審委員一致肯定，並連續多年獲得教育部肯定為辦學績優單位。
           </p>
         </header>
 
@@ -284,7 +284,7 @@ async function goToRegion(region, id) {
                         <CarOutlined /><span>公車：可搭乘多路公車至「北屯國小」或「監理站」下車步行抵達</span>
                       </p>
                       <p class="detail-info__value detail-info__value--traffic">
-                        <AimOutlined /><span>捷運：搭乘台中捷運至「松竹站」或「太原站」下車，轉乘YouBike前往</span>
+                        <AimOutlined /><span>捷運：搭乘臺中捷運至「松竹站」或「太原站」下車，轉乘YouBike前往</span>
                       </p>
                     </div>
                     <div class="detail-info__block">
