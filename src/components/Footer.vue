@@ -25,7 +25,7 @@ import footerImg from "@/assets/img/footer/footerImg.jpg";
             <p class="sub-title">臺中市北屯社區大學</p>
             <p>電話：04-2232-8823</p>
             <p>傳真：04-2230-0386</p>
-            <p>地址：台中市北屯路10號5樓</p>
+            <p>地址：臺中市北屯路10號5樓</p>
           </div>
 
           <div class="footer-map">
