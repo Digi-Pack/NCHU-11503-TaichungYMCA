@@ -3,7 +3,7 @@ import { reactive, ref, onMounted, onUnmounted } from "vue";
 import Swal from "sweetalert2";
 
 const isOpen = ref(false);
-const bottomOffset = ref(40);
+const isVisible = ref(true);
 
 const form = reactive({
     name: "",
@@ -11,33 +11,20 @@ const form = reactive({
     message: "",
 });
 
-function getDefaultBottom() {
-    if (window.innerWidth <= 768) return 20;
-    if (window.innerWidth <= 1024) return 30;
-    return 40;
-}
-
-function updateBottom() {
-    const footer = document.querySelector("footer");
-    const base = getDefaultBottom();
-    if (!footer) { bottomOffset.value = base; return; }
-    const overlap = window.innerHeight - footer.getBoundingClientRect().top;
-    bottomOffset.value = overlap > 0 ? overlap + base : base;
-}
+let observer = null;
 
 onMounted(() => {
-    window.addEventListener("scroll", updateBottom, { passive: true });
-    window.addEventListener("resize", updateBottom, { passive: true });
-    if (document.readyState === "complete") {
-        updateBottom();
-    } else {
-        window.addEventListener("load", updateBottom, { once: true });
-    }
+    const footer = document.querySelector("footer");
+    if (!footer) return;
+    observer = new IntersectionObserver(
+        ([entry]) => { isVisible.value = !entry.isIntersecting },
+        { threshold: 0, rootMargin: '0px 0px -10% 0px' }
+    );
+    observer.observe(footer);
 });
 
 onUnmounted(() => {
-    window.removeEventListener("scroll", updateBottom);
-    window.removeEventListener("resize", updateBottom);
+    observer?.disconnect();
 });
 
 function openModal() {
@@ -67,10 +54,12 @@ function submitForm() {
 </script>
 
 <template>
-    <button class="opinion-btn" :style="{ bottom: bottomOffset + 'px' }" @click="openModal">
-        意見<br />
-        回饋
-    </button>
+    <Transition name="fade">
+        <button v-if="isVisible" class="opinion-btn" @click="openModal">
+            意見<br />
+            回饋
+        </button>
+    </Transition>
 
     <div v-if="isOpen" class="modal-mask" @click.self="closeModal">
         <div class="modal">
@@ -105,7 +94,7 @@ function submitForm() {
 .opinion-btn {
     position: fixed;
     right: 40px;
-    bottom: 40px; /* JS 動態覆蓋 bottom，此為初始值 */
+    bottom: 40px;
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -191,6 +180,16 @@ textarea {
     color: white;
     font-size: 16px;
     cursor: pointer;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.6s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
 }
 
 @media (max-width: 1024px) {

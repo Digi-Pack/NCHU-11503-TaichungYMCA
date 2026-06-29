@@ -297,7 +297,7 @@ import footerImg from "@/assets/img/footer/footerImg.jpg";
   .footer-bottom {
     flex-direction: column;
     height: auto;
-    padding: 12px 16px;
+    padding: 16px;
     gap: 16px;
   }
 
@@ -348,10 +348,6 @@ import footerImg from "@/assets/img/footer/footerImg.jpg";
     grid-area: map;
     width: 100%;
     height: 220px;
-  }
-
-  .footer-bottom {
-    height: 48px;
   }
 
   .footer-bottom p {
