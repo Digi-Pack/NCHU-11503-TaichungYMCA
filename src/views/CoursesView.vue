@@ -142,6 +142,7 @@ function searchCourses() {
 function clearSearch() {
   keywordInput.value = ''
   keyword.value = ''
+  selectedCategory.value = null
   current.value = 1
 }
 
@@ -618,13 +619,14 @@ onBeforeRouteLeave((to) => {
 
 .clear-btn {
   /* height: 40px; */
+  width: fit-content;
   padding: 10px 20px;
   border: 1px solid #1e4620;
   border-radius: 8px;
   background: #f9f6f0;
   color: #1e4620;
   cursor: pointer;
-  font-size:1.25rem;
+  font-size:1.5rem;
 }
 
 .clear-btn:hover {

@@ -46,6 +46,7 @@ function searchNews() {
 function clearSearch() {
   keywordInput.value = '';
   keyword.value = '';
+  selectedCategory.value = null;
   current.value = 1;
 }
 

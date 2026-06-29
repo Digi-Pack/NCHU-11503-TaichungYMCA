@@ -127,7 +127,7 @@ const vReveal = {
             <RightCircleOutlined class="location-icon" />
           </div>
           <Text size="text-36" color="gray"
-            class="location-desc">臺中市北屯（原大墩）社區大學自民國 91 年起由台中 YMCA 承辦，深耕終身教育，每年吸引逾萬人次學員修習。憑藉優異的辦學成果，不僅歷年均獲市府評鑑高度肯定，更連續多年榮獲教育部評選為「辦學績優單位」。</Text>
+            class="location-desc">臺中市北屯（原大墩）社區大學自民國 91 年起由臺中 YMCA 承辦，深耕終身教育，每年吸引逾萬人次學員修習。憑藉優異的辦學成果，不僅歷年均獲市府評鑑高度肯定，更連續多年榮獲教育部評選為「辦學績優單位」。</Text>
         </div>
       </div>
       <div class="location-right">
