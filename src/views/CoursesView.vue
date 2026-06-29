@@ -9,7 +9,6 @@ import Text from '@/components/Text.vue'
 import CourseCard from '@/components/CourseCard.vue'
 import CourseListItem from '@/components/CourseListItem.vue'
 import HotCourseCard from '@/components/HotCourseCard.vue'
-import HotCourseListItem from '@/components/HotCourseListItem.vue'
 import PageHero from '@/components/PageHero.vue'
 import NotFoundBlock from '@/components/NotFoundBlock.vue'
 import courseBanner from '@/assets/img/course/Course_Banner.jpg'
@@ -45,7 +44,6 @@ const keywordInput = ref('')
 const keyword = ref('')
 
 const hotCourses = computed(() => courses.slice(0, 5))
-const hotListLimit = ref(3)
 const hotStartIndex = ref(0)
 const hotTrackRef = ref(null)
 const activeHotIndex = ref(0)
@@ -225,7 +223,7 @@ onBeforeRouteLeave((to) => {
       <section class="section-block">
         <Text class="green">熱門課程</Text>
 
-        <div v-if="viewMode === 'card'" class="hot-area">
+        <div class="hot-area">
           <button class="arrow-btn prev-btn" :class="{ disabled: hotStartIndex === 0 }" :disabled="hotStartIndex === 0"
             @click="prevHotCourse">
             ‹
@@ -251,17 +249,7 @@ onBeforeRouteLeave((to) => {
               @click="scrollToHot(i)"
             />
           </div>
-          </div>
-
-          <div v-else class="hot-list-area">
-            <HotCourseListItem v-for="course in hotCourses.slice(0, hotListLimit)" :key="course.id" :course="course" />
-            <button v-if="hotListLimit < hotCourses.length" class="show-more-btn" @click="hotListLimit = hotCourses.length">
-              顯示更多
-            </button>
-            <button v-else class="show-more-btn" @click="hotListLimit = 3">
-              顯示較少
-            </button>
-          </div>
+        </div>
       </section>
 
       <section class="section-block">
