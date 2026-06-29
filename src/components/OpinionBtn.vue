@@ -6,9 +6,9 @@ const isOpen = ref(false);
 const isVisible = ref(true);
 
 const form = reactive({
-    name: "",
-    email: "",
-    message: "",
+    name: "王小明",
+    email: "test@example.com",
+    message: "網站設計很棒，資訊清楚易懂！",
 });
 
 let observer = null;

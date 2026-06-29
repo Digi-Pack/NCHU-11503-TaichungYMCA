@@ -132,6 +132,7 @@ watch(viewMode, (view) => {
       <NotFoundBlock
         v-if="cardNews.length === 0"
         :show-code="false"
+        :show-image="false"
         title="找不到符合條件的消息"
         description="請嘗試其他關鍵字或分類"
       />
