@@ -3,13 +3,14 @@ defineProps({
   title: { type: String, default: '找不到這個頁面' },
   description: { type: String, default: '' },
   showCode: { type: Boolean, default: true },
+  showImage: { type: Boolean, default: true },
 })
 </script>
 
 <template>
   <div class="notfound">
     <div class="notfound__container">
-      <div class="notfound__image-wrapper">
+      <div v-if="showImage" class="notfound__image-wrapper">
         <img src="@/assets/img/notfound/notfound.png" alt="404 Illustration" class="notfound__image" />
       </div>
       <div class="notfound__content">
@@ -61,6 +62,9 @@ defineProps({
 .notfound__content {
   flex: 1;
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .notfound__code {

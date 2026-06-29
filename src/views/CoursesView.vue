@@ -295,6 +295,7 @@ onBeforeRouteLeave((to) => {
         <NotFoundBlock
           v-if="pageCourses.length === 0"
           :show-code="false"
+          :show-image="false"
           title="找不到符合條件的課程"
           description="請嘗試其他關鍵字或分類"
         />
